@@ -4032,8 +4032,11 @@ not conforming, and a processor <span class="bcp14">MUST NOT</span> select betwe
       </h2>
 <p id="section-10-1">The extension meta-schema will be published at:<a href="#section-10-1" class="pilcrow">¶</a></p>
 <p id="section-10-2"><code>https://json-structure.org/meta/characteristics/v0/#</code><a href="#section-10-2" class="pilcrow">¶</a></p>
-<p id="section-10-3">It will enable JSON Structure Units. A schema activates this specification by
-selecting that URI once the meta-schema is published. The annotations carry no
+<p id="section-10-3">It offers one feature, <code>JSONStructureCharacteristics</code>, whose add-ins contribute
+the keywords defined here to the Core property, object, tuple, array, set, map,
+and choice definitions. A schema activates this specification by selecting that
+URI and naming the feature in <code>$uses</code>. The meta-schema enables JSON Structure
+Units, Import, Conditional Composition, and Validation. The annotations carry no
 profile or version member; the versioned meta-schema URI is the version
 identifier.<a href="#section-10-3" class="pilcrow">¶</a></p>
 <p id="section-10-4">The meta-schema validates the shape of each annotation defined here: the
