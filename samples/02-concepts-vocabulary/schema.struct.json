@@ -3,16 +3,16 @@
   "$id": "https://schemas.example.org/characteristics/02-concepts-vocabulary",
   "$uses": ["JSONStructureCharacteristics"],
   "name": "MarineSpecimenMeasurement",
-  "description": "A total-length measurement taken from a marine biology specimen. Demonstrates the concepts keyword on both a type definition and properties, covering all seven kind values of the closed enumeration: owl-class and rdfs-class on the type, and rdf-property, dcterms-property, owl-object-property, owl-datatype-property, and skos-concept on properties. Also illustrates that skos-concept may appear alongside a property kind in one array.",
+  "description": "A total-length measurement taken from a marine biology specimen. Demonstrates the concepts keyword on both a type definition and properties, covering all seven kind values of the closed enumeration: rdfs-class and owl-class on the type, and rdf-property, dcterms-property, owl-object-property, owl-datatype-property, and skos-concept on properties. Also illustrates that skos-concept may appear on a property node even though the class kinds may not. Note that no entry restates something an annotation on the same node already asserts: the record is not labelled sosa:Observation, because observedProperty already makes it an observation record, and the result member is not labelled sosa:hasSimpleResult, because semanticRole already gives it that part. The sosa:Sampling binding is not redundant, because the record also documents the collection act that produced the specimen, which observedProperty does not imply.",
   "type": "object",
   "concepts": [
     {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
       "reference": "http://rs.tdwg.org/dwc/terms/Occurrence",
       "kind": "rdfs-class"
+    },
+    {
+      "reference": "http://www.w3.org/ns/sosa/Sampling",
+      "kind": "owl-class"
     }
   ],
   "observedProperty": {
@@ -28,6 +28,10 @@
         {
           "reference": "http://purl.org/dc/terms/identifier",
           "kind": "dcterms-property"
+        },
+        {
+          "reference": "http://www.w3.org/2004/02/skos/core#notation",
+          "kind": "owl-datatype-property"
         }
       ]
     },
@@ -60,10 +64,6 @@
         {
           "reference": "http://qudt.org/vocab/quantitykind/Length",
           "kind": "skos-concept"
-        },
-        {
-          "reference": "http://www.w3.org/ns/sosa/hasSimpleResult",
-          "kind": "owl-datatype-property"
         }
       ]
     },

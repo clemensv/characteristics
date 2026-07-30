@@ -7,10 +7,6 @@
   "type": "object",
   "concepts": [
     {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
       "reference": "http://vocab.datex.org/terms#TravelTimeData",
       "kind": "rdfs-class"
     }

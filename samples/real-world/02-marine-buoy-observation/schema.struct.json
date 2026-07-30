@@ -5,16 +5,6 @@
   "name": "BuoyObservation",
   "description": "Real-time standard meteorological and oceanographic observation from an NDBC buoy, C-MAN station, or partner platform. Sourced from the NDBC latest_obs.txt composite file which is updated every five minutes. Fields cover wind, waves, pressure, temperature, dewpoint, pressure tendency, visibility, and tide. Derived from the noaa-ndbc feeder schema published in the xRegistry catalogue. The sample demonstrates the derivation and statistic pair working together - mean over the averaging window for wind speed, wind direction and wave period, maximum for the peak gust, mean over the highest one-third of waves for significant wave height - alongside calculated members for the reduced pressure, the dewpoint and the three-hour pressure tendency, measured members for the raw sensor channels, phenomenonTimeRelation separating instantaneous readings from windowed ones, a fixed five-minute cadence on the observation time, and a coordinateReferenceSystem binding over the platform latitude/longitude. Every measurement member is optional; a channel that the platform did not report in a given cycle is omitted from the record.",
   "type": "object",
-  "concepts": [
-    {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
-      "reference": "https://schema.org/Observation",
-      "kind": "rdfs-class"
-    }
-  ],
   "observedProperty": {
     "reference": "https://catalog.example.org/observable-properties/marine-surface-conditions/v1",
     "kind": "example-catalog"

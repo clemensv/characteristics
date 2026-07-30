@@ -7,10 +7,6 @@
   "type": "object",
   "concepts": [
     {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
       "reference": "http://vocab.gtfs.org/terms#Trip",
       "kind": "rdfs-class"
     }
@@ -30,8 +26,8 @@
       "description": "Operator identifier from `MonitoredVehicleJourney/OperatorRef`. The exact coding scheme depends on the configured provider, but the value remains the stable operator identity used for reference records, CloudEvents subjects, Kafka keys, MQTT topic segments, and AMQP routing properties.",
       "concepts": [
         {
-          "reference": "http://vocab.gtfs.org/terms#Agency",
-          "kind": "rdfs-class"
+          "reference": "http://vocab.gtfs.org/terms#agency",
+          "kind": "rdf-property"
         }
       ]
     },
@@ -51,8 +47,8 @@
       "description": "Service or route identifier from `MonitoredVehicleJourney/LineRef`. Providers use this value to align the monitored vehicle journey with published line or trip definitions. Null when the source omits a line identifier for the monitored journey.",
       "concepts": [
         {
-          "reference": "http://vocab.gtfs.org/terms#Route",
-          "kind": "rdfs-class"
+          "reference": "http://vocab.gtfs.org/terms#route",
+          "kind": "rdf-property"
         }
       ]
     },
@@ -69,8 +65,8 @@
       "description": "Vehicle journey identifier from `MonitoredVehicleJourney/VehicleJourneyRef` used within the operator AVL system to refer to the monitored trip instance.",
       "concepts": [
         {
-          "reference": "http://vocab.gtfs.org/terms#Trip",
-          "kind": "rdfs-class"
+          "reference": "http://vocab.gtfs.org/terms#trip",
+          "kind": "rdf-property"
         }
       ]
     },
@@ -83,8 +79,8 @@
       "description": "Stop reference from `MonitoredVehicleJourney/OriginRef` naming the first advertised stop of the monitored journey. Null when the provider omits the origin stop code.",
       "concepts": [
         {
-          "reference": "http://vocab.gtfs.org/terms#Stop",
-          "kind": "rdfs-class"
+          "reference": "http://vocab.gtfs.org/terms#stop",
+          "kind": "rdf-property"
         }
       ]
     },
@@ -93,8 +89,8 @@
       "description": "Stop reference from `MonitoredVehicleJourney/DestinationRef` naming the last advertised stop of the monitored journey.",
       "concepts": [
         {
-          "reference": "http://vocab.gtfs.org/terms#Stop",
-          "kind": "rdfs-class"
+          "reference": "http://vocab.gtfs.org/terms#stop",
+          "kind": "rdf-property"
         }
       ]
     },

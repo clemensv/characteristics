@@ -32,7 +32,7 @@ to the Core `Property`, `ObjectType`, `TupleType`, `ArrayType`, `SetType`,
 | # | Directory | What it shows |
 |---|---|---|
 | 01 | [`01-observation-basics`](01-observation-basics/) | A river gauging station reading. `observedProperty` on the record type, with `featureOfInterest`, `observingProcedure`, `observationValue`, `resultQuality`, `phenomenonTime`, and `resultTime`. |
-| 02 | [`02-concepts-vocabulary`](02-concepts-vocabulary/) | A marine specimen record. `concepts` on a type definition and on properties, covering all seven `kind` values, including a property that carries both a SKOS concept and an OWL datatype property. |
+| 02 | [`02-concepts-vocabulary`](02-concepts-vocabulary/) | A marine specimen record. `concepts` on a type definition and on properties, covering all seven `kind` values, including a property that carries a Dublin Core property and an OWL datatype property in one array. No entry restates what an annotation on the same node already asserts. |
 | 03 | [`03-sampling-features`](03-sampling-features/) | A laboratory nitrate result. `featureOfInterest`, `proximateFeatureOfInterest` for the sample bottle, and `ultimateFeatureOfInterest` for the classified river reach. |
 | 04 | [`04-temporal-roles`](04-temporal-roles/) | A flood-warning bulletin. `phenomenonTime` and `resultTime` as scalars, and `effectiveTime` on a nested start/end object. |
 | 05 | [`05-flattened-periods`](05-flattened-periods/) | An air-quality advisory. All four flattened boundary roles, separating the averaging window from the advisory validity window. |

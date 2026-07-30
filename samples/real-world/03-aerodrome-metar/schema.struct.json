@@ -3,18 +3,8 @@
   "$id": "https://schemas.example.org/characteristics/real-world/03-aerodrome-metar",
   "$uses": ["JSONStructureCharacteristics"],
   "name": "Metar",
-  "description": "METAR aviation weather observation from the AviationWeather.gov API. Reports surface conditions including temperature, dewpoint, wind, visibility, pressure, clouds, and flight category for an ICAO reporting station. Derived from the aviationweather feeder schema published in the xRegistry catalogue. The sample demonstrates a routine aerodrome report: concepts on the record type bound to published vocabulary terms, an hourly fixed cadence on the observation time, phenomenonTime and resultTime distinguished from one another, the report type carried as a status member, observedProperty stated both for the record as a whole and for each individual result member, and two coordinate reference system bindings - a vertical CRS over the station elevation on the record and a horizontal CRS over the station latitude/longitude on the nested position object.",
+  "description": "METAR aviation weather observation from the AviationWeather.gov API. Reports surface conditions including temperature, dewpoint, wind, visibility, pressure, clouds, and flight category for an ICAO reporting station. Derived from the aviationweather feeder schema published in the xRegistry catalogue. The sample demonstrates a routine aerodrome report: concepts on the result members bound to published vocabulary terms, an hourly fixed cadence on the observation time, phenomenonTime and resultTime distinguished from one another, the report type carried as a status member, observedProperty stated both for the record as a whole and for each individual result member, and two coordinate reference system bindings - a vertical CRS over the station elevation on the record and a horizontal CRS over the station latitude/longitude on the nested position object.",
   "type": "object",
-  "concepts": [
-    {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
-      "reference": "https://schema.org/Observation",
-      "kind": "rdfs-class"
-    }
-  ],
   "observedProperty": {
     "reference": "https://catalog.example.org/observable-properties/aerodrome-surface-weather/v1",
     "kind": "example-catalog"

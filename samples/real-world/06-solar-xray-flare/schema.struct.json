@@ -7,10 +7,6 @@
   "type": "object",
   "concepts": [
     {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    },
-    {
       "reference": "http://purl.org/dc/dcmitype/Event",
       "kind": "rdfs-class"
     }
@@ -32,13 +28,7 @@
     "satellite": {
       "type": "integer",
       "description": "GOES satellite number that detected this flare event (e.g., 18 for GOES-18, 19 for GOES-19). The number identifies the spacecraft and, through it, the XRS instrument and calibration that produced every result in this record.",
-      "semanticRole": "observingProcedure",
-      "concepts": [
-        {
-          "reference": "http://www.w3.org/ns/sosa/Sensor",
-          "kind": "owl-class"
-        }
-      ]
+      "semanticRole": "observingProcedure"
     },
     "begin_time": {
       "type": "string",

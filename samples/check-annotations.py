@@ -32,6 +32,16 @@ EXTENDS_TARGETS = {
     "#/definitions/ChoiceType": "choice",
 }
 
+# Section "The concepts Keyword" of the draft partitions the documented kind
+# values into terms that denote a class and terms that denote a property.
+CLASS_KINDS = {"rdfs-class", "owl-class"}
+PROPERTY_KINDS = {
+    "rdf-property",
+    "owl-object-property",
+    "owl-datatype-property",
+    "dcterms-property",
+}
+
 
 class MetaSchema:
     """The Characteristics add-ins and value types, read from the meta-schema."""
@@ -136,6 +146,34 @@ class MetaSchema:
             )
 
 
+def check_concepts(node, path, errors):
+    """Enforce the placement rules the meta-schema cannot express."""
+    concepts = node.get("concepts")
+    if not isinstance(concepts, list):
+        return
+    kinds = {entry.get("kind") for entry in concepts if isinstance(entry, dict)}
+    if kinds & CLASS_KINDS and kinds & PROPERTY_KINDS:
+        errors.append(
+            f"{path}/concepts: an array must not combine a class kind with a property kind"
+        )
+    is_type_node = node.get("type") in ("object", "tuple") or isinstance(
+        node.get("properties"), dict
+    )
+    if kinds & CLASS_KINDS and not is_type_node:
+        errors.append(
+            f"{path}/concepts: a class kind is only permitted on a type definition"
+        )
+    observed = node.get("observedProperty")
+    if isinstance(observed, dict):
+        references = {
+            entry.get("reference") for entry in concepts if isinstance(entry, dict)
+        }
+        if observed.get("reference") in references:
+            errors.append(
+                f"{path}/concepts: repeats the URI already carried by observedProperty"
+            )
+
+
 def walk(meta, node, path, in_property, errors):
     if not isinstance(node, dict):
         return
@@ -154,6 +192,8 @@ def walk(meta, node, path, in_property, errors):
             errors.append(f"{path}/{keyword}: not permitted here, only on {targets}")
             continue
         meta.check(entry["schema"], node[keyword], f"{path}/{keyword}", errors)
+
+    check_concepts(node, path, errors)
 
     for name, child in node.get("properties", {}).items():
         walk(meta, child, f"{path}/properties/{name}", True, errors)

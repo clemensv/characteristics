@@ -406,6 +406,25 @@ entry whose `kind` denotes a class with an entry whose `kind` denotes a
 property. A `kind` outside the values defined above establishes no constraint,
 and a processor MUST NOT infer one.
 
+### Relationship to the Annotation Model {#concepts-redundancy}
+
+The keywords defined in this document already state the part a node plays. A
+`concepts` entry that names a term whose meaning is that same part carries no
+information beyond the annotation it accompanies and SHOULD be omitted.
+
+A node that carries `observedProperty` is an observation record by
+{{annotation-model}}, and SHOULD NOT also be bound to a general observation
+class. A member that carries `semanticRole` SHOULD NOT also be bound to a
+vocabulary property whose meaning is that same role, such as a term for the
+result of an observation beside `observationValue`, or a term for the feature
+that an observation is about beside `featureOfInterest`.
+
+`concepts` is for meaning that the annotation model does not carry: the domain
+class of a record, the catalogue or taxonomic term that a member names, or a
+correspondence that a consumer needs in order to join the data to another
+vocabulary. A redundant entry is not an error, and a processor MUST NOT reject a
+document for carrying one.
+
 ### Relationship to `observedProperty` {#concepts-and-observed-property}
 
 `concepts` states which external terms the annotated node corresponds to.

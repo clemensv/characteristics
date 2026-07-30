@@ -68,13 +68,7 @@
         "stationId": {
           "type": "string",
           "description": "Identifier of the monitoring station that produced this reading",
-          "semanticRole": "featureOfInterest",
-          "concepts": [
-            {
-              "reference": "http://www.w3.org/ns/sosa/hasFeatureOfInterest",
-              "kind": "rdf-property"
-            }
-          ]
+          "semanticRole": "featureOfInterest"
         },
         "periodStart": {
           "type": "datetime",
@@ -120,13 +114,7 @@
           "observedProperty": {
             "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#air_temperature",
             "kind": "cf-standard-name"
-          },
-          "concepts": [
-            {
-              "reference": "http://www.w3.org/ns/sosa/hasSimpleResult",
-              "kind": "rdf-property"
-            }
-          ]
+          }
         },
         "pm25HourlyMean": {
           "type": "double",

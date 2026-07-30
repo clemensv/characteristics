@@ -5,12 +5,6 @@
   "name": "WaterQualityReading",
   "description": "A water-quality reading from a King County (Washington) marine monitoring mooring in Puget Sound, carrying the CTD, optical and nutrient channels published for one sampling cycle. Derived from the king-county-marine feeder schema published in the xRegistry catalogue; the upstream description text on that schema is a copy of the King County Metro water-taxi wording and does not describe this record, so it has been replaced with an accurate one. The sample demonstrates the three-tier feature-of-interest chain: the mooring is the featureOfInterest, the water parcel at the sampled depth is the proximateFeatureOfInterest, and the marine basin for which the reading is environmentally interpreted is the ultimateFeatureOfInterest, none of which is inferred from another. It also demonstrates observingProcedure for the profiling sonde, observedProperty on the record and on each result member, resultQuality for the QARTOD flag, the split between measured in-situ sensor channels and calculated quantities such as practical salinity, specific conductance and oxygen saturation, standardDeviation statistics over the burst window, phenomenonTime against resultTime, and a fixed fifteen-minute cadence at the mooring sampling interval. Every measurement member is optional; a channel that the mooring did not report in a given cycle is omitted from the record rather than nulled.",
   "type": "object",
-  "concepts": [
-    {
-      "reference": "http://www.w3.org/ns/sosa/Observation",
-      "kind": "owl-class"
-    }
-  ],
   "observedProperty": {
     "reference": "https://catalog.example.org/observable-properties/marine-water-quality/v1",
     "kind": "example-catalog"
