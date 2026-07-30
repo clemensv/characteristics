@@ -5,6 +5,10 @@ Fifteen worked examples of the annotations defined by
 Each directory holds a `schema.struct.json` and an `example.json` instance that
 conforms to it.
 
+A second set of fifteen samples in [`real-world/`](real-world/) applies the same
+annotations to schemas published by live open-data feeds, one per domain and
+publisher.
+
 Every schema declares the extension meta-schema
 `https://json-structure.org/meta/characteristics/v0/#` and activates the
 annotations through the JSON Structure extension mechanism:
@@ -43,6 +47,16 @@ to the Core `Property`, `ObjectType`, `TupleType`, `ArrayType`, `SetType`,
 | 14 | [`14-linear-reference-systems`](14-linear-reference-systems/) | A highway asset. `linearReferenceSystem` of kind `lrs-network` against a published route network, and of kind `type` against a meta-type using `referenceRole`. |
 | 15 | [`15-station-network-telemetry`](15-station-network-telemetry/) | A capstone: an hourly air-quality batch from a two-station network that composes most of the annotations in one schema. |
 
+## Real-world samples
+
+[`real-world/`](real-world/) holds fifteen further samples, each derived from a
+JSON Structure schema published by a live open-data feed and covering a
+different domain: AIS vessel traffic, marine buoys, aerodrome weather,
+lightning, seismology, solar flares, grid carbon intensity, electricity
+generation, orbital elements, public transit, road travel times, bikeshare,
+public warnings, water quality, and pollen forecasts. See the
+[README](real-world/README.md) there.
+
 ## Validation
 
 Install the JSON Structure Python SDK, then run the script:
@@ -62,6 +76,9 @@ The script runs four checks:
    declares in `$uses`.
 3. Every `example.json` conforms to the schema beside it.
 4. Every Characteristics annotation conforms to the extension meta-schema.
+
+Steps 2 to 4 walk every sample directory under `samples/`, including
+`real-world/`.
 
 Step 4 is performed by [`check-annotations.py`](check-annotations.py), which reads
 `characteristics-v0.json`, derives the keyword set and the annotation value types
