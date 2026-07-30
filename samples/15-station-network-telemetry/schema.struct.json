@@ -125,8 +125,8 @@
           "statistic": "mean",
           "phenomenonTimeRelation": "interval",
           "observedProperty": {
-            "reference": "https://catalog.example.org/observable-properties/pm25-mass-concentration/v1",
-            "kind": "example-catalog"
+            "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
+            "kind": "cf-standard-name"
           }
         },
         "precipitationAccumulation": {

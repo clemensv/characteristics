@@ -6,8 +6,8 @@
   "description": "An air-quality advisory carrying two independent time axes as flattened period-boundary pairs. phenomenonTimeStart and phenomenonTimeEnd bound the one-hour averaging window over which the mean PM2.5 concentration was computed — this is the period of the world the result is about. effectiveTimeStart and effectiveTimeEnd bound the period during which the advisory is in force — this is the period the record is meant to be acted on. The two axes are independent: the phenomenon window is fixed by the measurement schedule, while the advisory window is set by the issuing authority and may span several averaging windows. Note: the periods that this specification pairs with phenomenonTimeRelation use the half-open convention [start,end); averagingWindowEnd is therefore excluded from the phenomenon window under that convention.",
   "type": "object",
   "observedProperty": {
-    "reference": "https://catalog.example.org/observable-properties/pm25-hourly-mean/v1",
-    "kind": "example-catalog"
+    "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#mass_concentration_of_pm2p5_ambient_aerosol_particles_in_air",
+    "kind": "cf-standard-name"
   },
   "properties": {
     "advisoryId": {

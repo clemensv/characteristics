@@ -6,8 +6,8 @@
   "description": "A field water-quality sampling record that contrasts three operational event-time roles with two observation-time roles. scheduledTime, actualTime, and ingestionTime belong to the operational concern: scheduledTime records when the field crew was dispatched, actualTime records when the sample was collected, and ingestionTime records when the data warehouse accepted the record. phenomenonTime and resultTime belong to the observation concern: phenomenonTime records when the measured property applied to the stream water, and resultTime records when the laboratory analysis result became available. For an instantaneous grab sample, actualTime and phenomenonTime refer to the same physical instant, but their roles remain distinct by function — actualTime describes when a scheduled activity was executed, phenomenonTime describes when the result holds true of the world. A processor MUST NOT read any operational role as an observation-time role.",
   "type": "object",
   "observedProperty": {
-    "reference": "https://catalog.example.org/observable-properties/specific-conductance/v1",
-    "kind": "example-catalog"
+    "reference": "http://qudt.org/vocab/quantitykind/ElectrolyticConductivity",
+    "kind": "qudt-quantity-kind"
   },
   "properties": {
     "runId": {
