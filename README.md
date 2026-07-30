@@ -5,10 +5,10 @@
 This is the working area for the individual Internet-Draft, "JSON Structure:
 Characteristics".
 
-* [Editor's Copy](https://json-structure.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.html)
+* [Editor's Copy](https://clemensv.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-vasters-json-structure-characteristics)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-vasters-json-structure-characteristics)
-* [Compare Editor's Copy to Individual Draft](https://json-structure.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.diff)
+* [Compare Editor's Copy to Individual Draft](https://clemensv.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.diff)
 
 
 ## Contributing
