@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
+  "$id": "https://schemas.example.org/characteristics/05-flattened-periods",
+  "name": "AirQualityAdvisory",
+  "description": "An air-quality advisory carrying two independent time axes as flattened period-boundary pairs. phenomenonTimeStart and phenomenonTimeEnd bound the one-hour averaging window over which the mean PM2.5 concentration was computed — this is the period of the world the result is about. effectiveTimeStart and effectiveTimeEnd bound the period during which the advisory is in force — this is the period the record is meant to be acted on. The two axes are independent: the phenomenon window is fixed by the measurement schedule, while the advisory window is set by the issuing authority and may span several averaging windows. Note: the periods that this specification pairs with phenomenonTimeRelation use the half-open convention [start,end); averagingWindowEnd is therefore excluded from the phenomenon window under that convention.",
+  "type": "object",
+  "observedProperty": {
+    "reference": "https://catalog.example.org/observable-properties/pm25-hourly-mean/v1",
+    "kind": "example-catalog"
+  },
+  "properties": {
+    "advisoryId": {
+      "type": "uuid",
+      "description": "Unique identifier for this advisory record."
+    },
+    "monitoringSite": {
+      "type": "string",
+      "description": "Identifier of the air-quality monitoring site at which PM2.5 was measured.",
+      "semanticRole": "featureOfInterest"
+    },
+    "averagingWindowStart": {
+      "type": "datetime",
+      "description": "Start of the one-hour averaging window over which the mean PM2.5 concentration was computed. Together with averagingWindowEnd, this forms the phenomenon-time period: the window of the world the result is about. This specification pairs phenomenonTimeStart/End with phenomenonTimeRelation using half-open [start,end) periods, so the start instant is included in the window.",
+      "semanticRole": "phenomenonTimeStart"
+    },
+    "averagingWindowEnd": {
+      "type": "datetime",
+      "description": "End of the one-hour averaging window. Under the half-open [start,end) convention that this specification pairs with phenomenonTimeRelation, this instant is excluded from the phenomenon window.",
+      "semanticRole": "phenomenonTimeEnd"
+    },
+    "advisoryEffectiveAt": {
+      "type": "datetime",
+      "description": "Start of the period during which this advisory is in force. effectiveTimeStart and effectiveTimeEnd form an axis independent of the phenomenon-time axis; the advisory window is set by the issuing authority and may extend well beyond the one-hour averaging window that produced the result.",
+      "semanticRole": "effectiveTimeStart"
+    },
+    "advisoryExpiresAt": {
+      "type": "datetime",
+      "description": "End of the period during which this advisory is in force.",
+      "semanticRole": "effectiveTimeEnd"
+    },
+    "meanPm25": {
+      "type": "double",
+      "unit": "ug/m3",
+      "description": "Arithmetic mean of PM2.5 mass concentration over the one-hour averaging window.",
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": "mean"
+    },
+    "aqiCategory": {
+      "type": "string",
+      "description": "Air Quality Index category assigned to this advisory by the issuing authority.",
+      "enum": ["good", "moderate", "unhealthy-sensitive", "unhealthy", "very-unhealthy", "hazardous"]
+    }
+  },
+  "required": [
+    "advisoryId",
+    "monitoringSite",
+    "averagingWindowStart",
+    "averagingWindowEnd",
+    "advisoryEffectiveAt",
+    "advisoryExpiresAt",
+    "meanPm25",
+    "aqiCategory"
+  ],
+  "additionalProperties": false
+}
