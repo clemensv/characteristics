@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/11-cadence",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "SensorGatewayMessage",
   "description": "Mixed sensor gateway payload demonstrating all three cadence kind values. Each channel carries its own temporal position annotated with the cadence that describes expected producer behaviour for that channel. Cadence is not a delivery guarantee, a service-level objective, or a completeness assertion: it does not assert that every position has a record, that records arrive in order, or that any particular successor observation exists.",
   "type": "object",

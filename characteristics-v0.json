@@ -1,0 +1,676 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://json-structure.org/meta/characteristics/v0/#",
+  "$import": "https://json-structure.org/meta/extended/v0/#",
+  "$uses": [
+    "JSONStructureUnits",
+    "JSONStructureImport",
+    "JSONStructureConditionalComposition",
+    "JSONStructureValidation"
+  ],
+  "$offers": {
+    "JSONStructureCharacteristics": [
+      "#/definitions/features/ConceptsAddIn",
+      "#/definitions/features/ObservationPropertyAddIn",
+      "#/definitions/features/ObservationArrayAddIn",
+      "#/definitions/features/ObservationMapAddIn",
+      "#/definitions/features/ObservationSetAddIn",
+      "#/definitions/features/ObservationChoiceAddIn",
+      "#/definitions/features/ObservationRecordObjectAddIn",
+      "#/definitions/features/ObservationRecordTupleAddIn"
+    ]
+  },
+  "$root": "#/definitions/SchemaDocument",
+  "name": "JSONStructureCharacteristics",
+  "description": "Meta-schema for JSON Structure: Characteristics. It validates the shape of each annotation defined by that specification: the presence and form of its members, the enumerations the specification states are closed, and the form required of a reference for the accompanying kind. It does not express a rule whose subject lies outside the annotated node.",
+  "definitions": {
+    "features": {
+      "ConceptsAddIn": {
+        "name": "ConceptsAddIn",
+        "abstract": true,
+        "description": "Vocabulary characteristics. concepts MAY occur on a type definition and on a property, collection item, map value, or choice member schema.",
+        "$extends": "#/definitions/NoType",
+        "type": "object",
+        "properties": {
+          "concepts": {
+            "type": "array",
+            "items": {
+              "type": {
+                "$ref": "#/definitions/characteristics/Concept"
+              }
+            },
+            "minItems": 1,
+            "description": "Non-empty array of external term identities that the annotated node denotes."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationPropertyAddIn": {
+        "name": "ObservationAddIn",
+        "abstract": true,
+        "description": "Observation and temporal characteristics carried directly on a property schema.",
+        "$extends": "#/definitions/Property",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            },
+            "description": "Identity of the observable that a result member carries."
+          },
+          "semanticRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SemanticRole"
+            },
+            "description": "Role the annotated member plays in an observation record."
+          },
+          "derivation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Derivation"
+            },
+            "description": "How the annotated value was obtained."
+          },
+          "statistic": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Statistic"
+            },
+            "description": "Summary function applied. Present if and only if derivation is 'statistic'."
+          },
+          "phenomenonTimeRelation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/PhenomenonTimeRelation"
+            },
+            "description": "How the annotated value relates to the phenomenon time of its record."
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            },
+            "description": "Temporal reference system in which the annotated position is expressed."
+          },
+          "cadence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Cadence"
+            },
+            "description": "Expected recurrence pattern of the annotated temporal position."
+          },
+          "referenceRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ReferenceRole"
+            },
+            "description": "Role the annotated member plays within a meta-type."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationArrayAddIn": {
+        "name": "ObservationAddIn",
+        "abstract": true,
+        "description": "Observation and temporal characteristics carried on an array type, applying to its items.",
+        "$extends": "#/definitions/ArrayType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            }
+          },
+          "semanticRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SemanticRole"
+            }
+          },
+          "derivation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Derivation"
+            }
+          },
+          "statistic": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Statistic"
+            }
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            }
+          },
+          "cadence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Cadence"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationSetAddIn": {
+        "name": "ObservationAddIn",
+        "abstract": true,
+        "description": "Observation and temporal characteristics carried on a set type, applying to its items.",
+        "$extends": "#/definitions/SetType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            }
+          },
+          "semanticRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SemanticRole"
+            }
+          },
+          "derivation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Derivation"
+            }
+          },
+          "statistic": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Statistic"
+            }
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            }
+          },
+          "cadence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Cadence"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationMapAddIn": {
+        "name": "ObservationAddIn",
+        "abstract": true,
+        "description": "Observation and temporal characteristics carried on a map type, applying to its values.",
+        "$extends": "#/definitions/MapType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            }
+          },
+          "semanticRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SemanticRole"
+            }
+          },
+          "derivation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Derivation"
+            }
+          },
+          "statistic": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Statistic"
+            }
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            }
+          },
+          "cadence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Cadence"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationChoiceAddIn": {
+        "name": "ObservationAddIn",
+        "abstract": true,
+        "description": "Observation and temporal characteristics carried on a choice type, applying to its members.",
+        "$extends": "#/definitions/ChoiceType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            }
+          },
+          "semanticRole": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SemanticRole"
+            }
+          },
+          "derivation": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Derivation"
+            }
+          },
+          "statistic": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Statistic"
+            }
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            }
+          },
+          "cadence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Cadence"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationRecordObjectAddIn": {
+        "name": "ObservationRecordAddIn",
+        "abstract": true,
+        "description": "Characteristics that an object type carries and that bind existing members of it.",
+        "$extends": "#/definitions/ObjectType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            },
+            "description": "Identity of the observable that the annotated observation record describes."
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            },
+            "description": "Temporal reference system of a temporal type, binding an existing member."
+          },
+          "coordinateReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CoordinateReferenceSystem"
+            },
+            "description": "Spatial coordinate reference system, binding existing members as ordered coordinates."
+          },
+          "linearReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/LinearReferenceSystem"
+            },
+            "description": "Linear reference system, binding existing members as linear element, measure, and direction."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ObservationRecordTupleAddIn": {
+        "name": "ObservationRecordAddIn",
+        "abstract": true,
+        "description": "Characteristics that a tuple type carries and that bind existing members of it.",
+        "$extends": "#/definitions/TupleType",
+        "type": "object",
+        "properties": {
+          "observedProperty": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ObservedProperty"
+            }
+          },
+          "temporalReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TemporalReferenceSystem"
+            }
+          },
+          "coordinateReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CoordinateReferenceSystem"
+            }
+          },
+          "linearReferenceSystem": {
+            "type": {
+              "$ref": "#/definitions/characteristics/LinearReferenceSystem"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "characteristics": {
+      "Concept": {
+        "type": "object",
+        "description": "One external term identity. The kind enumeration is open.",
+        "properties": {
+          "reference": {
+            "type": "uri",
+            "description": "Absolute URI identifying the term."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of term identified. Values defined by the specification are 'rdfs-class', 'rdf-property', 'owl-class', 'owl-object-property', 'owl-datatype-property', 'skos-concept', and 'dcterms-property'. The enumeration is open."
+          }
+        },
+        "required": [
+          "reference",
+          "kind"
+        ],
+        "additionalProperties": false
+      },
+      "ObservedProperty": {
+        "type": "object",
+        "description": "Identity of an observable. The kind enumeration is open.",
+        "properties": {
+          "reference": {
+            "type": "uri",
+            "description": "Absolute URI identifying the observable."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of observable definition identified. The enumeration is open."
+          }
+        },
+        "required": [
+          "reference",
+          "kind"
+        ],
+        "additionalProperties": false
+      },
+      "SemanticRole": {
+        "type": "string",
+        "description": "Closed enumeration of observation roles.",
+        "enum": [
+          "observationValue",
+          "resultQuality",
+          "featureOfInterest",
+          "proximateFeatureOfInterest",
+          "ultimateFeatureOfInterest",
+          "observingProcedure",
+          "phenomenonTime",
+          "resultTime",
+          "effectiveTime",
+          "phenomenonTimeStart",
+          "phenomenonTimeEnd",
+          "effectiveTimeStart",
+          "effectiveTimeEnd",
+          "ingestionTime",
+          "scheduledTime",
+          "actualTime",
+          "forecastIssueTime",
+          "forecastLeadDuration",
+          "status"
+        ]
+      },
+      "Derivation": {
+        "type": "string",
+        "description": "Closed enumeration stating how a value was obtained.",
+        "enum": [
+          "measured",
+          "statistic",
+          "calculated",
+          "estimated",
+          "modeled"
+        ]
+      },
+      "Statistic": {
+        "type": "string",
+        "description": "Closed enumeration of summary functions.",
+        "enum": [
+          "mean",
+          "median",
+          "mode",
+          "minimum",
+          "maximum",
+          "sum",
+          "count",
+          "standardDeviation",
+          "variance",
+          "range"
+        ]
+      },
+      "PhenomenonTimeRelation": {
+        "type": "string",
+        "description": "Closed enumeration relating a value to the phenomenon time of its record.",
+        "enum": [
+          "instant",
+          "untilNext",
+          "interval",
+          "accumulation"
+        ]
+      },
+      "ReferenceRole": {
+        "type": "string",
+        "description": "Closed enumeration of roles within a meta-type.",
+        "enum": [
+          "position",
+          "linearElement",
+          "measure",
+          "direction"
+        ]
+      },
+      "SortOrder": {
+        "type": "string",
+        "description": "Closed enumeration stating how encoded ordering runs relative to time.",
+        "enum": [
+          "forward",
+          "backward"
+        ]
+      },
+      "FixedCadence": {
+        "type": "object",
+        "description": "Cadence with a regular period. period is REQUIRED when kind is 'fixed'.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "fixed"
+          },
+          "period": {
+            "type": "any",
+            "description": "Positive interval in the applicable temporal reference system. A Core duration for datetime, date, or time."
+          }
+        },
+        "required": [
+          "kind",
+          "period"
+        ],
+        "additionalProperties": false
+      },
+      "UnscheduledCadence": {
+        "type": "object",
+        "description": "Cadence without a regular period. period is prohibited.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "irregular",
+              "onChange"
+            ]
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "additionalProperties": false
+      },
+      "Cadence": {
+        "type": [
+          {
+            "$ref": "#/definitions/characteristics/FixedCadence"
+          },
+          {
+            "$ref": "#/definitions/characteristics/UnscheduledCadence"
+          }
+        ],
+        "description": "Expected recurrence pattern of a temporal position."
+      },
+      "TemporalReferenceSystem": {
+        "type": "object",
+        "description": "Temporal reference system in which a position is expressed.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of system identified. Values defined by the specification are 'ogc-trs', 'ogc-temporal-crs', and 'type'. The enumeration is open."
+          },
+          "position": {
+            "type": "string",
+            "description": "Name of the member that carries the temporal position. REQUIRED when the annotation is attached to an object or tuple."
+          },
+          "sortOrder": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SortOrder"
+            },
+            "description": "Direction of the encoded ordering relative to time. Defaults to 'forward'."
+          }
+        },
+        "required": [
+          "reference",
+          "kind"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "CoordinateReferenceSystem": {
+        "type": "object",
+        "description": "Spatial coordinate reference system binding existing members as ordered coordinates.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of system identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Non-empty ordered array of distinct member names, one per coordinate axis, in axis order."
+          }
+        },
+        "required": [
+          "reference",
+          "kind",
+          "coordinates"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "LinearReferenceSystem": {
+        "type": "object",
+        "description": "Linear reference system binding existing members as linear element, measure, and direction.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of system identified. Values defined by the specification are 'lrs-network' and 'type'. The enumeration is open."
+          },
+          "linearElement": {
+            "type": "string",
+            "description": "Name of the member that identifies the linear element."
+          },
+          "measure": {
+            "type": "string",
+            "description": "Name of the member that carries the measure along the linear element."
+          },
+          "measureEnd": {
+            "type": "string",
+            "description": "Name of the member that carries the end measure of a linear extent."
+          },
+          "direction": {
+            "type": "string",
+            "description": "Name of the member that carries the direction of measurement."
+          }
+        },
+        "required": [
+          "reference",
+          "kind",
+          "linearElement",
+          "measure"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "KindIsMetaType": {
+        "type": "object",
+        "description": "Matches a reference-style annotation whose kind is 'type'.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "type"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "ReferenceIsPointer": {
+        "type": "object",
+        "description": "Requires reference to be a JSON Pointer into the same schema document.",
+        "properties": {
+          "reference": {
+            "type": "jsonpointer"
+          }
+        },
+        "required": [
+          "reference"
+        ]
+      },
+      "ReferenceIsUri": {
+        "type": "object",
+        "description": "Requires reference to be an absolute URI.",
+        "properties": {
+          "reference": {
+            "type": "uri"
+          }
+        },
+        "required": [
+          "reference"
+        ]
+      }
+    }
+  }
+}

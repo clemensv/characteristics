@@ -5,26 +5,26 @@
   "issuedAt": "2026-07-30T06:00:00Z",
   "forecasts": [
     {
-      "phenomenonWindowStart": "2026-07-30T12:00:00Z",
-      "phenomenonWindowEnd": "2026-07-30T18:00:00Z",
+      "windowStart": "2026-07-30T12:00:00Z",
+      "windowEnd": "2026-07-30T18:00:00Z",
       "leadDuration": "PT6H",
       "predictedStage": 3.81
     },
     {
-      "phenomenonWindowStart": "2026-07-30T18:00:00Z",
-      "phenomenonWindowEnd": "2026-07-31T00:00:00Z",
+      "windowStart": "2026-07-30T18:00:00Z",
+      "windowEnd": "2026-07-31T00:00:00Z",
       "leadDuration": "PT12H",
       "predictedStage": 4.17
     },
     {
-      "phenomenonWindowStart": "2026-07-31T00:00:00Z",
-      "phenomenonWindowEnd": "2026-07-31T06:00:00Z",
+      "windowStart": "2026-07-31T00:00:00Z",
+      "windowEnd": "2026-07-31T06:00:00Z",
       "leadDuration": "PT18H",
       "predictedStage": 4.53
     },
     {
-      "phenomenonWindowStart": "2026-07-31T06:00:00Z",
-      "phenomenonWindowEnd": "2026-07-31T12:00:00Z",
+      "windowStart": "2026-07-31T06:00:00Z",
+      "windowEnd": "2026-07-31T12:00:00Z",
       "leadDuration": "PT24H",
       "predictedStage": 4.88
     }

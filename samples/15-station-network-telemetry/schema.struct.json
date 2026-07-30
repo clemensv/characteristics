@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/15-station-network-telemetry",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "MonitoringNetworkBatch",
   "description": "An hourly batch of environmental monitoring readings delivered by a regional air-quality and meteorology network. Each reading combines multiple observed properties from one station: an hourly mean air temperature and hourly mean PM2.5 mass concentration (both interval statistics over the aggregation period), accumulated precipitation (an accumulation statistic), and an instantaneous wind speed snapshot taken at the end of the hour. A reusable StationPosition type in definitions carries the CRS84 coordinate binding. This document demonstrates observedProperty, a range of semanticRole values, derivation with statistic, phenomenonTimeRelation including interval, accumulation, and instant, cadence, coordinateReferenceSystem, concepts, and status.",
   "type": "object",
@@ -23,7 +24,7 @@
     "readings": {
       "type": "array",
       "description": "Ordered list of hourly station readings in this batch",
-      "items": { "$ref": "#/definitions/StationReading" }
+      "items": { "type": { "$ref": "#/definitions/StationReading" } }
     }
   },
   "required": ["networkId", "batchIssueTime", "readings"],
@@ -94,7 +95,7 @@
           "description": "Instant at which the wind speed snapshot was captured; serves as the phenomenonTime for the windSpeedInstant property",
           "semanticRole": "phenomenonTime"
         },
-        "resultTime": {
+        "producedAt": {
           "type": "datetime",
           "description": "Instant at which this reading was produced by the station processor",
           "semanticRole": "resultTime"
@@ -183,7 +184,7 @@
         "periodStart",
         "periodEnd",
         "observedAt",
-        "resultTime",
+        "producedAt",
         "position",
         "observingSystem",
         "airTemperatureMean",

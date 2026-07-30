@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/01-observation-basics",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "RiverGaugingObservation",
   "description": "A water-level reading from a river gauging station. Demonstrates observedProperty on the record type and the semanticRole values featureOfInterest, observingProcedure, observationValue, resultQuality, phenomenonTime, and resultTime.",
   "type": "object",
@@ -31,12 +32,12 @@
       "enum": ["provisional", "validated", "estimated", "suspect"],
       "semanticRole": "resultQuality"
     },
-    "phenomenonTime": {
+    "measuredAt": {
       "type": "datetime",
       "description": "Instant at which the stated water level applied at the station.",
       "semanticRole": "phenomenonTime"
     },
-    "resultTime": {
+    "publishedAt": {
       "type": "datetime",
       "description": "Instant at which the result became available from the data-processing system.",
       "semanticRole": "resultTime"
@@ -47,8 +48,8 @@
     "sensor",
     "waterLevel",
     "qualityFlag",
-    "phenomenonTime",
-    "resultTime"
+    "measuredAt",
+    "publishedAt"
   ],
   "additionalProperties": false
 }

@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/08-status-and-quality",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "HydrometricPublicationRecord",
   "description": "A hydrometric publication record for a river stage measurement, demonstrating that status and resultQuality are distinct. The recordStatus field carries the publication standing of the record and may transition from 'provisional' to 'verified' as the value is reviewed; such a transition does not alter the measured stage or its quality grade. The qualityGrade field characterises the reliability of the measured value on a scale defined by an external quality vocabulary; a provisional record and a low-quality result are independent conditions and MUST NOT be read as one another.",
   "type": "object",

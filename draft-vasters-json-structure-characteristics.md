@@ -2230,8 +2230,11 @@ The extension meta-schema will be published at:
 
 `https://json-structure.org/meta/characteristics/v0/#`
 
-It will enable JSON Structure Units. A schema activates this specification by
-selecting that URI once the meta-schema is published. The annotations carry no
+It offers one feature, `JSONStructureCharacteristics`, whose add-ins contribute
+the keywords defined here to the Core property, object, tuple, array, set, map,
+and choice definitions. A schema activates this specification by selecting that
+URI and naming the feature in `$uses`. The meta-schema enables JSON Structure
+Units, Import, Conditional Composition, and Validation. The annotations carry no
 profile or version member; the versioned meta-schema URI is the version
 identifier.
 

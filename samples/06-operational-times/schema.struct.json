@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/06-operational-times",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "FieldSamplingRecord",
   "description": "A field water-quality sampling record that contrasts three operational event-time roles with two observation-time roles. scheduledTime, actualTime, and ingestionTime belong to the operational concern: scheduledTime records when the field crew was dispatched, actualTime records when the sample was collected, and ingestionTime records when the data warehouse accepted the record. phenomenonTime and resultTime belong to the observation concern: phenomenonTime records when the measured property applied to the stream water, and resultTime records when the laboratory analysis result became available. For an instantaneous grab sample, actualTime and phenomenonTime refer to the same physical instant, but their roles remain distinct by function — actualTime describes when a scheduled activity was executed, phenomenonTime describes when the result holds true of the world. A processor MUST NOT read any operational role as an observation-time role.",
   "type": "object",
@@ -28,17 +29,17 @@
       "description": "Time at which the field crew actually collected the sample. This is an operational event-time role: it records when the scheduled activity was carried out. For a grab sample, the physical instant coincides with phenomenonTime, but actualTime describes execution of the scheduled activity while phenomenonTime describes when the result held true of the world.",
       "semanticRole": "actualTime"
     },
-    "phenomenonTime": {
+    "sampledAt": {
       "type": "datetime",
       "description": "The instant at which the measured specific-conductance value applied to the stream water at the sampling station. This is an observation-time role, not an operational role. For an instantaneous grab sample it refers to the same physical instant as actualSampleTime, but the roles are distinct: phenomenonTime is a temporal property of the observation, not of the logistics.",
       "semanticRole": "phenomenonTime"
     },
-    "resultTime": {
+    "analysisCompletedAt": {
       "type": "datetime",
       "description": "The instant at which the laboratory analysis was completed and the result became available. This is an observation-time role. resultTime is never earlier than phenomenonTime.",
       "semanticRole": "resultTime"
     },
-    "ingestionTime": {
+    "warehouseLoadedAt": {
       "type": "datetime",
       "description": "The instant at which the data warehouse accepted and recorded this sampling record. ingestionTime is an operational event-time role: it describes when the receiving system accepted the record, not when the observation occurred or when the result was produced.",
       "semanticRole": "ingestionTime"
@@ -61,9 +62,9 @@
     "samplingStation",
     "scheduledSampleTime",
     "actualSampleTime",
-    "phenomenonTime",
-    "resultTime",
-    "ingestionTime",
+    "sampledAt",
+    "analysisCompletedAt",
+    "warehouseLoadedAt",
     "specificConductance",
     "runStatus"
   ],

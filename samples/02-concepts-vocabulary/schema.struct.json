@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/02-concepts-vocabulary",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "MarineSpecimenMeasurement",
   "description": "A total-length measurement taken from a marine biology specimen. Demonstrates the concepts keyword on both a type definition and properties, covering all seven kind values of the closed enumeration: owl-class and rdfs-class on the type, and rdf-property, dcterms-property, owl-object-property, owl-datatype-property, and skos-concept on properties. Also illustrates that skos-concept may appear alongside a property kind in one array.",
   "type": "object",

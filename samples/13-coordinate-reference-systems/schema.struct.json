@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/13-coordinate-reference-systems",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "MonitoringStationRecord",
   "description": "A hydrological monitoring station record demonstrating three coordinate reference system bindings. Two nested objects carry the same horizontal position under two different encodings — OGC CRS84 (longitude-first axis order) and EPSG:4326 (latitude-first axis order) — so that the axis-order contrast is explicit in each coordinates array. The enclosing record carries the EPSG:5703 NAVD88 vertical CRS binding for the station benchmark elevation. Because an object or tuple may carry at most one coordinateReferenceSystem annotation, any second coordinate binding must be modelled as a nested object; both horizontal position objects are nested here for exactly that reason.",
   "type": "object",

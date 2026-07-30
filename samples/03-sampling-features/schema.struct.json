@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/03-sampling-features",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "LaboratoryWaterQualityResult",
   "description": "A nitrate-nitrogen concentration result from laboratory analysis of a river water sample. Demonstrates how featureOfInterest, proximateFeatureOfInterest, and ultimateFeatureOfInterest coexist as three independent, non-equivalent declarations: the monitoring station is the programme-level feature of interest, the collected sample bottle is the proximate feature directly involved in the measurement act, and the classified river reach is the ultimate feature for which the result is environmentally interpreted.",
   "type": "object",

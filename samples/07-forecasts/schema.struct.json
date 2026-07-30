@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/07-forecasts",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "RiverStageForecastBulletin",
   "description": "A forecast bulletin for a river gauging station containing several lead-time entries. A forecast is an observation whose result time precedes its phenomenon time; the phenomenon-time roles used in each entry are the same as for any other observation, and nothing about those roles restricts them to positions that have already elapsed. The cadence on the bulletin issue time describes expected producer behaviour across successive bulletins; it does not assert that a successor bulletin exists or that any phenomenon-time window is complete.",
   "type": "object",
@@ -34,12 +35,12 @@
         "type": "object",
         "description": "One forecast entry stating predicted river stage over a phenomenon-time window. The phenomenonTimeStart and phenomenonTimeEnd roles identify what the entry is about, using the same roles as for any non-forecast interval observation.",
         "properties": {
-          "phenomenonWindowStart": {
+          "windowStart": {
             "type": "datetime",
             "description": "Start of the phenomenon-time period this entry describes.",
             "semanticRole": "phenomenonTimeStart"
           },
-          "phenomenonWindowEnd": {
+          "windowEnd": {
             "type": "datetime",
             "description": "End of the phenomenon-time period this entry describes.",
             "semanticRole": "phenomenonTimeEnd"
@@ -59,8 +60,8 @@
           }
         },
         "required": [
-          "phenomenonWindowStart",
-          "phenomenonWindowEnd",
+          "windowStart",
+          "windowEnd",
           "leadDuration",
           "predictedStage"
         ],

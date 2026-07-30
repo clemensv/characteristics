@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/14-linear-reference-systems",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "RoadwayIncidentLocation",
   "description": "A roadway incident record demonstrating both linearReferenceSystem kinds. The wsdotLocation property binds the incident to the WSDOT State Route network using kind lrs-network. The legacyMark property binds to an internal agency road reference system using kind type, referencing a meta-type in definitions whose members declare their referenceRole. Property names in each annotated object differ from the meta-type member names; the linearReferenceSystem annotation establishes the mapping by name.",
   "type": "object",

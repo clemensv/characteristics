@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/12-temporal-reference-systems",
+  "$uses": ["JSONStructureCharacteristics"],
   "name": "BeamIntensityObservation",
   "description": "Particle-accelerator beam intensity observation demonstrating two temporalReferenceSystem bindings in one record. archive_time_s is an int64 UTC coordinate bound to the OGC UnixTime TemporalCRS (kind ogc-temporal-crs). beam_clock is an object carrying a non-civil accelerator run clock bound to a local meta-type (kind type); the position member of the annotation names the fixed-width ordinal member within the object. The two clocks operate independently: mapping the beam clock to UTC requires an authoritative synchronisation relation that this specification does not supply.",
   "type": "object",
-  "identity": ["observation_id"],
   "observedProperty": {
     "reference": "https://catalog.example.org/observable-properties/beam-current/v1",
     "kind": "example-catalog"
