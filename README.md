@@ -1,4 +1,4 @@
-<!-- regenerate: on (set to off if you edit this file) -->
+<!-- regenerate: off (set to off if you edit this file) -->
 
 # JSON Structure: Characteristics
 
@@ -25,9 +25,10 @@ The GitHub interface supports creating pull requests using the Edit (✏) button
 Scope:
 
 * Defines optional annotations for observation-oriented semantics in JSON
-	Structure schemas: `semanticRole`, `observedProperty`, `phenomenonTimeRelation`,
-	`derivation`, `temporalReferenceSystem`, `cadence`,
-	`coordinateReferenceSystem`, and `linearReferenceSystem`.
+	Structure schemas: `concepts`, `semanticRole`, `observedProperty`,
+	`phenomenonTimeRelation`, `derivation`, `statistic`,
+	`temporalReferenceSystem`, `cadence`, `coordinateReferenceSystem`, and
+	`linearReferenceSystem`.
 * Covers roles for observation results, time semantics, quality,
 	feature-of-interest variants, and observing procedure.
 * Defines bindings for temporal, coordinate, and linear reference systems.
@@ -50,6 +51,61 @@ Reference alignment:
 * Observation concepts align with ISO 19156 and OGC Topic 20.
 * Temporal terminology draws on ISO 19108, OGC Topic 25, ISO 19111 temporal
 	CRS provisions, and GML 3.2.1 temporal schemas.
+
+
+## Samples
+
+[`samples/`](samples/) holds thirty worked examples. Each directory contains a
+`schema.struct.json` that declares the extension meta-schema
+[`characteristics-v0.json`](characteristics-v0.json) and an `example.json`
+instance that conforms to it. Run [`samples/validate-characteristics.ps1`](samples/validate-characteristics.ps1)
+to check every schema, every instance, and every annotation.
+
+### Teaching samples
+
+Fifteen samples introduce the annotations one theme at a time. See the
+[samples README](samples/README.md).
+
+| # | Directory | Theme |
+|---|---|---|
+| 01 | [`01-observation-basics`](samples/01-observation-basics/) | The core roles on one river gauging reading. |
+| 02 | [`02-concepts-vocabulary`](samples/02-concepts-vocabulary/) | `concepts` on a type and on properties, covering all seven `kind` values. |
+| 03 | [`03-sampling-features`](samples/03-sampling-features/) | The proximate and ultimate feature-of-interest chain. |
+| 04 | [`04-temporal-roles`](samples/04-temporal-roles/) | `phenomenonTime`, `resultTime`, and a nested `effectiveTime`. |
+| 05 | [`05-flattened-periods`](samples/05-flattened-periods/) | All four flattened boundary roles on two independent windows. |
+| 06 | [`06-operational-times`](samples/06-operational-times/) | `scheduledTime`, `actualTime`, `ingestionTime`, and `status`. |
+| 07 | [`07-forecasts`](samples/07-forecasts/) | `forecastIssueTime` and `forecastLeadDuration`. |
+| 08 | [`08-status-and-quality`](samples/08-status-and-quality/) | `status` constrained by `enum`, and `resultQuality`. |
+| 09 | [`09-derivation-and-statistic`](samples/09-derivation-and-statistic/) | Every `derivation` value, with the matching `statistic`. |
+| 10 | [`10-phenomenon-time-relation`](samples/10-phenomenon-time-relation/) | All four `phenomenonTimeRelation` values. |
+| 11 | [`11-cadence`](samples/11-cadence/) | `cadence` of kind `fixed`, `irregular`, and `onChange`. |
+| 12 | [`12-temporal-reference-systems`](samples/12-temporal-reference-systems/) | `temporalReferenceSystem` against a published TRS and a meta-type. |
+| 13 | [`13-coordinate-reference-systems`](samples/13-coordinate-reference-systems/) | CRS84 against EPSG:4326 axis order, plus a vertical system. |
+| 14 | [`14-linear-reference-systems`](samples/14-linear-reference-systems/) | `linearReferenceSystem` against a route network and a meta-type. |
+| 15 | [`15-station-network-telemetry`](samples/15-station-network-telemetry/) | A capstone that composes most of the annotations. |
+
+### Real-world samples
+
+Fifteen samples annotate schemas published by live open-data feeds, one per
+domain and publisher. See the [real-world README](samples/real-world/README.md).
+
+| # | Directory | Source |
+|---|---|---|
+| 01 | [`01-ais-vessel-position`](samples/real-world/01-ais-vessel-position/) | aisstream.io AIS position reports |
+| 02 | [`02-marine-buoy-observation`](samples/real-world/02-marine-buoy-observation/) | NOAA NDBC marine buoys |
+| 03 | [`03-aerodrome-metar`](samples/real-world/03-aerodrome-metar/) | AviationWeather.gov METAR |
+| 04 | [`04-lightning-stroke`](samples/real-world/04-lightning-stroke/) | Blitzortung lightning detection |
+| 05 | [`05-earthquake-report`](samples/real-world/05-earthquake-report/) | JMA Bosai earthquake bulletins |
+| 06 | [`06-solar-xray-flare`](samples/real-world/06-solar-xray-flare/) | NOAA SWPC GOES X-ray flares |
+| 07 | [`07-grid-carbon-intensity`](samples/real-world/07-grid-carbon-intensity/) | National Grid ESO carbon intensity |
+| 08 | [`08-public-power-generation`](samples/real-world/08-public-power-generation/) | Energy-Charts public power |
+| 09 | [`09-orbit-mean-elements`](samples/real-world/09-orbit-mean-elements/) | CelesTrak orbital elements |
+| 10 | [`10-transit-vehicle-position`](samples/real-world/10-transit-vehicle-position/) | SIRI real-time transit |
+| 11 | [`11-route-travel-time`](samples/real-world/11-route-travel-time/) | NDW road travel times |
+| 12 | [`12-bikeshare-station-status`](samples/real-world/12-bikeshare-station-status/) | GBFS bikeshare station status |
+| 13 | [`13-weather-alert`](samples/real-world/13-weather-alert/) | US NWS CAP 1.2 warnings |
+| 14 | [`14-marine-water-quality`](samples/real-world/14-marine-water-quality/) | King County water quality |
+| 15 | [`15-pollen-forecast`](samples/real-world/15-pollen-forecast/) | DWD Pollenflug forecasts |
 
 
 ## Command Line Usage
