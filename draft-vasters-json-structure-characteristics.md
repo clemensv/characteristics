@@ -612,7 +612,7 @@ Units annotations remain authoritative. An observable-property definition MUST
 NOT override unit semantics or duplicate authoritative dimensions, unit lists,
 conversion factors, or conversion formulas.
 
-## The `semanticRole` Keyword {#semantic-role} 
+## The `semanticRole` Keyword {#semantic-role}
 
 The `semanticRole` keyword identifies the observation or operational function of an
 annotated value.
