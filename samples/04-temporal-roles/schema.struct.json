@@ -6,8 +6,8 @@
   "description": "A flood-warning bulletin showing three observation-time roles side by side. phenomenonTime marks the instant the flood peak applied to the river at the gauge — a temporal property of the flood event itself. resultTime marks the instant the bulletin became available for distribution — a temporal property of the observation result. effectiveTime, carried on a nested period object, marks the window during which the bulletin is in force and operators are expected to act on it — a temporal property of the bulletin document. phenomenonTime bounds the flood; effectiveTime bounds the bulletin. The two are independent axes: a bulletin may remain in force hours after the flood peak has passed. effectiveTime is not the bitemporal valid-time of ISO 19108, which pairs the period a fact is held true of the world with the period a system recorded it, and it is not a record-versioning axis.",
   "type": "object",
   "observedProperty": {
-    "reference": "https://catalog.example.org/observable-properties/river-stage/v1",
-    "kind": "example-catalog"
+    "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#water_surface_height_above_reference_datum",
+    "kind": "cf-standard-name"
   },
   "properties": {
     "bulletinId": {

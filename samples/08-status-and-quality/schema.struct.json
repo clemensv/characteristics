@@ -6,8 +6,8 @@
   "description": "A hydrometric publication record for a river stage measurement, demonstrating that status and resultQuality are distinct. The recordStatus field carries the publication standing of the record and may transition from 'provisional' to 'verified' as the value is reviewed; such a transition does not alter the measured stage or its quality grade. The qualityGrade field characterises the reliability of the measured value on a scale defined by an external quality vocabulary; a provisional record and a low-quality result are independent conditions and MUST NOT be read as one another.",
   "type": "object",
   "observedProperty": {
-    "reference": "https://catalog.example.org/observable-properties/river-stage/v1",
-    "kind": "example-catalog"
+    "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#water_surface_height_above_reference_datum",
+    "kind": "cf-standard-name"
   },
   "properties": {
     "recordId": {

@@ -6,8 +6,8 @@
   "description": "A water-level reading from a river gauging station. Demonstrates observedProperty on the record type and the semanticRole values featureOfInterest, observingProcedure, observationValue, resultQuality, phenomenonTime, and resultTime.",
   "type": "object",
   "observedProperty": {
-    "reference": "https://catalog.example.org/observable-properties/river-stage/v1",
-    "kind": "example-catalog"
+    "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#water_surface_height_above_reference_datum",
+    "kind": "cf-standard-name"
   },
   "properties": {
     "stationId": {
