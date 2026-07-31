@@ -197,6 +197,12 @@ informative:
       - org: SPASE Consortium
     date: 2026
     target: https://spase-group.org/data/model/spase-latest/index.html
+  GCMT-NDK:
+    title: "Explanation of the ndk file format used for the Global Centroid-Moment-Tensor catalog"
+    author:
+      - org: Global CMT Project
+    date: 2006
+    target: https://www.ldeo.columbia.edu/~gcmt/projects/CMT/catalog/allorder.ndk_explained
 
 --- abstract
 
@@ -307,8 +313,8 @@ that defines a temporal type, and binds an existing member of it.
 `observedProperty` MAY occur on an object or tuple intended to describe an
 observation record, and on a member schema of one that carries a result,
 subject to {{observed-property}}.
-`coordinateReferenceSystem`, `vectorReferenceFrames`, and
-`linearReferenceSystem` MAY occur on an object or tuple and bind existing
+`coordinateReferenceSystem`, `vectorReferenceFrames`, `tensorReferenceFrames`,
+and `linearReferenceSystem` MAY occur on an object or tuple and bind existing
 properties. `referenceRole` MAY occur on a member of a meta-type, subject to
 {{meta-types}}.
 
@@ -349,6 +355,7 @@ not already know it.
 | `cadence` | Expected pattern of successive temporal positions. |
 | `coordinateReferenceSystem` | CRS and ordered properties forming a coordinate. |
 | `vectorReferenceFrames` | Frames and ordered properties forming the components of vector quantities. |
+| `tensorReferenceFrames` | Frames and indexed properties forming the components of tensor quantities. |
 | `linearReferenceSystem` | LRS and properties forming a location along a linear element. |
 | `referenceRole` | Function of a member within a reference-system meta-type. |
 
@@ -1845,6 +1852,16 @@ names MUST equal the dimension of that coordinate system.
 This ordering is an assertion by the schema author. It is not inferred from
 property names or from a representation returned by dereferencing `reference`.
 
+A name in `coordinates` MAY resolve to a property whose type is `array` or
+`tuple`. Where it does resolve to an `array`, that name MUST be the only entry
+in `coordinates`, and the elements of the array instances must supply the axes
+in order rather than the named property supplying one axis. 
+
+For a `tuple`, the number of elements MUST equal the dimension of the
+referenced system. A schema using an `array` SHOULD constrain its length. The
+axes of a coordinate reference system may carry differing units, which a
+`tuple` can state per element and an `array` cannot.
+
 Coordinate properties MUST have numeric types. When a coordinate property has a
 `unit` or `ucumUnit` annotation, that unit MUST be compatible with the
 corresponding axis. A processor MAY verify the asserted ordering, units, and
@@ -2069,6 +2086,11 @@ and whose ordering is an assertion by the schema author that is never inferred.
 The names within one `components` array MUST be distinct, since one value cannot
 be the component along two axes of one frame.
 
+A name in `components` MAY likewise resolve to a property whose type is `array`
+or `tuple`, in which case it MUST be the only entry and the elements of that
+array supply the axes in order. Because the components of a vector all carry one
+unit, an `array` serves here where it would not serve for a coordinate.
+
 ### Multiple Frames and Shared Components
 
 Two elements MAY cite the same `reference`, which is how a record reporting two
@@ -2187,6 +2209,293 @@ first axis because both take x from the Earth towards the Sun.
 This specification does not define a frame, an epoch, or a transformation
 between frames. Those definitions come from the referenced authority or from the
 meta-type the schema itself supplies.
+
+## The `tensorReferenceFrames` Keyword {#tensor-reference-frames}
+
+The `tensorReferenceFrames` keyword identifies the reference frames on whose
+axes the components of tensor quantities held in properties of an object or
+tuple are resolved. A tensor quantity is a grid of numbers that means nothing
+without a frame to read it against. Its rank is how many axes it takes to pick
+out one number of the grid: one for a vector, two for a stress or a rotation. A
+game engine turning a model to face the camera uses nine numbers to carry a
+direction out of the model's own frame and into the camera's. An engineer
+checking whether a bridge beam will crack uses nine numbers because the beam can
+be squeezed along its length and sheared across it at the same time, and no
+single number says both.
+
+At rank 1 the frame's declared order states the binding, which is what
+`vectorReferenceFrames` ({{vector-reference-frames}}) does and why `frames`
+requires at least two entries. Above rank 1 the vector model no longer suffices
+and member names are insufficient. `vectorReferenceFrames` and
+`tensorReferenceFrames` coexist, because vectors are common and should be easy
+to declare.
+
+When present, `tensorReferenceFrames` MUST be a non-empty array. Each element
+MUST be an object with a REQUIRED `frames` array, a REQUIRED `components`
+member, and an OPTIONAL `symmetry` string. No other members are permitted. The
+keyword is an array because one record may carry more than one tensor quantity.
+
+### The `frames` Property
+
+`frames` MUST be an array of at least two objects, each with REQUIRED
+`reference` and `kind` members whose values are as defined for
+`vectorReferenceFrames` ({{vector-reference-frames}}). The number of entries is
+the rank of the tensor, and the index in position k ranges over the axes of the
+frame given by entry k, in the order that frame declares.
+
+One frame MAY be named by more than one entry, and is so named for a stress, a
+strain, or a seismic moment tensor. Where the two entries of a rank-2 tensor
+name different frames, the tensor carries a vector in the second frame to a
+vector in the first, as for a rotation matrix or a Jacobian.
+
+Three entries give a rank-3 tensor, and one frame may fill them all. The
+piezoelectric strain coefficients of a crystal are one such tensor: an electric
+field applied along one axis strains the crystal across every pair of axes, so
+each coefficient is picked out by three axes of the same crystal frame.
+
+~~~ json
+{
+  "name": "PiezoelectricCoefficients",
+  "type": "object",
+  "tensorReferenceFrames": [
+    {
+      "frames": [
+        { "reference": "#/definitions/CrystalAxes", "kind": "type" },
+        { "reference": "#/definitions/CrystalAxes", "kind": "type" },
+        { "reference": "#/definitions/CrystalAxes", "kind": "type" }
+      ],
+      "components": "d"
+    }
+  ],
+  "properties": {
+    "d": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": { "type": "double", "ucumUnit": "C/N" }
+        }
+      }
+    }
+  },
+  "required": ["d"],
+  "additionalProperties": false,
+  "definitions": {
+    "CrystalAxes": {
+      "name": "CrystalAxes",
+      "type": "tuple",
+      "description": "Orthogonal frame the coefficients of this material are published against, fixed by the symmetry of the crystal.",
+      "properties": {
+        "x1": { "type": "double", "description": "First axis of that frame." },
+        "x2": { "type": "double", "description": "Second axis, at a right angle to x1." },
+        "x3": { "type": "double", "description": "Third axis, completing a right-handed set." }
+      },
+      "tuple": ["x1", "x2", "x3"]
+    }
+  }
+}
+~~~
+
+`d` is nested three deep because `frames` has three entries, and each level is
+indexed by the three axes of `CrystalAxes`, so it holds twenty-seven values. The
+outermost index is the axis of the applied field and the two inner ones are the
+axes of the strain it produces.
+
+`symmetry` MUST NOT be present unless `frames` has exactly two entries naming
+the same frame, since it speaks of an exchange of two indices ranging over one
+set of axes. It MUST be `symmetric`, `skewSymmetric`, or `none`, and it is
+`none` where absent. Under `symmetric` the component at row i and column j
+equals the component at row j and column i; under `skewSymmetric` it is the
+negation of it and the diagonal is zero. The symmetries of tensors of higher
+rank, such as the minor and major symmetries of an elastic stiffness tensor, are
+not expressible here, and every component of such a tensor that is carried MUST
+be named individually.
+
+### The `components` Property
+
+`components` MUST take one of two forms, each of which states the pairing of
+index to value in the schema, and neither of which admits a layout, packing, or
+multiplication convention as a separate declaration.
+
+The first form is a string naming a direct property of the annotated object or
+tuple whose type is an `array` nested to the depth given by the number of
+entries in `frames`, the outermost level indexed by the axes of the first entry
+and each further level by the next in turn, and whose innermost `items` is of a
+numeric type. The nesting carries the layout, so the row-major and column-major
+question does not arise, and a tensor declared `symmetric` or `skewSymmetric` is
+written out in full in this form.
+
+The second form is a non-empty array of objects, each with a REQUIRED `index`
+and a REQUIRED `property` and no other members. `index` MUST be an array of
+non-negative integers whose length equals the number of entries in `frames`, and
+`property` MUST name a direct property of the annotated object or tuple having a
+numeric type. Every component carried states its own index, so no packing order
+is defined here and the Voigt-style orderings in circulation need not be
+distinguished. One `index` value MUST NOT appear twice within one element, and
+one property MUST NOT be named twice.
+
+A position named by no entry is determined by `symmetry` where `symmetry` is
+`symmetric` or `skewSymmetric`, and is otherwise undeclared; under `none` every
+position MUST be named. The units of the members named by one element MUST be
+mutually convertible and SHOULD be identical.
+
+The Global CMT catalogue publishes a source solution for every significant
+earthquake as a fixed-column text record, and states the frame those solutions
+are resolved on only in the document describing that format: six moment-tensor
+elements against a spherical frame in which r is up, t is south, and p is east
+{{GCMT-NDK}}. The tensor is symmetric, so those six determine all nine, and the
+second form of `components` states the index of each without appeal to a packing
+order. What a reader of the text file must look up, the schema carries.
+
+~~~ json
+{
+  "name": "MomentTensor",
+  "type": "object",
+  "tensorReferenceFrames": [
+    {
+      "frames": [
+        { "reference": "#/definitions/UseFrame", "kind": "type" },
+        { "reference": "#/definitions/UseFrame", "kind": "type" }
+      ],
+      "symmetry": "symmetric",
+      "components": [
+        { "index": [0, 0], "property": "mrr" },
+        { "index": [1, 1], "property": "mtt" },
+        { "index": [2, 2], "property": "mpp" },
+        { "index": [0, 1], "property": "mrt" },
+        { "index": [0, 2], "property": "mrp" },
+        { "index": [1, 2], "property": "mtp" }
+      ]
+    }
+  ],
+  "coordinateReferenceSystem": {
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
+    "kind": "ogc-crs",
+    "coordinates": ["lat", "lon"]
+  },
+  "properties": {
+    "eventName": { "type": "string" },
+    "centroidTime": { "type": "datetime" },
+    "lat": { "type": "double", "unit": "deg" },
+    "lon": { "type": "double", "unit": "deg" },
+    "depth": { "type": "double", "ucumUnit": "km" },
+    "mrr": { "type": "double", "ucumUnit": "dyn.cm" },
+    "mtt": { "type": "double", "ucumUnit": "dyn.cm" },
+    "mpp": { "type": "double", "ucumUnit": "dyn.cm" },
+    "mrt": { "type": "double", "ucumUnit": "dyn.cm" },
+    "mrp": { "type": "double", "ucumUnit": "dyn.cm" },
+    "mtp": { "type": "double", "ucumUnit": "dyn.cm" }
+  },
+  "required": [
+    "eventName", "centroidTime", "lat", "lon", "depth",
+    "mrr", "mtt", "mpp", "mrt", "mrp", "mtp"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "UseFrame": {
+      "name": "UseFrame",
+      "type": "tuple",
+      "description": "Spherical frame of the Global CMT catalogue.",
+      "properties": {
+        "r": { "type": "double", "description": "Up." },
+        "t": { "type": "double", "description": "South." },
+        "p": { "type": "double", "description": "East." }
+      },
+      "tuple": ["r", "t", "p"]
+    }
+  }
+}
+~~~
+
+The following is the sample record printed in that same document: a magnitude-5
+earthquake beneath El Salvador on 1 January 2005, whose six elements give the
+orientation and the size of the movement on the fault, in dyne-centimetres. The
+catalogue prints them scaled by a power of ten carried on a line of its own, and
+the instance carries the values themselves.
+
+~~~ json
+{
+  "eventName": "C200501010120A",
+  "centroidTime": "2005-01-01T01:20:05.1Z",
+  "lat": 13.76,
+  "lon": -89.08,
+  "depth": 162.8,
+  "mrr": 0.838e23,
+  "mtt": -0.005e23,
+  "mpp": -0.833e23,
+  "mrt": 1.050e23,
+  "mrp": -0.369e23,
+  "mtp": 0.044e23
+}
+~~~
+
+The value under `mtp` sits at row 1 and column 2, and the declaration of
+`symmetric` puts the same value at row 2 and column 1. Nothing in the instance
+says so, which is the point: the six numbers alone determine nine components
+only once the schema has stated the frame, the index of each, and the symmetry.
+
+An attitude matrix has its rows in one frame and its columns in another, so its
+two `frames` entries differ and it carries no `symmetry`. The first form of
+`components` gives it as nested arrays, rows outermost, which settles the layout
+that a flat array of nine values would leave to convention.
+~~~ json
+{
+  "name": "SpacecraftAttitude",
+  "type": "object",
+  "tensorReferenceFrames": [
+    {
+      "frames": [
+        { "reference": "#/definitions/BodyFrame", "kind": "type" },
+        {
+          "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
+          "kind": "ogc-crs"
+        }
+      ],
+      "components": "attitude"
+    }
+  ],
+  "properties": {
+    "attitude": {
+      "type": "array",
+      "items": { "type": "array", "items": { "type": "double" } }
+    }
+  },
+  "required": ["attitude"],
+  "additionalProperties": false,
+  "definitions": {
+    "BodyFrame": {
+      "name": "BodyFrame",
+      "type": "tuple",
+      "description": "Spacecraft body frame.",
+      "properties": {
+        "x": { "type": "double", "description": "Along the instrument boresight." },
+        "y": { "type": "double", "description": "Completes a right-handed set." },
+        "z": { "type": "double", "description": "Towards the solar array hinge." }
+      },
+      "tuple": ["x", "y", "z"]
+    }
+  }
+}
+~~~
+
+An instance holding a quarter turn about the third geocentric axis is the
+following.
+
+~~~ json
+{
+  "attitude": [
+    [0.0, -1.0, 0.0],
+    [1.0, 0.0, 0.0],
+    [0.0, 0.0, 1.0]
+  ]
+}
+~~~
+
+The first inner array is the row indexed by the first axis of `BodyFrame`, so it
+gives that axis in the components of EPSG:4978. Read as columns instead, the
+same nine values would give the opposite rotation, and it is the schema that
+rules that reading out.
 
 ## The `linearReferenceSystem` Keyword {#linear-reference-systems}
 

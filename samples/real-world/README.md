@@ -1,7 +1,7 @@
 # Characteristics annotations on real feed schemas
 
-Twenty samples derived from JSON Structure schemas published by live open-data
-feeds. The schemas were taken from the xRegistry documents in the
+Twenty-one samples derived from JSON Structure schemas published by live
+open-data feeds. The schemas were taken from the xRegistry documents in the
 [real-time-sources](https://github.com/clemensv/real-time-sources) feeders, then
 annotated with the keywords defined by
 [JSON Structure: Characteristics](../../draft-vasters-json-structure-characteristics.md).
@@ -51,6 +51,7 @@ that the meaning of each symbol can be stated symbol by symbol. See
 | 18 | [`18-mode-s-aircraft-report`](18-mode-s-aircraft-report/) | Mode-S / ADS-B `ModeSRecord` | A record with no phenomenon time at all: the only timestamp is the ground station's decode instant, so it is a `resultTime`. Barometric altitude as a `calculated` pressure surface, received signal level as `resultQuality`, and a POSIX millisecond epoch declared as a meta-type. |
 | 19 | [`19-bmrs-generation-mix`](19-bmrs-generation-mix/) | Elexon BMRS `GenerationMix` | Seventeen `mean` channels over one settlement period, a `phenomenonTimeStart` closed by cadence rather than by a second timestamp, and no feature-of-interest member because the feature never varies. |
 | 20 | [`20-goes-magnetometer`](20-goes-magnetometer/) | NOAA SWPC GOES `GoesMagnetometer` | `vectorReferenceFrames` binding three components of one vector quantity to a spacecraft-local frame written out as a `tuple` meta-type, a `calculated` magnitude beside the `measured` components, and a thruster-firing boolean as `resultQuality`. |
+| 21 | [`21-gcmt-moment-tensor`](21-gcmt-moment-tensor/) | Global CMT `ndk` catalogue record | `tensorReferenceFrames` over the six independent components of a symmetric rank-2 tensor, with one frame named at both index positions, `symmetry` doing the work of the three components the catalogue does not publish, and each component stating its own index rather than relying on a packing order. |
 
 ## What the annotations carry
 

@@ -82,7 +82,10 @@ class MetaSchema:
             branches = []
             for alternative in declared:
                 collected = []
-                self.check(self.resolve(alternative["$ref"]), value, path, collected)
+                if isinstance(alternative, str):
+                    self.check({"type": alternative}, value, path, collected)
+                else:
+                    self.check(self.resolve(alternative["$ref"]), value, path, collected)
                 if not collected:
                     return
                 branches.append(collected)
@@ -137,6 +140,12 @@ class MetaSchema:
                 errors.append(f"{path}: expected an absolute URI, got '{value}'")
             if declared == "jsonpointer" and not value.startswith(("#/", "/")):
                 errors.append(f"{path}: expected a JSON Pointer, got '{value}'")
+        elif declared in ("int32", "int64", "integer"):
+            if isinstance(value, bool) or not isinstance(value, int):
+                errors.append(f"{path}: expected an integer")
+                return
+            if "minimum" in schema and value < schema["minimum"]:
+                errors.append(f"{path}: expected at least {schema['minimum']}, got {value}")
         elif declared is not None:
             errors.append(f"{path}: unsupported meta-schema type '{declared}'")
             return

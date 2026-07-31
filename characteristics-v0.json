@@ -294,6 +294,12 @@
             },
             "description": "Reference frames on whose axes the components of vector quantities are resolved, binding existing members as ordered components."
           },
+          "tensorReferenceFrames": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TensorReferenceFrames"
+            },
+            "description": "Reference frames on whose axes the components of tensor quantities are resolved, binding existing members as indexed components."
+          },
           "linearReferenceSystem": {
             "type": {
               "$ref": "#/definitions/characteristics/LinearReferenceSystem"
@@ -328,6 +334,11 @@
           "vectorReferenceFrames": {
             "type": {
               "$ref": "#/definitions/characteristics/VectorReferenceFrames"
+            }
+          },
+          "tensorReferenceFrames": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TensorReferenceFrames"
             }
           },
           "linearReferenceSystem": {
@@ -643,6 +654,123 @@
         "items": {
           "type": {
             "$ref": "#/definitions/characteristics/VectorReferenceFrame"
+          }
+        },
+        "minItems": 1
+      },
+      "FrameReference": {
+        "type": "object",
+        "description": "Reference to one reference frame, by absolute URI or by JSON Pointer to a meta-type.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of frame identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
+          }
+        },
+        "required": [
+          "reference",
+          "kind"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "TensorComponent": {
+        "type": "object",
+        "description": "One component of a tensor, giving its index in each frame and the member that carries it.",
+        "properties": {
+          "index": {
+            "type": "array",
+            "items": {
+              "type": "int32",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "description": "Non-negative integers, one per entry in frames, giving the position of this component."
+          },
+          "property": {
+            "type": "string",
+            "description": "Name of the member carrying this component."
+          }
+        },
+        "required": [
+          "index",
+          "property"
+        ],
+        "additionalProperties": false
+      },
+      "TensorComponents": {
+        "type": "array",
+        "description": "Non-empty array of indexed tensor components.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/TensorComponent"
+          }
+        },
+        "minItems": 1
+      },
+      "TensorReferenceFrame": {
+        "type": "object",
+        "description": "One tensor quantity, bound to the frames whose axes its indices range over.",
+        "properties": {
+          "frames": {
+            "type": "array",
+            "items": {
+              "type": {
+                "$ref": "#/definitions/characteristics/FrameReference"
+              }
+            },
+            "minItems": 2,
+            "description": "Frames whose axes the indices range over, in index order. The number of entries is the rank of the tensor."
+          },
+          "components": {
+            "type": [
+              "string",
+              {
+                "$ref": "#/definitions/characteristics/TensorComponents"
+              }
+            ],
+            "description": "Either the name of a member holding an array nested to the rank of the tensor, first frame outermost, or an array of components each stating its own index."
+          },
+          "symmetry": {
+            "type": "string",
+            "enum": [
+              "symmetric",
+              "skewSymmetric",
+              "none"
+            ],
+            "description": "How positions named by no component are determined. Permitted only where frames has exactly two entries naming the same frame."
+          }
+        },
+        "required": [
+          "frames",
+          "components"
+        ],
+        "additionalProperties": false
+      },
+      "TensorReferenceFrames": {
+        "type": "array",
+        "description": "Non-empty array of tensor quantities carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/TensorReferenceFrame"
           }
         },
         "minItems": 1
