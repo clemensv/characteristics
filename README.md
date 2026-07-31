@@ -86,7 +86,7 @@ Fifteen samples introduce the annotations one theme at a time. See the
 
 ### Real-world samples
 
-Fifteen samples annotate schemas published by live open-data feeds, one per
+Twenty samples annotate schemas published by live open-data feeds, one per
 domain and publisher. See the [real-world README](samples/real-world/README.md).
 
 | # | Directory | Source |
@@ -106,6 +106,11 @@ domain and publisher. See the [real-world README](samples/real-world/README.md).
 | 13 | [`13-weather-alert`](samples/real-world/13-weather-alert/) | US NWS CAP 1.2 warnings |
 | 14 | [`14-marine-water-quality`](samples/real-world/14-marine-water-quality/) | King County water quality |
 | 15 | [`15-pollen-forecast`](samples/real-world/15-pollen-forecast/) | DWD Pollenflug forecasts |
+| 16 | [`16-transit-vehicle-hfp`](samples/real-world/16-transit-vehicle-hfp/) | HSL High-Frequency Positioning |
+| 17 | [`17-usgs-instantaneous-value`](samples/real-world/17-usgs-instantaneous-value/) | USGS NWIS instantaneous values |
+| 18 | [`18-mode-s-aircraft-report`](samples/real-world/18-mode-s-aircraft-report/) | Mode-S / ADS-B downlink reports |
+| 19 | [`19-bmrs-generation-mix`](samples/real-world/19-bmrs-generation-mix/) | Elexon BMRS generation mix |
+| 20 | [`20-goes-magnetometer`](samples/real-world/20-goes-magnetometer/) | NOAA SWPC GOES magnetometer |
 
 
 ## Command Line Usage

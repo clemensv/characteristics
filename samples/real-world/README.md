@@ -1,6 +1,6 @@
 # Characteristics annotations on real feed schemas
 
-Fifteen samples derived from JSON Structure schemas published by live open-data
+Twenty samples derived from JSON Structure schemas published by live open-data
 feeds. The schemas were taken from the xRegistry documents in the
 [real-time-sources](https://github.com/clemensv/real-time-sources) feeders, then
 annotated with the keywords defined by
@@ -42,6 +42,11 @@ conforms to it. The header is the same as for the teaching samples:
 | 13 | [`13-weather-alert`](13-weather-alert/) | US NWS `WeatherAlert` (CAP 1.2) | The two independent temporal axes of a public warning: the hazard window against the period the bulletin is in force. |
 | 14 | [`14-marine-water-quality`](14-marine-water-quality/) | King County `WaterQualityReading` | The three-tier feature-of-interest chain — mooring, sampled water parcel, marine basin — across CTD, optical, and nutrient channels. |
 | 15 | [`15-pollen-forecast`](15-pollen-forecast/) | DWD Pollenflug `PollenForecast` | A flat today/tomorrow/day-after record restructured into a bulletin plus per-lead entries, so that `forecastLeadDuration` has something to attach to. |
+| 16 | [`16-transit-vehicle-hfp`](16-transit-vehicle-hfp/) | HSL High-Frequency Positioning `VehicleEvent` | Three-letter member names throughout, and an operating day that runs past midnight: the scheduled departure is modelled as a meta-type so `oday` and `start` become one temporal position. `observingProcedure` on the positioning source, `accumulation` on the odometer. |
+| 17 | [`17-usgs-instantaneous-value`](17-usgs-instantaneous-value/) | USGS NWIS `GageHeight` | A member called `value` whose meaning upstream lives in a five-digit parameter code. `observedProperty` states it in the schema; qualifier letters become `resultQuality` and exception codes become `status`. |
+| 18 | [`18-mode-s-aircraft-report`](18-mode-s-aircraft-report/) | Mode-S / ADS-B `ModeSRecord` | A record with no phenomenon time at all: the only timestamp is the ground station's decode instant, so it is a `resultTime`. Barometric altitude as a `calculated` pressure surface, received signal level as `resultQuality`, and a POSIX millisecond epoch declared as a meta-type. |
+| 19 | [`19-bmrs-generation-mix`](19-bmrs-generation-mix/) | Elexon BMRS `GenerationMix` | Seventeen `mean` channels over one settlement period, a `phenomenonTimeStart` closed by cadence rather than by a second timestamp, and no feature-of-interest member because the feature never varies. |
+| 20 | [`20-goes-magnetometer`](20-goes-magnetometer/) | NOAA SWPC GOES `GoesMagnetometer` | Three components of one vector quantity in a spacecraft-local frame, a `calculated` magnitude beside the `measured` components, and a thruster-firing boolean as `resultQuality`. |
 
 ## Validation
 
@@ -53,12 +58,16 @@ every `schema.struct.json` under `samples/`.
 
 The upstream property names, types, descriptions, units, and enumerations are
 preserved wherever the annotation model allowed it. The samples depart from
-their sources in four ways, each of which is stated in the affected schema's own
+their sources in five ways, each of which is stated in the affected schema's own
 `description` or in the description of the affected property:
 
 - Properties that carry no observational interest were dropped — transport
   routing axes, duplicate encodings of a value that appears elsewhere, and
   housekeeping channels — to keep each sample readable.
+- Two or more flat members that together denote one temporal position were
+  gathered into an object typed by a meta-type, so that a temporal reference
+  system has a node to attach to. This affects the operating-day departure in
+  sample 16 and is stated in that schema's description.
 - A few properties were added where the upstream extraction omits something the
   publisher's own API carries and the sample needs. These are named in the
   schema descriptions.
