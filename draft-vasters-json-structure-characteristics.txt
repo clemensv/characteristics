@@ -1977,7 +1977,7 @@ Table of Contents
      "name": "Crs84Position",
      "type": "object",
      "coordinateReferenceSystem": {
-       "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+       "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
        "kind": "ogc-crs",
        "coordinates": ["lon", "lat"]
      },
@@ -2002,7 +2002,7 @@ Table of Contents
      "name": "Epsg4326Position",
      "type": "object",
      "coordinateReferenceSystem": {
-       "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+       "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
        "kind": "ogc-crs",
        "coordinates": ["lat", "lon"]
      },
@@ -2038,7 +2038,7 @@ Table of Contents
      "name": "GaugeHeightObservation",
      "type": "object",
      "coordinateReferenceSystem": {
-       "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+       "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
        "kind": "ogc-crs",
        "coordinates": ["water_level"]
      },
@@ -2073,7 +2073,7 @@ Table of Contents
 
    {
      "coordinateReferenceSystem": {
-       "reference": "https://www.opengis.net/def/crs/EPSG/0/6349",
+       "reference": "http://www.opengis.net/def/crs/EPSG/0/6349",
        "kind": "ogc-crs",
        "coordinates": ["lat", "lon", "height"]
      }
@@ -2089,7 +2089,7 @@ Table of Contents
      "name": "StationWaterLevel",
      "type": "object",
      "coordinateReferenceSystem": {
-       "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+       "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
        "kind": "ogc-crs",
        "coordinates": ["water_level"]
      },
@@ -2097,7 +2097,7 @@ Table of Contents
        "station_position": {
          "type": "object",
          "coordinateReferenceSystem": {
-           "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+           "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
            "kind": "ogc-crs",
            "coordinates": ["lon", "lat"]
          },
@@ -2688,32 +2688,32 @@ A.2.  Temporal Reference Systems
    Each establishes an origin and an axis, and the axis constrains the
    annotated type:
 
-   *  https://www.opengis.net/def/crs/OGC/0/GregorianDateTime, a date
-      and time in the Gregorian calendar.  Its axis carries no unit, and
-      it takes a Core datetime, date, or time, or a string in the same
+   *  http://www.opengis.net/def/crs/OGC/0/GregorianDateTime, a date and
+      time in the Gregorian calendar.  Its axis carries no unit, and it
+      takes a Core datetime, date, or time, or a string in the same
       form.
 
-   *  https://www.opengis.net/def/crs/OGC/0/UnixTime, seconds elapsed
+   *  http://www.opengis.net/def/crs/OGC/0/UnixTime, seconds elapsed
       from 1970-01-01T00:00:00Z.  It takes an integer or number carrying
       UCUM s.
 
-   *  https://www.opengis.net/def/crs/OGC/0/AnsiDate, days elapsed from
+   *  http://www.opengis.net/def/crs/OGC/0/AnsiDate, days elapsed from
       1601-01-01T00:00:00Z.  It takes an integer or number carrying UCUM
       d.
 
-   *  https://www.opengis.net/def/crs/OGC/0/JulianDate, days elapsed
-      from the Julian period origin.  It takes a number carrying UCUM d,
+   *  http://www.opengis.net/def/crs/OGC/0/JulianDate, days elapsed from
+      the Julian period origin.  It takes a number carrying UCUM d,
       since its origin falls at noon and positions are ordinarily
       fractional.
 
-   *  https://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate, days
+   *  http://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate, days
       elapsed from 1968-05-24T00:00:00Z.  It takes a number carrying
       UCUM d.
 
-   *  https://www.opengis.net/def/crs/OGC/0/BeforePresentTime, years
+   *  http://www.opengis.net/def/crs/OGC/0/BeforePresentTime, years
       counted backwards from 1950.  It takes a number carrying UCUM a.
 
-   *  https://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime,
+   *  http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime,
       millions of years counted backwards from year zero.  It takes a
       number carrying UCUM Ma.
 
@@ -2727,7 +2727,7 @@ A.2.  Temporal Reference Systems
    exists.  A count of milliseconds from the Unix origin is identified
    by:
 
-   https://www.opengis.net/def/crs/OGC/0/Temporal
+   http://www.opengis.net/def/crs/OGC/0/Temporal
      ?epoch=%221970-01-01T00:00:00Z%22&uom=%22ms%22
 
    Parameter values are quoted, and the URI is one line.  The constraint
@@ -2740,19 +2740,19 @@ A.3.  Coordinate Reference Systems
 
    For kind ogc-crs:
 
-   *  https://www.opengis.net/def/crs/OGC/1.3/CRS84, WGS 84 with axes
+   *  http://www.opengis.net/def/crs/OGC/1.3/CRS84, WGS 84 with axes
       longitude, latitude;
 
-   *  https://www.opengis.net/def/crs/OGC/0/CRS84h, WGS 84 with axes
+   *  http://www.opengis.net/def/crs/OGC/0/CRS84h, WGS 84 with axes
       longitude, latitude, ellipsoidal height;
 
-   *  https://www.opengis.net/def/crs/EPSG/0/4326, WGS 84 with axes
+   *  http://www.opengis.net/def/crs/EPSG/0/4326, WGS 84 with axes
       latitude, longitude;
 
-   *  https://www.opengis.net/def/crs/EPSG/0/4979, WGS 84 with axes
+   *  http://www.opengis.net/def/crs/EPSG/0/4979, WGS 84 with axes
       latitude, longitude, ellipsoidal height; and
 
-   *  https://www.opengis.net/def/crs/EPSG/0/3857, WGS 84 Pseudo-
+   *  http://www.opengis.net/def/crs/EPSG/0/3857, WGS 84 Pseudo-
       Mercator.
 
    Axis order differs among these definitions, and the definition

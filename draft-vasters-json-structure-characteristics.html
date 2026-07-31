@@ -3575,7 +3575,7 @@ for dynamic coordinate reference systems.<a href="#section-8.1.3-5" class="pilcr
   "name": "Crs84Position",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+    "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
     "kind": "ogc-crs",
     "coordinates": ["lon", "lat"]
   },
@@ -3601,7 +3601,7 @@ for dynamic coordinate reference systems.<a href="#section-8.1.3-5" class="pilcr
   "name": "Epsg4326Position",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
     "kind": "ogc-crs",
     "coordinates": ["lat", "lon"]
   },
@@ -3642,7 +3642,7 @@ meta-type or of its elements states it.<a href="#section-8.1.4-2" class="pilcrow
   "name": "GaugeHeightObservation",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
     "kind": "ogc-crs",
     "coordinates": ["water_level"]
   },
@@ -3678,7 +3678,7 @@ of them in order. The annotation of such an object reads:<a href="#section-8.1.4
 <pre>
 {
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/6349",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/6349",
     "kind": "ogc-crs",
     "coordinates": ["lat", "lon", "height"]
   }
@@ -3695,7 +3695,7 @@ schema models one of them as a nested object:<a href="#section-8.1.4-7" class="p
   "name": "StationWaterLevel",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
     "kind": "ogc-crs",
     "coordinates": ["water_level"]
   },
@@ -3703,7 +3703,7 @@ schema models one of them as a nested object:<a href="#section-8.1.4-7" class="p
     "station_position": {
       "type": "object",
       "coordinateReferenceSystem": {
-        "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+        "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
         "kind": "ogc-crs",
         "coordinates": ["lon", "lat"]
       },
@@ -4349,33 +4349,33 @@ a Core temporal type, a string, a numeric epoch count, or a compound position.<a
 establishes an origin and an axis, and the axis constrains the annotated type:<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A.2-6.1">
-            <p id="appendix-A.2-6.1.1"><code>https://www.opengis.net/def/crs/OGC/0/GregorianDateTime</code>, a date and time in
+            <p id="appendix-A.2-6.1.1"><code>http://www.opengis.net/def/crs/OGC/0/GregorianDateTime</code>, a date and time in
 the Gregorian calendar. Its axis carries no unit, and it takes a Core
 <code>datetime</code>, <code>date</code>, or <code>time</code>, or a <code>string</code> in the same form.<a href="#appendix-A.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.2">
-            <p id="appendix-A.2-6.2.1"><code>https://www.opengis.net/def/crs/OGC/0/UnixTime</code>, seconds elapsed from
+            <p id="appendix-A.2-6.2.1"><code>http://www.opengis.net/def/crs/OGC/0/UnixTime</code>, seconds elapsed from
 1970-01-01T00:00:00Z. It takes an integer or number carrying UCUM <code>s</code>.<a href="#appendix-A.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.3">
-            <p id="appendix-A.2-6.3.1"><code>https://www.opengis.net/def/crs/OGC/0/AnsiDate</code>, days elapsed from
+            <p id="appendix-A.2-6.3.1"><code>http://www.opengis.net/def/crs/OGC/0/AnsiDate</code>, days elapsed from
 1601-01-01T00:00:00Z. It takes an integer or number carrying UCUM <code>d</code>.<a href="#appendix-A.2-6.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.4">
-            <p id="appendix-A.2-6.4.1"><code>https://www.opengis.net/def/crs/OGC/0/JulianDate</code>, days elapsed from the
+            <p id="appendix-A.2-6.4.1"><code>http://www.opengis.net/def/crs/OGC/0/JulianDate</code>, days elapsed from the
 Julian period origin. It takes a number carrying UCUM <code>d</code>, since its origin
 falls at noon and positions are ordinarily fractional.<a href="#appendix-A.2-6.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.5">
-            <p id="appendix-A.2-6.5.1"><code>https://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate</code>, days elapsed
+            <p id="appendix-A.2-6.5.1"><code>http://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate</code>, days elapsed
 from 1968-05-24T00:00:00Z. It takes a number carrying UCUM <code>d</code>.<a href="#appendix-A.2-6.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.6">
-            <p id="appendix-A.2-6.6.1"><code>https://www.opengis.net/def/crs/OGC/0/BeforePresentTime</code>, years counted
+            <p id="appendix-A.2-6.6.1"><code>http://www.opengis.net/def/crs/OGC/0/BeforePresentTime</code>, years counted
 backwards from 1950. It takes a number carrying UCUM <code>a</code>.<a href="#appendix-A.2-6.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-6.7">
-            <p id="appendix-A.2-6.7.1"><code>https://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime</code>, millions of
+            <p id="appendix-A.2-6.7.1"><code>http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime</code>, millions of
 years counted backwards from year zero. It takes a number carrying UCUM <code>Ma</code>.<a href="#appendix-A.2-6.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -4388,7 +4388,7 @@ unit, which covers epoch counts for which no named definition exists. A count
 of milliseconds from the Unix origin is identified by:<a href="#appendix-A.2-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A.2-9">
 <pre>
-https://www.opengis.net/def/crs/OGC/0/Temporal
+http://www.opengis.net/def/crs/OGC/0/Temporal
   ?epoch=%221970-01-01T00:00:00Z%22&amp;uom=%22ms%22
 </pre><a href="#appendix-A.2-9" class="pilcrow">¶</a>
 </div>
@@ -4406,23 +4406,23 @@ definition read at a different scale.<a href="#appendix-A.2-10" class="pilcrow">
 <p id="appendix-A.3-1">For <code>kind</code> <code>ogc-crs</code>:<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A.3-2.1">
-            <p id="appendix-A.3-2.1.1"><code>https://www.opengis.net/def/crs/OGC/1.3/CRS84</code>, WGS 84 with axes longitude,
+            <p id="appendix-A.3-2.1.1"><code>http://www.opengis.net/def/crs/OGC/1.3/CRS84</code>, WGS 84 with axes longitude,
 latitude;<a href="#appendix-A.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.3-2.2">
-            <p id="appendix-A.3-2.2.1"><code>https://www.opengis.net/def/crs/OGC/0/CRS84h</code>, WGS 84 with axes longitude,
+            <p id="appendix-A.3-2.2.1"><code>http://www.opengis.net/def/crs/OGC/0/CRS84h</code>, WGS 84 with axes longitude,
 latitude, ellipsoidal height;<a href="#appendix-A.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.3-2.3">
-            <p id="appendix-A.3-2.3.1"><code>https://www.opengis.net/def/crs/EPSG/0/4326</code>, WGS 84 with axes latitude,
+            <p id="appendix-A.3-2.3.1"><code>http://www.opengis.net/def/crs/EPSG/0/4326</code>, WGS 84 with axes latitude,
 longitude;<a href="#appendix-A.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.3-2.4">
-            <p id="appendix-A.3-2.4.1"><code>https://www.opengis.net/def/crs/EPSG/0/4979</code>, WGS 84 with axes latitude,
+            <p id="appendix-A.3-2.4.1"><code>http://www.opengis.net/def/crs/EPSG/0/4979</code>, WGS 84 with axes latitude,
 longitude, ellipsoidal height; and<a href="#appendix-A.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.3-2.5">
-            <p id="appendix-A.3-2.5.1"><code>https://www.opengis.net/def/crs/EPSG/0/3857</code>, WGS 84 Pseudo-Mercator.<a href="#appendix-A.3-2.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.3-2.5.1"><code>http://www.opengis.net/def/crs/EPSG/0/3857</code>, WGS 84 Pseudo-Mercator.<a href="#appendix-A.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="appendix-A.3-3">Axis order differs among these definitions, and the definition establishes it.
