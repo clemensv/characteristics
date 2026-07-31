@@ -8,6 +8,10 @@ extension: it reads ``characteristics-v0.json``, derives the keyword set and the
 value types from the add-ins listed under ``$offers``, and validates every
 annotation found in a sample schema against those definitions.
 
+The same gap exists for ``altenums`` from the Alternate Names extension, which
+the samples use to carry per-symbol display labels and descriptions, so this
+script checks the shape of that keyword too.
+
 Usage:
     python check-annotations.py <meta-schema> <schema> [<schema> ...]
 """
@@ -174,7 +178,42 @@ def check_concepts(node, path, errors):
             )
 
 
-def walk(meta, node, path, in_property, errors):
+def check_altenums(node, path, uses, errors):
+    """Enforce the shape the Alternate Names extension requires of altenums."""
+    altenums = node.get("altenums")
+    if altenums is None:
+        return
+    if "JSONStructureAlternateNames" not in uses:
+        errors.append(
+            f"{path}/altenums: the document does not list "
+            "'JSONStructureAlternateNames' in $uses"
+        )
+    if not isinstance(node.get("enum"), list):
+        errors.append(f"{path}/altenums: only permitted on a schema that has an enum")
+        return
+    if not isinstance(altenums, dict):
+        errors.append(f"{path}/altenums: expected an object")
+        return
+    symbols = [str(value) for value in node["enum"]]
+    for purpose, mapping in altenums.items():
+        where = f"{path}/altenums/{purpose}"
+        if not isinstance(mapping, dict):
+            errors.append(f"{where}: expected an object")
+            continue
+        missing = [symbol for symbol in symbols if symbol not in mapping]
+        if missing:
+            errors.append(f"{where}: no entry for " + ", ".join(repr(s) for s in missing))
+        extra = [key for key in mapping if key not in symbols]
+        if extra:
+            errors.append(
+                f"{where}: " + ", ".join(repr(k) for k in extra) + " is not an enum value"
+            )
+        for key, value in mapping.items():
+            if not isinstance(value, str) or not value:
+                errors.append(f"{where}/{key}: expected a non-empty string")
+
+
+def walk(meta, node, path, in_property, uses, errors):
     if not isinstance(node, dict):
         return
 
@@ -194,15 +233,16 @@ def walk(meta, node, path, in_property, errors):
         meta.check(entry["schema"], node[keyword], f"{path}/{keyword}", errors)
 
     check_concepts(node, path, errors)
+    check_altenums(node, path, uses, errors)
 
     for name, child in node.get("properties", {}).items():
-        walk(meta, child, f"{path}/properties/{name}", True, errors)
+        walk(meta, child, f"{path}/properties/{name}", True, uses, errors)
     for name, child in node.get("choices", {}).items():
-        walk(meta, child, f"{path}/choices/{name}", True, errors)
+        walk(meta, child, f"{path}/choices/{name}", True, uses, errors)
     for keyword in ("items", "values"):
-        walk(meta, node.get(keyword), f"{path}/{keyword}", False, errors)
+        walk(meta, node.get(keyword), f"{path}/{keyword}", False, uses, errors)
     for name, child in node.get("definitions", {}).items():
-        walk(meta, child, f"{path}/definitions/{name}", False, errors)
+        walk(meta, child, f"{path}/definitions/{name}", False, uses, errors)
 
 
 def main(argv):
@@ -216,8 +256,11 @@ def main(argv):
     for filename in argv[2:]:
         with open(filename, encoding="utf-8") as handle:
             document = json.load(handle)
+        uses = document.get("$uses", [])
+        if not isinstance(uses, list):
+            uses = []
         errors = []
-        walk(meta, document, "#", False, errors)
+        walk(meta, document, "#", False, uses, errors)
         if errors:
             failed = True
             print(f"{filename}: annotations are invalid")

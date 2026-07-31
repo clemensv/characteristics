@@ -23,6 +23,10 @@ conforms to it. The header is the same as for the teaching samples:
 }
 ```
 
+A schema that carries an `enum` also lists `JSONStructureAlternateNames`, so
+that the meaning of each symbol can be stated symbol by symbol. See
+[Enumerations](#enumerations) below.
+
 ## Samples
 
 | # | Directory | Source | What it shows |
@@ -74,10 +78,59 @@ their sources in five ways, each of which is stated in the affected schema's own
 - Members that carry a `unit` were narrowed from a nullable union to the plain
   numeric type and left out of `required`, because a unit may not be attached to
   a union. An unreported channel is therefore absent rather than null.
-- `altenums`, `altnames`, `identity`, and `$root` were removed, because the
-  Alternate Names and Relations extensions are not enabled by the Characteristics
-  meta-schema.
+- `identity` and `$root` were removed, because the Relations extension is not
+  enabled by the Characteristics meta-schema. Upstream `altnames` were dropped,
+  because a name a consumer maps onto is not what these samples are about.
 
 Reference URIs that point at `example.org` are placeholders for composite
 observable properties that no public catalogue publishes. The rest cite real
 vocabularies and reference systems.
+
+## Enumerations
+
+An upstream feed that reports a coded value usually publishes the meaning of
+each code in prose, and a schema that copies the feed usually gathers those
+meanings into the description of the coded member. That is where the meaning
+stops being machine-readable: a consumer that wants to label `Ssn` in a user
+interface, or to explain to an operator why a reading is missing, has to parse
+a sentence.
+
+The samples therefore carry the per-symbol meaning in `altenums` from the
+[Alternate Names](../../../alternate-names/) extension, which the affected
+schemas enable by listing `JSONStructureAlternateNames` in `$uses`:
+
+```json
+"QualifierEnum": {
+  "name": "QualifierEnum",
+  "type": "string",
+  "enum": ["P", "A", "e", "<", ">", "&"],
+  "altenums": {
+    "lang:en": {
+      "P": "Provisional",
+      "A": "Approved",
+      "e": "Estimated",
+      "<": "Less Than",
+      ">": "Greater Than",
+      "&": "Affected by Other Condition"
+    },
+    "description": {
+      "P": "Provisional and subject to revision.",
+      "A": "Approved for publication after review.",
+      "e": "Estimated by the analyst rather than read from the instrument.",
+      "<": "The actual value is known to be less than the reported one.",
+      ">": "The actual value is known to be greater than the reported one.",
+      "&": "The value was affected by an unspecified condition."
+    }
+  },
+  "description": "USGS data-qualification letter. `P` and `A` are mutually exclusive; the remaining letters may accompany either."
+}
+```
+
+`lang:en` is the reserved purpose indicator for a localized display symbol, so
+its entries are the labels a user interface shows. `description` is a custom
+purpose indicator carrying one sentence per symbol. The `description` of the
+member itself is then free to state what the code list is and what a consumer
+must know about it as a whole — here, that `P` and `A` are mutually exclusive —
+rather than restating each symbol.
+
+The same treatment is applied to the enumerations in the teaching samples.

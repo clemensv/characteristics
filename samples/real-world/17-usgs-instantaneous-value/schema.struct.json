@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/17-usgs-instantaneous-value",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "GageHeight",
   "description": "One instantaneous value from the USGS National Water Information System, the gage-height series that the agency publishes for its surface-water monitoring sites. Derived from the usgs-iv feeder schema published in the xRegistry catalogue. The sample exists because the upstream record carries no statement of what was measured: the member is called `value`, and its meaning is supplied by the five-digit `parameter_cd` that a consumer must look up in the USGS parameter-code dictionary. Everything else that qualifies the number is also a code — a `timeseries_cd`, a list of one-letter `qualifiers`, and an `exception` drawn from a closed set of three-letter abbreviations. It demonstrates observedProperty carrying, in the schema, the meaning that the upstream feed defers to a code list, resultQuality over the qualifier letters that decide whether a value may be used in an analysis, and status over the exception codes that explain a missing reading.",
   "type": "object",
@@ -14,13 +14,59 @@
       "name": "QualifierEnum",
       "type": "string",
       "enum": ["P", "A", "e", "<", ">", "&"],
-      "description": "USGS data-qualification letter: `P` provisional and subject to revision, `A` approved for publication after review, `e` estimated by the analyst, `<` the actual value is known to be less than the reported one, `>` the actual value is known to be greater, `&` the value was affected by an unspecified condition. `P` and `A` are mutually exclusive; the remaining letters may accompany either."
+      "altenums": {
+        "lang:en": {
+          "P": "Provisional",
+          "A": "Approved",
+          "e": "Estimated",
+          "<": "Less Than",
+          ">": "Greater Than",
+          "&": "Affected by Other Condition"
+        },
+        "description": {
+          "P": "Provisional and subject to revision.",
+          "A": "Approved for publication after review.",
+          "e": "Estimated by the analyst rather than read from the instrument.",
+          "<": "The actual value is known to be less than the reported one.",
+          ">": "The actual value is known to be greater than the reported one.",
+          "&": "The value was affected by an unspecified condition."
+        }
+      },
+      "description": "USGS data-qualification letter. `P` and `A` are mutually exclusive; the remaining letters may accompany either."
     },
     "ExceptionEnum": {
       "name": "ExceptionEnum",
       "type": "string",
       "enum": ["Ice", "Bkw", "Ssn", "Zfl", "Eqp", "Mnt", "Rat", "Dis", "Fld", "Pr", "***"],
-      "description": "USGS exception code explaining why no value is reported: `Ice` affected by ice, `Bkw` affected by backwater, `Ssn` outside the seasonal period of record, `Zfl` zero flow, `Eqp` equipment malfunction, `Mnt` gage under maintenance, `Rat` rating being developed, `Dis` record discontinued, `Fld` value affected by flooding, `Pr` partial-record site, `***` temporarily unavailable. The codes are not interchangeable: `Ice` and `Bkw` describe a physical condition at the site, `Eqp` and `Mnt` describe the instrument, and `Ssn`, `Dis` and `Pr` describe the operating regime of the series."
+      "altenums": {
+        "lang:en": {
+          "Ice": "Ice Affected",
+          "Bkw": "Backwater Affected",
+          "Ssn": "Outside Season",
+          "Zfl": "Zero Flow",
+          "Eqp": "Equipment Malfunction",
+          "Mnt": "Under Maintenance",
+          "Rat": "Rating Under Development",
+          "Dis": "Record Discontinued",
+          "Fld": "Flood Affected",
+          "Pr": "Partial-Record Site",
+          "***": "Temporarily Unavailable"
+        },
+        "description": {
+          "Ice": "The reading was affected by ice at the site.",
+          "Bkw": "The reading was affected by backwater.",
+          "Ssn": "The instant falls outside the seasonal period of record for this series.",
+          "Zfl": "There was no flow at the site.",
+          "Eqp": "The instrument malfunctioned.",
+          "Mnt": "The gage was under maintenance.",
+          "Rat": "The rating for this site is still being developed.",
+          "Dis": "The series has been discontinued.",
+          "Fld": "The reading was affected by flooding.",
+          "Pr": "The site is a partial-record site and does not publish a continuous series.",
+          "***": "The value is temporarily unavailable for an unstated reason."
+        }
+      },
+      "description": "USGS exception code explaining why no value is reported. The codes are not interchangeable: `Ice` and `Bkw` describe a physical condition at the site, `Eqp` and `Mnt` describe the instrument, and `Ssn`, `Dis` and `Pr` describe the operating regime of the series."
     }
   },
   "properties": {

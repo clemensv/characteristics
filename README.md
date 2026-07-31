@@ -55,11 +55,16 @@ Reference alignment:
 
 ## Samples
 
-[`samples/`](samples/) holds thirty worked examples. Each directory contains a
+[`samples/`](samples/) holds thirty-five worked examples. Each directory contains a
 `schema.struct.json` that declares the extension meta-schema
 [`characteristics-v0.json`](characteristics-v0.json) and an `example.json`
 instance that conforms to it. Run [`samples/validate-characteristics.ps1`](samples/validate-characteristics.ps1)
 to check every schema, every instance, and every annotation.
+
+Where a sample carries an `enum`, the meaning of each symbol is stated with
+`altenums` from the [Alternate Names](../alternate-names/) extension — a
+`lang:en` display label and a `description` sentence per symbol — rather than
+packed into the description of the enclosing member.
 
 ### Teaching samples
 

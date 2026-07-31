@@ -5,7 +5,7 @@ Fifteen worked examples of the annotations defined by
 Each directory holds a `schema.struct.json` and an `example.json` instance that
 conforms to it.
 
-A second set of fifteen samples in [`real-world/`](real-world/) applies the same
+A second set of twenty samples in [`real-world/`](real-world/) applies the same
 annotations to schemas published by live open-data feeds, one per domain and
 publisher.
 
@@ -49,13 +49,27 @@ to the Core `Property`, `ObjectType`, `TupleType`, `ArrayType`, `SetType`,
 
 ## Real-world samples
 
-[`real-world/`](real-world/) holds fifteen further samples, each derived from a
+[`real-world/`](real-world/) holds twenty further samples, each derived from a
 JSON Structure schema published by a live open-data feed and covering a
 different domain: AIS vessel traffic, marine buoys, aerodrome weather,
 lightning, seismology, solar flares, grid carbon intensity, electricity
 generation, orbital elements, public transit, road travel times, bikeshare,
-public warnings, water quality, and pollen forecasts. See the
+public warnings, water quality, pollen forecasts, high-frequency transit
+positioning, river gauge heights, Mode-S downlink reports, the national
+generation mix, and spacecraft magnetometry. See the
 [README](real-world/README.md) there.
+
+## Enumerated values
+
+Where a sample carries an `enum`, the meaning of each symbol is carried in
+`altenums` from the [Alternate Names](../../alternate-names/) extension rather
+than packed into the description of the enclosing member. The affected schemas
+list `JSONStructureAlternateNames` in `$uses` alongside
+`JSONStructureCharacteristics`, and each `altenums` object carries a `lang:en`
+map of display labels and a `description` map of one sentence per symbol. The
+member's own `description` then states what the code list is, and what a
+consumer must know about it as a whole, instead of restating each symbol. The
+[real-world README](real-world/README.md#enumerations) shows a worked example.
 
 ## Validation
 
@@ -84,7 +98,8 @@ Step 4 is performed by [`check-annotations.py`](check-annotations.py), which rea
 `characteristics-v0.json`, derives the keyword set and the annotation value types
 from the add-ins listed under `$offers`, and validates each annotation it finds.
 The SDK validators do not do this themselves: they ignore annotation keywords
-contributed by an add-in they do not implement.
+contributed by an add-in they do not implement. The same script checks the shape
+of `altenums`, for the same reason.
 
 ## Notes
 

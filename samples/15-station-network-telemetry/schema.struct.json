@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/15-station-network-telemetry",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "MonitoringNetworkBatch",
   "description": "An hourly batch of environmental monitoring readings delivered by a regional air-quality and meteorology network. Each reading combines multiple observed properties from one station: an hourly mean air temperature and hourly mean PM2.5 mass concentration (both interval statistics over the aggregation period), accumulated precipitation (an accumulation statistic), and an instantaneous wind speed snapshot taken at the end of the hour. A reusable StationPosition type in definitions carries the CRS84 coordinate binding. This document demonstrates observedProperty, a range of semanticRole values, derivation with statistic, phenomenonTimeRelation including interval, accumulation, and instant, cadence, coordinateReferenceSystem, concepts, and status.",
   "type": "object",
@@ -24,7 +24,11 @@
     "readings": {
       "type": "array",
       "description": "Ordered list of hourly station readings in this batch",
-      "items": { "type": { "$ref": "#/definitions/StationReading" } }
+      "items": {
+        "type": {
+          "$ref": "#/definitions/StationReading"
+        }
+      }
     }
   },
   "required": ["networkId", "batchIssueTime", "readings"],
@@ -95,7 +99,9 @@
           "semanticRole": "resultTime"
         },
         "position": {
-          "type": { "$ref": "#/definitions/StationPosition" },
+          "type": {
+            "$ref": "#/definitions/StationPosition"
+          },
           "description": "Geographic position of the monitoring station in OGC CRS84"
         },
         "observingSystem": {
@@ -158,30 +164,44 @@
           "type": "string",
           "description": "Quality flag for the results in this reading as assessed by the station quality-control procedure",
           "enum": ["good", "suspect", "bad", "missing"],
+          "altenums": {
+            "lang:en": {
+              "good": "Good",
+              "suspect": "Suspect",
+              "bad": "Bad",
+              "missing": "Missing"
+            },
+            "description": {
+              "good": "Passed every automated quality-control test at the station.",
+              "suspect": "Failed a soft test such as a rate-of-change limit; usable after review.",
+              "bad": "Failed a hard test such as a gross range limit; not usable.",
+              "missing": "The channel produced no reading for this timestamp."
+            }
+          },
           "semanticRole": "resultQuality"
         },
         "recordStatus": {
           "type": "string",
           "description": "Standing of this reading in the publication lifecycle",
           "enum": ["provisional", "verified", "superseded", "withdrawn"],
+          "altenums": {
+            "lang:en": {
+              "provisional": "Provisional",
+              "verified": "Verified",
+              "superseded": "Superseded",
+              "withdrawn": "Withdrawn"
+            },
+            "description": {
+              "provisional": "The value has not yet been reviewed.",
+              "verified": "Review is complete and the value is accepted.",
+              "superseded": "A later record replaces this one.",
+              "withdrawn": "The record has been retracted."
+            }
+          },
           "semanticRole": "status"
         }
       },
-      "required": [
-        "stationId",
-        "periodStart",
-        "periodEnd",
-        "observedAt",
-        "producedAt",
-        "position",
-        "observingSystem",
-        "airTemperatureMean",
-        "pm25HourlyMean",
-        "precipitationAccumulation",
-        "windSpeedInstant",
-        "dataQuality",
-        "recordStatus"
-      ],
+      "required": ["stationId", "periodStart", "periodEnd", "observedAt", "producedAt", "position", "observingSystem", "airTemperatureMean", "pm25HourlyMean", "precipitationAccumulation", "windSpeedInstant", "dataQuality", "recordStatus"],
       "additionalProperties": false
     }
   }

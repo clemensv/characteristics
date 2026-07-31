@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/07-grid-carbon-intensity",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "RegionalIntensity",
   "description": "Half-hourly carbon intensity and generation mix for one of the 17 GB Distribution Network Operator (DNO) regions, published by National Grid ESO. Each record covers a specific DNO region identified by its numeric region ID. Derived from the carbon-intensity feeder schema published in the xRegistry catalogue. The sample demonstrates the forecast/outturn contrast that a settlement-period feed carries: the same observed property is reported twice for one half-hour, once as a modelled forecast issued ahead of the period and once as the calculated outturn settled after it. It shows forecastIssueTime and forecastLeadDuration alongside the flattened settlement-period boundaries phenomenonTimeStart and phenomenonTimeEnd, phenomenonTimeRelation interval on every value that characterises the period rather than an instant, a fixed half-hourly cadence on the period start, featureOfInterest on the region identifier, and status on the qualitative index band. Every result member is optional; a channel that National Grid ESO did not publish for a given settlement period is omitted from the record rather than nulled.",
   "type": "object",
@@ -79,8 +79,24 @@
     },
     "index": {
       "type": "string",
-      "description": "Qualitative index band for the regional carbon intensity: one of 'very low', 'low', 'moderate', 'high', or 'very high'. The band is a published classification of the reported intensity against seasonally revised thresholds, not an independent quantity.",
+      "description": "Qualitative index band for the regional carbon intensity. The band is a published classification of the reported intensity against seasonally revised thresholds, not an independent quantity.",
       "enum": ["very low", "low", "moderate", "high", "very high"],
+      "altenums": {
+        "lang:en": {
+          "very low": "Very Low",
+          "low": "Low",
+          "moderate": "Moderate",
+          "high": "High",
+          "very high": "Very High"
+        },
+        "description": {
+          "very low": "Lowest published band; the regional intensity is well below the seasonal average.",
+          "low": "Below the seasonal average.",
+          "moderate": "Around the seasonal average.",
+          "high": "Above the seasonal average.",
+          "very high": "Highest published band; the regional intensity is well above the seasonal average."
+        }
+      },
       "semanticRole": "status"
     },
     "biomass_pct": {
@@ -204,13 +220,6 @@
       }
     }
   },
-  "required": [
-    "region_id",
-    "dnoregion",
-    "shortname",
-    "period_from",
-    "period_to",
-    "published_at"
-  ],
+  "required": ["region_id", "dnoregion", "shortname", "period_from", "period_to", "published_at"],
   "additionalProperties": false
 }

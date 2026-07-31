@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/16-transit-vehicle-hfp",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "VehicleEvent",
   "description": "A `vp` vehicle-position event from the HSL High-Frequency Positioning feed for the Helsinki region, published on MQTT at roughly one message per second per vehicle. Derived from the hsl-hfp feeder schema published in the xRegistry catalogue. The sample exists because the upstream member names are two-to-four letter abbreviations of internal jargon whose semantics cannot be recovered from the payload: `dl`, `oday`, `drst`, `odo`, `loc`, `occu`, `ttarr`, `ttdep`. It demonstrates observingProcedure carrying the provenance of a position fix rather than the identity of an instrument, phenomenonTimeRelation accumulation on an odometer that resets at the start of each trip, a scheduled time located in a non-civil operating-day regime declared as a temporalReferenceSystem meta-type, scheduledTime on two members of one record, and a schedule deviation whose sign convention is the opposite of the one a consumer would assume. The flat upstream `oday` and `start` members are lifted into the `journey_start` object so that the operating-day regime has a node to attach to; every other member keeps its upstream name.",
   "type": "object",
@@ -43,7 +43,23 @@
       "name": "LocEnum",
       "type": "string",
       "enum": ["GPS", "ODO", "MAN", "DR", "N/A"],
-      "description": "Method that produced the reported position: `GPS` a satellite fix, `ODO` dead reckoning from the odometer, `MAN` a manually entered position, `DR` dead reckoning from other sensors, `N/A` unknown."
+      "altenums": {
+        "lang:en": {
+          "GPS": "Satellite Fix",
+          "ODO": "Odometer",
+          "MAN": "Manual Entry",
+          "DR": "Dead Reckoning",
+          "N/A": "Unavailable"
+        },
+        "description": {
+          "GPS": "Position fixed by the onboard satellite receiver.",
+          "ODO": "Position propagated from the odometer since the last fix.",
+          "MAN": "Position entered by hand by the driver or by an operator.",
+          "DR": "Position dead-reckoned from onboard sensors other than the odometer.",
+          "N/A": "The onboard system could not determine how the position was produced."
+        }
+      },
+      "description": "Method that produced the reported position."
     }
   },
   "properties": {
@@ -101,7 +117,17 @@
     "dir": {
       "type": "string",
       "enum": ["1", "2"],
-      "description": "Direction of travel along the route, from the HFP payload `dir` field, carried as a string rather than a number. `1` is the direction declared first in the GTFS feed and `2` the opposite one; neither value names a compass bearing."
+      "altenums": {
+        "lang:en": {
+          "1": "First Declared Direction",
+          "2": "Opposite Direction"
+        },
+        "description": {
+          "1": "The direction declared first in the GTFS feed for this route.",
+          "2": "The opposite direction."
+        }
+      },
+      "description": "Direction of travel along the route, from the HFP payload `dir` field, carried as a string rather than a number. Neither value names a compass bearing."
     },
     "lat": {
       "type": "double",
@@ -208,7 +234,17 @@
     "drst": {
       "type": "int32",
       "enum": [0, 1],
-      "description": "Door state at `tst`, from the HFP payload `drst` field: `0` all doors closed, `1` at least one door open. It is a state of the vehicle rather than a quantity, and it is absent when the onboard system cannot determine it.",
+      "altenums": {
+        "lang:en": {
+          "0": "All Doors Closed",
+          "1": "At Least One Door Open"
+        },
+        "description": {
+          "0": "Every passenger door is closed.",
+          "1": "At least one passenger door is open."
+        }
+      },
+      "description": "Door state at `tst`, from the HFP payload `drst` field. It is a state of the vehicle rather than a quantity, and it is absent when the onboard system cannot determine it.",
       "semanticRole": "status"
     },
     "occu": {

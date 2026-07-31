@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/01-observation-basics",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "RiverGaugingObservation",
   "description": "A water-level reading from a river gauging station. Demonstrates observedProperty on the record type and the semanticRole values featureOfInterest, observingProcedure, observationValue, resultQuality, phenomenonTime, and resultTime.",
   "type": "object",
@@ -30,6 +30,20 @@
       "type": "string",
       "description": "Quality classification assigned to this water-level reading by the data-processing system.",
       "enum": ["provisional", "validated", "estimated", "suspect"],
+      "altenums": {
+        "lang:en": {
+          "provisional": "Provisional",
+          "validated": "Validated",
+          "estimated": "Estimated",
+          "suspect": "Suspect"
+        },
+        "description": {
+          "provisional": "Automatically ingested and not yet reviewed; the value may change.",
+          "validated": "Reviewed against the station record and accepted as final.",
+          "estimated": "Filled by the processing system from neighbouring readings rather than measured.",
+          "suspect": "Failed an automated range or rate-of-change test and should not be used without review."
+        }
+      },
       "semanticRole": "resultQuality"
     },
     "measuredAt": {
@@ -43,13 +57,6 @@
       "semanticRole": "resultTime"
     }
   },
-  "required": [
-    "stationId",
-    "sensor",
-    "waterLevel",
-    "qualityFlag",
-    "measuredAt",
-    "publishedAt"
-  ],
+  "required": ["stationId", "sensor", "waterLevel", "qualityFlag", "measuredAt", "publishedAt"],
   "additionalProperties": false
 }

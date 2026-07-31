@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/08-status-and-quality",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "HydrometricPublicationRecord",
   "description": "A hydrometric publication record for a river stage measurement, demonstrating that status and resultQuality are distinct. The recordStatus field carries the publication standing of the record and may transition from 'provisional' to 'verified' as the value is reviewed; such a transition does not alter the measured stage or its quality grade. The qualityGrade field characterises the reliability of the measured value on a scale defined by an external quality vocabulary; a provisional record and a low-quality result are independent conditions and MUST NOT be read as one another.",
   "type": "object",
@@ -44,24 +44,25 @@
     },
     "recordStatus": {
       "type": "string",
-      "description": "Publication standing of this record. 'provisional' indicates the value has not yet been reviewed; 'verified' indicates review is complete and the value is accepted; 'superseded' indicates a later record replaces this one; 'withdrawn' indicates the record has been retracted. A status change does not alter the stage value or its quality grade.",
-      "enum": [
-        "provisional",
-        "verified",
-        "superseded",
-        "withdrawn"
-      ],
+      "description": "Publication standing of this record. A status change does not alter the stage value or its quality grade.",
+      "enum": ["provisional", "verified", "superseded", "withdrawn"],
+      "altenums": {
+        "lang:en": {
+          "provisional": "Provisional",
+          "verified": "Verified",
+          "superseded": "Superseded",
+          "withdrawn": "Withdrawn"
+        },
+        "description": {
+          "provisional": "The value has not yet been reviewed.",
+          "verified": "Review is complete and the value is accepted.",
+          "superseded": "A later record replaces this one.",
+          "withdrawn": "The record has been retracted."
+        }
+      },
       "semanticRole": "status"
     }
   },
-  "required": [
-    "recordId",
-    "stationId",
-    "observedAt",
-    "publishedAt",
-    "stage",
-    "qualityGrade",
-    "recordStatus"
-  ],
+  "required": ["recordId", "stationId", "observedAt", "publishedAt", "stage", "qualityGrade", "recordStatus"],
   "additionalProperties": false
 }

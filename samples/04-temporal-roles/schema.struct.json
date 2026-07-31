@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/04-temporal-roles",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "FloodWarningBulletin",
   "description": "A flood-warning bulletin showing three observation-time roles side by side. phenomenonTime marks the instant the flood peak applied to the river at the gauge — a temporal property of the flood event itself. resultTime marks the instant the bulletin became available for distribution — a temporal property of the observation result. effectiveTime, carried on a nested period object, marks the window during which the bulletin is in force and operators are expected to act on it — a temporal property of the bulletin document. phenomenonTime bounds the flood; effectiveTime bounds the bulletin. The two are independent axes: a bulletin may remain in force hours after the flood peak has passed. effectiveTime is not the bitemporal valid-time of ISO 19108, which pairs the period a fact is held true of the world with the period a system recorded it, and it is not a record-versioning axis.",
   "type": "object",
@@ -55,17 +55,23 @@
     "warningLevel": {
       "type": "string",
       "description": "Flood warning level assigned by the issuing authority.",
-      "enum": ["advisory", "watch", "warning", "emergency"]
+      "enum": ["advisory", "watch", "warning", "emergency"],
+      "altenums": {
+        "lang:en": {
+          "advisory": "Advisory",
+          "watch": "Watch",
+          "warning": "Warning",
+          "emergency": "Emergency"
+        },
+        "description": {
+          "advisory": "Conditions are approaching the lowest action threshold; no action is required yet.",
+          "watch": "Conditions favour the hazard developing; responders prepare.",
+          "warning": "The hazard is occurring or is imminent; protective action is required.",
+          "emergency": "The hazard exceeds the highest planned threshold; life and property are at immediate risk."
+        }
+      }
     }
   },
-  "required": [
-    "bulletinId",
-    "gaugeStation",
-    "floodPeakTime",
-    "bulletinIssuedAt",
-    "bulletinInForce",
-    "observedStage",
-    "warningLevel"
-  ],
+  "required": ["bulletinId", "gaugeStation", "floodPeakTime", "bulletinIssuedAt", "bulletinInForce", "observedStage", "warningLevel"],
   "additionalProperties": false
 }

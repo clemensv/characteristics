@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/11-route-travel-time",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "RouteTravelTimeObservation",
   "description": "Travel time observation for a road segment from the Dutch NDW DATEX II traveltime feed. Contains the actual measured travel time and the static free-flow reference time for a route measurement site. Derived from the NDW road-traffic feeder schemas published in the xRegistry catalogue; the TravelTimeObservation record and the geometry of the corresponding RouteMeasurementSite reference record are deliberately merged into a single record here, because a linear reference is only checkable when the identifier of the linear element and the offsets along it travel with the result. The sample demonstrates a linearReferenceSystem binding of kind lrs-network over the road identifier, the start and end offsets and the carriageway direction, an interval phenomenonTimeRelation against the phenomenonTimeStart and phenomenonTimeEnd boundaries of the aggregation window, a mean statistic derivation on the travel time, resultQuality members for the supplier confidence figures, and a fixed cadence matching the one-minute NDW publication rate.",
   "type": "object",
@@ -52,7 +52,17 @@
     "carriageway_direction": {
       "type": "string",
       "description": "Carriageway of the identified road along which the section runs, using the direction vocabulary of the national road network. It qualifies the direction of travel and does not alter the increasing-measure direction of the network.",
-      "enum": ["positive", "negative"]
+      "enum": ["positive", "negative"],
+      "altenums": {
+        "lang:en": {
+          "positive": "Positive Direction",
+          "negative": "Negative Direction"
+        },
+        "description": {
+          "positive": "The carriageway on which travel runs in the direction of increasing measure along the linear element.",
+          "negative": "The carriageway on which travel runs in the direction of decreasing measure along the linear element."
+        }
+      }
     },
     "start_offset": {
       "type": "double",
@@ -146,17 +156,6 @@
       "semanticRole": "resultQuality"
     }
   },
-  "required": [
-    "measurement_site_id",
-    "name",
-    "measurement_site_type",
-    "road_name",
-    "carriageway_direction",
-    "start_offset",
-    "end_offset",
-    "period_start",
-    "period_end",
-    "measurement_time"
-  ],
+  "required": ["measurement_site_id", "name", "measurement_site_type", "road_name", "carriageway_direction", "start_offset", "end_offset", "period_start", "period_end", "measurement_time"],
   "additionalProperties": false
 }

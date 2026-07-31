@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/18-mode-s-aircraft-report",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "ModeSRecord",
   "description": "A decoded Mode-S or ADS-B downlink message from a ground receiver, as forwarded by the mode-s feeder. Derived from the mode-s feeder schema published in the xRegistry catalogue. The sample exists because the record is a union of several unrelated message formats behind three-letter member names — `df`, `tc`, `sq`, `cs`, `spd`, `ang`, `vr` — and which members are populated depends on `df` and `tc`, which are numbers defined by ICAO Annex 10 and are not resolvable from the payload. It demonstrates a record that carries no phenomenon time at all: the only timestamp is the instant the ground station decoded the transmission, so `ts` is a resultTime and the instant the aircraft sampled its own state is not transmitted. It also demonstrates observingProcedure on the receiver rather than on an instrument, resultQuality over a received signal level, a barometric altitude that is a calculated pressure surface rather than a measured height, and a heading member whose meaning changes with the message subtype.",
   "type": "object",
@@ -23,15 +23,26 @@
     "MessageTypeEnum": {
       "name": "MessageTypeEnum",
       "type": "string",
-      "enum": [
-        "df17-adsb",
-        "df4-altitude",
-        "df5-identity",
-        "df11-acquisition",
-        "df20-comm-b",
-        "df21-comm-b"
-      ],
-      "description": "Downlink-format family of the decoded message. It determines which members of this record are populated: only `df17-adsb` carries position and velocity, `df4-altitude` and `df20-comm-b` carry barometric altitude, and `df5-identity` and `df21-comm-b` carry the squawk code."
+      "enum": ["df17-adsb", "df4-altitude", "df5-identity", "df11-acquisition", "df20-comm-b", "df21-comm-b"],
+      "altenums": {
+        "lang:en": {
+          "df17-adsb": "ADS-B Extended Squitter (DF17)",
+          "df4-altitude": "Surveillance Altitude Reply (DF4)",
+          "df5-identity": "Surveillance Identity Reply (DF5)",
+          "df11-acquisition": "All-Call Reply (DF11)",
+          "df20-comm-b": "Comm-B Altitude Reply (DF20)",
+          "df21-comm-b": "Comm-B Identity Reply (DF21)"
+        },
+        "description": {
+          "df17-adsb": "Extended squitter broadcast by the aircraft without interrogation. The only format that carries position and velocity.",
+          "df4-altitude": "Surveillance reply to a ground interrogation, carrying barometric altitude.",
+          "df5-identity": "Surveillance reply to a ground interrogation, carrying the squawk code.",
+          "df11-acquisition": "All-call reply by which a ground station acquires the aircraft; it carries only the address.",
+          "df20-comm-b": "Comm-B reply carrying barometric altitude together with a 56-bit BDS register.",
+          "df21-comm-b": "Comm-B reply carrying the squawk code together with a 56-bit BDS register."
+        }
+      },
+      "description": "Downlink-format family of the decoded message, synthesised by the feeder from `df` and `tc`. It determines which members of this record are populated."
     }
   },
   "properties": {

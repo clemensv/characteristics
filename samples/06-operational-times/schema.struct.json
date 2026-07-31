@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/06-operational-times",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "FieldSamplingRecord",
   "description": "A field water-quality sampling record that contrasts three operational event-time roles with two observation-time roles. scheduledTime, actualTime, and ingestionTime belong to the operational concern: scheduledTime records when the field crew was dispatched, actualTime records when the sample was collected, and ingestionTime records when the data warehouse accepted the record. phenomenonTime and resultTime belong to the observation concern: phenomenonTime records when the measured property applied to the stream water, and resultTime records when the laboratory analysis result became available. For an instantaneous grab sample, actualTime and phenomenonTime refer to the same physical instant, but their roles remain distinct by function — actualTime describes when a scheduled activity was executed, phenomenonTime describes when the result holds true of the world. A processor MUST NOT read any operational role as an observation-time role.",
   "type": "object",
@@ -54,19 +54,25 @@
       "type": "string",
       "description": "Current processing state of this sampling run record in the data management workflow.",
       "enum": ["scheduled", "collected", "analyzed", "ingested", "rejected"],
+      "altenums": {
+        "lang:en": {
+          "scheduled": "Scheduled",
+          "collected": "Collected",
+          "analyzed": "Analyzed",
+          "ingested": "Ingested",
+          "rejected": "Rejected"
+        },
+        "description": {
+          "scheduled": "The run is planned but the sample has not been taken.",
+          "collected": "The sample has been taken and is in transit or awaiting analysis.",
+          "analyzed": "The laboratory has produced a result for the sample.",
+          "ingested": "The result has been loaded into the data store and is available to consumers.",
+          "rejected": "The run was abandoned or its result was refused; no value will be published."
+        }
+      },
       "semanticRole": "status"
     }
   },
-  "required": [
-    "runId",
-    "samplingStation",
-    "scheduledSampleTime",
-    "actualSampleTime",
-    "sampledAt",
-    "analysisCompletedAt",
-    "warehouseLoadedAt",
-    "specificConductance",
-    "runStatus"
-  ],
+  "required": ["runId", "samplingStation", "scheduledSampleTime", "actualSampleTime", "sampledAt", "analysisCompletedAt", "warehouseLoadedAt", "specificConductance", "runStatus"],
   "additionalProperties": false
 }

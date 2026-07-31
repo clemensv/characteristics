@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/14-marine-water-quality",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "WaterQualityReading",
   "description": "A water-quality reading from a King County (Washington) marine monitoring mooring in Puget Sound, carrying the CTD, optical and nutrient channels published for one sampling cycle. Derived from the king-county-marine feeder schema published in the xRegistry catalogue; the upstream description text on that schema is a copy of the King County Metro water-taxi wording and does not describe this record, so it has been replaced with an accurate one. The sample demonstrates the three-tier feature-of-interest chain: the mooring is the featureOfInterest, the water parcel at the sampled depth is the proximateFeatureOfInterest, and the marine basin for which the reading is environmentally interpreted is the ultimateFeatureOfInterest, none of which is inferred from another. It also demonstrates observingProcedure for the profiling sonde, observedProperty on the record and on each result member, resultQuality for the QARTOD flag, the split between measured in-situ sensor channels and calculated quantities such as practical salinity, specific conductance and oxygen saturation, standardDeviation statistics over the burst window, phenomenonTime against resultTime, and a fixed fifteen-minute cadence at the mooring sampling interval. Every measurement member is optional; a channel that the mooring did not report in a given cycle is omitted from the record rather than nulled.",
   "type": "object",
@@ -59,13 +59,23 @@
     "qc_flag": {
       "type": "string",
       "description": "QARTOD quality classification assigned to this reading by the automated quality-control procedure. It states how good the result is and is independent of the publication standing of the record.",
-      "enum": [
-        "pass",
-        "not_evaluated",
-        "suspect",
-        "fail",
-        "missing"
-      ],
+      "enum": ["pass", "not_evaluated", "suspect", "fail", "missing"],
+      "altenums": {
+        "lang:en": {
+          "pass": "Pass",
+          "not_evaluated": "Not Evaluated",
+          "suspect": "Suspect or Of High Interest",
+          "fail": "Fail",
+          "missing": "Missing Data"
+        },
+        "description": {
+          "pass": "QARTOD flag 1: the value passed every applied test.",
+          "not_evaluated": "QARTOD flag 2: no quality-control test was applied to this value.",
+          "suspect": "QARTOD flag 3: the value failed a test that does not disqualify it, or is of high interest.",
+          "fail": "QARTOD flag 4: the value failed a critical test and must not be used.",
+          "missing": "QARTOD flag 9: no value is present."
+        }
+      },
       "semanticRole": "resultQuality"
     },
     "water_temperature_c": {
@@ -238,14 +248,6 @@
       }
     }
   },
-  "required": [
-    "station_id",
-    "station_name",
-    "basin",
-    "sonde",
-    "observation_time",
-    "published_time",
-    "qc_flag"
-  ],
+  "required": ["station_id", "station_name", "basin", "sonde", "observation_time", "published_time", "qc_flag"],
   "additionalProperties": false
 }

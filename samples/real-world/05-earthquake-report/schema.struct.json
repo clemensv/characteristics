@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-structure.org/meta/characteristics/v0/#",
   "$id": "https://schemas.example.org/characteristics/real-world/05-earthquake-report",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
   "name": "EarthquakeReport",
   "description": "JMA Bosai earthquake and seismic intensity report header enriched with parsed hypocenter coordinates and prefecture intensity summaries. Derived from the jma-bosai-quake feeder schema published in the xRegistry catalogue and trimmed to the hypocentre, magnitude, origin time, report issue time and report status. The sample demonstrates the split between phenomenon time (the earthquake origin time), result time (the bulletin issue time) and ingestion time (the handover to the JMA distribution system); a status role on the issued/corrected/cancelled information type; derivation 'calculated' on the hypocentre coordinates, the hypocentre depth and the magnitude, with the bulletin product code carried as the result quality that states how mature that solution is; derivation 'statistic' with statistic 'maximum' on the reported maximum seismic intensity; concepts on the record type bound to published vocabulary terms; and a horizontal coordinate reference system binding over the hypocentre latitude and longitude.",
   "type": "object",
@@ -45,6 +45,18 @@
       "type": "string",
       "description": "Normalized information type derived from the Japanese JMA ift field: ISSUED for 発表, CORRECTED for 訂正, and CANCELLED for 取消. The value states the standing of this bulletin within the revision sequence rather than any property of the earthquake itself.",
       "enum": ["ISSUED", "CORRECTED", "CANCELLED"],
+      "altenums": {
+        "lang:en": {
+          "ISSUED": "Issued",
+          "CORRECTED": "Corrected",
+          "CANCELLED": "Cancelled"
+        },
+        "description": {
+          "ISSUED": "First publication of this bulletin.",
+          "CORRECTED": "Correction of a bulletin already published.",
+          "CANCELLED": "Withdrawal of a bulletin already published."
+        }
+      },
       "semanticRole": "status"
     },
     "origin_datetime": {
@@ -153,14 +165,56 @@
       "description": "Maximum observed JMA seismic intensity for the report copied from list.json maxi or detail Body.Intensity.Observation.MaxInt. The value is the maximum function applied to the set of shindo values observed at the contributing stations, so it is a statistic over those observations rather than a reading from one instrument. The member is omitted when the bulletin has no observed intensity summary.",
       "pattern": "^(1|2|3|4|5-|5\\+|6-|6\\+|7)$",
       "enum": ["1", "2", "3", "4", "5-", "5+", "6-", "6+", "7"],
+      "altenums": {
+        "lang:en": {
+          "1": "Shindo 1",
+          "2": "Shindo 2",
+          "3": "Shindo 3",
+          "4": "Shindo 4",
+          "5-": "Shindo 5 Lower",
+          "5+": "Shindo 5 Upper",
+          "6-": "Shindo 6 Lower",
+          "6+": "Shindo 6 Upper",
+          "7": "Shindo 7"
+        },
+        "description": {
+          "1": "Felt only by some people at rest indoors.",
+          "2": "Felt by many people indoors; hanging objects swing slightly.",
+          "3": "Felt by most people indoors; dishes rattle.",
+          "4": "Hanging objects swing markedly; unstable ornaments may fall.",
+          "5-": "Many people are frightened; unsecured furniture may move.",
+          "5+": "Difficult to walk without holding on; unsecured furniture may topple.",
+          "6-": "Difficult to stand; wall tiles and windows may break.",
+          "6+": "Impossible to move without crawling; many unreinforced buildings are damaged.",
+          "7": "People are thrown by the shaking; even reinforced buildings may lean or collapse."
+        }
+      },
       "semanticRole": "observationValue",
       "derivation": "statistic",
       "statistic": "maximum"
     },
     "bulletin_type": {
       "type": "string",
-      "description": "JMA detail bulletin product code parsed from the detail JSON filename. Supported earthquake-related JMA Bosai codes are VXSE51 (震度速報), VXSE52 (震源に関する情報), VXSE53 (震源・震度に関する情報), VXSE5k (震源・震度情報 Bosai variant), VXSE61 (長周期地震動に関する観測情報), and VYSE52 (南海トラフ地震関連解説情報). Tsunami-specific VTSE products are deliberately not modeled by this source. The code is the scale on which the maturity of the hypocentre and magnitude solution is expressed: VXSE51 carries observed intensity before source parameters are finalized, whereas VXSE52 and VXSE53 carry determined source parameters. It therefore qualifies the results in this record rather than being a result itself.",
+      "description": "JMA detail bulletin product code parsed from the detail JSON filename. Tsunami-specific VTSE products are deliberately not modeled by this source. The code is the scale on which the maturity of the hypocentre and magnitude solution is expressed, so it qualifies the results in this record rather than being a result itself.",
       "enum": ["VXSE51", "VXSE52", "VXSE53", "VXSE5k", "VXSE61", "VYSE52"],
+      "altenums": {
+        "lang:en": {
+          "VXSE51": "震度速報",
+          "VXSE52": "震源に関する情報",
+          "VXSE53": "震源・震度に関する情報",
+          "VXSE5k": "震源・震度情報",
+          "VXSE61": "長周期地震動に関する観測情報",
+          "VYSE52": "南海トラフ地震関連解説情報"
+        },
+        "description": {
+          "VXSE51": "Seismic-intensity flash, issued within about a minute and a half of detection and before the source parameters are determined.",
+          "VXSE52": "Hypocentre information: determined source parameters without an observed-intensity summary.",
+          "VXSE53": "Hypocentre and intensity information: determined source parameters together with observed intensities.",
+          "VXSE5k": "Bosai-portal variant of the hypocentre and intensity product.",
+          "VXSE61": "Long-period ground-motion observation information.",
+          "VYSE52": "Nankai Trough earthquake related commentary."
+        }
+      },
       "semanticRole": "resultQuality"
     },
     "detail_url": {
@@ -183,20 +237,7 @@
       "derivation": "estimated"
     }
   },
-  "required": [
-    "event_id",
-    "serial",
-    "report_id",
-    "info_type",
-    "origin_datetime",
-    "report_datetime",
-    "control_datetime",
-    "title_jp",
-    "bulletin_type",
-    "detail_url",
-    "affected_prefectures",
-    "tsunami_possible"
-  ],
+  "required": ["event_id", "serial", "report_id", "info_type", "origin_datetime", "report_datetime", "control_datetime", "title_jp", "bulletin_type", "detail_url", "affected_prefectures", "tsunami_possible"],
   "additionalProperties": false,
   "definitions": {
     "AffectedPrefecture": {
@@ -225,6 +266,30 @@
           "description": "Maximum JMA seismic intensity observed in the prefecture for this report, copied from int[].maxi and expressed on the JMA shindo scale. The value is the maximum function applied to the shindo values observed at the stations within the prefecture.",
           "pattern": "^(1|2|3|4|5-|5\\+|6-|6\\+|7)$",
           "enum": ["1", "2", "3", "4", "5-", "5+", "6-", "6+", "7"],
+          "altenums": {
+            "lang:en": {
+              "1": "Shindo 1",
+              "2": "Shindo 2",
+              "3": "Shindo 3",
+              "4": "Shindo 4",
+              "5-": "Shindo 5 Lower",
+              "5+": "Shindo 5 Upper",
+              "6-": "Shindo 6 Lower",
+              "6+": "Shindo 6 Upper",
+              "7": "Shindo 7"
+            },
+            "description": {
+              "1": "Felt only by some people at rest indoors.",
+              "2": "Felt by many people indoors; hanging objects swing slightly.",
+              "3": "Felt by most people indoors; dishes rattle.",
+              "4": "Hanging objects swing markedly; unstable ornaments may fall.",
+              "5-": "Many people are frightened; unsecured furniture may move.",
+              "5+": "Difficult to walk without holding on; unsecured furniture may topple.",
+              "6-": "Difficult to stand; wall tiles and windows may break.",
+              "6+": "Impossible to move without crawling; many unreinforced buildings are damaged.",
+              "7": "People are thrown by the shaking; even reinforced buildings may lean or collapse."
+            }
+          },
           "derivation": "statistic",
           "statistic": "maximum"
         }
