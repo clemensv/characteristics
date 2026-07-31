@@ -121,7 +121,7 @@ Table of Contents
      8.2.  The vectorReferenceFrames Keyword
        8.2.1.  The reference and kind Properties
        8.2.2.  The components Property
-       8.2.3.  Multiple Frames and Disjointness
+       8.2.3.  Multiple Frames and Shared Components
      8.3.  The linearReferenceSystem Keyword
        8.3.1.  The reference Property
        8.3.2.  The kind Property
@@ -2139,22 +2139,25 @@ Table of Contents
    whose axes the components of vector quantities held in properties of
    an object or tuple are resolved.
 
-   A vector quantity is not a position.  A record that reports a
-   magnetic field, a wind, an acceleration, or a flow velocity commonly
-   carries both: a position that says where the reading was taken, and a
-   set of components that say what was read.  The two are expressed
-   against different systems and the schema states them separately.
-   coordinateReferenceSystem binds the members that give a position
-   (Section 8.1); vectorReferenceFrames binds the members that give the
-   components of a vector.
+   A vector quantity has a magnitude and a direction.  Its components
+   are its projections onto the axes of a frame and have no meaning
+   apart from that frame.  A position is a location in a coordinate
+   reference system.  A record may carry both: coordinateReferenceSystem
+   binds the members that give a position (Section 8.1), and
+   vectorReferenceFrames binds the members that give the components of a
+   vector.
 
-   The distinction is not merely one of intent.  A coordinate takes its
-   unit from the axis it lies on, and a coordinate reference system may
-   have axes whose units differ from one another, as a geographic system
-   with two angles and a height does.  The components of a vector all
-   carry the unit of the quantity, and the frame contributes directions
-   alone.  A vector reference frame therefore does not establish the
-   unit of the members it binds.  The units of the members named by one
+   A frame is an ordered set of axis directions.  It has no origin,
+   because moving the origin does not change a vector.  A coordinate
+   reference system does have one, fixed by its datum.  The keyword
+   names a frame rather than a system for that reason.
+
+   A frame contributes directions only, and so does not establish the
+   units of the members it binds.  A coordinate takes its unit from the
+   axis it lies on, and the axes of a coordinate reference system may
+   carry units that differ from one another, as in a geographic system
+   with two angles and a height.  The components of a vector all carry
+   the unit of the quantity.  The units of the members named by one
    frame MUST be mutually convertible and SHOULD be identical.
 
    When present, vectorReferenceFrames MUST be a non-empty array.  Each
@@ -2199,25 +2202,35 @@ Table of Contents
 
    components MUST be a non-empty array of strings.  Each string MUST be
    the name of a direct property of the annotated object or tuple.  The
-   names MUST be distinct.  The element at index 0 names the property
-   holding the component on the first axis of the frame, the element at
-   index 1 the second, and so on.  The number of entries MUST equal the
-   number of axes the frame has.  Each named property MUST have a
-   numeric type.
+   names within one components array MUST be distinct, since one value
+   cannot be the component along two axes of one frame.  The element at
+   index 0 names the property holding the component on the first axis of
+   the frame, the element at index 1 the second, and so on.  The number
+   of entries MUST equal the number of axes the frame has.  Each named
+   property MUST have a numeric type.
 
    The ordering is an assertion by the schema author and is never
    inferred from property names, from declaration order, or from example
    values.
 
-8.2.3.  Multiple Frames and Disjointness
+8.2.3.  Multiple Frames and Shared Components
 
-   A property MUST NOT be named by more than one element of
-   vectorReferenceFrames on the same object or tuple, and MUST NOT be
-   named both by vectorReferenceFrames and by the
-   coordinateReferenceSystem or linearReferenceSystem of the same object
-   or tuple.  Two elements MAY cite the same reference, which is how a
-   record that reports two distinct vector quantities in one frame is
-   written.
+   Two elements MAY cite the same reference, which is how a record that
+   reports two distinct vector quantities in one frame is written.
+
+   A property MAY be named by more than one element.  Doing so asserts
+   that the frames share the axis in question and that the value is the
+   same component in both, which is how one vector quantity expressed in
+   two frames is written where those frames have an axis in common.  The
+   assertion is the schema author's.  A processor MUST NOT infer a
+   shared axis from a shared property, nor from the names of the frames,
+   nor from equal values in samples.
+
+   A property MAY also be named both by vectorReferenceFrames and by the
+   coordinateReferenceSystem of the same object or tuple, as a position
+   vector is.  Where it is, the unit established by the coordinate axis
+   and the unit borne by the components of the vector MUST be mutually
+   convertible.
 
    A reference that does not resolve leaves the frame indeterminate.  It
    does not make the annotation incorrect.
@@ -2268,10 +2281,12 @@ Table of Contents
      }
    }
 
-   The next example carries a position and two vector quantities in one
-   record.  The position is bound by coordinateReferenceSystem, the
-   field components and the flow components by two elements of
-   vectorReferenceFrames, and no property is named twice.
+   The next example carries a position and a magnetic field in one
+   record.  The position is bound by coordinateReferenceSystem and the
+   field components by two elements of vectorReferenceFrames.  The two
+   frames share their first axis, so the schema reports that component
+   once, under bx, and names it in both elements.  The remaining two
+   components differ between the frames and are carried separately.
 
    {
      "name": "SolarWindSample",
@@ -2283,29 +2298,32 @@ Table of Contents
      },
      "vectorReferenceFrames": [
        {
-         "reference": "#/definitions/GsmFrame",
-         "kind": "type",
-         "components": ["bx_gsm", "by_gsm", "bz_gsm"]
-       },
-       {
          "reference": "#/definitions/GseFrame",
          "kind": "type",
-         "components": ["vx_gse", "vy_gse", "vz_gse"]
+         "components": ["bx", "by_gse", "bz_gse"]
+       },
+       {
+         "reference": "#/definitions/GsmFrame",
+         "kind": "type",
+         "components": ["bx", "by_gsm", "bz_gsm"]
        }
      ],
      "properties": {
        "pos_x": { "type": "double", "unit": "km" },
        "pos_y": { "type": "double", "unit": "km" },
        "pos_z": { "type": "double", "unit": "km" },
-       "bx_gsm": { "type": "double", "unit": "nT" },
+       "bx": { "type": "double", "unit": "nT" },
+       "by_gse": { "type": "double", "unit": "nT" },
+       "bz_gse": { "type": "double", "unit": "nT" },
        "by_gsm": { "type": "double", "unit": "nT" },
-       "bz_gsm": { "type": "double", "unit": "nT" },
-       "vx_gse": { "type": "double", "unit": "km/s" },
-       "vy_gse": { "type": "double", "unit": "km/s" },
-       "vz_gse": { "type": "double", "unit": "km/s" }
+       "bz_gsm": { "type": "double", "unit": "nT" }
      },
      "additionalProperties": false
    }
+
+   The position and the field are both expressed against GseFrame, one
+   as a position and one as a vector, which is the distinction the two
+   keywords carry.
 
    This specification does not define a frame, an epoch, or a
    transformation between frames.  Those definitions come from the
