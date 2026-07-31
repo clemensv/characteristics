@@ -2026,24 +2026,19 @@ The `vectorReferenceFrames` keyword identifies the reference frames on whose
 axes the components of vector quantities held in properties of an object or
 tuple are resolved.
 
-A vector quantity has a magnitude and a direction. Its components are its
-projections onto the axes of a frame and have no meaning apart from that frame.
-A position is a location in a coordinate reference system. A record may carry
-both: `coordinateReferenceSystem` binds the members that give a position
-({{coordinate-reference-systems}}), and `vectorReferenceFrames` binds the
-members that give the components of a vector.
-
-A frame is an ordered set of axis directions. It has no origin, because moving
-the origin does not change a vector. A coordinate reference system does have
-one, fixed by its datum. The keyword names a frame rather than a system for that
-reason.
+A vector quantity has a magnitude and a direction, and its components are its
+projections onto the axes of a frame, meaningless apart from it. A frame is an
+ordered set of axis directions and has no origin, because moving the origin does
+not change a vector, whereas a coordinate reference system has one, fixed by its
+datum. A record may carry both kinds of quantity: `coordinateReferenceSystem`
+binds the members that give a position ({{coordinate-reference-systems}}), and
+`vectorReferenceFrames` binds the members that give the components of a vector.
 
 A frame contributes directions only, and so does not establish the units of the
-members it binds. A coordinate takes its unit from the axis it lies on, and the
-axes of a coordinate reference system may carry units that differ from one
-another, as in a geographic system with two angles and a height. The components
-of a vector all carry the unit of the quantity. The units of the members named
-by one frame MUST be mutually convertible and SHOULD be identical.
+members it binds. The axes of a coordinate reference system may carry differing
+units, as in a geographic system with two angles and a height, but the
+components of a vector all carry the unit of the quantity. The units of the
+members named by one frame MUST be mutually convertible and SHOULD be identical.
 
 When present, `vectorReferenceFrames` MUST be a non-empty array. Each element
 MUST be an object with REQUIRED `reference`, `kind`, and `components`, and no
@@ -2052,52 +2047,37 @@ than one vector quantity, and each quantity is resolved in its own frame.
 
 ### The `reference` and `kind` Properties
 
-`reference` names the frame and `kind` says what kind of name it is. The values
-are the same value space as for `coordinateReferenceSystem`. The following
-values of `kind` are defined; the enumeration is open.
-
-| `kind` | `reference` is |
-|---|---|
-| `ogc-crs` | An OGC CRS URI whose axes are directions. |
-| `epsg` | An EPSG dataset URI whose axes are directions. |
-| `type` | A JSON Pointer to a type definition in the same schema document. |
-
-Where `kind` is `type`, `reference` MUST be a JSON Pointer to a type definition
-in the same schema document. Where `kind` is any other value, `reference` MUST
-be an absolute URI.
+`reference` and `kind` have the same value space and the same meaning as in
+`coordinateReferenceSystem` ({{coordinate-reference-systems}}), under one added
+condition: the axes of the referenced system MUST be directions rather than
+angles, since a component is a projection onto a direction.
 
 A registered coordinate reference system establishes axis directions, so it may
-serve as a vector reference frame wherever those axes are directions rather than
-angles. Most frames in which vectors are reported are not registered anywhere.
-Such a frame is written as a `tuple` meta-type whose members, in the order given
-by `tuple`, are the axes, and whose member `description` values state the
-direction each axis points in. The meta-type establishes the axes and their
-order; it does not establish the units of the annotated members.
+serve as a frame wherever that condition holds. Registries exist to identify
+positions, so most frames in which vectors are reported are not registered
+anywhere. Such a frame is written as a `tuple` meta-type whose members, in the
+order given by `tuple`, are the axes, and whose member `description` values
+state the direction each axis points in. The meta-type establishes the axes and
+their order, not the units of the annotated members.
 
 ### The `components` Property
 
-`components` MUST be a non-empty array of strings. Each string MUST be the name
-of a direct property of the annotated object or tuple. The names within one
-`components` array MUST be distinct, since one value cannot be the component
-along two axes of one frame. The element at index 0 names the property holding
-the component on the first axis of the frame, the element at index 1 the second,
-and so on. The number of entries MUST equal the number of axes the frame has.
-Each named property MUST have a numeric type.
-
-The ordering is an assertion by the schema author and is never inferred from
-property names, from declaration order, or from example values.
+`components` behaves as `coordinates` does: a non-empty array of names of direct
+properties of the annotated object or tuple, all of numeric type, mapped by
+position onto the axes of the frame, whose count MUST equal the number of axes,
+and whose ordering is an assertion by the schema author that is never inferred.
+The names within one `components` array MUST be distinct, since one value cannot
+be the component along two axes of one frame.
 
 ### Multiple Frames and Shared Components
 
-Two elements MAY cite the same `reference`, which is how a record that reports
-two distinct vector quantities in one frame is written.
-
-A property MAY be named by more than one element. Doing so asserts that the
-frames share the axis in question and that the value is the same component in
-both, which is how one vector quantity expressed in two frames is written where
-those frames have an axis in common. The assertion is the schema author's. A
-processor MUST NOT infer a shared axis from a shared property, nor from the
-names of the frames, nor from equal values in samples.
+Two elements MAY cite the same `reference`, which is how a record reporting two
+distinct vector quantities in one frame is written. A property MAY be named by
+more than one element, which asserts that the frames share that axis and that
+the value is the same component in both, and is how one quantity expressed in
+two frames is written. The assertion is the schema author's, and a processor
+MUST NOT infer a shared axis from a shared property, from the names of the
+frames, or from equal values in samples.
 
 A property MAY also be named both by `vectorReferenceFrames` and by the
 `coordinateReferenceSystem` of the same object or tuple, as a position vector
@@ -2107,69 +2087,52 @@ by the components of the vector MUST be mutually convertible.
 A reference that does not resolve leaves the frame indeterminate. It does not
 make the annotation incorrect.
 
-The following example binds the three components of a magnetic field reading to
-an unregistered spacecraft-local frame written as a meta-type. The order of
-`components` follows the order of `tuple` in `GoesEpnFrame`.
+In the following example a satellite navigation receiver reports a position and
+a velocity. EPSG:4979 fixes the position; two of its three axes are angles, so
+it cannot serve as a vector frame, and the velocity cites EPSG:4978, whose axes
+are geocentric X, Y, and Z. Re-expressing the record in another system would
+move the position by the whole of the transformation and would turn the velocity
+by its rotation alone, which is the distinction the two keywords carry.
 
 ~~~ json
 {
-  "name": "GoesMagnetometer",
+  "name": "NavigationFix",
   "type": "object",
+  "coordinateReferenceSystem": {
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4979",
+    "kind": "ogc-crs",
+    "coordinates": ["lat", "lon", "height"]
+  },
   "vectorReferenceFrames": [
     {
-      "reference": "#/definitions/GoesEpnFrame",
-      "kind": "type",
-      "components": ["hp", "he", "hn"]
+      "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
+      "kind": "ogc-crs",
+      "components": ["vel_x", "vel_y", "vel_z"]
     }
   ],
   "properties": {
-    "hp": { "type": "double", "unit": "nT" },
-    "he": { "type": "double", "unit": "nT" },
-    "hn": { "type": "double", "unit": "nT" }
+    "lat": { "type": "double", "unit": "deg" },
+    "lon": { "type": "double", "unit": "deg" },
+    "height": { "type": "double", "unit": "m" },
+    "vel_x": { "type": "double", "unit": "m/s" },
+    "vel_y": { "type": "double", "unit": "m/s" },
+    "vel_z": { "type": "double", "unit": "m/s" }
   },
-  "required": ["hp", "he", "hn"],
-  "additionalProperties": false,
-  "definitions": {
-    "GoesEpnFrame": {
-      "name": "GoesEpnFrame",
-      "type": "tuple",
-      "description": "Spacecraft-local PEN frame used by the GOES magnetometers.",
-      "properties": {
-        "p": {
-          "type": "double",
-          "description": "Perpendicular to the orbital plane, positive northward."
-        },
-        "e": {
-          "type": "double",
-          "description": "Perpendicular to p, positive earthward."
-        },
-        "n": {
-          "type": "double",
-          "description": "Perpendicular to p and e, positive eastward."
-        }
-      },
-      "tuple": ["p", "e", "n"]
-    }
-  }
+  "required": ["lat", "lon", "height", "vel_x", "vel_y", "vel_z"],
+  "additionalProperties": false
 }
 ~~~
 
-The next example carries a position and a magnetic field in one record. The
-position is bound by `coordinateReferenceSystem` and the field components by two
-elements of `vectorReferenceFrames`. The two frames share their first axis, so
-the schema reports that component once, under `bx`, and names it in both
-elements. The remaining two components differ between the frames and are carried
-separately.
+Most frames have no registered identifier. In the next example a magnetic field
+is reported in two such frames, each written as a meta-type. The frames share
+their first axis, so the schema reports that component once, under `bx`, and
+names it in both elements. The remaining components differ between the frames
+and are carried separately.
 
 ~~~ json
 {
   "name": "SolarWindSample",
   "type": "object",
-  "coordinateReferenceSystem": {
-    "reference": "#/definitions/GseFrame",
-    "kind": "type",
-    "coordinates": ["pos_x", "pos_y", "pos_z"]
-  },
   "vectorReferenceFrames": [
     {
       "reference": "#/definitions/GseFrame",
@@ -2183,21 +2146,43 @@ separately.
     }
   ],
   "properties": {
-    "pos_x": { "type": "double", "unit": "km" },
-    "pos_y": { "type": "double", "unit": "km" },
-    "pos_z": { "type": "double", "unit": "km" },
     "bx": { "type": "double", "unit": "nT" },
     "by_gse": { "type": "double", "unit": "nT" },
     "bz_gse": { "type": "double", "unit": "nT" },
     "by_gsm": { "type": "double", "unit": "nT" },
     "bz_gsm": { "type": "double", "unit": "nT" }
   },
-  "additionalProperties": false
+  "required": ["bx", "by_gse", "bz_gse", "by_gsm", "bz_gsm"],
+  "additionalProperties": false,
+  "definitions": {
+    "GseFrame": {
+      "name": "GseFrame",
+      "type": "tuple",
+      "description": "Geocentric Solar Ecliptic frame.",
+      "properties": {
+        "x": { "type": "double", "description": "Earth towards the Sun." },
+        "y": { "type": "double", "description": "Completes a right-handed set." },
+        "z": { "type": "double", "description": "Normal to the ecliptic, positive north." }
+      },
+      "tuple": ["x", "y", "z"]
+    },
+    "GsmFrame": {
+      "name": "GsmFrame",
+      "type": "tuple",
+      "description": "Geocentric Solar Magnetospheric frame.",
+      "properties": {
+        "x": { "type": "double", "description": "Earth towards the Sun." },
+        "y": { "type": "double", "description": "Completes a right-handed set." },
+        "z": { "type": "double", "description": "In the plane of x and the geomagnetic dipole axis, positive north." }
+      },
+      "tuple": ["x", "y", "z"]
+    }
+  }
 }
 ~~~
 
-The position and the field are both expressed against `GseFrame`, one as a
-position and one as a vector, which is the distinction the two keywords carry.
+The frames are written separately because they differ, and they share their
+first axis because both take x from the Earth towards the Sun.
 
 This specification does not define a frame, an epoch, or a transformation
 between frames. Those definitions come from the referenced authority or from the
