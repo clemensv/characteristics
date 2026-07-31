@@ -66,6 +66,11 @@ Where a sample carries an `enum`, the meaning of each symbol is stated with
 `lang:en` display label and a `description` sentence per symbol — rather than
 packed into the description of the enclosing member.
 
+Six of the real-world samples also carry a `schema-unannotated.struct.json`
+holding the same record with the semantic layer removed, so that the two can be
+read side by side. See
+[what the annotations carry](samples/real-world/README.md#what-the-annotations-carry).
+
 ### Teaching samples
 
 Fifteen samples introduce the annotations one theme at a time. See the

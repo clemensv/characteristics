@@ -3,7 +3,7 @@
     Validates the JSON Structure: Characteristics samples.
 
 .DESCRIPTION
-    Runs four checks:
+    Runs five checks:
 
       1. The extension meta-schema (characteristics-v0.json) is a conforming
          JSON Structure schema document. Skipped unless the json-structure/meta
@@ -14,10 +14,13 @@
       3. Every example.json instance conforms to the schema beside it.
       4. Every Characteristics annotation in every sample schema conforms to the
          extension meta-schema.
+      5. Every schema-unannotated.struct.json companion is a conforming schema,
+         accepts the instance beside it, and is up to date with respect to the
+         annotated schema it is derived from.
 
     Steps 1 to 3 use the JSON Structure Python SDK. Install it with
-    'pip install json-structure'. Step 4 uses check-annotations.py, which reads
-    the meta-schema directly.
+    'pip install json-structure'. Step 4 uses check-annotations.py and step 5
+    uses make-unannotated.py, both of which read the meta-schema directly.
 
 .EXAMPLE
     ./validate-characteristics.ps1
@@ -93,6 +96,27 @@ else {
         $output = & $python $checker $metaSchema $schema.FullName 2>&1
         Write-Result ($LASTEXITCODE -eq 0) $schema.Directory.Name ($output | Select-Object -Skip 1)
     }
+}
+
+Write-Host 'Unannotated companions' -ForegroundColor Cyan
+$companions = Get-ChildItem -Path $samplesRoot -Recurse -Filter 'schema-unannotated.struct.json' |
+    Sort-Object FullName
+foreach ($companion in $companions) {
+    $output = & json-structure-check --extended --allowimport --quiet $companion.FullName 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Result $false $companion.Directory.Name $output
+        continue
+    }
+    $instance = Join-Path $companion.Directory.FullName 'example.json'
+    $output = & json-structure-validate --extended --allowimport --quiet $instance $companion.FullName 2>&1
+    Write-Result ($LASTEXITCODE -eq 0) $companion.Directory.Name $output
+}
+if (-not $python) {
+    Write-Host '  [skip] up-to-date check (no Python interpreter on PATH)' -ForegroundColor Yellow
+}
+else {
+    $output = & $python (Join-Path $samplesRoot 'make-unannotated.py') --check 2>&1
+    Write-Result ($LASTEXITCODE -eq 0) 'derived from the annotated schemas' $output
 }
 
 Write-Host ''
