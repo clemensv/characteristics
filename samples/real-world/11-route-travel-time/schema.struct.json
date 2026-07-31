@@ -7,8 +7,8 @@
   "type": "object",
   "concepts": [
     {
-      "reference": "http://vocab.datex.org/terms#TravelTimeData",
-      "kind": "rdfs-class"
+      "reference": "http://datex2.eu/schema/3/roadTrafficData#TravelTimeData",
+      "kind": "datex2-complex-type"
     }
   ],
   "observedProperty": {
@@ -16,7 +16,7 @@
     "kind": "example-catalog"
   },
   "linearReferenceSystem": {
-    "reference": "https://data.ndw.nu/def/lrs/nationaal-wegenbestand",
+    "reference": "https://www.nationaalwegenbestand.nl/",
     "kind": "lrs-network",
     "linearElement": "road_name",
     "measure": "start_offset",

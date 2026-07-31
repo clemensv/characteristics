@@ -7,8 +7,8 @@
   "type": "object",
   "concepts": [
     {
-      "reference": "https://w3id.org/gbfs#StationStatus",
-      "kind": "rdfs-class"
+      "reference": "http://www.w3.org/ns/sosa/Observation",
+      "kind": "owl-class"
     }
   ],
   "observedProperty": {

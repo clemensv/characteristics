@@ -10,7 +10,7 @@
     "kind": "example-catalog"
   },
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
     "kind": "ogc-crs",
     "coordinates": ["Latitude", "Longitude"]
   },
@@ -51,10 +51,6 @@
       "symbol": "°",
       "semanticRole": "observationValue",
       "derivation": "measured",
-      "observedProperty": {
-        "reference": "http://qudt.org/vocab/quantitykind/Latitude",
-        "kind": "qudt-quantity-kind"
-      },
       "concepts": [
         {
           "reference": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
@@ -69,10 +65,6 @@
       "symbol": "°",
       "semanticRole": "observationValue",
       "derivation": "measured",
-      "observedProperty": {
-        "reference": "http://qudt.org/vocab/quantitykind/Longitude",
-        "kind": "qudt-quantity-kind"
-      },
       "concepts": [
         {
           "reference": "http://www.w3.org/2003/01/geo/wgs84_pos#long",

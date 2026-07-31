@@ -1857,7 +1857,7 @@ The coordinate order is significant. OGC CRS84 uses longitude, latitude:
   "name": "Crs84Position",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+    "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
     "kind": "ogc-crs",
     "coordinates": ["lon", "lat"]
   },
@@ -1883,7 +1883,7 @@ EPSG:4326 {{EPSG}} uses its authoritative latitude, longitude axis order:
   "name": "Epsg4326Position",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
     "kind": "ogc-crs",
     "coordinates": ["lat", "lon"]
   },
@@ -1921,7 +1921,7 @@ The following excerpt binds a gauge reading to NAVD88 height:
   "name": "GaugeHeightObservation",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
     "kind": "ogc-crs",
     "coordinates": ["water_level"]
   },
@@ -1957,7 +1957,7 @@ of them in order. The annotation of such an object reads:
 ~~~ json
 {
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/6349",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/6349",
     "kind": "ogc-crs",
     "coordinates": ["lat", "lon", "height"]
   }
@@ -1974,7 +1974,7 @@ schema models one of them as a nested object:
   "name": "StationWaterLevel",
   "type": "object",
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/5703",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5703",
     "kind": "ogc-crs",
     "coordinates": ["water_level"]
   },
@@ -1982,7 +1982,7 @@ schema models one of them as a nested object:
     "station_position": {
       "type": "object",
       "coordinateReferenceSystem": {
-        "reference": "https://www.opengis.net/def/crs/OGC/1.3/CRS84",
+        "reference": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
         "kind": "ogc-crs",
         "coordinates": ["lon", "lat"]
       },
@@ -2345,21 +2345,21 @@ a Core temporal type, a string, a numeric epoch count, or a compound position.
 Temporal coordinate reference systems, for `kind` `ogc-temporal-crs`. Each
 establishes an origin and an axis, and the axis constrains the annotated type:
 
-* `https://www.opengis.net/def/crs/OGC/0/GregorianDateTime`, a date and time in
+* `http://www.opengis.net/def/crs/OGC/0/GregorianDateTime`, a date and time in
   the Gregorian calendar. Its axis carries no unit, and it takes a Core
   `datetime`, `date`, or `time`, or a `string` in the same form.
-* `https://www.opengis.net/def/crs/OGC/0/UnixTime`, seconds elapsed from
+* `http://www.opengis.net/def/crs/OGC/0/UnixTime`, seconds elapsed from
   1970-01-01T00:00:00Z. It takes an integer or number carrying UCUM `s`.
-* `https://www.opengis.net/def/crs/OGC/0/AnsiDate`, days elapsed from
+* `http://www.opengis.net/def/crs/OGC/0/AnsiDate`, days elapsed from
   1601-01-01T00:00:00Z. It takes an integer or number carrying UCUM `d`.
-* `https://www.opengis.net/def/crs/OGC/0/JulianDate`, days elapsed from the
+* `http://www.opengis.net/def/crs/OGC/0/JulianDate`, days elapsed from the
   Julian period origin. It takes a number carrying UCUM `d`, since its origin
   falls at noon and positions are ordinarily fractional.
-* `https://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate`, days elapsed
+* `http://www.opengis.net/def/crs/OGC/0/TruncatedJulianDate`, days elapsed
   from 1968-05-24T00:00:00Z. It takes a number carrying UCUM `d`.
-* `https://www.opengis.net/def/crs/OGC/0/BeforePresentTime`, years counted
+* `http://www.opengis.net/def/crs/OGC/0/BeforePresentTime`, years counted
   backwards from 1950. It takes a number carrying UCUM `a`.
-* `https://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime`, millions of
+* `http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime`, millions of
   years counted backwards from year zero. It takes a number carrying UCUM `Ma`.
 
 None of the numeric definitions takes a string, and `GregorianDateTime` does
@@ -2372,7 +2372,7 @@ unit, which covers epoch counts for which no named definition exists. A count
 of milliseconds from the Unix origin is identified by:
 
 ~~~
-https://www.opengis.net/def/crs/OGC/0/Temporal
+http://www.opengis.net/def/crs/OGC/0/Temporal
   ?epoch=%221970-01-01T00:00:00Z%22&uom=%22ms%22
 ~~~
 
@@ -2385,15 +2385,15 @@ definition read at a different scale.
 
 For `kind` `ogc-crs`:
 
-* `https://www.opengis.net/def/crs/OGC/1.3/CRS84`, WGS 84 with axes longitude,
+* `http://www.opengis.net/def/crs/OGC/1.3/CRS84`, WGS 84 with axes longitude,
   latitude;
-* `https://www.opengis.net/def/crs/OGC/0/CRS84h`, WGS 84 with axes longitude,
+* `http://www.opengis.net/def/crs/OGC/0/CRS84h`, WGS 84 with axes longitude,
   latitude, ellipsoidal height;
-* `https://www.opengis.net/def/crs/EPSG/0/4326`, WGS 84 with axes latitude,
+* `http://www.opengis.net/def/crs/EPSG/0/4326`, WGS 84 with axes latitude,
   longitude;
-* `https://www.opengis.net/def/crs/EPSG/0/4979`, WGS 84 with axes latitude,
+* `http://www.opengis.net/def/crs/EPSG/0/4979`, WGS 84 with axes latitude,
   longitude, ellipsoidal height; and
-* `https://www.opengis.net/def/crs/EPSG/0/3857`, WGS 84 Pseudo-Mercator.
+* `http://www.opengis.net/def/crs/EPSG/0/3857`, WGS 84 Pseudo-Mercator.
 
 Axis order differs among these definitions, and the definition establishes it.
 The first two and the next two describe the same datum in opposite axis order.

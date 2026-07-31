@@ -10,7 +10,7 @@
     "kind": "example-catalog"
   },
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
     "kind": "ogc-crs",
     "coordinates": ["latitude", "longitude"]
   },

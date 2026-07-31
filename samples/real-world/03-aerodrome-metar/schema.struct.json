@@ -10,7 +10,7 @@
     "kind": "example-catalog"
   },
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/5714",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5714",
     "kind": "ogc-crs",
     "coordinates": ["elevation"]
   },
@@ -40,7 +40,7 @@
       "type": "object",
       "description": "Horizontal position of the reporting station, grouped into an object so that the latitude/longitude pair can carry its own horizontal CRS binding independently of the vertical CRS binding that the enclosing record carries for elevation. Axis 1 of EPSG:4326 is latitude and axis 2 is longitude, and the coordinates array maps the members accordingly.",
       "coordinateReferenceSystem": {
-        "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+        "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
         "kind": "ogc-crs",
         "coordinates": ["latitude", "longitude"]
       },

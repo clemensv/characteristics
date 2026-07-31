@@ -10,7 +10,7 @@
     "kind": "example-catalog"
   },
   "coordinateReferenceSystem": {
-    "reference": "https://www.opengis.net/def/crs/EPSG/0/4326",
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
     "kind": "ogc-crs",
     "coordinates": ["lat", "long"]
   },
@@ -93,7 +93,7 @@
       "description": "GTFS route identifier the vehicle is currently running on, from the HFP payload `route` field.",
       "concepts": [
         {
-          "reference": "https://w3id.org/gtfs#route",
+          "reference": "http://vocab.gtfs.org/terms#route",
           "kind": "rdf-property"
         }
       ]
@@ -190,7 +190,7 @@
       "description": "Numeric GTFS identifier of the stop this event relates to, from the HFP payload `stop` field. On a `vp` event it names the stop the vehicle most recently departed from, and it is absent between the end of one stop relation and the start of the next.",
       "concepts": [
         {
-          "reference": "https://w3id.org/gtfs#stop",
+          "reference": "http://vocab.gtfs.org/terms#stop",
           "kind": "rdf-property"
         }
       ]
