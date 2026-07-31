@@ -3768,73 +3768,38 @@ referenced authority.<a href="#section-8.1.4-9" class="pilcrow">¶</a></p>
 <p id="section-8.2-1">The <code>vectorReferenceFrames</code> keyword identifies the reference frames on whose
 axes the components of vector quantities held in properties of an object or
 tuple are resolved.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2-2">A vector quantity has a magnitude and a direction. Its components are its
-projections onto the axes of a frame and have no meaning apart from that frame.
-A position is a location in a coordinate reference system. A record may carry
-both: <code>coordinateReferenceSystem</code> binds the members that give a position
-(<a href="#coordinate-reference-systems" class="auto internal xref">Section 8.1</a>), and <code>vectorReferenceFrames</code> binds the
-members that give the components of a vector.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
-<p id="section-8.2-3">A frame is an ordered set of axis directions. It has no origin, because moving
-the origin does not change a vector. A coordinate reference system does have
-one, fixed by its datum. The keyword names a frame rather than a system for that
-reason.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
-<p id="section-8.2-4">A frame contributes directions only, and so does not establish the units of the
-members it binds. A coordinate takes its unit from the axis it lies on, and the
-axes of a coordinate reference system may carry units that differ from one
-another, as in a geographic system with two angles and a height. The components
-of a vector all carry the unit of the quantity. The units of the members named
-by one frame <span class="bcp14">MUST</span> be mutually convertible and <span class="bcp14">SHOULD</span> be identical.<a href="#section-8.2-4" class="pilcrow">¶</a></p>
-<p id="section-8.2-5">When present, <code>vectorReferenceFrames</code> <span class="bcp14">MUST</span> be a non-empty array. Each element
+<p id="section-8.2-2">A vector quantity has a magnitude and a direction, and its components are its
+projections onto the axes of a frame, meaningless apart from it. A frame is an
+ordered set of axis directions and has no origin, because moving the origin does
+not change a vector, whereas a coordinate reference system has one, fixed by its
+datum. A record may carry both kinds of quantity: <code>coordinateReferenceSystem</code>
+binds the members that give a position (<a href="#coordinate-reference-systems" class="auto internal xref">Section 8.1</a>), and
+<code>vectorReferenceFrames</code> binds the members that give the components of a vector.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2-3">A frame contributes directions only, and so does not establish the units of the
+members it binds. The axes of a coordinate reference system may carry differing
+units, as in a geographic system with two angles and a height, but the
+components of a vector all carry the unit of the quantity. The units of the
+members named by one frame <span class="bcp14">MUST</span> be mutually convertible and <span class="bcp14">SHOULD</span> be identical.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
+<p id="section-8.2-4">When present, <code>vectorReferenceFrames</code> <span class="bcp14">MUST</span> be a non-empty array. Each element
 <span class="bcp14">MUST</span> be an object with <span class="bcp14">REQUIRED</span> <code>reference</code>, <code>kind</code>, and <code>components</code>, and no
 other members. The keyword is an array because a single record may carry more
-than one vector quantity, and each quantity is resolved in its own frame.<a href="#section-8.2-5" class="pilcrow">¶</a></p>
+than one vector quantity, and each quantity is resolved in its own frame.<a href="#section-8.2-4" class="pilcrow">¶</a></p>
 <div id="the-reference-and-kind-properties">
 <section id="section-8.2.1">
           <h4 id="name-the-reference-and-kind-prop">
 <a href="#section-8.2.1" class="section-number selfRef">8.2.1. </a><a href="#name-the-reference-and-kind-prop" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
           </h4>
-<p id="section-8.2.1-1"><code>reference</code> names the frame and <code>kind</code> says what kind of name it is. The values
-are the same value space as for <code>coordinateReferenceSystem</code>. The following
-values of <code>kind</code> are defined; the enumeration is open.<a href="#section-8.2.1-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-12">
-            <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
-<thead>
-              <tr>
-                <th class="text-left" rowspan="1" colspan="1">kind</th>
-                <th class="text-left" rowspan="1" colspan="1">reference is</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <code>ogc-crs</code>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">An OGC CRS URI whose axes are directions.</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <code>epsg</code>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">An EPSG dataset URI whose axes are directions.</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <code>type</code>
-</td>
-                <td class="text-left" rowspan="1" colspan="1">A JSON Pointer to a type definition in the same schema document.</td>
-              </tr>
-            </tbody>
-          </table>
-<p id="section-8.2.1-3">Where <code>kind</code> is <code>type</code>, <code>reference</code> <span class="bcp14">MUST</span> be a JSON Pointer to a type definition
-in the same schema document. Where <code>kind</code> is any other value, <code>reference</code> <span class="bcp14">MUST</span>
-be an absolute URI.<a href="#section-8.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-8.2.1-4">A registered coordinate reference system establishes axis directions, so it may
-serve as a vector reference frame wherever those axes are directions rather than
-angles. Most frames in which vectors are reported are not registered anywhere.
-Such a frame is written as a <code>tuple</code> meta-type whose members, in the order given
-by <code>tuple</code>, are the axes, and whose member <code>description</code> values state the
-direction each axis points in. The meta-type establishes the axes and their
-order; it does not establish the units of the annotated members.<a href="#section-8.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-8.2.1-1"><code>reference</code> and <code>kind</code> have the same value space and the same meaning as in
+<code>coordinateReferenceSystem</code> (<a href="#coordinate-reference-systems" class="auto internal xref">Section 8.1</a>), under one added
+condition: the axes of the referenced system <span class="bcp14">MUST</span> be directions rather than
+angles, since a component is a projection onto a direction.<a href="#section-8.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.2.1-2">A registered coordinate reference system establishes axis directions, so it may
+serve as a frame wherever that condition holds. Registries exist to identify
+positions, so most frames in which vectors are reported are not registered
+anywhere. Such a frame is written as a <code>tuple</code> meta-type whose members, in the
+order given by <code>tuple</code>, are the axes, and whose member <code>description</code> values
+state the direction each axis points in. The meta-type establishes the axes and
+their order, not the units of the annotated members.<a href="#section-8.2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-components-property">
@@ -3842,15 +3807,12 @@ order; it does not establish the units of the annotated members.<a href="#sectio
           <h4 id="name-the-components-property">
 <a href="#section-8.2.2" class="section-number selfRef">8.2.2. </a><a href="#name-the-components-property" class="section-name selfRef">The <code>components</code> Property</a>
           </h4>
-<p id="section-8.2.2-1"><code>components</code> <span class="bcp14">MUST</span> be a non-empty array of strings. Each string <span class="bcp14">MUST</span> be the name
-of a direct property of the annotated object or tuple. The names within one
-<code>components</code> array <span class="bcp14">MUST</span> be distinct, since one value cannot be the component
-along two axes of one frame. The element at index 0 names the property holding
-the component on the first axis of the frame, the element at index 1 the second,
-and so on. The number of entries <span class="bcp14">MUST</span> equal the number of axes the frame has.
-Each named property <span class="bcp14">MUST</span> have a numeric type.<a href="#section-8.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.2-2">The ordering is an assertion by the schema author and is never inferred from
-property names, from declaration order, or from example values.<a href="#section-8.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2.2-1"><code>components</code> behaves as <code>coordinates</code> does: a non-empty array of names of direct
+properties of the annotated object or tuple, all of numeric type, mapped by
+position onto the axes of the frame, whose count <span class="bcp14">MUST</span> equal the number of axes,
+and whose ordering is an assertion by the schema author that is never inferred.
+The names within one <code>components</code> array <span class="bcp14">MUST</span> be distinct, since one value cannot
+be the component along two axes of one frame.<a href="#section-8.2.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="multiple-frames-and-shared-components">
@@ -3858,83 +3820,65 @@ property names, from declaration order, or from example values.<a href="#section
           <h4 id="name-multiple-frames-and-shared-">
 <a href="#section-8.2.3" class="section-number selfRef">8.2.3. </a><a href="#name-multiple-frames-and-shared-" class="section-name selfRef">Multiple Frames and Shared Components</a>
           </h4>
-<p id="section-8.2.3-1">Two elements <span class="bcp14">MAY</span> cite the same <code>reference</code>, which is how a record that reports
-two distinct vector quantities in one frame is written.<a href="#section-8.2.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-2">A property <span class="bcp14">MAY</span> be named by more than one element. Doing so asserts that the
-frames share the axis in question and that the value is the same component in
-both, which is how one vector quantity expressed in two frames is written where
-those frames have an axis in common. The assertion is the schema author's. A
-processor <span class="bcp14">MUST NOT</span> infer a shared axis from a shared property, nor from the
-names of the frames, nor from equal values in samples.<a href="#section-8.2.3-2" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-3">A property <span class="bcp14">MAY</span> also be named both by <code>vectorReferenceFrames</code> and by the
+<p id="section-8.2.3-1">Two elements <span class="bcp14">MAY</span> cite the same <code>reference</code>, which is how a record reporting two
+distinct vector quantities in one frame is written. A property <span class="bcp14">MAY</span> be named by
+more than one element, which asserts that the frames share that axis and that
+the value is the same component in both, and is how one quantity expressed in
+two frames is written. The assertion is the schema author's, and a processor
+<span class="bcp14">MUST NOT</span> infer a shared axis from a shared property, from the names of the
+frames, or from equal values in samples.<a href="#section-8.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-8.2.3-2">A property <span class="bcp14">MAY</span> also be named both by <code>vectorReferenceFrames</code> and by the
 <code>coordinateReferenceSystem</code> of the same object or tuple, as a position vector
 is. Where it is, the unit established by the coordinate axis and the unit borne
-by the components of the vector <span class="bcp14">MUST</span> be mutually convertible.<a href="#section-8.2.3-3" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-4">A reference that does not resolve leaves the frame indeterminate. It does not
-make the annotation incorrect.<a href="#section-8.2.3-4" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-5">The following example binds the three components of a magnetic field reading to
-an unregistered spacecraft-local frame written as a meta-type. The order of
-<code>components</code> follows the order of <code>tuple</code> in <code>GoesEpnFrame</code>.<a href="#section-8.2.3-5" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-8.2.3-6">
+by the components of the vector <span class="bcp14">MUST</span> be mutually convertible.<a href="#section-8.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-8.2.3-3">A reference that does not resolve leaves the frame indeterminate. It does not
+make the annotation incorrect.<a href="#section-8.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.2.3-4">In the following example a satellite navigation receiver reports a position and
+a velocity. EPSG:4979 fixes the position; two of its three axes are angles, so
+it cannot serve as a vector frame, and the velocity cites EPSG:4978, whose axes
+are geocentric X, Y, and Z. Re-expressing the record in another system would
+move the position by the whole of the transformation and would turn the velocity
+by its rotation alone, which is the distinction the two keywords carry.<a href="#section-8.2.3-4" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-8.2.3-5">
 <pre>
 {
-  "name": "GoesMagnetometer",
+  "name": "NavigationFix",
   "type": "object",
+  "coordinateReferenceSystem": {
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/4979",
+    "kind": "ogc-crs",
+    "coordinates": ["lat", "lon", "height"]
+  },
   "vectorReferenceFrames": [
     {
-      "reference": "#/definitions/GoesEpnFrame",
-      "kind": "type",
-      "components": ["hp", "he", "hn"]
+      "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
+      "kind": "ogc-crs",
+      "components": ["vel_x", "vel_y", "vel_z"]
     }
   ],
   "properties": {
-    "hp": { "type": "double", "unit": "nT" },
-    "he": { "type": "double", "unit": "nT" },
-    "hn": { "type": "double", "unit": "nT" }
+    "lat": { "type": "double", "unit": "deg" },
+    "lon": { "type": "double", "unit": "deg" },
+    "height": { "type": "double", "unit": "m" },
+    "vel_x": { "type": "double", "unit": "m/s" },
+    "vel_y": { "type": "double", "unit": "m/s" },
+    "vel_z": { "type": "double", "unit": "m/s" }
   },
-  "required": ["hp", "he", "hn"],
-  "additionalProperties": false,
-  "definitions": {
-    "GoesEpnFrame": {
-      "name": "GoesEpnFrame",
-      "type": "tuple",
-      "description": "Spacecraft-local PEN frame used by the GOES magnetometers.",
-      "properties": {
-        "p": {
-          "type": "double",
-          "description": "Perpendicular to the orbital plane, positive northward."
-        },
-        "e": {
-          "type": "double",
-          "description": "Perpendicular to p, positive earthward."
-        },
-        "n": {
-          "type": "double",
-          "description": "Perpendicular to p and e, positive eastward."
-        }
-      },
-      "tuple": ["p", "e", "n"]
-    }
-  }
+  "required": ["lat", "lon", "height", "vel_x", "vel_y", "vel_z"],
+  "additionalProperties": false
 }
-</pre><a href="#section-8.2.3-6" class="pilcrow">¶</a>
+</pre><a href="#section-8.2.3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-8.2.3-7">The next example carries a position and a magnetic field in one record. The
-position is bound by <code>coordinateReferenceSystem</code> and the field components by two
-elements of <code>vectorReferenceFrames</code>. The two frames share their first axis, so
-the schema reports that component once, under <code>bx</code>, and names it in both
-elements. The remaining two components differ between the frames and are carried
-separately.<a href="#section-8.2.3-7" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-8.2.3-8">
+<p id="section-8.2.3-6">Most frames have no registered identifier. In the next example a magnetic field
+is reported in two such frames, each written as a meta-type. The frames share
+their first axis, so the schema reports that component once, under <code>bx</code>, and
+names it in both elements. The remaining components differ between the frames
+and are carried separately.<a href="#section-8.2.3-6" class="pilcrow">¶</a></p>
+<div class="breakable lang-json sourcecode" id="section-8.2.3-7">
 <pre>
 {
   "name": "SolarWindSample",
   "type": "object",
-  "coordinateReferenceSystem": {
-    "reference": "#/definitions/GseFrame",
-    "kind": "type",
-    "coordinates": ["pos_x", "pos_y", "pos_z"]
-  },
   "vectorReferenceFrames": [
     {
       "reference": "#/definitions/GseFrame",
@@ -3948,24 +3892,46 @@ separately.<a href="#section-8.2.3-7" class="pilcrow">¶</a></p>
     }
   ],
   "properties": {
-    "pos_x": { "type": "double", "unit": "km" },
-    "pos_y": { "type": "double", "unit": "km" },
-    "pos_z": { "type": "double", "unit": "km" },
     "bx": { "type": "double", "unit": "nT" },
     "by_gse": { "type": "double", "unit": "nT" },
     "bz_gse": { "type": "double", "unit": "nT" },
     "by_gsm": { "type": "double", "unit": "nT" },
     "bz_gsm": { "type": "double", "unit": "nT" }
   },
-  "additionalProperties": false
+  "required": ["bx", "by_gse", "bz_gse", "by_gsm", "bz_gsm"],
+  "additionalProperties": false,
+  "definitions": {
+    "GseFrame": {
+      "name": "GseFrame",
+      "type": "tuple",
+      "description": "Geocentric Solar Ecliptic frame.",
+      "properties": {
+        "x": { "type": "double", "description": "Earth towards the Sun." },
+        "y": { "type": "double", "description": "Completes a right-handed set." },
+        "z": { "type": "double", "description": "Normal to the ecliptic, positive north." }
+      },
+      "tuple": ["x", "y", "z"]
+    },
+    "GsmFrame": {
+      "name": "GsmFrame",
+      "type": "tuple",
+      "description": "Geocentric Solar Magnetospheric frame.",
+      "properties": {
+        "x": { "type": "double", "description": "Earth towards the Sun." },
+        "y": { "type": "double", "description": "Completes a right-handed set." },
+        "z": { "type": "double", "description": "In the plane of x and the geomagnetic dipole axis, positive north." }
+      },
+      "tuple": ["x", "y", "z"]
+    }
+  }
 }
-</pre><a href="#section-8.2.3-8" class="pilcrow">¶</a>
+</pre><a href="#section-8.2.3-7" class="pilcrow">¶</a>
 </div>
-<p id="section-8.2.3-9">The position and the field are both expressed against <code>GseFrame</code>, one as a
-position and one as a vector, which is the distinction the two keywords carry.<a href="#section-8.2.3-9" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-10">This specification does not define a frame, an epoch, or a transformation
+<p id="section-8.2.3-8">The frames are written separately because they differ, and they share their
+first axis because both take x from the Earth towards the Sun.<a href="#section-8.2.3-8" class="pilcrow">¶</a></p>
+<p id="section-8.2.3-9">This specification does not define a frame, an epoch, or a transformation
 between frames. Those definitions come from the referenced authority or from the
-meta-type the schema itself supplies.<a href="#section-8.2.3-10" class="pilcrow">¶</a></p>
+meta-type the schema itself supplies.<a href="#section-8.2.3-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4005,8 +3971,8 @@ definition serialization.<a href="#section-8.3.1-2" class="pilcrow">¶</a></p>
           </h4>
 <p id="section-8.3.2-1"><code>kind</code> classifies which definition model the URI identifies. It is an open
 enumeration. The following values are defined here:<a href="#section-8.3.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-13">
-            <caption><a href="#table-13" class="selfRef">Table 13</a></caption>
+<table class="center" id="table-12">
+            <caption><a href="#table-12" class="selfRef">Table 12</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Kind</th>
