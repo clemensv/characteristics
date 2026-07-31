@@ -136,26 +136,6 @@ informative:
     author:
       - org: Washington State Department of Transportation
     target: https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9
-  WSDOT-LRS-METADATA:
-    title: "Washington State LRS metadata"
-    author:
-      - org: Washington State Department of Transportation
-    target: https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9/metadata?f=json
-  WSDOT-MILEPOST:
-    title: "Milepost Values metadata"
-    author:
-      - org: Washington State Department of Transportation
-    target: https://data.wsdot.wa.gov/arcgis/rest/services/Shared/MilepostValues/FeatureServer/2/metadata?f=json
-  WSDOT-CRAB:
-    title: "County Road Administration Board Routes"
-    author:
-      - org: Washington State Department of Transportation
-    target: https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CRABRoutes/FeatureServer
-  CALTRANS-LRS:
-    title: "All Roads Linear Referencing System"
-    author:
-      - org: California Department of Transportation
-    target: https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/All_Roads/FeatureServer
   FHWA-ARNOLD:
     title: "All Road Network of Linear Referenced Data"
     author:
@@ -166,31 +146,6 @@ informative:
     author:
       - org: Federal Highway Administration
     target: https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/
-  INSPIRE-TN:
-    title: "INSPIRE Data Specification on Transport Networks - Technical Guidelines"
-    author:
-      - org: European Commission
-    target: https://inspire.ec.europa.eu/id/document/tg/tn
-  UIC-RTM:
-    title: "IRS 90940 RailTopoModel"
-    author:
-      - org: International Union of Railways
-    target: https://uic.org/rail-system/railtopomodel/
-  PDOK-NWB:
-    title: "Nationaal Wegenbestand - Wegen WFS"
-    author:
-      - org: Rijkswaterstaat
-    target: https://service.pdok.nl/rws/nwbwegen/wfs/v1_0?service=WFS&request=GetCapabilities
-  NVDB-NO:
-    title: "Nasjonal vegdatabank API Les v4"
-    author:
-      - org: Statens vegvesen
-    target: https://nvdbapiles.atlas.vegvesen.no/
-  NVDB-SE:
-    title: "Nationell vagdatabas"
-    author:
-      - org: Trafikverket
-    target: https://lastkajen.trafikverket.se/
   SPASE:
     title: "Space Physics Archive Search and Extract (SPASE) Data Model, Version 2.7.2"
     author:
@@ -1602,8 +1557,9 @@ temporal order. When present, it MUST be one of:
 When `sortOrder` is absent, the value is `forward`.
 
 Most definitions count from an epoch toward the present and are therefore
-`forward`. A definition that counts away from a datum into the past, such as
-years before present, is `backward`.
+`forward`. An annotation citing a definition whose values count away from a
+datum into the past, such as years before present or a geologic time scale,
+MUST declare `sortOrder` as `backward`.
 
 `sortOrder` applies to the annotated value, or to the member named by `position`
 where one is named. It states the direction of the ordering and nothing else,
@@ -2534,6 +2490,13 @@ enumeration. The following values are defined here:
 Other values MAY name further definition models. {{reference-uris}} discusses
 the availability of registered definitions.
 
+Since the identified definition MUST establish the measure unit, the
+increasing-measure direction, and the linear-element namespace, a feature
+service layer that carries measure values on its vertices and a route
+identifier field without stating those is a rendering of positions in a
+reference system rather than a definition of one, and it does not qualify as an
+`lrs-network`.
+
 A `type` reference carries a system that no authority publishes, such as one
 internal to a plant, a terminal, or a private network. The referenced meta-type
 MUST declare a member whose `referenceRole` is `linearElement` and a member
@@ -2797,25 +2760,12 @@ these lists is exhaustive, and a publisher can supersede any definition.
 
 ## Vocabularies {#vocabulary-uris}
 
-The `kind` values of {{concepts}} name these definition models, each of which
-publishes its terms under one namespace URI:
-
-* `http://www.w3.org/2000/01/rdf-schema#`, RDF Schema {{RDF-SCHEMA}}, for
-  `rdfs-class`;
-* `http://www.w3.org/1999/02/22-rdf-syntax-ns#`, RDF {{RDF-CONCEPTS}}, for
-  `rdf-property`;
-* `http://www.w3.org/2002/07/owl#`, OWL 2 {{OWL2}}, for `owl-class`,
-  `owl-object-property`, and `owl-datatype-property`;
-* `http://www.w3.org/2004/02/skos/core#`, SKOS {{SKOS}}, for `skos-concept`;
-  and
-* `http://purl.org/dc/terms/`, DCMI Metadata Terms {{DCTERMS}}, for
-  `dcterms-property`.
-
-A `reference` identifies a term rather than a namespace. Vocabularies that
-define terms in these models and that are widely used with observation data
-include the Semantic Sensor Network ontology {{SOSA-SSN}}, which publishes
-`http://www.w3.org/ns/sosa/` and `http://www.w3.org/ns/ssn/`, and the
-Provenance Ontology, which publishes `http://www.w3.org/ns/prov#`.
+A `reference` identifies a term, not the namespace of the model that defines it;
+{{concepts}} names the model behind each `kind`. Vocabularies that define terms
+in those models and that are widely used with observation data include the
+Semantic Sensor Network ontology {{SOSA-SSN}}, which publishes
+`http://www.w3.org/ns/sosa/` and `http://www.w3.org/ns/ssn/`, and the Provenance
+Ontology, which publishes `http://www.w3.org/ns/prov#`.
 
 ## Temporal Reference Systems {#temporal-reference-uris}
 
@@ -2854,8 +2804,7 @@ establishes an origin and an axis, and the axis constrains the annotated type:
 
 None of the numeric definitions takes a string, and `GregorianDateTime` does
 not take a number. The last two count backwards, so a larger value is an
-earlier position, and an annotation citing either MUST declare `sortOrder` as
-`backward`.
+earlier position and `sortOrder` is `backward`.
 
 The register also serves a parameterized definition taking an origin and a
 unit, which covers epoch counts for which no named definition exists. A count
@@ -2882,11 +2831,10 @@ For `kind` `ogc-crs`:
 * `http://www.opengis.net/def/crs/EPSG/0/4326`, WGS 84 with axes latitude,
   longitude;
 * `http://www.opengis.net/def/crs/EPSG/0/4979`, WGS 84 with axes latitude,
-  longitude, ellipsoidal height; and
-* `http://www.opengis.net/def/crs/EPSG/0/3857`, WGS 84 Pseudo-Mercator.
+  longitude, ellipsoidal height.
 
 Axis order differs among these definitions, and the definition establishes it.
-The first two and the next two describe the same datum in opposite axis order.
+The first two and the last two describe the same datum in opposite axis order.
 
 For `kind` `epsg`, the EPSG Geodetic Parameter Dataset serves its own records,
 for example `https://apps.epsg.org/api/v1/CoordRefSystem/4326` {{EPSG}}. A
@@ -2912,13 +2860,6 @@ token is not; where it does not, the frame is written as a `tuple` meta-type in
 the schema document and cited with `kind` `type`, as in
 {{vector-reference-frames}}.
 
-Writing the frame out has a further benefit where the axis directions are
-easily confused. The GOES magnetometers report in a spacecraft-local frame whose
-three axes are named `Hp`, `He`, and `Hn`. The letters read as though `He` were
-eastward and `Hn` northward; in fact `Hp` is northward, `He` is earthward, and
-`Hn` is eastward. A meta-type states each direction on its own axis and leaves
-no room for the reading the names invite.
-
 ## Linear Reference Systems {#linear-reference-uris}
 
 No register of linear reference systems corresponds to the temporal and
@@ -2926,14 +2867,11 @@ coordinate registers. ISO 19148 {{ISO19148}} specifies the conceptual schema,
 in which a location is a measurement along a linear element and optionally an
 offset from it, so that overlapping attributes can be carried against one
 geometry without fragmenting it. It defines no identifiers for individual
-systems. INSPIRE reuses it for transport network data across the European Union
-{{INSPIRE-TN}}, and RailTopoModel applies its principles to railway axes and
-mileposts {{UIC-RTM}}. A linear reference system is therefore published by the
-authority that maintains the network, which is why `lrs-network` is the value
-defined here for a published system, and why a system published in another form
-is identified by a value naming the model that publishes it. A system that no
-authority publishes is defined as a meta-type in the schema and cited with
-`type`.
+systems. A linear reference system is therefore published by the authority that
+maintains the network, which is why `lrs-network` is the value defined here for
+a published system, and why a system published in another form is identified by
+a value naming the model that publishes it. A system that no authority publishes
+is defined as a meta-type in the schema and cited with `type`.
 
 In the United States, the FHWA ARNOLD directive {{FHWA-ARNOLD}} requires each
 state department of transportation to maintain one linear reference system
@@ -2942,40 +2880,10 @@ covering all public roads, modelled as the HPMS Field Manual prescribes
 attributes held in event tables that cite a route and a measure rather than
 segmenting the underlying geometry. A service published under that directive is
 an `lrs-network`, and its layer and metadata resources establish the linear
-elements and the measure:
-
-* `https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9`,
-  the Washington state route network used in
-  {{linear-reference-systems}} {{WSDOT-LRS}};
-* `https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CRABRoutes/FeatureServer`,
-  the companion Washington county road network, keyed by county road number and
-  county milepost {{WSDOT-CRAB}};
-* `https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/All_Roads/FeatureServer`,
-  the California all-roads network {{CALTRANS-LRS}}.
-
-A service qualifies as an `lrs-network` only where its metadata establishes the
-linear elements and the measure. A layer that carries measure values on its
-vertices and a route identifier field without stating the unit of the measure,
-the direction in which it increases, or the grammar of the identifier is a
-rendering of positions in a reference system rather than a definition of one,
-and it does not serve as a `reference`.
-
-National road networks elsewhere publish the same model under other measures:
-the Dutch Nationaal Wegenbestand serves road segments and hectometre points,
-the latter being referents in the sense of ISO 19148, so that a location is a
-segment, a referent, and an offset from it {{PDOK-NWB}}; the Norwegian Nasjonal
-vegdatabank models the network as link sequences on which a position is a
-dimensionless fraction of the length {{NVDB-NO}}; and the Swedish Nationell
-vagdatabas is delivered through a download portal rather than an open query
-endpoint {{NVDB-SE}}.
-
-The `linearElement` member names the member holding the identifier of the
-route, segment, or link sequence, whose type follows what the publishing
-service records. The `measure` member names a numeric member whose unit is
-established by the referenced system and not by the annotation: miles for the
-ARNOLD networks, an offset from a hectometre referent for the Dutch network,
-and a dimensionless fraction for the Norwegian one. The member SHOULD carry the
-corresponding unit annotation {{JSTRUCT-UNITS}}.
+elements and the measure. The Washington state route network used in
+{{linear-reference-systems}} is served at
+`https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9`
+{{WSDOT-LRS}}.
 
 # Changes from draft-vasters-json-structure-characteristics-00
 {:numbered="false"}
