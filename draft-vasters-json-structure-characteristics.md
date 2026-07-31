@@ -191,6 +191,12 @@ informative:
     author:
       - org: Trafikverket
     target: https://lastkajen.trafikverket.se/
+  SPASE:
+    title: "Space Physics Archive Search and Extract (SPASE) Data Model, Version 2.7.2"
+    author:
+      - org: SPASE Consortium
+    date: 2026
+    target: https://spase-group.org/data/model/spase-latest/index.html
 
 --- abstract
 
@@ -226,8 +232,9 @@ establish that they mean the same thing; declare what a record observes and
 which member carries the result, as distinct from the property observed, the
 feature it belongs to, the procedure that produced it, and the time it applies
 to; and name the reference system a value is expressed against, whether a
-temporal regime, a coordinate reference system, or a linear reference system, so
-that a position can be interpreted and two positions can be compared.
+temporal regime, a coordinate reference system, a vector reference frame, or a
+linear reference system, so that a position or a direction can be interpreted
+and two of them compared.
 
 Each of these is a binding to a definition maintained elsewhere. This document
 defines no vocabulary, no observation model, and no reference system of its own.
@@ -300,9 +307,10 @@ that defines a temporal type, and binds an existing member of it.
 `observedProperty` MAY occur on an object or tuple intended to describe an
 observation record, and on a member schema of one that carries a result,
 subject to {{observed-property}}.
-`coordinateReferenceSystem` and `linearReferenceSystem` MAY occur on an object
-or tuple and bind existing properties. `referenceRole` MAY occur on a member of
-a meta-type, subject to {{meta-types}}.
+`coordinateReferenceSystem`, `vectorReferenceFrames`, and
+`linearReferenceSystem` MAY occur on an object or tuple and bind existing
+properties. `referenceRole` MAY occur on a member of a meta-type, subject to
+{{meta-types}}.
 
 All keywords defined here are direct peer keywords, and no wrapper is implied.
 Every annotation is OPTIONAL, and a schema can use any subset, including none.
@@ -340,6 +348,7 @@ not already know it.
 | `temporalReferenceSystem` | Binding from a temporal-position encoding to its reference definition. |
 | `cadence` | Expected pattern of successive temporal positions. |
 | `coordinateReferenceSystem` | CRS and ordered properties forming a coordinate. |
+| `vectorReferenceFrames` | Frames and ordered properties forming the components of vector quantities. |
 | `linearReferenceSystem` | LRS and properties forming a location along a linear element. |
 | `referenceRole` | Function of a member within a reference-system meta-type. |
 
@@ -1414,6 +1423,8 @@ declares no member for a role a keyword requires is unusable by that keyword.
 
 A coordinate reference system takes no roles, because its meta-type is a `tuple`
 and the order of its elements establishes the axes ({{coordinate-reference-systems}}).
+A vector reference frame takes no roles for the same reason
+({{vector-reference-frames}}).
 
 # Temporal Reference Characteristics {#temporal-reference-characteristics}
 
@@ -1773,8 +1784,8 @@ Example:
 Each keyword in this section has two parts. `reference` and `kind` identify an
 external definition of a reference system. The remaining properties bind the
 components of that system to named members of the object or tuple carrying the
-annotation. A position in either system is held across several members, so
-these keywords attach to a complex type and are not meaningful on a scalar.
+annotation. A position or a vector is held across several members, so these
+keywords attach to a complex type and are not meaningful on a scalar.
 
 ## The `coordinateReferenceSystem` Keyword {#coordinate-reference-systems}
 
@@ -2009,6 +2020,172 @@ This specification does not define a CRS, datum, coordinate operation, or
 transformation. Those definitions and semantics come from ISO 19111 and the
 referenced authority.
 
+## The `vectorReferenceFrames` Keyword {#vector-reference-frames}
+
+The `vectorReferenceFrames` keyword identifies the reference frames on whose
+axes the components of vector quantities held in properties of an object or
+tuple are resolved.
+
+A vector quantity is not a position. A record that reports a magnetic field, a
+wind, an acceleration, or a flow velocity commonly carries both: a position that
+says where the reading was taken, and a set of components that say what was
+read. The two are expressed against different systems and the schema states them
+separately. `coordinateReferenceSystem` binds the members that give a position
+({{coordinate-reference-systems}}); `vectorReferenceFrames` binds the members
+that give the components of a vector.
+
+The distinction is not merely one of intent. A coordinate takes its unit from
+the axis it lies on, and a coordinate reference system may have axes whose units
+differ from one another, as a geographic system with two angles and a height
+does. The components of a vector all carry the unit of the quantity, and the
+frame contributes directions alone. A vector reference frame therefore does not
+establish the unit of the members it binds. The units of the members named by
+one frame MUST be mutually convertible and SHOULD be identical.
+
+When present, `vectorReferenceFrames` MUST be a non-empty array. Each element
+MUST be an object with REQUIRED `reference`, `kind`, and `components`, and no
+other members. The keyword is an array because a single record may carry more
+than one vector quantity, and each quantity is resolved in its own frame.
+
+### The `reference` and `kind` Properties
+
+`reference` names the frame and `kind` says what kind of name it is. The values
+are the same value space as for `coordinateReferenceSystem`. The following
+values of `kind` are defined; the enumeration is open.
+
+| `kind` | `reference` is |
+|---|---|
+| `ogc-crs` | An OGC CRS URI whose axes are directions. |
+| `epsg` | An EPSG dataset URI whose axes are directions. |
+| `type` | A JSON Pointer to a type definition in the same schema document. |
+
+Where `kind` is `type`, `reference` MUST be a JSON Pointer to a type definition
+in the same schema document. Where `kind` is any other value, `reference` MUST
+be an absolute URI.
+
+A registered coordinate reference system establishes axis directions, so it may
+serve as a vector reference frame wherever those axes are directions rather than
+angles. Most frames in which vectors are reported are not registered anywhere.
+Such a frame is written as a `tuple` meta-type whose members, in the order given
+by `tuple`, are the axes, and whose member `description` values state the
+direction each axis points in. The meta-type establishes the axes and their
+order; it does not establish the units of the annotated members.
+
+### The `components` Property
+
+`components` MUST be a non-empty array of strings. Each string MUST be the name
+of a direct property of the annotated object or tuple. The names MUST be
+distinct. The element at index 0 names the property holding the component on the
+first axis of the frame, the element at index 1 the second, and so on. The
+number of entries MUST equal the number of axes the frame has. Each named
+property MUST have a numeric type.
+
+The ordering is an assertion by the schema author and is never inferred from
+property names, from declaration order, or from example values.
+
+### Multiple Frames and Disjointness
+
+A property MUST NOT be named by more than one element of `vectorReferenceFrames`
+on the same object or tuple, and MUST NOT be named both by `vectorReferenceFrames`
+and by the `coordinateReferenceSystem` or `linearReferenceSystem` of the same
+object or tuple. Two elements MAY cite the same `reference`, which is how a
+record that reports two distinct vector quantities in one frame is written.
+
+A reference that does not resolve leaves the frame indeterminate. It does not
+make the annotation incorrect.
+
+The following example binds the three components of a magnetic field reading to
+an unregistered spacecraft-local frame written as a meta-type. The order of
+`components` follows the order of `tuple` in `GoesEpnFrame`.
+
+~~~ json
+{
+  "name": "GoesMagnetometer",
+  "type": "object",
+  "vectorReferenceFrames": [
+    {
+      "reference": "#/definitions/GoesEpnFrame",
+      "kind": "type",
+      "components": ["hp", "he", "hn"]
+    }
+  ],
+  "properties": {
+    "hp": { "type": "double", "unit": "nT" },
+    "he": { "type": "double", "unit": "nT" },
+    "hn": { "type": "double", "unit": "nT" }
+  },
+  "required": ["hp", "he", "hn"],
+  "additionalProperties": false,
+  "definitions": {
+    "GoesEpnFrame": {
+      "name": "GoesEpnFrame",
+      "type": "tuple",
+      "description": "Spacecraft-local PEN frame used by the GOES magnetometers.",
+      "properties": {
+        "p": {
+          "type": "double",
+          "description": "Perpendicular to the orbital plane, positive northward."
+        },
+        "e": {
+          "type": "double",
+          "description": "Perpendicular to p, positive earthward."
+        },
+        "n": {
+          "type": "double",
+          "description": "Perpendicular to p and e, positive eastward."
+        }
+      },
+      "tuple": ["p", "e", "n"]
+    }
+  }
+}
+~~~
+
+The next example carries a position and two vector quantities in one record. The
+position is bound by `coordinateReferenceSystem`, the field components and the
+flow components by two elements of `vectorReferenceFrames`, and no property is
+named twice.
+
+~~~ json
+{
+  "name": "SolarWindSample",
+  "type": "object",
+  "coordinateReferenceSystem": {
+    "reference": "#/definitions/GseFrame",
+    "kind": "type",
+    "coordinates": ["pos_x", "pos_y", "pos_z"]
+  },
+  "vectorReferenceFrames": [
+    {
+      "reference": "#/definitions/GsmFrame",
+      "kind": "type",
+      "components": ["bx_gsm", "by_gsm", "bz_gsm"]
+    },
+    {
+      "reference": "#/definitions/GseFrame",
+      "kind": "type",
+      "components": ["vx_gse", "vy_gse", "vz_gse"]
+    }
+  ],
+  "properties": {
+    "pos_x": { "type": "double", "unit": "km" },
+    "pos_y": { "type": "double", "unit": "km" },
+    "pos_z": { "type": "double", "unit": "km" },
+    "bx_gsm": { "type": "double", "unit": "nT" },
+    "by_gsm": { "type": "double", "unit": "nT" },
+    "bz_gsm": { "type": "double", "unit": "nT" },
+    "vx_gse": { "type": "double", "unit": "km/s" },
+    "vy_gse": { "type": "double", "unit": "km/s" },
+    "vz_gse": { "type": "double", "unit": "km/s" }
+  },
+  "additionalProperties": false
+}
+~~~
+
+This specification does not define a frame, an epoch, or a transformation
+between frames. Those definitions come from the referenced authority or from the
+meta-type the schema itself supplies.
+
 ## The `linearReferenceSystem` Keyword {#linear-reference-systems}
 
 The `linearReferenceSystem` keyword identifies the linear reference system
@@ -2213,7 +2390,9 @@ A processor MUST NOT infer:
 * metric intervals from ordinal positions or an `untilNext` end from cadence;
 * complete coverage from `interval` or `accumulation`;
 * that absent quality means acceptable quality;
-* a coordinate or linear reference binding from names or samples; or
+* a coordinate, vector-frame, or linear reference binding from names or samples;
+* that members sharing a name prefix, a unit, or an observed property are the
+  components of one vector quantity; or
 * permission to aggregate, convert, transform, reject outliers, or infer
   causality.
 
@@ -2402,6 +2581,32 @@ For `kind` `epsg`, the EPSG Geodetic Parameter Dataset serves its own records,
 for example `https://apps.epsg.org/api/v1/CoordRefSystem/4326` {{EPSG}}. A
 definition served at an OGC URI under an EPSG code, as in the list above, is
 `ogc-crs` rather than `epsg`.
+
+## Vector Reference Frames {#vector-reference-uris}
+
+No register of vector reference frames corresponds to the temporal and
+coordinate registers. A registered coordinate reference system whose axes are
+directions may be cited with `ogc-crs` or `epsg`, and the URIs listed in
+{{coordinate-reference-uris}} apply unchanged. Most frames in which vector
+quantities are reported are not registered at all.
+
+Some communities publish a closed list of frame *names* without serving a URI
+per frame. The SPASE data model {{SPASE}} is the case in point: its
+`CoordinateSystemName` enumeration fixes tokens such as `GSE`, `GSM`, `GEI`,
+`SM`, `RTN`, `HEE`, `MFA`, and `SensorCoordinates`, and defines what each one
+means, but the register itself carries no per-token reference URI. A token from
+such a list is not a `reference` value. Where the community that publishes the
+list also serves a resolvable definition, that URI is the `reference` and the
+token is not; where it does not, the frame is written as a `tuple` meta-type in
+the schema document and cited with `kind` `type`, as in
+{{vector-reference-frames}}.
+
+Writing the frame out has a further benefit where the axis directions are
+easily confused. The GOES magnetometers report in a spacecraft-local frame whose
+three axes are named `Hp`, `He`, and `Hn`. The letters read as though `He` were
+eastward and `Hn` northward; in fact `Hp` is northward, `He` is earthward, and
+`Hn` is eastward. A meta-type states each direction on its own axis and leaves
+no room for the reading the names invite.
 
 ## Linear Reference Systems {#linear-reference-uris}
 

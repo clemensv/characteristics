@@ -288,6 +288,12 @@
             },
             "description": "Spatial coordinate reference system, binding existing members as ordered coordinates."
           },
+          "vectorReferenceFrames": {
+            "type": {
+              "$ref": "#/definitions/characteristics/VectorReferenceFrames"
+            },
+            "description": "Reference frames on whose axes the components of vector quantities are resolved, binding existing members as ordered components."
+          },
           "linearReferenceSystem": {
             "type": {
               "$ref": "#/definitions/characteristics/LinearReferenceSystem"
@@ -317,6 +323,11 @@
           "coordinateReferenceSystem": {
             "type": {
               "$ref": "#/definitions/characteristics/CoordinateReferenceSystem"
+            }
+          },
+          "vectorReferenceFrames": {
+            "type": {
+              "$ref": "#/definitions/characteristics/VectorReferenceFrames"
             }
           },
           "linearReferenceSystem": {
@@ -581,6 +592,60 @@
             "$ref": "#/definitions/characteristics/ReferenceIsUri"
           }
         }
+      },
+      "VectorReferenceFrame": {
+        "type": "object",
+        "description": "One reference frame on whose axes the components of a vector quantity are resolved, binding existing members as ordered components.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of frame identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Non-empty ordered array of distinct member names, one per frame axis, in axis order."
+          }
+        },
+        "required": [
+          "reference",
+          "kind",
+          "components"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "VectorReferenceFrames": {
+        "type": "array",
+        "description": "Non-empty array of vector reference frames, one per vector quantity carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/VectorReferenceFrame"
+          }
+        },
+        "minItems": 1
       },
       "LinearReferenceSystem": {
         "type": "object",

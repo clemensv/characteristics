@@ -16,20 +16,20 @@
     },
     "hp": {
       "type": "double",
-      "description": "Component of the magnetic field parallel to the Earth's dipole axis, positive northward, from the `hp` field. It is the component the operational indices are built from, and under quiet conditions at geostationary altitude it sits between roughly 80 and 120 nT; a sharp drop marks the compression of the magnetopause by a solar wind pressure increase."
+      "description": "Component of the magnetic field perpendicular to the satellite orbital plane, positive northward, from the `hp` field. For a zero-inclination orbit that axis is parallel to the Earth's spin axis. It is the component the operational indices are built from, and under quiet conditions at geostationary altitude it sits between roughly 80 and 120 nT; a sharp drop marks the compression of the magnetopause by a solar wind pressure increase."
     },
     "hn": {
       "type": "double",
-      "description": "Component of the magnetic field along the spacecraft-Earth line, positive radially earthward, from the `hn` field."
+      "description": "Component of the magnetic field perpendicular to `hp` and `he`, positive eastward, from the `hn` field. The letter stands for normal, not for north."
     },
     "he": {
       "type": "double",
-      "description": "Component of the magnetic field perpendicular to both the spacecraft-Earth line and the dipole axis, positive eastward, from the `he` field. The letter is not a chemical symbol; it names the eastward member of the triad."
+      "description": "Component of the magnetic field perpendicular to `hp`, positive earthward, from the `he` field. The letter is not a chemical symbol and does not stand for east; it names the earthward member of the triad."
     },
     "total": {
       "type": "double",
       "minimum": 0,
-      "description": "Magnitude of the field vector, from the `total` field, computed by the publisher as the root of the sum of the squares of `he`, `hp` and `hn`. It is not an independent reading and adds no information to the three components, but it is frame-invariant where they are not, so it is the member to compare across spacecraft. Quiet-time values at geostationary altitude lie between roughly 100 and 120 nT."
+      "description": "Magnitude of the field vector, from the `total` field, computed by the publisher as the root of the sum of the squares of `hp`, `he` and `hn`. It is not an independent reading and adds no information to the three components, but it is frame-invariant where they are not, so it is the member to compare across spacecraft. Quiet-time values at geostationary altitude lie between roughly 100 and 120 nT."
     },
     "arcjet_flag": {
       "type": "boolean",

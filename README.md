@@ -27,11 +27,12 @@ Scope:
 * Defines optional annotations for observation-oriented semantics in JSON
 	Structure schemas: `concepts`, `semanticRole`, `observedProperty`,
 	`phenomenonTimeRelation`, `derivation`, `statistic`,
-	`temporalReferenceSystem`, `cadence`, `coordinateReferenceSystem`, and
-	`linearReferenceSystem`.
+	`temporalReferenceSystem`, `cadence`, `coordinateReferenceSystem`,
+	`vectorReferenceFrames`, and `linearReferenceSystem`.
 * Covers roles for observation results, time semantics, quality,
 	feature-of-interest variants, and observing procedure.
-* Defines bindings for temporal, coordinate, and linear reference systems.
+* Defines bindings for temporal, coordinate, vector-frame, and linear reference
+	systems.
 * Defines derivation and cadence annotations for result interpretation.
 
 Non-goals:

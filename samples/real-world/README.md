@@ -50,7 +50,7 @@ that the meaning of each symbol can be stated symbol by symbol. See
 | 17 | [`17-usgs-instantaneous-value`](17-usgs-instantaneous-value/) | USGS NWIS `GageHeight` | A member called `value` whose meaning upstream lives in a five-digit parameter code. `observedProperty` states it in the schema; qualifier letters become `resultQuality` and exception codes become `status`. |
 | 18 | [`18-mode-s-aircraft-report`](18-mode-s-aircraft-report/) | Mode-S / ADS-B `ModeSRecord` | A record with no phenomenon time at all: the only timestamp is the ground station's decode instant, so it is a `resultTime`. Barometric altitude as a `calculated` pressure surface, received signal level as `resultQuality`, and a POSIX millisecond epoch declared as a meta-type. |
 | 19 | [`19-bmrs-generation-mix`](19-bmrs-generation-mix/) | Elexon BMRS `GenerationMix` | Seventeen `mean` channels over one settlement period, a `phenomenonTimeStart` closed by cadence rather than by a second timestamp, and no feature-of-interest member because the feature never varies. |
-| 20 | [`20-goes-magnetometer`](20-goes-magnetometer/) | NOAA SWPC GOES `GoesMagnetometer` | Three components of one vector quantity in a spacecraft-local frame, a `calculated` magnitude beside the `measured` components, and a thruster-firing boolean as `resultQuality`. |
+| 20 | [`20-goes-magnetometer`](20-goes-magnetometer/) | NOAA SWPC GOES `GoesMagnetometer` | `vectorReferenceFrames` binding three components of one vector quantity to a spacecraft-local frame written out as a `tuple` meta-type, a `calculated` magnitude beside the `measured` components, and a thruster-firing boolean as `resultQuality`. |
 
 ## What the annotations carry
 
@@ -68,7 +68,7 @@ types, and the prose a consumer would otherwise have to read and believe.
 | [`17-usgs-instantaneous-value`](17-usgs-instantaneous-value/) | 136 lines | 62 lines |
 | [`18-mode-s-aircraft-report`](18-mode-s-aircraft-report/) | 181 lines | 98 lines |
 | [`19-bmrs-generation-mix`](19-bmrs-generation-mix/) | 258 lines | 90 lines |
-| [`20-goes-magnetometer`](20-goes-magnetometer/) | 84 lines | 41 lines |
+| [`20-goes-magnetometer`](20-goes-magnetometer/) | 113 lines | 41 lines |
 
 Read side by side, the pairs show what a consumer has to supply from outside
 the schema when the annotations are absent. Two definitions disappear entirely,
