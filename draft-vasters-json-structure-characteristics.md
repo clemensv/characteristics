@@ -294,9 +294,8 @@ them reads the schema exactly as JSON Structure Core defines it.
 
 Most keywords defined here share one shape. Each is an object carrying a
 `reference` property that identifies a definition and a `kind` property that
-names the model the definition belongs to. The `reference` states which
-definition applies, and the `kind` states which model defines it, so that a
-reader knows how to interpret it and a processor knows what can be checked.
+names the model the definition belongs to. This lets a reader know how to
+interpret it and a processor know what can be checked.
 `concepts`, `observedProperty`, `temporalReferenceSystem`,
 `coordinateReferenceSystem`, `linearReferenceSystem`, and the entries of
 `colorSpaces` all follow this shape.
@@ -322,8 +321,7 @@ single binding. Vocabularies overlap by design, and the same notion is
 deliberately given a term in several of them, so `concepts` takes a list. The
 keywords that resolve components onto axes or channels take a list for a
 different reason: one set of numbers can be published in more than one frame or
-more than one color space at once, and each keyword states the rule for its own
-values.
+more than one color space at once.
 
 ## Observable and Observed Property Concepts {#observable-observed-concepts}
 
@@ -367,10 +365,9 @@ Conformance constrains only annotations that are present; it never requires
 another annotation or an annotated property to exist.
 
 Every `reference` value that is a URI SHOULD be resolvable, and dereferencing it
-SHOULD yield a definition of the identified term or system. That recommendation
-constrains the URI a schema author chooses. A processor is not required to
-dereference a `reference`, and an unresolved `reference` is indeterminate rather
-than incorrect.
+SHOULD yield a definition of the identified term or system. A processor is not
+required to dereference a `reference`, and an unresolved `reference` is
+indeterminate rather than incorrect.
 
 The enumerations of this document are of two sorts. `semanticRole`,
 `derivation`, `statistic`, `phenomenonTimeRelation`, `referenceRole`,
@@ -379,8 +376,8 @@ enumeration is invalid. The `kind` of a reference-style keyword is open, and a
 value outside the enumeration is valid; a processor MUST preserve it and MUST
 NOT reject a schema for carrying it.
 
-What a processor can verify follows that division. A value defined here is one a
-processor can act on, and this document states what each establishes. A value
+A value defined here is one a processor can act on, and this document states
+what each establishes. A value
 not defined here establishes nothing, and a processor MUST NOT infer a
 constraint from it. This document defines no registry of further values and no
 mechanism by which a private value acquires meaning for a processor that does
@@ -608,9 +605,6 @@ record, and on a member schema of that object or tuple that carries a result.
 On a record it identifies the observable property of every result in that record
 that does not carry one of its own. On a result member it identifies the
 observable property of that result alone and takes precedence over the record's.
-A record whose results observe different properties therefore carries one
-`observedProperty` on each such result, and a record whose results all observe
-the same property carries one on the record.
 
 Every annotation identifies exactly one observable property for the node it is
 attached to. A missing or unresolved reference is indeterminate and MUST NOT be
@@ -665,9 +659,6 @@ Example of a record with two results:
 }
 ~~~
 
-The two results share one feature and one phenomenon time, and each names the
-property it quantifies.
-
 ## Semantic Mappings and Result Hints {#observable-property-mappings}
 
 An authority MAY publish semantic mappings from an observable-property
@@ -697,10 +688,9 @@ conversion factors, or conversion formulas.
 The `semanticRole` keyword identifies the observation or operational function of an
 annotated value.
 
-The value of `semanticRole` MUST be one of the permitted values defined in this
-section. The permitted values are a closed enumeration defined by this document.
-A `semanticRole` value is never a URI; terms drawn from external vocabularies
-are carried by `concepts` instead.
+The value of `semanticRole` MUST be one of a closed set of permitted values
+defined in this section. A `semanticRole` value is never a URI; terms drawn from
+external vocabularies are carried by `concepts` instead.
 
 `semanticRole` is scalar; therefore each annotated schema element can carry one
 `semanticRole` value.
@@ -1184,8 +1174,6 @@ A forecast record states the position or period it describes with
 forecast is an observation whose result time precedes its phenomenon time, and
 it carries the same temporal roles as any other observation; nothing about the
 phenomenon-time roles restricts them to positions that have already elapsed.
-Using them here means a consumer asking what was stated when, about when, reads
-the same two roles for a forecast as for a measurement.
 
 #### `forecastLeadDuration`
 
@@ -1361,8 +1349,8 @@ When present, `statistic` MUST be one of:
 `statistic` and the `statistic` derivation are one declaration in two parts. A
 schema whose `derivation` is `statistic` MUST carry a `statistic` keyword, and a
 schema carrying a `statistic` keyword MUST have a `derivation` of `statistic`.
-Neither part stands alone: the derivation says the value summarizes a set, and
-the keyword says how. Where `phenomenonTimeRelation` is `accumulation`,
+The derivation says the value summarizes a set, and the keyword says how. Where
+`phenomenonTimeRelation` is `accumulation`,
 `statistic` MUST be `sum`.
 
 A calculation that no value in the table names is `calculated` rather than
@@ -1430,8 +1418,6 @@ Example:
   "additionalProperties": false
 }
 ~~~
-
-The two results are distinguished only by `statistic`.
 
 # Reference System Meta-Types {#meta-types}
 
@@ -1583,9 +1569,8 @@ intended. A non-Core or ambiguous encoding is indeterminate without one.
 `reference` MUST identify one temporal reference definition. Where `kind` is
 `type` it MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a shareable type
 definition, and otherwise it MUST be an absolute URI {{RFC3986}}. `kind` states
-which definition model the reference identifies, and therefore what a reader can
-expect to find at it. This document does not define a resolution protocol, URI
-layout, storage model, or definition serialization.
+which definition model the reference identifies. This document does not define a
+resolution protocol, URI layout, storage model, or definition serialization.
 
 Where the identified definition has a domain of validity, an annotated position
 MUST lie in that domain.
@@ -1856,8 +1841,7 @@ array. No other properties are permitted.
 establishes an ordered set of axes, each with an axis direction and unit of
 measure. Where `kind` is `type` it MUST be a JSON Pointer {{JSTRUCT-CORE}}
 resolving to a shareable type definition, and otherwise it MUST be an absolute
-URI {{RFC3986}}. `kind` states which definition model the reference identifies,
-and therefore what a reader can expect to find at it.
+URI {{RFC3986}}. `kind` states which definition model the reference identifies.
 
 A processor is not required to dereference the URI, and a returned
 representation need not expose the axes. This document does not define
@@ -2314,12 +2298,10 @@ The `tensorReferenceFrames` keyword identifies the reference frames on whose
 axes the components of tensor quantities held in properties of an object or
 tuple are resolved. A tensor quantity is a grid of numbers that means nothing
 without a frame to read it against. Its rank is how many axes it takes to pick
-out one number of the grid: one for a vector, two for a stress or a rotation. A
-game engine turning a model to face the camera uses nine numbers to carry a
-direction out of the model's own frame and into the camera's. An engineer
-checking whether a bridge beam will crack uses nine numbers because the beam can
-be squeezed along its length and sheared across it at the same time, and no
-single number says both.
+out one number of the grid: one for a vector, two for a stress or a rotation. An
+engineer checking whether a bridge beam will crack uses nine numbers because the
+beam can be squeezed along its length and sheared across it at the same time, and
+no single number says both.
 
 At rank 1 the frame's declared order states the binding, which is what
 `vectorReferenceFrames` ({{vector-reference-frames}}) does and why `frames`
@@ -2647,8 +2629,7 @@ cost that standard the ability to carry records laid out the other way, because
 its records are positional. It costs this document nothing, because `components`
 names members rather than positions. A schema whose quaternion is stored
 scalar-last and one whose quaternion is stored scalar-first carry the same
-annotation, with the names written in the order fixed here. The layout of the
-data is described, not constrained.
+annotation, with the names written in the order fixed here.
 
 ### The `from` and `to` Properties
 
@@ -2772,8 +2753,7 @@ which was meant. That is the ambiguity this keyword removes.
 The example below annotates an attitude carried as four separate properties. The
 record stores the scalar last, as the current attitude message standard requires
 of its own records, and `components` names it first, as this document requires
-of the annotation. Both statements hold at once, because one describes storage
-and the other describes meaning.
+of the annotation.
 
 ~~~ json
 {
@@ -3009,8 +2989,7 @@ MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a shareable type
 definition, and otherwise it MUST be an absolute URI {{RFC3986}}. The identified
 definition MUST establish the linear referencing method, the measure origin, the
 increasing-measure direction, the measure unit, and the linear-element
-namespace. `kind` states which definition model the reference identifies, and
-therefore what a reader can expect to find at it.
+namespace. `kind` states which definition model the reference identifies.
 
 A processor is not required to dereference the URI. This
 document does not define a resolution protocol, URI layout, storage model, or
@@ -3140,6 +3119,18 @@ to carry one:
 ~~~
 
 # Colorimetric Reference Characteristics {#colorimetric-reference-characteristics}
+
+Color is the worked instance of a larger family: components resolved onto the
+channels of a named space, where the space fixes the basis those numbers weigh,
+the reference they stand relative to, and the encoding they carry.
+{{spatial-reference-characteristics}} gives that treatment to positions and
+directions, and this section gives it to color, because color is the perceptual
+signal most often carried in general-purpose JSON — design tokens, stylesheets,
+image metadata — and the one most often carried with all of that left silent.
+Other members of the same family are out of scope here and left to later
+extensions: audio channel layout and loudness, hyperspectral and multiband
+imaging, and acoustic frequency weighting each resolve channel numbers onto a
+named space of their own, and each might be a keyword of this shape.
 
 ## The `colorSpaces` Keyword {#color-spaces}
 
