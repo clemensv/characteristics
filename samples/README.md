@@ -5,7 +5,7 @@ Fifteen worked examples of the annotations defined by
 Each directory holds a `schema.struct.json` and an `example.json` instance that
 conforms to it.
 
-A second set of twenty-one samples in [`real-world/`](real-world/) applies the
+A second set of twenty-four samples in [`real-world/`](real-world/) applies the
 same annotations to schemas published by live open-data feeds, one per domain
 and publisher.
 
@@ -49,14 +49,15 @@ to the Core `Property`, `ObjectType`, `TupleType`, `ArrayType`, `SetType`,
 
 ## Real-world samples
 
-[`real-world/`](real-world/) holds twenty-one further samples, each derived from
-a JSON Structure schema published by a live open-data feed and covering a
-different domain: AIS vessel traffic, marine buoys, aerodrome weather,
-lightning, seismology, solar flares, grid carbon intensity, electricity
+[`real-world/`](real-world/) holds twenty-four further samples, each derived
+from data published by a live open-data feed or a standing reference dataset and
+covering a different domain: AIS vessel traffic, marine buoys, aerodrome
+weather, lightning, seismology, solar flares, grid carbon intensity, electricity
 generation, orbital elements, public transit, road travel times, bikeshare,
 public warnings, water quality, pollen forecasts, high-frequency transit
 positioning, river gauge heights, Mode-S downlink reports, the national
-generation mix, spacecraft magnetometry, and earthquake source mechanisms. See
+generation mix, spacecraft magnetometry, earthquake source mechanisms,
+spacecraft attitude, vehicle sensor calibration, and printing colorimetry. See
 the [README](real-world/README.md) there.
 
 ## Enumerated values

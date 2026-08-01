@@ -1,9 +1,11 @@
 # Characteristics annotations on real feed schemas
 
-Twenty-one samples derived from JSON Structure schemas published by live
-open-data feeds. The schemas were taken from the xRegistry documents in the
-[real-time-sources](https://github.com/clemensv/real-time-sources) feeders, then
-annotated with the keywords defined by
+Twenty-four samples derived from data published by live open-data feeds and by
+standing reference datasets. Most of the schemas were taken from the xRegistry
+documents in the
+[real-time-sources](https://github.com/clemensv/real-time-sources) feeders; the
+last few were transcribed from published record formats that have no schema of
+their own. All of them are annotated with the keywords defined by
 [JSON Structure: Characteristics](../../draft-vasters-json-structure-characteristics.md).
 
 They differ from the [teaching samples](../) one directory up: those are written
@@ -52,6 +54,9 @@ that the meaning of each symbol can be stated symbol by symbol. See
 | 19 | [`19-bmrs-generation-mix`](19-bmrs-generation-mix/) | Elexon BMRS `GenerationMix` | Seventeen `mean` channels over one settlement period, a `phenomenonTimeStart` closed by cadence rather than by a second timestamp, and no feature-of-interest member because the feature never varies. |
 | 20 | [`20-goes-magnetometer`](20-goes-magnetometer/) | NOAA SWPC GOES `GoesMagnetometer` | `vectorReferenceFrames` binding three components of one vector quantity to a spacecraft-local frame written out as a `tuple` meta-type, a `calculated` magnitude beside the `measured` components, and a thruster-firing boolean as `resultQuality`. |
 | 21 | [`21-gcmt-moment-tensor`](21-gcmt-moment-tensor/) | Global CMT `ndk` catalogue record | `tensorReferenceFrames` over the six independent components of a symmetric rank-2 tensor, with one frame named at both index positions, `symmetry` doing the work of the three components the catalogue does not publish, and each component stating its own index rather than relying on a packing order. |
+| 22 | [`22-ccsds-attitude-quaternion`](22-ccsds-attitude-quaternion/) | CCSDS Attitude Parameter Message | `frameTransforms` carrying a quaternion, with `components` naming the scalar first while the message stores it last, and both frames written out as meta-types because the message identifies them by bare names from an annex. |
+| 23 | [`23-kitti-sensor-alignment`](23-kitti-sensor-alignment/) | KITTI `calib_velo_to_cam.txt` | `frameTransforms` carrying a rotation matrix in the nested form, so no row-major convention has to be agreed, plus `translation` naming three members resolved on the axes of the target frame. |
+| 24 | [`24-fogra-characterization-patch`](24-fogra-characterization-patch/) | ICC characterization data registry, FOGRA51 | `colorSpaces` carrying two spaces over one record — the ink amounts sent to the press and the colorimetric values read back — with `illuminant` and `observer` declared on the second because the numbers are unreadable without them. |
 
 ## What the annotations carry
 

@@ -300,11 +300,23 @@
             },
             "description": "Reference frames on whose axes the components of tensor quantities are resolved, binding existing members as indexed components."
           },
+          "frameTransforms": {
+            "type": {
+              "$ref": "#/definitions/characteristics/FrameTransforms"
+            },
+            "description": "Transformations from one reference frame to another, binding existing members as their components."
+          },
           "linearReferenceSystem": {
             "type": {
               "$ref": "#/definitions/characteristics/LinearReferenceSystem"
             },
             "description": "Linear reference system, binding existing members as linear element, measure, and direction."
+          },
+          "colorSpaces": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ColorSpaces"
+            },
+            "description": "Color spaces in which channel values are expressed, binding existing members as ordered channels."
           }
         },
         "additionalProperties": false
@@ -341,9 +353,19 @@
               "$ref": "#/definitions/characteristics/TensorReferenceFrames"
             }
           },
+          "frameTransforms": {
+            "type": {
+              "$ref": "#/definitions/characteristics/FrameTransforms"
+            }
+          },
           "linearReferenceSystem": {
             "type": {
               "$ref": "#/definitions/characteristics/LinearReferenceSystem"
+            }
+          },
+          "colorSpaces": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ColorSpaces"
             }
           }
         },
@@ -624,6 +646,12 @@
             "minItems": 1,
             "uniqueItems": true,
             "description": "Non-empty ordered array of distinct member names, one per frame axis, in axis order."
+          },
+          "variance": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Variance"
+            },
+            "description": "How the components respond to a change of frame. Defaults to 'contravariant'."
           }
         },
         "required": [
@@ -658,6 +686,14 @@
         },
         "minItems": 1
       },
+      "Variance": {
+        "type": "string",
+        "description": "Closed enumeration stating how components respond to a change of frame.",
+        "enum": [
+          "contravariant",
+          "covariant"
+        ]
+      },
       "FrameReference": {
         "type": "object",
         "description": "Reference to one reference frame, by absolute URI or by JSON Pointer to a meta-type.",
@@ -669,6 +705,12 @@
           "kind": {
             "type": "string",
             "description": "Sort of frame identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
+          },
+          "variance": {
+            "type": {
+              "$ref": "#/definitions/characteristics/Variance"
+            },
+            "description": "How the index in this position responds to a change of frame. Defaults to 'contravariant'."
           }
         },
         "required": [
@@ -771,6 +813,218 @@
         "items": {
           "type": {
             "$ref": "#/definitions/characteristics/TensorReferenceFrame"
+          }
+        },
+        "minItems": 1
+      },
+      "TransformEncoding": {
+        "type": "string",
+        "description": "Closed enumeration naming the arrangement of numbers that carries a transformation.",
+        "enum": [
+          "quaternion",
+          "axisAngle",
+          "eulerAngles",
+          "rotationMatrix",
+          "homogeneousMatrix"
+        ]
+      },
+      "RotationSequence": {
+        "type": "string",
+        "description": "Closed enumeration of the twelve axis sequences for intrinsic Euler rotations. The leftmost letter names the axis of the first rotation.",
+        "enum": [
+          "XYX",
+          "XYZ",
+          "XZX",
+          "XZY",
+          "YXY",
+          "YXZ",
+          "YZX",
+          "YZY",
+          "ZXY",
+          "ZXZ",
+          "ZYX",
+          "ZYZ"
+        ]
+      },
+      "TransformComponentNames": {
+        "type": "array",
+        "description": "Ordered array of distinct member names in the order this specification fixes for the encoding: three for eulerAngles, four for quaternion and axisAngle.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 3,
+        "maxItems": 4,
+        "uniqueItems": true
+      },
+      "FrameTransform": {
+        "type": "object",
+        "description": "One transformation carrying coordinates in the from frame into coordinates in the to frame.",
+        "properties": {
+          "from": {
+            "type": {
+              "$ref": "#/definitions/characteristics/FrameReference"
+            },
+            "description": "Frame the transformation carries coordinates out of. variance is prohibited here."
+          },
+          "to": {
+            "type": {
+              "$ref": "#/definitions/characteristics/FrameReference"
+            },
+            "description": "Frame the transformation carries coordinates into. variance is prohibited here."
+          },
+          "encoding": {
+            "type": {
+              "$ref": "#/definitions/characteristics/TransformEncoding"
+            },
+            "description": "Arrangement of numbers that carries the transformation."
+          },
+          "components": {
+            "type": [
+              "string",
+              {
+                "$ref": "#/definitions/characteristics/TransformComponentNames"
+              },
+              {
+                "$ref": "#/definitions/characteristics/TensorComponents"
+              }
+            ],
+            "description": "For quaternion, axisAngle, and eulerAngles, an ordered array of member names. For rotationMatrix and homogeneousMatrix, either the name of a member holding an array nested twice, row outermost, or an array of components each stating its own index, row first."
+          },
+          "rotationSequence": {
+            "type": {
+              "$ref": "#/definitions/characteristics/RotationSequence"
+            },
+            "description": "Axis sequence of the three intrinsic rotations. Present if and only if encoding is 'eulerAngles'."
+          },
+          "translation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "description": "Names of the three members carrying the origin offset, resolved on the axes of the to frame in that frame's axis order. Prohibited when encoding is 'homogeneousMatrix'."
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "encoding",
+          "components"
+        ],
+        "additionalProperties": false
+      },
+      "FrameTransforms": {
+        "type": "array",
+        "description": "Non-empty array of transformations carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/FrameTransform"
+          }
+        },
+        "minItems": 1
+      },
+      "AlphaMode": {
+        "type": "string",
+        "description": "Closed enumeration stating how channel values stand to an opacity value.",
+        "enum": [
+          "straight",
+          "premultiplied"
+        ]
+      },
+      "ColorTransfer": {
+        "type": "string",
+        "description": "Closed enumeration stating whether channel values carry the transfer function of the identified space or are proportional to light.",
+        "enum": [
+          "asDefined",
+          "linear"
+        ]
+      },
+      "ColorSpace": {
+        "type": "object",
+        "description": "Color space in which channel values held in members of the annotated type are expressed.",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sort of definition identified. Values defined by the specification are 'itu', 'iec', 'cie', 'icc-profile', 'icc-registry', and 'type'. The enumeration is open."
+          },
+          "codePoints": {
+            "type": "array",
+            "items": {
+              "type": "int32",
+              "minimum": 0
+            },
+            "minItems": 4,
+            "maxItems": 4,
+            "description": "Color primaries, transfer characteristics, matrix coefficients, and video full range flag of ITU-T H.273, in that order."
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Non-empty ordered array of distinct member names, one per channel of the space, in the order the identified definition declares them."
+          },
+          "alpha": {
+            "type": "string",
+            "description": "Name of the member carrying opacity. Distinct from every name in channels."
+          },
+          "alphaMode": {
+            "type": {
+              "$ref": "#/definitions/characteristics/AlphaMode"
+            },
+            "description": "How the channel values stand to the opacity value. Permitted only where alpha is present. Defaults to 'straight'."
+          },
+          "transfer": {
+            "type": {
+              "$ref": "#/definitions/characteristics/ColorTransfer"
+            },
+            "description": "Whether the channel values carry the transfer function of the identified space. Defaults to 'asDefined'."
+          },
+          "illuminant": {
+            "type": "string",
+            "description": "Standard illuminant the values are relative to, using a designation of CIE 015."
+          },
+          "observer": {
+            "type": "string",
+            "description": "Standard colorimetric observer the values are relative to. Values defined by the specification are 'cie-1931-2' and 'cie-1964-10'. The enumeration is open."
+          }
+        },
+        "required": [
+          "reference",
+          "kind",
+          "channels"
+        ],
+        "additionalProperties": false,
+        "if": {
+          "type": {
+            "$ref": "#/definitions/characteristics/KindIsMetaType"
+          }
+        },
+        "then": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
+          }
+        },
+        "else": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ReferenceIsUri"
+          }
+        }
+      },
+      "ColorSpaces": {
+        "type": "array",
+        "description": "Non-empty array of color spaces carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/ColorSpace"
           }
         },
         "minItems": 1

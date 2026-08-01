@@ -34,6 +34,11 @@ normative:
     author:
       - fullname: Clemens Vasters
     target: https://json-structure.github.io/units/draft-vasters-json-structure-units.html
+  JSTRUCT-VALIDATION:
+    title: "JSON Structure: Validation"
+    author:
+      - fullname: Clemens Vasters
+    target: https://json-structure.github.io/validation/draft-vasters-json-structure-validation.html
   ISO19108:
     title: "ISO 19108:2002 Geographic information - Temporal schema"
     author:
@@ -152,12 +157,86 @@ informative:
       - org: SPASE Consortium
     date: 2026
     target: https://spase-group.org/data/model/spase-latest/index.html
+  SSC-COORDS:
+    title: "Satellite Situation Center Users Guide, Appendix C: Description of Selected Coordinate Systems"
+    author:
+      - org: NASA Goddard Space Flight Center
+    target: https://sscweb.gsfc.nasa.gov/users_guide/Appendix_C.html
   GCMT-NDK:
     title: "Explanation of the ndk file format used for the Global Centroid-Moment-Tensor catalog"
     author:
       - org: Global CMT Project
     date: 2006
     target: https://www.ldeo.columbia.edu/~gcmt/projects/CMT/catalog/allorder.ndk_explained
+  CCSDS-ADM:
+    title: "Attitude Data Messages, Recommended Standard, CCSDS 504.0-B-2, Blue Book"
+    author:
+      - org: Consultative Committee for Space Data Systems
+    date: 2024-01
+    target: https://public.ccsds.org/Pubs/504x0b2.pdf
+  CCSDS-ADM1:
+    title: "Attitude Data Messages, Recommended Standard, CCSDS 504.0-B-1, Blue Book, including Technical Corrigendum 1 (July 2015)"
+    author:
+      - org: Consultative Committee for Space Data Systems
+    date: 2008-05
+    target: https://public.ccsds.org/Pubs/504x0b1c1s.pdf
+  NAIF-QUAT:
+    title: "Quaternions White Paper"
+    author:
+      - org: NASA Jet Propulsion Laboratory, Navigation and Ancillary Information Facility
+    date: 2003-11-30
+    target: https://naif.jpl.nasa.gov/pub/naif/misc/Quaternion_White_Paper/Quaternions_White_Paper.pdf
+  REP-103:
+    title: "REP 103: Standard Units of Measure and Coordinate Conventions"
+    author:
+      - name: Tully Foote
+      - name: Mike Purvis
+    date: 2010-10-07
+    target: https://www.ros.org/reps/rep-0103.html
+  KITTI:
+    title: "Vision meets Robotics: The KITTI Dataset"
+    author:
+      - name: Andreas Geiger
+      - name: Philip Lenz
+      - name: Christoph Stiller
+      - name: Raquel Urtasun
+    date: 2013
+    target: https://www.cvlibs.net/publications/Geiger2013IJRR.pdf
+  ICC-SPEC:
+    title: "Image technology colour management - Architecture, profile format, and data structure (ISO 15076-1:2025, ICC.1:2022, profile version 4.4)"
+    author:
+      - org: International Color Consortium
+    date: 2022
+    target: https://www.color.org/v4spec.xalter
+  ICC-REGISTRY:
+    title: "ICC Characterization Data Registry"
+    author:
+      - org: International Color Consortium
+    target: https://registry.color.org/
+  ITU-H273:
+    title: "Recommendation ITU-T H.273: Coding-independent code points for video signal type identification"
+    author:
+      - org: International Telecommunication Union
+    date: 2024-07
+    target: https://www.itu.int/rec/T-REC-H.273
+  ISO11664-4:
+    title: "Colorimetry - Part 4: CIE 1976 L*a*b* colour space (ISO/CIE 11664-4:2019)"
+    author:
+      - org: International Commission on Illumination
+    date: 2019
+    target: https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1
+  CIE015:
+    title: "CIE 015:2018 Colorimetry, 4th Edition"
+    author:
+      - org: International Commission on Illumination
+    date: 2018
+    target: https://cie.co.at/publications/colorimetry-4th-edition
+  PNG3:
+    title: "Portable Network Graphics (PNG) Specification (Third Edition)"
+    author:
+      - org: World Wide Web Consortium
+    date: 2025-06-24
+    target: https://www.w3.org/TR/png-3/
 
 --- abstract
 
@@ -214,7 +293,8 @@ names the model the definition belongs to. The `reference` states which
 definition applies, and the `kind` states which model defines it, so that a
 reader knows how to interpret it and a processor knows what can be checked.
 `concepts`, `observedProperty`, `temporalReferenceSystem`,
-`coordinateReferenceSystem`, and `linearReferenceSystem` all follow this shape.
+`coordinateReferenceSystem`, `linearReferenceSystem`, and the entries of
+`colorSpaces` all follow this shape.
 
 A definition is ordinarily maintained outside the schema, and `reference` is
 then an absolute URI {{RFC3986}}. The reference-system keywords also admit a
@@ -231,11 +311,14 @@ The annotations bind terms; they do not express statements, node identity, or
 entailment, and this document defines no prefix mechanism and no compact URI
 form.
 
-A value is read against one reference system and quantifies one phenomenon, so
-the reference-system keywords and `observedProperty` each take a single binding.
-Vocabularies overlap by design, and the same notion is deliberately given a term
-in several of them, so `concepts` takes a list. It is the only keyword defined
-here that admits more than one binding.
+A value is read against one temporal or coordinate reference system and
+quantifies one phenomenon, so those keywords and `observedProperty` each take a
+single binding. Vocabularies overlap by design, and the same notion is
+deliberately given a term in several of them, so `concepts` takes a list. The
+keywords that resolve components onto axes or channels take a list for a
+different reason: one set of numbers can be published in more than one frame or
+more than one color space at once, and each keyword states the rule for its own
+values.
 
 ## Observable and Observed Property Concepts {#observable-observed-concepts}
 
@@ -269,9 +352,9 @@ that defines a temporal type, and binds an existing member of it.
 observation record, and on a member schema of one that carries a result,
 subject to {{observed-property}}.
 `coordinateReferenceSystem`, `vectorReferenceFrames`, `tensorReferenceFrames`,
-and `linearReferenceSystem` MAY occur on an object or tuple and bind existing
-properties. `referenceRole` MAY occur on a member of a meta-type, subject to
-{{meta-types}}.
+`frameTransforms`, `linearReferenceSystem`, and `colorSpaces` MAY occur on an
+object or tuple and bind existing properties. `referenceRole` MAY occur on a
+member of a meta-type, subject to {{meta-types}}.
 
 All keywords defined here are direct peer keywords, and no wrapper is implied.
 Every annotation is OPTIONAL, and a schema can use any subset, including none.
@@ -311,7 +394,9 @@ not already know it.
 | `coordinateReferenceSystem` | CRS and ordered properties forming a coordinate. |
 | `vectorReferenceFrames` | Frames and ordered properties forming the components of vector quantities. |
 | `tensorReferenceFrames` | Frames and indexed properties forming the components of tensor quantities. |
+| `frameTransforms` | Frames and properties forming a transformation from one frame to another. |
 | `linearReferenceSystem` | LRS and properties forming a location along a linear element. |
+| `colorSpaces` | Color spaces and properties forming the channels of color values. |
 | `referenceRole` | Function of a member within a reference-system meta-type. |
 
 Omission means undeclared unless stated otherwise. It never implies compatible,
@@ -1810,8 +1895,8 @@ property names or from a representation returned by dereferencing `reference`.
 
 A name in `coordinates` MAY resolve to a property whose type is `array` or
 `tuple`. Where it does resolve to an `array`, that name MUST be the only entry
-in `coordinates`, and the elements of the array instances must supply the axes
-in order rather than the named property supplying one axis. 
+in `coordinates`, and the elements of the array instances MUST supply the axes
+in order rather than the named property supplying one axis.
 
 For a `tuple`, the number of elements MUST equal the dimension of the
 referenced system. A schema using an `array` SHOULD constrain its length. The
@@ -2014,9 +2099,10 @@ components of a vector all carry the unit of the quantity. The units of the
 members named by one frame MUST be mutually convertible and SHOULD be identical.
 
 When present, `vectorReferenceFrames` MUST be a non-empty array. Each element
-MUST be an object with REQUIRED `reference`, `kind`, and `components`, and no
-other members. The keyword is an array because a single record may carry more
-than one vector quantity, and each quantity is resolved in its own frame.
+MUST be an object with REQUIRED `reference`, `kind`, and `components`, an
+OPTIONAL `variance`, and no other members. The keyword is an array because a
+single record may carry more than one vector quantity, and each quantity is
+resolved in its own frame.
 
 ### The `reference` and `kind` Properties
 
@@ -2035,17 +2121,53 @@ their order, not the units of the annotated members.
 
 ### The `components` Property
 
-`components` behaves as `coordinates` does: a non-empty array of names of direct
-properties of the annotated object or tuple, all of numeric type, mapped by
-position onto the axes of the frame, whose count MUST equal the number of axes,
-and whose ordering is an assertion by the schema author that is never inferred.
-The names within one `components` array MUST be distinct, since one value cannot
-be the component along two axes of one frame.
+`components` behaves as `coordinates` does. It MUST be a non-empty array of
+names, and it takes one of two forms. In the first, every name is that of a
+direct property of numeric type, and the names are mapped by position onto the
+axes of the frame. In the second, the array holds exactly one name, that of a
+direct property whose type is `array` or `tuple` and whose elements are of
+numeric type, and the elements of that property MUST supply the axes in order
+rather than the named property supplying one axis. Because the components of a
+vector all carry one unit, an `array` serves here where it would not serve for a
+coordinate.
 
-A name in `components` MAY likewise resolve to a property whose type is `array`
-or `tuple`, in which case it MUST be the only entry and the elements of that
-array supply the axes in order. Because the components of a vector all carry one
-unit, an `array` serves here where it would not serve for a coordinate.
+Every name in `components` MUST resolve to a direct property of the annotated
+object or tuple. The names within one `components` array MUST be distinct, since
+one value cannot be the component along two axes of one frame. The number of
+axes supplied, whether by the names of the first form or by the elements of the
+single property of the second, MUST equal the number of axes the frame declares.
+The ordering is an assertion by the schema author and is never inferred.
+
+### The `variance` Property {#variance}
+
+`variance` states how the components respond to a change of frame. When present,
+it MUST be one of:
+
+| Value | Response |
+|---|---|
+| `contravariant` | The components transform with the change of frame, as those of a displacement or a velocity do. |
+| `covariant` | The components transform with the inverse transpose of the change of frame, as those of a gradient or a surface normal do. |
+
+Writing `M` for the matrix that carries coordinates in one frame into
+coordinates in another, in the sense {{transform-conventions}} fixes, a
+contravariant triple `v` becomes `M v` and a covariant triple `w` becomes the
+inverse transpose of `M` applied to `w`. The change of frame is the passive one:
+the quantity does not move, the frame does.
+
+When `variance` is absent, the value is `contravariant`. That is the default
+because the quantities most often reported, among them displacements,
+velocities, accelerations, and forces, are contravariant, and the covariant
+ones, among them gradients and surface normals, are the ones a schema author is
+likelier to be conscious of having.
+
+The distinction is invisible where two frames differ by a rotation alone,
+because the inverse transpose of a rotation is that rotation. It becomes visible
+as soon as they differ by a scaling or a shear. A surface normal carried through
+a non-uniform scaling by the rule that carries a displacement ceases to be
+perpendicular to the surface it describes, and a pressure gradient carried the
+same way reports the wrong rate of change. A processor that re-expresses
+components without reading `variance` is right for rotations and wrong for
+everything else, which is what this member exists to prevent.
 
 ### Multiple Frames and Shared Components
 
@@ -2057,10 +2179,23 @@ two frames is written. The assertion is the schema author's, and a processor
 MUST NOT infer a shared axis from a shared property, from the names of the
 frames, or from equal values in samples.
 
+Two elements that name one property MUST declare the same `variance`, or omit it
+in both. Components of differing variance along one shared axis agree under a
+rotation and part company under any other change of frame, so one value cannot
+stand for both.
+
 A property MAY also be named both by `vectorReferenceFrames` and by the
 `coordinateReferenceSystem` of the same object or tuple, as a position vector
 is. Where it is, the unit established by the coordinate axis and the unit borne
 by the components of the vector MUST be mutually convertible.
+
+`vectorReferenceFrames` binds vector quantities and nothing else. A rotation, a
+stress, a strain, or any other quantity whose components take more than one axis
+index is bound by `tensorReferenceFrames` ({{tensor-reference-frames}}), since
+the declared order of a single frame cannot state which axis each component
+belongs to. A quaternion carrying a rotation is bound by neither keyword: three
+of its four members lie along the axes of a frame and the fourth does not, so no
+ordered list of components states its binding.
 
 A reference that does not resolve leaves the frame indeterminate. It does not
 make the annotation incorrect.
@@ -2139,8 +2274,8 @@ and are carried separately.
       "description": "Geocentric Solar Ecliptic frame.",
       "properties": {
         "x": { "type": "double", "description": "Earth towards the Sun." },
-        "y": { "type": "double", "description": "Completes a right-handed set." },
-        "z": { "type": "double", "description": "Normal to the ecliptic, positive north." }
+        "y": { "type": "double", "description": "In the ecliptic plane, towards dusk, completing a right-handed set." },
+        "z": { "type": "double", "description": "Parallel to the ecliptic pole, positive north." }
       },
       "tuple": ["x", "y", "z"]
     },
@@ -2150,8 +2285,8 @@ and are carried separately.
       "description": "Geocentric Solar Magnetospheric frame.",
       "properties": {
         "x": { "type": "double", "description": "Earth towards the Sun." },
-        "y": { "type": "double", "description": "Completes a right-handed set." },
-        "z": { "type": "double", "description": "In the plane of x and the geomagnetic dipole axis, positive north." }
+        "y": { "type": "double", "description": "Perpendicular to the geomagnetic dipole axis, completing a right-handed set." },
+        "z": { "type": "double", "description": "In the plane of x and the geomagnetic dipole axis, positive towards the northern magnetic pole." }
       },
       "tuple": ["x", "y", "z"]
     }
@@ -2160,7 +2295,9 @@ and are carried separately.
 ~~~
 
 The frames are written separately because they differ, and they share their
-first axis because both take x from the Earth towards the Sun.
+first axis because both take x from the Earth towards the Sun. The axis
+directions are those the NASA Satellite Situation Center states for these two
+frames {{SSC-COORDS}}.
 
 This specification does not define a frame, an epoch, or a transformation
 between frames. Those definitions come from the referenced authority or from the
@@ -2204,6 +2341,13 @@ strain, or a seismic moment tensor. Where the two entries of a rank-2 tensor
 name different frames, the tensor carries a vector in the second frame to a
 vector in the first, as for a rotation matrix or a Jacobian.
 
+Each entry MAY carry `variance` as defined in {{variance}}, stating how the
+index in that position responds to a change of the frame it ranges over. The
+entries of one tensor need not agree. A stress tensor is contravariant in both
+indices, while a Jacobian is contravariant in the first and covariant in the
+second, which is what makes it a map between frames rather than a quantity in
+one.
+
 Three entries give a rank-3 tensor, and one frame may fill them all. The
 piezoelectric strain coefficients of a crystal are one such tensor: an electric
 field applied along one axis strains the crystal across every pair of axes, so
@@ -2226,10 +2370,16 @@ each coefficient is picked out by three axes of the same crystal frame.
   "properties": {
     "d": {
       "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
       "items": {
         "type": "array",
+        "minItems": 3,
+        "maxItems": 3,
         "items": {
           "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
           "items": { "type": "double", "ucumUnit": "C/N" }
         }
       }
@@ -2256,11 +2406,15 @@ each coefficient is picked out by three axes of the same crystal frame.
 `d` is nested three deep because `frames` has three entries, and each level is
 indexed by the three axes of `CrystalAxes`, so it holds twenty-seven values. The
 outermost index is the axis of the applied field and the two inner ones are the
-axes of the strain it produces.
+axes of the strain it produces. Each level constrains its length to three
+{{JSTRUCT-VALIDATION}}, which is how the shape the frames require is stated in
+the schema rather than left to the instance.
 
 `symmetry` MUST NOT be present unless `frames` has exactly two entries naming
-the same frame, since it speaks of an exchange of two indices ranging over one
-set of axes. It MUST be `symmetric`, `skewSymmetric`, or `none`, and it is
+the same frame and declaring the same `variance`, or omitting it in both, since
+it speaks of an exchange of two indices ranging over one set of axes and a pair
+of indices of differing variance does not survive the exchange under a change of
+frame. It MUST be `symmetric`, `skewSymmetric`, or `none`, and it is
 `none` where absent. Under `symmetric` the component at row i and column j
 equals the component at row j and column i; under `skewSymmetric` it is the
 negation of it and the diagonal is zero. The symmetries of tensors of higher
@@ -2275,25 +2429,36 @@ index to value in the schema, and neither of which admits a layout, packing, or
 multiplication convention as a separate declaration.
 
 The first form is a string naming a direct property of the annotated object or
-tuple whose type is an `array` nested to the depth given by the number of
-entries in `frames`, the outermost level indexed by the axes of the first entry
-and each further level by the next in turn, and whose innermost `items` is of a
-numeric type. The nesting carries the layout, so the row-major and column-major
+tuple whose type is an `array` or a `tuple` nested to exactly the depth given by
+the number of entries in `frames`, the outermost level indexed by the axes of
+the first entry and each further level by the next in turn, and whose innermost
+items are of a numeric type. A nesting whose depth differs from the number of
+entries in `frames` makes the annotation invalid. At every level, the number of
+elements an instance carries MUST equal the number of axes declared by the frame
+of the corresponding entry, so a `tuple`, or an `array` whose length is
+constrained {{JSTRUCT-VALIDATION}}, states the shape in the schema where a bare
+`array` leaves it to the instance. The nesting carries the layout, so the
+row-major and column-major
 question does not arise, and a tensor declared `symmetric` or `skewSymmetric` is
-written out in full in this form.
+written out in full in this form. Every position of the tensor is carried, so
+the rule of the paragraph after the next does not apply to this form.
 
 The second form is a non-empty array of objects, each with a REQUIRED `index`
 and a REQUIRED `property` and no other members. `index` MUST be an array of
 non-negative integers whose length equals the number of entries in `frames`, and
-`property` MUST name a direct property of the annotated object or tuple having a
-numeric type. Every component carried states its own index, so no packing order
-is defined here and the Voigt-style orderings in circulation need not be
-distinguished. One `index` value MUST NOT appear twice within one element, and
-one property MUST NOT be named twice.
+whose integer in position k MUST be less than the number of axes declared by the
+frame of entry k. `property` MUST name a direct property of the annotated object
+or tuple having a numeric type. Every component carried states its own index, so
+no packing order is defined here and the Voigt-style orderings in circulation
+need not be distinguished. Within one `components` array no two entries may
+carry equal `index` values, and no two entries may name the same property.
 
-A position named by no entry is determined by `symmetry` where `symmetry` is
-`symmetric` or `skewSymmetric`, and is otherwise undeclared; under `none` every
-position MUST be named. The units of the members named by one element MUST be
+In the second form, a position named by no entry is determined by `symmetry`
+where `symmetry` is `symmetric` or `skewSymmetric`, and is otherwise undeclared;
+under `none` every position MUST be named. Where `symmetry` is `symmetric` or
+`skewSymmetric`, at least one of each mirrored pair of positions MUST be named,
+and where both are named the instance values MUST stand in the relation that
+`symmetry` declares. The units of the members named by one element MUST be
 mutually convertible and SHOULD be identical.
 
 The Global CMT catalogue publishes a source solution for every significant
@@ -2352,7 +2517,7 @@ order. What a reader of the text file must look up, the schema carries.
     "UseFrame": {
       "name": "UseFrame",
       "type": "tuple",
-      "description": "Spherical frame of the Global CMT catalogue.",
+      "description": "Spherical frame of the Global CMT catalogue, oriented at the centroid position this record carries under lat and lon.",
       "properties": {
         "r": { "type": "double", "description": "Up." },
         "t": { "type": "double", "description": "South." },
@@ -2364,11 +2529,11 @@ order. What a reader of the text file must look up, the schema carries.
 }
 ~~~
 
-The following is the sample record printed in that same document: a magnitude-5
-earthquake beneath El Salvador on 1 January 2005, whose six elements give the
+The following is the sample record printed in that same document: an earthquake
+beneath El Salvador on 1 January 2005, whose six elements give the
 orientation and the size of the movement on the fault, in dyne-centimetres. The
 catalogue prints them scaled by a power of ten carried on a line of its own, and
-the instance carries the values themselves.
+the instance carries the values themselves, that is, with the exponent applied.
 
 ~~~ json
 {
@@ -2391,33 +2556,234 @@ The value under `mtp` sits at row 1 and column 2, and the declaration of
 says so, which is the point: the six numbers alone determine nine components
 only once the schema has stated the frame, the index of each, and the symmetry.
 
-An attitude matrix has its rows in one frame and its columns in another, so its
-two `frames` entries differ and it carries no `symmetry`. The first form of
-`components` gives it as nested arrays, rows outermost, which settles the layout
-that a flat array of nine values would leave to convention.
+`UseFrame` is a local frame, and up, south, and east are directions only once a
+point on the Earth is given. The point is the one the `coordinateReferenceSystem`
+of the same object binds, and the `description` of the meta-type is where a
+schema says so. This document defines no member that binds a frame to the
+position that orients it, and a processor MUST NOT infer such a binding from the
+presence of both keywords on one type.
+
+A rank-2 quantity whose two entries name different frames is a map from one
+frame to the other, and an attitude matrix, a Jacobian, and a sensor alignment
+are all of that shape. `tensorReferenceFrames` describes such a quantity
+correctly, but it says only what the indices range over. It does not say that
+the numbers are a transformation, and it cannot describe the quaternion, the
+axis and angle, or the three Euler angles that the same transformation is more
+often published as. Where the annotated properties carry a transformation,
+`frameTransforms` ({{frame-transforms}}) SHOULD be used instead.
+
+## The `frameTransforms` Keyword {#frame-transforms}
+
+The `frameTransforms` keyword identifies properties of an object or tuple that
+carry a transformation from one reference frame to another.
+
+The keywords before it bind quantities. `coordinateReferenceSystem` binds a
+position, `vectorReferenceFrames` binds a direction, and `tensorReferenceFrames`
+binds a quantity whose components take more than one axis index. A
+transformation is none of those. It is the map between two frames, and the
+numbers carrying it mean nothing until the sense of the map, the handedness of
+its angles, and the arrangement of its components are all settled.
+
+Common practice settles none of them. NASA's Navigation and Ancillary
+Information Facility, which maintains the toolkit most planetary missions
+navigate with, states the position plainly: "there are no standards defining
+construction of quaternions, the underlying associated mathematics, or the
+connection to rotations. In the absence of such standards, different
+organizations adopt disparate definitions, which makes communication difficult"
+{{NAIF-QUAT}}. The same paper enumerates what a reader must resolve before a
+rotation can be applied: whether a positive angle turns in the right-hand sense,
+whether the rotation turns a vector or turns the frame, whether the matrix
+multiplies from the left or the right, whether the sense runs from the base
+frame or towards it, and, for a quaternion, where the scalar sits and what sign
+its multiplication rule carries. Six independent choices, of which, as that
+paper observes, "the composition of several misunderstandings can lead to
+correct results in one context, incorrect in another, and frustration in
+general". The Robot Operating System reaches the same conclusion about Euler
+angles, which it discourages "due to having 24 'valid' conventions with
+different domains using different conventions by default" {{REP-103}}.
+
+When present, `frameTransforms` MUST be a non-empty array. Each element MUST be
+an object with REQUIRED `from`, `to`, `encoding`, and `components`, OPTIONAL
+`rotationSequence` and `translation`, and no other members. The keyword is an
+array because one record may carry more than one transformation, as an attitude
+message does when it gives the orientation of a single instrument against two
+different reference frames.
+
+### The Conventions This Document Fixes {#transform-conventions}
+
+Every frame named by `from` or `to` MUST be right-handed and MUST declare
+exactly three axes, and a positive angle MUST be read as a rotation in the
+right-hand sense about the axis it is stated against. Every encoding this
+keyword defines presupposes three dimensions, so a frame of any other arity
+cannot be named by either member.
+
+A transformation carries coordinates expressed in the `from` frame into
+coordinates expressed in the `to` frame. Writing `x` for the coordinates of a
+vector in the `from` frame and `x'` for the coordinates of the same vector in
+the `to` frame, the transformation is the `M` for which `x' = M x`, and
+`translation`, where present, adds to that as `x' = M x + t`. This is the
+frame-transformation sense rather than the vector-rotation sense: the quantity
+does not move, the frame does.
+
+The Consultative Committee for Space Data Systems states that same sense for its
+attitude messages. The quaternion "from frame A to frame B" is "the quaternion
+of the rotation that transforms the basis vectors of frame A into the basis
+vectors of frame B", and the matrix it corresponds to is defined by
+`XB = MBA * XA` {{CCSDS-ADM}}.
+
+That committee is also the reason this document fixes these choices rather than
+offering them as members to be declared. Its first issue made both the direction
+and the placement of the quaternion scalar into fields a producer filled in,
+`ATTITUDE_DIR` taking `A2B` or `B2A` and `QUATERNION_TYPE` taking `FIRST` or
+`LAST` {{CCSDS-ADM1}}. Its second issue deleted both, recording the rationale as
+"Simplicity of the standard" and, for the wider set of changes that pinned the
+meanings down, "To avoid misuse of exchange data" {{CCSDS-ADM}}. Fixing them
+cost that standard the ability to carry records laid out the other way, because
+its records are positional. It costs this document nothing, because `components`
+names members rather than positions. A schema whose quaternion is stored
+scalar-last and one whose quaternion is stored scalar-first carry the same
+annotation, with the names written in the order fixed here. The layout of the
+data is described, not constrained.
+
+### The `from` and `to` Properties
+
+`from` and `to` MUST each be an object with a REQUIRED `reference` and a
+REQUIRED `kind`, whose value spaces and meanings are those they have in
+`vectorReferenceFrames` ({{vector-reference-frames}}). The axes of both frames
+MUST be directions rather than angles. `variance` MUST NOT appear in either,
+since a frame named by a transformation is not an index position of a quantity.
+
+`from` and `to` MAY cite the same `reference`. A transformation between two
+realizations of one frame, or between one frame at two epochs, is written that
+way.
+
+### The `encoding` Property
+
+`encoding` states which arrangement of numbers carries the transformation. It is
+a closed enumeration, and a value outside it is invalid, because each value
+carries an arithmetic meaning that this document defines.
+
+| Encoding | Carried by |
+|---|---|
+| `quaternion` | Four members: the scalar, then the three components of the vector part. |
+| `axisAngle` | Four members: the angle, then the three components of the rotation axis. |
+| `eulerAngles` | Three members: the angles of three successive intrinsic rotations. |
+| `rotationMatrix` | Nine values arranged three by three. |
+| `homogeneousMatrix` | Sixteen values arranged four by four, acting on augmented coordinates. |
+
+Every encoding but the last carries a rotation and nothing else, and an offset
+between the origins of the two frames is then carried by `translation`
+({{transform-translation}}) or not at all. `homogeneousMatrix` carries the
+rotation and the offset together in one matrix `M4`, acting on augmented
+coordinates as `[x', 1] = M4 [x, 1]` written as column vectors. Its first three
+rows and first three columns are the rotation `M`, its fourth column holds in
+its first three entries the same three values `translation` would carry and in
+its fourth entry a one, and its fourth row is three zeroes and a one.
+
+The nine values of a `rotationMatrix`, and the first three rows and columns of a
+`homogeneousMatrix`, SHOULD be orthonormal with determinant positive one, within
+a tolerance appropriate to the numeric type. A processor is not required to
+verify this, and this document defines no tolerance. The remaining entries of a
+`homogeneousMatrix` MUST be as the previous paragraph states, so a projective
+matrix, a matrix carrying a scaling or a shear, and a matrix whose fourth row is
+anything other than three zeroes and a one are all outside this encoding.
+
+### The `components` Property
+
+`components` names the members that carry the transformation, and its form
+follows `encoding`.
+
+For `quaternion`, `axisAngle`, and `eulerAngles`, `components` MUST be an array
+of names of direct properties of the annotated object or tuple, all of numeric
+type and all distinct, of the length the encoding requires. Order within that
+array is fixed by this document. It is never inferred from the order in which
+the properties are declared, from their names, or from their position in a
+`tuple`.
+
+For `rotationMatrix` and `homogeneousMatrix`, `components` MUST be either the
+name of one property whose type is an `array` or a `tuple` nested twice, the
+outer index selecting the row, or an array of indexed components in the form
+`tensorReferenceFrames` uses ({{tensor-reference-frames}}), each stating its own
+`index` of two non-negative integers, row first. Neither form leaves a row-major
+or column-major reading open, which a flat array of nine or sixteen values
+would.
+
+In the nested form, each instance level MUST carry three elements for
+`rotationMatrix` and four for `homogeneousMatrix`. In the indexed form, every
+position MUST be named, nine of them for `rotationMatrix` and sixteen for
+`homogeneousMatrix`, and each integer of an `index` MUST be less than three,
+respectively four. `symmetry` has no counterpart here, so no position is
+determined by any other and none may be left undeclared.
+
+#### Quaternions
+
+The four names given for `quaternion` are, in order, the member carrying the
+scalar and the members carrying the three components of the vector part, in
+the axis order the frames declare. Writing `a` for the angle of the rotation
+that carries the `from` frame into the `to` frame and `e` for its unit axis, the
+scalar is `cos(a/2)` and each of the other three is `sin(a/2)` times the
+corresponding component of `e`. The axis is unchanged by its own rotation, so
+its components are the same in both frames and the question of which frame they
+are resolved in does not arise. Which physical direction the second, third, and
+fourth names stand for therefore follows from the axis order the frames declare,
+not from any convention of this document.
+
+The four values taken together SHOULD have unit norm, and the scalar SHOULD be
+non-negative, which confines the rotation angle to a half turn either way
+{{CCSDS-ADM1}}.
+
+One worked case settles the sense beyond argument. Let the `to` frame be the
+`from` frame turned a quarter turn in the right-hand sense about the third axis,
+so that the first axis of the `to` frame has the coordinates 0, 1, 0 in the
+`from` frame. The quaternion is then the scalar 0.7071 with axis components 0,
+0, 0.7071, and a vector whose coordinates in the `from` frame are 1, 0, 0 has
+the coordinates 0, -1, 0 in the `to` frame. Those are the values {{CCSDS-ADM}}
+prints for the same case.
+
+The other sense is in wide enough use to be worth naming. The SPICE toolkit
+places the scalar first, as this document does, and measures its angle as the
+rotation of the coordinate system from the base frame in the right-hand sense,
+as this document does. It nevertheless carries the negation of the vector part
+this document carries, so for the case above it gives the scalar 0.7071 with
+vector components 0, 0, -0.7071. The cause is not the parameterization but the
+multiplication rule: NAIF records that its own product takes the cross-product
+term positive where the other convention in circulation takes it negative, that
+this "has the effect of inverting the sense of the rotation", and that
+converting a quaternion of the other convention into a SPICE one is done by
+moving the scalar to the front and negating the remaining three {{NAIF-QUAT}}.
+The two therefore differ in the sign of the vector part while agreeing on
+everything a reader is likely to check, and nothing in the four numbers reveals
+which was meant. That is the ambiguity this keyword removes.
+
+The example below annotates an attitude carried as four separate properties. The
+record stores the scalar last, as the current attitude message standard requires
+of its own records, and `components` names it first, as this document requires
+of the annotation. Both statements hold at once, because one describes storage
+and the other describes meaning.
+
 ~~~ json
 {
   "name": "SpacecraftAttitude",
   "type": "object",
-  "tensorReferenceFrames": [
+  "frameTransforms": [
     {
-      "frames": [
-        { "reference": "#/definitions/BodyFrame", "kind": "type" },
-        {
-          "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
-          "kind": "ogc-crs"
-        }
-      ],
-      "components": "attitude"
+      "from": { "reference": "#/definitions/BodyFrame", "kind": "type" },
+      "to": {
+        "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
+        "kind": "ogc-crs"
+      },
+      "encoding": "quaternion",
+      "components": ["qc", "q1", "q2", "q3"]
     }
   ],
   "properties": {
-    "attitude": {
-      "type": "array",
-      "items": { "type": "array", "items": { "type": "double" } }
-    }
+    "epoch": { "type": "datetime" },
+    "q1": { "type": "double" },
+    "q2": { "type": "double" },
+    "q3": { "type": "double" },
+    "qc": { "type": "double" }
   },
-  "required": ["attitude"],
+  "required": ["epoch", "q1", "q2", "q3", "qc"],
   "additionalProperties": false,
   "definitions": {
     "BodyFrame": {
@@ -2435,23 +2801,182 @@ that a flat array of nine values would leave to convention.
 }
 ~~~
 
-An instance holding a quarter turn about the third geocentric axis is the
-following.
+An instance carrying the quarter turn worked above is the following.
 
 ~~~ json
 {
-  "attitude": [
-    [0.0, -1.0, 0.0],
-    [1.0, 0.0, 0.0],
-    [0.0, 0.0, 1.0]
-  ]
+  "epoch": "2003-09-30T14:28:15.1172Z",
+  "q1": 0.0,
+  "q2": 0.0,
+  "q3": 0.7071068,
+  "qc": 0.7071068
 }
 ~~~
 
-The first inner array is the row indexed by the first axis of `BodyFrame`, so it
-gives that axis in the components of EPSG:4978. Read as columns instead, the
-same nine values would give the opposite rotation, and it is the schema that
-rules that reading out.
+#### Axis and Angle
+
+The four names given for `axisAngle` are, in order, the member carrying the
+angle and the members carrying the three components of the axis. The angle is
+that of the rotation carrying the `from` frame into the `to` frame, measured in
+the right-hand sense about the axis, and the axis components SHOULD have unit
+norm. This is the one rotation-only encoding whose members do not all carry one
+unit: the angle MUST carry a `unit` or `ucumUnit` annotation of angle through
+{{JSTRUCT-UNITS}}, since radians and degrees are not distinguishable in the
+value, and the axis components carry none. `homogeneousMatrix` likewise mixes
+units, its rotation entries carrying none and its offset entries carrying a
+length.
+
+#### Euler Angles
+
+`eulerAngles` requires `rotationSequence`, and the three names in `components`
+are the angles of the first, second, and third rotation in the order that
+sequence gives.
+
+The rotations are intrinsic. The first turns the `from` frame about the axis the
+first letter names, the second turns the frame the first produced about the axis
+the second letter names, and the third turns the frame the second produced, the
+result being the `to` frame. Under the extrinsic reading, where every rotation
+is about an axis of the original frame, the same three angles against the same
+sequence describe a different transformation. The equivalent extrinsic
+statement of one intrinsic transformation reads the sequence backwards and
+applies the same three angle values in the reverse order; degenerate cases, such
+as all three angles being zero, agree under both readings.
+
+That this needs saying is shown by the standard that most needs it. The current
+attitude message standard states the composition is intrinsic exactly once, in
+an annex marked informative {{CCSDS-ADM}}, and the issue that preceded it for
+sixteen years never stated it at all {{CCSDS-ADM1}}.
+
+### The `rotationSequence` Property
+
+`rotationSequence` MUST be present when `encoding` is `eulerAngles` and MUST NOT
+be present otherwise. Its value MUST be three characters drawn from `X`, `Y`,
+and `Z`, no two adjacent characters being equal, which admits twelve values:
+`XYX`, `XYZ`, `XZX`, `XZY`, `YXY`, `YXZ`, `YZX`, `YZY`, `ZXY`, `ZXZ`, `ZYX`, and
+`ZYZ`. The value is case-sensitive, and only these twelve upper-case strings are
+valid. The leftmost character names the axis of the first rotation.
+
+`X` names the first axis of the frame being turned, `Y` the second, and `Z` the
+third, in the order that frame declares its axes. The letters are positional and
+carry no direction of their own, whatever the frame calls its axes: in a frame
+declaring north, east, and down, `X` is north, `Y` is east, and `Z` is down.
+
+The six values whose first and third characters are equal are permitted, though
+the standard that first enumerated them discouraged them "as their use can cause
+confusion" {{CCSDS-ADM1}}.
+
+### The `translation` Property {#transform-translation}
+
+`translation`, when present, MUST be an array of exactly three names of direct
+properties of the annotated object or tuple, all of numeric type and all
+distinct, giving the coordinates of the origin of the `from` frame expressed in
+the `to` frame, on the axes of the `to` frame in the order that frame declares
+them. That is the `t` of `x' = M x + t` ({{transform-conventions}}), and it is
+the offset from the origin of the `to` frame to the origin of the `from` frame,
+not the other way about. Their units MUST be mutually convertible and SHOULD be
+identical.
+
+`translation` MUST NOT be present when `encoding` is `homogeneousMatrix`, whose
+fourth column carries the same three values in the same sense. Where
+`translation` is absent and `encoding` is not `homogeneousMatrix`, the element
+declares a rotation and says nothing about the origins, which is the correct
+reading for an attitude and the wrong one for a sensor alignment.
+
+The KITTI dataset publishes the alignment between its laser scanner and its
+reference camera in a calibration file holding nine numbers on one line and
+three on another, and states in its paper that the rotation and the translation
+run from the laser to the camera {{KITTI}}. Neither the file nor the paper says
+whether
+the nine numbers are rows or columns; the developer kit for one of its
+benchmarks states that its matrices are stored row-major, and the raw
+calibration file carries no such statement. The two readings are transposes of
+one another, and for a rotation matrix both are valid rotations, so nothing in
+the numbers rules either out. Only the physical arrangement of the sensors does.
+The schema below states the reading, and the axis directions the file leaves to
+the reader, as declarations.
+
+~~~ json
+{
+  "name": "SensorAlignment",
+  "type": "object",
+  "frameTransforms": [
+    {
+      "from": { "reference": "#/definitions/LaserFrame", "kind": "type" },
+      "to": { "reference": "#/definitions/CameraFrame", "kind": "type" },
+      "encoding": "rotationMatrix",
+      "components": "rotation",
+      "translation": ["tx", "ty", "tz"]
+    }
+  ],
+  "properties": {
+    "calibrationTime": { "type": "datetime" },
+    "rotation": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 3,
+        "items": { "type": "double" }
+      }
+    },
+    "tx": { "type": "double", "ucumUnit": "m" },
+    "ty": { "type": "double", "ucumUnit": "m" },
+    "tz": { "type": "double", "ucumUnit": "m" }
+  },
+  "required": ["calibrationTime", "rotation", "tx", "ty", "tz"],
+  "additionalProperties": false,
+  "definitions": {
+    "LaserFrame": {
+      "name": "LaserFrame",
+      "type": "tuple",
+      "description": "Frame of the rotating laser scanner.",
+      "properties": {
+        "x": { "type": "double", "description": "Forward along the vehicle." },
+        "y": { "type": "double", "description": "To the left of the vehicle." },
+        "z": { "type": "double", "description": "Up." }
+      },
+      "tuple": ["x", "y", "z"]
+    },
+    "CameraFrame": {
+      "name": "CameraFrame",
+      "type": "tuple",
+      "description": "Frame of the reference camera.",
+      "properties": {
+        "x": { "type": "double", "description": "To the right in the image." },
+        "y": { "type": "double", "description": "Down in the image." },
+        "z": { "type": "double", "description": "Along the optical axis, away from the camera." }
+      },
+      "tuple": ["x", "y", "z"]
+    }
+  }
+}
+~~~
+
+The instance below carries the values that dataset publishes for one recording
+day.
+
+~~~ json
+{
+  "calibrationTime": "2012-03-15T11:37:16Z",
+  "rotation": [
+    [0.007533745, -0.9999714, -0.000616602],
+    [0.01480249, 0.0007280733, -0.9998902],
+    [0.9998621, 0.00752379, 0.01480755]
+  ],
+  "tx": -0.004069766,
+  "ty": -0.07631618,
+  "tz": -0.2717806
+}
+~~~
+
+Read as rows, the first inner array gives the first axis of the camera frame in
+the components of the laser frame, and the matrix maps the forward axis of the
+laser onto the optical axis of the camera, which is the arrangement the vehicle
+has. Read as columns, it maps them the other way. The file name carries the
+direction and nothing carries the layout, which is the division of labor this
+keyword ends.
 
 ## The `linearReferenceSystem` Keyword {#linear-reference-systems}
 
@@ -2535,9 +3060,11 @@ that element between `measure` and `measureEnd`, and `measure` is the start of
 the span. Both ends lie on the one element that `linearElement` identifies, and
 this document defines no span crossing two elements.
 
-The span is closed at both ends. Two spans that share an end therefore share the
-point at that end, which is the convention asset registers use for abutting
-sections. A span whose ends are equal is the point at that measure. This
+The span is closed at both ends, which differs from the half-open convention
+this document uses for temporal intervals. Two spans that share an end therefore
+share the point at that end, and a consumer counting over abutting sections MUST
+account for that shared point. A span whose ends are equal is the point at that
+measure. This
 document does not require that `measureEnd` exceed `measure`, since a system
 whose increasing-measure direction opposes the direction of travel encodes a
 forward span with a decreasing pair.
@@ -2550,8 +3077,7 @@ established by the identified system. It does not alter the increasing-measure
 direction.
 
 Properties not named by `linearElement`, `measure`, `measureEnd`, or `direction`
-are not part of the linearly referenced location. An object or tuple MUST NOT
-carry more than one `linearReferenceSystem` annotation.
+are not part of the linearly referenced location.
 
 This binding describes a location along one identified linear element, either a
 point or a span. This document does not define offsets, referent-relative
@@ -2559,7 +3085,10 @@ addressing, interpolative methods, transformations between linear reference
 systems, or network topology.
 
 The following excerpt locates a point on a Washington State route, where `arm`
-is the accumulated route mile measured from the route origin:
+is the accumulated route mile measured from the route origin. The cited service
+qualifies as an `lrs-network` because the layer it names publishes the route
+identifier syntax, the measure unit, and the increasing-measure direction in its
+own metadata rather than leaving them to a reader of the geometry:
 
 ~~~ json
 {
@@ -2589,6 +3118,269 @@ is the accumulated route mile measured from the route origin:
   "additionalProperties": false
 }
 ~~~
+
+# Colorimetric Reference Characteristics {#colorimetric-reference-characteristics}
+
+## The `colorSpaces` Keyword {#color-spaces}
+
+The `colorSpaces` keyword identifies the color spaces in which channel values
+held in properties of an object or tuple are to be interpreted.
+
+A color value is a measurement. Three numbers are not a
+color until something states which primaries they weigh, what white they are
+relative to, what range they run over, and whether they are proportional to
+light or to the signal that drives a display. Most of those are almost never
+carried with the numbers, and the ones that are are carried by conventions that
+differ between formats.
+
+The keywords of {{spatial-reference-characteristics}} lean on registers. A
+position has the EPSG dataset and the OGC definitions server behind it, and a
+schema names a system by a URI that resolves to a definition of it. Color has no
+equivalent. The International Color Consortium publishes registries of RGB color
+spaces and of print characterization data, but those are pages written for a
+reader rather than identifiers minted for a machine {{ICC-REGISTRY}}. What
+exists in place of a register is of two other sorts. A standards document may
+assign a code point, as {{ITU-H273}} assigns combinations of primaries, transfer
+function, matrix coefficients, and signal range to four integers. Or the
+definition travels with the data as a profile, identified by a checksum over its
+own contents {{ICC-SPEC}}. Neither is a URI and neither dereferences. A
+`reference` in this keyword identifies more often than it resolves, which is
+true of the other reference-style keywords as well but is true of this one
+always.
+
+When present, `colorSpaces` MUST be a non-empty array. Each element MUST be an
+object with REQUIRED `reference`, `kind`, and `channels`, OPTIONAL `codePoints`,
+`alpha`, `alphaMode`, `transfer`, `illuminant`, and `observer`, and no other
+members. The keyword is an array because one record may carry a color in more
+than one space, as a characterization dataset does when it gives the device
+values that were printed alongside the color that was measured off the result.
+
+### The `reference` and `kind` Properties
+
+`reference` MUST identify one color space or one set of device control values.
+Where `kind` is `type` it MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a
+shareable type definition. Where `kind` is `icc-profile` it MUST be a URI
+{{RFC3986}} identifying the profile; the profile identifier {{ICC-SPEC}}
+computes over the profile contents is not itself a URI, and a schema carrying
+only that identifier MUST express it as one, under a scheme of the schema
+author's choosing that states which digest the remainder is. Otherwise it MUST
+be an absolute URI {{RFC3986}}.
+
+What the identified definition must establish follows from what is being
+identified.
+
+| Identified | The definition MUST establish |
+|---|---|
+| A space whose channels are additive primaries | The primaries, the white point, and the transfer function. |
+| A space whose channels are tristimulus quantities, or are computed from them | The reference white, and the illuminant and the standard colorimetric observer, or else the schema declares them under `illuminant` and `observer`. |
+| A set of device control values | The device, medium, and process the values drive, and the measurement conditions under which the result was characterized. |
+
+A set of device control values is not a color space in the colorimetric sense,
+and the third row exists because such values are carried alongside colors often
+enough that excluding them would push the commonest characterization record out
+of this keyword. `channels`, `alpha`, and `alphaMode` apply to it unchanged;
+`codePoints`, `transfer`, `illuminant`, and `observer` do not, and MUST NOT be
+present on an element identifying one.
+
+`kind` classifies which definition model the reference identifies. It is an open
+enumeration. The following values are defined here:
+
+| Kind | Referenced definition |
+|---|---|
+| `itu` | A Recommendation of the International Telecommunication Union. |
+| `iec` | A standard of the International Electrotechnical Commission. |
+| `cie` | A publication of the International Commission on Illumination {{CIE015}}. |
+| `icc-profile` | An ICC profile, identified as {{ICC-SPEC}} identifies one. |
+| `icc-registry` | An entry in a registry the International Color Consortium publishes {{ICC-REGISTRY}}. |
+| `type` | A meta-type in the annotated schema, as {{meta-types}} describes. |
+
+A processor is not required to dereference the URI. This document does not
+define a resolution protocol, URI layout, storage model, or definition
+serialization.
+
+### The `codePoints` Property
+
+`codePoints`, when present, MUST be an array of exactly four non-negative
+integers, being the color primaries, transfer characteristics, matrix
+coefficients, and video full range flag that {{ITU-H273}} defines, in that
+order.
+
+These four integers are the only identifier of a color space that is both
+machine-readable and widely deployed. The PNG specification carries the same
+four in a chunk of its own, gives that chunk precedence over every other color
+declaration a file may hold, and requires the chunk carrying mastering display
+metadata to be accompanied by it, on the ground that such metadata means nothing
+without the space it is relative to {{PNG3}}. Where the identified definition
+and the code points disagree, the code points are the narrower statement and a
+processor MUST prefer them, so that two processors reading one schema do not
+part company. `transfer` is narrower still: where `transfer` is `linear`, it
+overrides the transfer characteristics code point, and where `transfer` is
+`asDefined` or absent, that code point governs.
+
+### The `channels` Property
+
+`channels` MUST be a non-empty array of names of direct properties of the
+annotated object or tuple, all distinct, mapped by position onto the channels of
+the space in the order the identified definition declares them. The number of
+channels supplied MUST equal the number the identified space defines, and an
+opacity channel is not one of them. As with `coordinates` and `components`, the
+ordering is an assertion by the schema author and is never inferred from
+property order, property names, or position in a `tuple`.
+
+Either every name is that of a property of numeric type, or the array holds
+exactly one name, that of a property whose type is `array` or `tuple` and whose
+elements are of numeric type, in which case the elements of that property supply
+the channels in order.
+
+This document does not fix the range or the unit of a channel value. Where the
+identified definition does not establish them, as it does not for a device
+control value, the schema SHOULD declare them, by a `unit` annotation, by a
+numeric range, or in the `description` of the property. The channels of one
+element SHOULD share one range convention.
+
+### The `alpha` and `alphaMode` Properties
+
+`alpha`, when present, MUST name a direct property of numeric type carrying
+opacity, distinct from every name in `channels`. Its value is a dimensionless
+fraction from zero to one unless the property declares otherwise by a `unit`
+annotation or a numeric range, and where it declares otherwise a processor MUST
+reduce it to that fraction before applying `alphaMode`. `alphaMode` MUST NOT be
+present when `alpha` is absent, and states how the channel values stand to it.
+
+| Value | Meaning |
+|---|---|
+| `straight` | The channel values are independent of the opacity value. |
+| `premultiplied` | The channel values have already been multiplied by the opacity value. |
+
+When `alpha` is present and `alphaMode` is absent, the value is `straight`.
+
+The two are not distinguishable by inspection, except at an opacity of zero,
+where the premultiplied channels are all zero and the color is gone. The PNG
+specification states its own choice in as many words: "The color values in a
+pixel are not premultiplied by the alpha value assigned to the pixel. This rule
+is sometimes called 'unassociated' or 'non-premultiplied' alpha", and, flatly,
+"PNG does not use premultiplied alpha" {{PNG3}}. Formats that do premultiply
+exist, and values carried from one to the other without the conversion are wrong
+everywhere the opacity is neither zero nor one.
+
+### The `transfer` Property
+
+`transfer`, when present, states whether the channel values carry the transfer
+function of the identified space or are proportional to light.
+
+| Value | Meaning |
+|---|---|
+| `asDefined` | The values carry the transfer function the identified definition establishes. |
+| `linear` | The values are proportional to radiometric quantity, taking the primaries and white point of the identified space but not its transfer function. |
+
+When absent, the value is `asDefined`.
+
+`linear` is what a renderer means when it calls a color energy-linear. A space
+and its linear counterpart are commonly given the same name, and the two are far
+apart: under the transfer function the ICC registry publishes for sRGB, a
+channel value of 0.5 stands for approximately 0.214 of the light that a channel
+value of 1.0 stands for {{ICC-REGISTRY}}. Arithmetic on color is defined
+on the linear values, and the PNG specification requires compositing to be
+performed on "intensity samples (not gamma-encoded samples)" {{PNG3}}.
+
+### The `illuminant` and `observer` Properties
+
+`illuminant` and `observer`, when present, state the conditions the values are
+relative to. `illuminant` names a standard illuminant, and SHOULD use a
+designation of {{CIE015}}. `observer` names a standard colorimetric observer; it
+is an open enumeration, and the values defined here are `cie-1931-2` for the
+1931 standard colorimetric observer and `cie-1964-10` for the 1964
+supplementary standard colorimetric observer.
+
+A space whose values are tristimulus quantities, or are computed from them,
+does not by itself establish either. The definition of the 1976 L\*a\*b\* space
+says as much: it "is applicable to tristimulus values calculated using
+colour-matching functions of the CIE 1931 standard colorimetric system or the
+CIE 1964 standard colorimetric system" {{ISO11664-4}}. Values computed under the
+two observers from one sample differ, and nothing in the values records which
+was used. Where the identified definition does not establish the illuminant and
+the observer, a schema SHOULD declare `illuminant` and `observer`.
+
+Published measurement data shows both practices. The characterization datasets
+of the International Color Consortium carry their conditions in the file itself.
+One widely used print dataset opens by stating its instrument geometry as "D50,
+2 degree, geometry 45/0, no polarisation filter, white backing, according to ISO
+13655:2009 M1", then repeats the illuminant and the observer angle in fields of
+their own and records the national laboratory its measurements are traceable to
+{{ICC-REGISTRY}}. Reference data for a widely used color target, published by
+the maker of that target, states the measurement condition and the filter and
+names neither an illuminant nor an observer anywhere in the file. The second is
+not usable as reference data without information from outside it, and a schema
+is a place to put that information.
+
+An identifier of a color space is also an identifier of an edition of it. The
+reference values for that same color target were revised, and for the white
+patch alone the lightness moved by more than one unit and the yellow-blue
+coordinate by nearly two, under an unchanged product name. A schema naming the
+space but not the edition describes two different sets of numbers.
+
+### Example
+
+A characterization dataset pairs the device values that were sent to a press
+with the color that was measured off the printed result. The two are in
+different spaces, which is why the keyword is an array, and only one of them is
+a color space in the colorimetric sense at all; the other is a set of device
+control values whose meaning is precisely the measurement it is paired with.
+
+~~~ json
+{
+  "name": "CharacterizationPatch",
+  "type": "object",
+  "colorSpaces": [
+    {
+      "reference": "https://registry.color.org/cmyk-registry/fogra51",
+      "kind": "icc-registry",
+      "channels": ["c", "m", "y", "k"]
+    },
+    {
+      "reference": "https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1",
+      "kind": "cie",
+      "channels": ["lStar", "aStar", "bStar"],
+      "illuminant": "D50",
+      "observer": "cie-1931-2"
+    }
+  ],
+  "properties": {
+    "sampleId": { "type": "int32" },
+    "c": { "type": "double", "unit": "%" },
+    "m": { "type": "double", "unit": "%" },
+    "y": { "type": "double", "unit": "%" },
+    "k": { "type": "double", "unit": "%" },
+    "lStar": { "type": "double" },
+    "aStar": { "type": "double" },
+    "bStar": { "type": "double" }
+  },
+  "required": [
+    "sampleId", "c", "m", "y", "k", "lStar", "aStar", "bStar"
+  ],
+  "additionalProperties": false
+}
+~~~
+
+The instance below is one patch of that dataset, the solid of the third ink.
+
+~~~ json
+{
+  "sampleId": 649,
+  "c": 0.0,
+  "m": 0.0,
+  "y": 100.0,
+  "k": 0.0,
+  "lStar": 88.94,
+  "aStar": -4.04,
+  "bStar": 92.37
+}
+~~~
+
+The three measured values are a position in a space that is undefined until the
+illuminant and the observer are known, and the file the numbers came from is one
+of the ones that says so. The annotation carries what that file carries, in a
+place a processor can read.
 
 # Conformance {#conformance}
 
@@ -2665,6 +3457,12 @@ A processor MUST NOT infer:
 * complete coverage from `interval` or `accumulation`;
 * that absent quality means acceptable quality;
 * a coordinate, vector-frame, or linear reference binding from names or samples;
+* the direction, sense, or component order of a frame transformation, or the
+  variance of a vector or tensor quantity, from member names, from the values
+  themselves, or from the frames the transformation runs between;
+* a color space, an illuminant, an observer, a transfer function, or an alpha
+  mode from channel names, from the range the channel values fall in, or from
+  the number of channels present;
 * that members sharing a name prefix, a unit, or an observed property are the
   components of one vector quantity; or
 * permission to aggregate, convert, transform, reject outliers, or infer
