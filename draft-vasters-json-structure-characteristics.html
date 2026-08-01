@@ -1405,16 +1405,19 @@ expressions, causal inference, execution policy, or lineage.<a href="#section-ab
                     <p id="section-toc.1-1.9.2.1.2.3.1"><a href="#section-9.1.3" class="auto internal xref">9.1.3</a>.  <a href="#name-the-channels-property" class="internal xref">The <code>channels</code> Property</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.4">
-                    <p id="section-toc.1-1.9.2.1.2.4.1"><a href="#section-9.1.4" class="auto internal xref">9.1.4</a>.  <a href="#name-the-alpha-and-alphamode-pro" class="internal xref">The <code>alpha</code> and <code>alphaMode</code> Properties</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.4.1"><a href="#section-9.1.4" class="auto internal xref">9.1.4</a>.  <a href="#name-the-packing-property" class="internal xref">The <code>packing</code> Property</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.5">
-                    <p id="section-toc.1-1.9.2.1.2.5.1"><a href="#section-9.1.5" class="auto internal xref">9.1.5</a>.  <a href="#name-the-transfer-property" class="internal xref">The <code>transfer</code> Property</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.5.1"><a href="#section-9.1.5" class="auto internal xref">9.1.5</a>.  <a href="#name-the-alpha-and-alphamode-pro" class="internal xref">The <code>alpha</code> and <code>alphaMode</code> Properties</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.6">
-                    <p id="section-toc.1-1.9.2.1.2.6.1"><a href="#section-9.1.6" class="auto internal xref">9.1.6</a>.  <a href="#name-the-illuminant-and-observer" class="internal xref">The <code>illuminant</code> and <code>observer</code> Properties</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.6.1"><a href="#section-9.1.6" class="auto internal xref">9.1.6</a>.  <a href="#name-the-transfer-property" class="internal xref">The <code>transfer</code> Property</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.7">
-                    <p id="section-toc.1-1.9.2.1.2.7.1"><a href="#section-9.1.7" class="auto internal xref">9.1.7</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+                    <p id="section-toc.1-1.9.2.1.2.7.1"><a href="#section-9.1.7" class="auto internal xref">9.1.7</a>.  <a href="#name-the-illuminant-and-observer" class="internal xref">The <code>illuminant</code> and <code>observer</code> Properties</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.8">
+                    <p id="section-toc.1-1.9.2.1.2.8.1"><a href="#section-9.1.8" class="auto internal xref">9.1.8</a>.  <a href="#name-example" class="internal xref">Example</a></p>
 </li>
                 </ul>
 </li>
@@ -4529,6 +4532,14 @@ verify this, and this document defines no tolerance. The remaining entries of a
 <code>homogeneousMatrix</code> <span class="bcp14">MUST</span> be as the previous paragraph states, so a projective
 matrix, a matrix carrying a scaling or a shear, and a matrix whose fourth row is
 anything other than three zeroes and a one are all outside this encoding.<a href="#section-8.4.3-4" class="pilcrow">¶</a></p>
+<p id="section-8.4.3-5">The first three entries of the fourth column of a <code>homogeneousMatrix</code> carry a
+length and the rest of the matrix is dimensionless, so those three entries are
+subject to the same unit rule as <code>translation</code> (<a href="#transform-translation" class="auto internal xref">Section 8.4.6</a>): their
+units <span class="bcp14">MUST</span> be mutually convertible and <span class="bcp14">SHOULD</span> be identical. A single nested
+property cannot state a unit for one position and not another, so a schema
+carrying a <code>homogeneousMatrix</code> in that form <span class="bcp14">MUST</span> establish those units in the
+referenced definition or in the indexed form of <code>components</code>, which names a
+separate property for each position.<a href="#section-8.4.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-components-property-2">
@@ -4931,7 +4942,8 @@ identified system.<a href="#section-8.5.3-1" class="pilcrow">¶</a></p>
           <h4 id="name-the-measure-property">
 <a href="#section-8.5.4" class="section-number selfRef">8.5.4. </a><a href="#name-the-measure-property" class="section-name selfRef">The <code>measure</code> Property</a>
           </h4>
-<p id="section-8.5.4-1"><code>measure</code> <span class="bcp14">MUST</span> name a distinct direct numeric property. The property gives the
+<p id="section-8.5.4-1"><code>measure</code> <span class="bcp14">MUST</span> name a direct numeric property, distinct from <code>linearElement</code>.
+The property gives the
 distance from the measure origin along the identified linear element. It <span class="bcp14">MUST</span>
 have a <code>unit</code> or <code>ucumUnit</code> annotation compatible with the measure unit
 established by the identified system.<a href="#section-8.5.4-1" class="pilcrow">¶</a></p>
@@ -4977,8 +4989,13 @@ systems, or network topology.<a href="#section-8.5.6-3" class="pilcrow">¶</a></
 <p id="section-8.5.6-4">The following excerpt locates a point on a Washington State route, where <code>arm</code>
 is the accumulated route mile measured from the route origin. The cited service
 qualifies as an <code>lrs-network</code> because the layer it names publishes the route
-identifier syntax, the measure unit, and the increasing-measure direction in its
-own metadata rather than leaving them to a reader of the geometry:<a href="#section-8.5.6-4" class="pilcrow">¶</a></p>
+identifier syntax and the increasing-measure direction in its own metadata
+rather than leaving them to a reader of the geometry: it decomposes the route
+identifier into its parts and states that "a directional indicator has been added
+to the RouteIdentifier to distinguish between the increasing and decreasing
+direction of mileposting" <span>[<a href="#WSDOT-LRS" class="cite xref">WSDOT-LRS</a>]</span>. It does not state the unit of the
+measure values, which is why the <code>measure</code> rule requires the annotated property
+to carry one:<a href="#section-8.5.6-4" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-8.5.6-5">
 <pre>
 {
@@ -5049,8 +5066,8 @@ true of the other reference-style keywords as well but is true of this one
 always.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 <p id="section-9.1-4">When present, <code>colorSpaces</code> <span class="bcp14">MUST</span> be a non-empty array. Each element <span class="bcp14">MUST</span> be an
 object with <span class="bcp14">REQUIRED</span> <code>reference</code>, <code>kind</code>, and <code>channels</code>, <span class="bcp14">OPTIONAL</span> <code>codePoints</code>,
-<code>alpha</code>, <code>alphaMode</code>, <code>transfer</code>, <code>illuminant</code>, and <code>observer</code>, and no other
-members. The keyword is an array because one record may carry a color in more
+<code>packing</code>, <code>alpha</code>, <code>alphaMode</code>, <code>transfer</code>, <code>illuminant</code>, and <code>observer</code>, and no
+other members. The keyword is an array because one record may carry a color in more
 than one space, as a characterization dataset does when it gives the device
 values that were printed alongside the color that was measured off the result.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
 <div id="the-reference-and-kind-properties-1">
@@ -5180,35 +5197,138 @@ overrides the transfer characteristics code point, and where <code>transfer</cod
           </h4>
 <p id="section-9.1.3-1"><code>channels</code> <span class="bcp14">MUST</span> be a non-empty array of names of direct properties of the
 annotated object or tuple, all distinct, mapped by position onto the channels of
-the space in the order the identified definition declares them. The number of
-channels supplied <span class="bcp14">MUST</span> equal the number the identified space defines, and an
-opacity channel is not one of them. As with <code>coordinates</code> and <code>components</code>, the
-ordering is an assertion by the schema author and is never inferred from
-property order, property names, or position in a <code>tuple</code>.<a href="#section-9.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-9.1.3-2">Either every name is that of a property of numeric type, or the array holds
-exactly one name, that of a property whose type is <code>array</code> or <code>tuple</code> and whose
-elements are of numeric type, in which case the elements of that property supply
-the channels in order.<a href="#section-9.1.3-2" class="pilcrow">¶</a></p>
+the space in the order the identified definition declares them. Except where
+<code>packing</code> is present, the number of channels supplied <span class="bcp14">MUST</span> equal the number the
+identified space defines, and an opacity channel is not one of them. As with
+<code>coordinates</code> and <code>components</code>, the ordering is an assertion by the schema author
+and is never inferred from property order, property names, or position in a
+<code>tuple</code>.<a href="#section-9.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.3-2">Where <code>packing</code> is absent, either every name is that of a property of numeric
+type, or the array holds exactly one name, that of a property whose type is
+<code>array</code> or <code>tuple</code> and whose elements are of numeric type, in which case the
+elements of that property supply the channels in order. Where <code>packing</code> is
+present, the array holds exactly one name, that of a property of type <code>string</code>,
+and the channels are read out of that one value as <a href="#packing" class="auto internal xref">Section 9.1.4</a> states.<a href="#section-9.1.3-2" class="pilcrow">¶</a></p>
 <p id="section-9.1.3-3">This document does not fix the range or the unit of a channel value. Where the
 identified definition does not establish them, as it does not for a device
 control value, the schema <span class="bcp14">SHOULD</span> declare them, by a <code>unit</code> annotation, by a
 numeric range, or in the <code>description</code> of the property. The channels of one
-element <span class="bcp14">SHOULD</span> share one range convention.<a href="#section-9.1.3-3" class="pilcrow">¶</a></p>
+element <span class="bcp14">SHOULD</span> share one range convention. A <code>packing</code> establishes both, and a
+schema carrying one declares neither.<a href="#section-9.1.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="packing">
+<section id="section-9.1.4">
+          <h4 id="name-the-packing-property">
+<a href="#section-9.1.4" class="section-number selfRef">9.1.4. </a><a href="#name-the-packing-property" class="section-name selfRef">The <code>packing</code> Property</a>
+          </h4>
+<p id="section-9.1.4-1">A color is often carried not as a set of numbers but as one string that has all
+of them inside it. The hexadecimal notation is the commonest such string in the
+world, and it asserts four things at once that the numbers alone do not: that the
+order is red, green, blue; that each channel is eight bits; that the range runs
+from zero to two hundred and fifty-five; and, in the CSS reading, that the space
+is sRGB with its transfer function applied. A reader who knows the convention
+supplies all four. This keyword exists so that they need not be known.<a href="#section-9.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-2"><code>packing</code>, when present, states that one string property carries every channel of
+the element. Its value <span class="bcp14">MUST</span> be <code>hexRgb</code> or <code>hexRgba</code>.<a href="#section-9.1.4-2" class="pilcrow">¶</a></p>
+<table class="center" id="table-17">
+            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Value</th>
+                <th class="text-left" rowspan="1" colspan="1">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>hexRgb</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">Three channels in three or six hexadecimal digits.</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">
+                  <code>hexRgba</code>
+</td>
+                <td class="text-left" rowspan="1" colspan="1">Three channels and an opacity in four or eight hexadecimal digits.</td>
+              </tr>
+            </tbody>
+          </table>
+<p id="section-9.1.4-4">The value of the named property <span class="bcp14">MUST</span> consist of hexadecimal digits, optionally
+preceded by a single <code>#</code>, and <span class="bcp14">MUST</span> hold three or six digits under <code>hexRgb</code> and
+four or eight under <code>hexRgba</code>. The letters are case-insensitive, as <span>[<a href="#CSS-COLOR-4" class="cite xref">CSS-COLOR-4</a>]</span>
+says in as many words: "the case of the letters doesn't matter - <code>#00ff00</code> is
+identical to <code>#00FF00</code>". The <code>#</code> is part of the CSS token rather than of the
+notation, and a schema requiring one form or forbidding the other states so by a
+<code>pattern</code> <span>[<a href="#JSTRUCT-VALIDATION" class="cite xref">JSTRUCT-VALIDATION</a>]</span>; CSS itself accepts the bare form under the
+quirks mode of <span>[<a href="#CSS-COLOR-4" class="cite xref">CSS-COLOR-4</a>]</span>.<a href="#section-9.1.4-4" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-5">In the six-digit and eight-digit forms each successive pair of digits is one
+channel, read as an integer from zero to two hundred and fifty-five, where zero is
+the minimum of that channel and two hundred and fifty-five is its maximum. In the
+three-digit and four-digit forms each single digit stands for the pair obtained by
+writing it twice, so that <code>#123</code> is <code>#112233</code>. The order is fixed by this document
+and is red, green, blue, and, under <code>hexRgba</code>, opacity. It is not taken from the
+order the identified definition declares, and an element whose identified space
+declares its channels in any other order <span class="bcp14">MUST NOT</span> use a <code>packing</code>.<a href="#section-9.1.4-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-6">The identified space <span class="bcp14">MUST</span> define exactly three channels, and they <span class="bcp14">MUST</span> be
+additive primaries. <code>alpha</code> <span class="bcp14">MUST NOT</span> be present where <code>packing</code> is <code>hexRgba</code>,
+whose fourth channel is the opacity; <code>alphaMode</code> <span class="bcp14">MAY</span> be present there and applies
+to it. <code>alpha</code> <span class="bcp14">MAY</span> be present where <code>packing</code> is <code>hexRgb</code>, which carries none.<a href="#section-9.1.4-6" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-7">A packing carries eight bits for each channel, which is not enough resolution for
+values proportional to light, so <code>transfer</code> <span class="bcp14">SHOULD</span> be <code>asDefined</code> or absent where
+<code>packing</code> is present.<a href="#section-9.1.4-7" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-8">The space is still named by <code>reference</code>, and this document does not assume one. A
+bare hexadecimal string in a document that says nothing further is sRGB only
+because CSS says so, and CSS says so of the CSS notation and not of the digits:
+hex colors are among those that "resolve to sRGB" <span>[<a href="#CSS-COLOR-4" class="cite xref">CSS-COLOR-4</a>]</span>. A record
+carrying the same six digits for a wide-gamut display means a different color, and
+the difference is invisible in the value.<a href="#section-9.1.4-8" class="pilcrow">¶</a></p>
+<p id="section-9.1.4-9">The following excerpt is a design token whose color is written the way a
+stylesheet would write it.<a href="#section-9.1.4-9" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-9.1.4-10">
+<pre>
+{
+  "name": "BrandColorToken",
+  "type": "object",
+  "colorSpaces": [
+    {
+      "reference": "https://www.w3.org/TR/css-color-4/#predefined-sRGB",
+      "kind": "iec",
+      "channels": ["value"],
+      "packing": "hexRgba"
+    }
+  ],
+  "properties": {
+    "token": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{8}$"
+    }
+  },
+  "required": ["token", "value"],
+  "additionalProperties": false
+}
+</pre><a href="#section-9.1.4-10" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="the-alpha-and-alphamode-properties">
-<section id="section-9.1.4">
+<section id="section-9.1.5">
           <h4 id="name-the-alpha-and-alphamode-pro">
-<a href="#section-9.1.4" class="section-number selfRef">9.1.4. </a><a href="#name-the-alpha-and-alphamode-pro" class="section-name selfRef">The <code>alpha</code> and <code>alphaMode</code> Properties</a>
+<a href="#section-9.1.5" class="section-number selfRef">9.1.5. </a><a href="#name-the-alpha-and-alphamode-pro" class="section-name selfRef">The <code>alpha</code> and <code>alphaMode</code> Properties</a>
           </h4>
-<p id="section-9.1.4-1"><code>alpha</code>, when present, <span class="bcp14">MUST</span> name a direct property of numeric type carrying
+<p id="section-9.1.5-1"><code>alpha</code>, when present, <span class="bcp14">MUST</span> name a direct property of numeric type carrying
 opacity, distinct from every name in <code>channels</code>. Its value is a dimensionless
 fraction from zero to one unless the property declares otherwise by a <code>unit</code>
 annotation or a numeric range, and where it declares otherwise a processor <span class="bcp14">MUST</span>
 reduce it to that fraction before applying <code>alphaMode</code>. <code>alphaMode</code> <span class="bcp14">MUST NOT</span> be
-present when <code>alpha</code> is absent, and states how the channel values stand to it.<a href="#section-9.1.4-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-17">
-            <caption><a href="#table-17" class="selfRef">Table 17</a></caption>
+present when both <code>alpha</code> is absent and <code>packing</code> is not <code>hexRgba</code>, and states how
+the channel values stand to the opacity, wherever that opacity is carried. When
+present, its value <span class="bcp14">MUST</span> be <code>straight</code> or <code>premultiplied</code>.<a href="#section-9.1.5-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-18">
+            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Value</th>
@@ -5230,26 +5350,29 @@ present when <code>alpha</code> is absent, and states how the channel values sta
               </tr>
             </tbody>
           </table>
-<p id="section-9.1.4-3">When <code>alpha</code> is present and <code>alphaMode</code> is absent, the value is <code>straight</code>.<a href="#section-9.1.4-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.4-4">The two are not distinguishable by inspection, except at an opacity of zero,
+<p id="section-9.1.5-3">Where an opacity is carried and <code>alphaMode</code> is absent, the value is <code>straight</code>.
+That is also the reading a packed hexadecimal opacity carries on its own, since
+the notation of <span>[<a href="#CSS-COLOR-4" class="cite xref">CSS-COLOR-4</a>]</span> does not premultiply.<a href="#section-9.1.5-3" class="pilcrow">¶</a></p>
+<p id="section-9.1.5-4">The two are not distinguishable by inspection, except at an opacity of zero,
 where the premultiplied channels are all zero and the color is gone. The PNG
 specification states its own choice in as many words: "The color values in a
 pixel are not premultiplied by the alpha value assigned to the pixel. This rule
 is sometimes called 'unassociated' or 'non-premultiplied' alpha", and, flatly,
 "PNG does not use premultiplied alpha" <span>[<a href="#PNG3" class="cite xref">PNG3</a>]</span>. Formats that do premultiply
 exist, and values carried from one to the other without the conversion are wrong
-everywhere the opacity is neither zero nor one.<a href="#section-9.1.4-4" class="pilcrow">¶</a></p>
+everywhere the opacity is neither zero nor one.<a href="#section-9.1.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-transfer-property">
-<section id="section-9.1.5">
+<section id="section-9.1.6">
           <h4 id="name-the-transfer-property">
-<a href="#section-9.1.5" class="section-number selfRef">9.1.5. </a><a href="#name-the-transfer-property" class="section-name selfRef">The <code>transfer</code> Property</a>
+<a href="#section-9.1.6" class="section-number selfRef">9.1.6. </a><a href="#name-the-transfer-property" class="section-name selfRef">The <code>transfer</code> Property</a>
           </h4>
-<p id="section-9.1.5-1"><code>transfer</code>, when present, states whether the channel values carry the transfer
-function of the identified space or are proportional to light.<a href="#section-9.1.5-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-18">
-            <caption><a href="#table-18" class="selfRef">Table 18</a></caption>
+<p id="section-9.1.6-1"><code>transfer</code>, when present, states whether the channel values carry the transfer
+function of the identified space or are proportional to light. Its value <span class="bcp14">MUST</span> be
+<code>asDefined</code> or <code>linear</code>.<a href="#section-9.1.6-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-19">
+            <caption><a href="#table-19" class="selfRef">Table 19</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Value</th>
@@ -5271,36 +5394,36 @@ function of the identified space or are proportional to light.<a href="#section-
               </tr>
             </tbody>
           </table>
-<p id="section-9.1.5-3">When absent, the value is <code>asDefined</code>.<a href="#section-9.1.5-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.5-4"><code>linear</code> is what a renderer means when it calls a color energy-linear. A space
+<p id="section-9.1.6-3">When absent, the value is <code>asDefined</code>.<a href="#section-9.1.6-3" class="pilcrow">¶</a></p>
+<p id="section-9.1.6-4"><code>linear</code> is what a renderer means when it calls a color energy-linear. A space
 and its linear counterpart are commonly given the same name, and the two are far
 apart: under the transfer function the ICC registry publishes for sRGB, a
 channel value of 0.5 stands for approximately 0.214 of the light that a channel
 value of 1.0 stands for <span>[<a href="#ICC-REGISTRY" class="cite xref">ICC-REGISTRY</a>]</span>. Arithmetic on color is defined
 on the linear values, and the PNG specification requires compositing to be
-performed on "intensity samples (not gamma-encoded samples)" <span>[<a href="#PNG3" class="cite xref">PNG3</a>]</span>.<a href="#section-9.1.5-4" class="pilcrow">¶</a></p>
+performed on "intensity samples (not gamma-encoded samples)" <span>[<a href="#PNG3" class="cite xref">PNG3</a>]</span>.<a href="#section-9.1.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-illuminant-and-observer-properties">
-<section id="section-9.1.6">
+<section id="section-9.1.7">
           <h4 id="name-the-illuminant-and-observer">
-<a href="#section-9.1.6" class="section-number selfRef">9.1.6. </a><a href="#name-the-illuminant-and-observer" class="section-name selfRef">The <code>illuminant</code> and <code>observer</code> Properties</a>
+<a href="#section-9.1.7" class="section-number selfRef">9.1.7. </a><a href="#name-the-illuminant-and-observer" class="section-name selfRef">The <code>illuminant</code> and <code>observer</code> Properties</a>
           </h4>
-<p id="section-9.1.6-1"><code>illuminant</code> and <code>observer</code>, when present, state the conditions the values are
+<p id="section-9.1.7-1"><code>illuminant</code> and <code>observer</code>, when present, state the conditions the values are
 relative to. <code>illuminant</code> names a standard illuminant, and <span class="bcp14">SHOULD</span> use a
 designation of <span>[<a href="#CIE015" class="cite xref">CIE015</a>]</span>. <code>observer</code> names a standard colorimetric observer; it
 is an open enumeration, and the values defined here are <code>cie-1931-2</code> for the
 1931 standard colorimetric observer and <code>cie-1964-10</code> for the 1964
-supplementary standard colorimetric observer.<a href="#section-9.1.6-1" class="pilcrow">¶</a></p>
-<p id="section-9.1.6-2">A space whose values are tristimulus quantities, or are computed from them,
+supplementary standard colorimetric observer.<a href="#section-9.1.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.7-2">A space whose values are tristimulus quantities, or are computed from them,
 does not by itself establish either. The definition of the 1976 L*a*b* space
 says as much: it "is applicable to tristimulus values calculated using
 colour-matching functions of the CIE 1931 standard colorimetric system or the
 CIE 1964 standard colorimetric system" <span>[<a href="#ISO11664-4" class="cite xref">ISO11664-4</a>]</span>. Values computed under the
 two observers from one sample differ, and nothing in the values records which
 was used. Where the identified definition does not establish the illuminant and
-the observer, a schema <span class="bcp14">SHOULD</span> declare <code>illuminant</code> and <code>observer</code>.<a href="#section-9.1.6-2" class="pilcrow">¶</a></p>
-<p id="section-9.1.6-3">Published measurement data shows both practices. The characterization datasets
+the observer, a schema <span class="bcp14">SHOULD</span> declare <code>illuminant</code> and <code>observer</code>.<a href="#section-9.1.7-2" class="pilcrow">¶</a></p>
+<p id="section-9.1.7-3">Published measurement data shows both practices. The characterization datasets
 of the International Color Consortium carry their conditions in the file itself.
 One widely used print dataset opens by stating its instrument geometry as "D50,
 2 degree, geometry 45/0, no polarisation filter, white backing, according to ISO
@@ -5310,25 +5433,25 @@ their own and records the national laboratory its measurements are traceable to
 the maker of that target, states the measurement condition and the filter and
 names neither an illuminant nor an observer anywhere in the file. The second is
 not usable as reference data without information from outside it, and a schema
-is a place to put that information.<a href="#section-9.1.6-3" class="pilcrow">¶</a></p>
-<p id="section-9.1.6-4">An identifier of a color space is also an identifier of an edition of it. The
+is a place to put that information.<a href="#section-9.1.7-3" class="pilcrow">¶</a></p>
+<p id="section-9.1.7-4">An identifier of a color space is also an identifier of an edition of it. The
 reference values for that same color target were revised, and for the white
 patch alone the lightness moved by more than one unit and the yellow-blue
 coordinate by nearly two, under an unchanged product name. A schema naming the
-space but not the edition describes two different sets of numbers.<a href="#section-9.1.6-4" class="pilcrow">¶</a></p>
+space but not the edition describes two different sets of numbers.<a href="#section-9.1.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="example">
-<section id="section-9.1.7">
+<section id="section-9.1.8">
           <h4 id="name-example">
-<a href="#section-9.1.7" class="section-number selfRef">9.1.7. </a><a href="#name-example" class="section-name selfRef">Example</a>
+<a href="#section-9.1.8" class="section-number selfRef">9.1.8. </a><a href="#name-example" class="section-name selfRef">Example</a>
           </h4>
-<p id="section-9.1.7-1">A characterization dataset pairs the device values that were sent to a press
+<p id="section-9.1.8-1">A characterization dataset pairs the device values that were sent to a press
 with the color that was measured off the printed result. The two are in
 different spaces, which is why the keyword is an array, and only one of them is
 a color space in the colorimetric sense at all; the other is a set of device
-control values whose meaning is precisely the measurement it is paired with.<a href="#section-9.1.7-1" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-9.1.7-2">
+control values whose meaning is precisely the measurement it is paired with.<a href="#section-9.1.8-1" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-9.1.8-2">
 <pre>
 {
   "name": "CharacterizationPatch",
@@ -5362,10 +5485,10 @@ control values whose meaning is precisely the measurement it is paired with.<a h
   ],
   "additionalProperties": false
 }
-</pre><a href="#section-9.1.7-2" class="pilcrow">¶</a>
+</pre><a href="#section-9.1.8-2" class="pilcrow">¶</a>
 </div>
-<p id="section-9.1.7-3">The instance below is one patch of that dataset, the solid of the third ink.<a href="#section-9.1.7-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-9.1.7-4">
+<p id="section-9.1.8-3">The instance below is one patch of that dataset, the solid of the third ink.<a href="#section-9.1.8-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-9.1.8-4">
 <pre>
 {
   "sampleId": 649,
@@ -5377,12 +5500,12 @@ control values whose meaning is precisely the measurement it is paired with.<a h
   "aStar": -4.04,
   "bStar": 92.37
 }
-</pre><a href="#section-9.1.7-4" class="pilcrow">¶</a>
+</pre><a href="#section-9.1.8-4" class="pilcrow">¶</a>
 </div>
-<p id="section-9.1.7-5">The three measured values are a position in a space that is undefined until the
+<p id="section-9.1.8-5">The three measured values are a position in a space that is undefined until the
 illuminant and the observer are known, and the file the numbers came from is one
 of the ones that says so. The annotation carries what that file carries, in a
-place a processor can read.<a href="#section-9.1.7-5" class="pilcrow">¶</a></p>
+place a processor can read.<a href="#section-9.1.8-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -5692,6 +5815,10 @@ disclose processor interest.<a href="#section-12-4" class="pilcrow">¶</a></p>
 <dt id="CIE015">[CIE015]</dt>
         <dd>
 <span class="refAuthor">International Commission on Illumination</span>, <span class="refTitle">"CIE 015:2018 Colorimetry, 4th Edition"</span>, <time datetime="2018" class="refDate">2018</time>, <span>&lt;<a href="https://cie.co.at/publications/colorimetry-4th-edition">https://cie.co.at/publications/colorimetry-4th-edition</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CSS-COLOR-4">[CSS-COLOR-4]</dt>
+        <dd>
+<span class="refAuthor">World Wide Web Consortium</span>, <span class="refTitle">"CSS Color Module Level 4"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.w3.org/TR/css-color-4/">https://www.w3.org/TR/css-color-4/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DCTERMS">[DCTERMS]</dt>
         <dd>
