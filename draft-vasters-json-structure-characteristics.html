@@ -1531,9 +1531,8 @@ them reads the schema exactly as JSON Structure Core defines it.<a href="#sectio
         </h3>
 <p id="section-1.1-1">Most keywords defined here share one shape. Each is an object carrying a
 <code>reference</code> property that identifies a definition and a <code>kind</code> property that
-names the model the definition belongs to. The <code>reference</code> states which
-definition applies, and the <code>kind</code> states which model defines it, so that a
-reader knows how to interpret it and a processor knows what can be checked.
+names the model the definition belongs to. This lets a reader know how to
+interpret it and a processor know what can be checked.
 <code>concepts</code>, <code>observedProperty</code>, <code>temporalReferenceSystem</code>,
 <code>coordinateReferenceSystem</code>, <code>linearReferenceSystem</code>, and the entries of
 <code>colorSpaces</code> all follow this shape.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
@@ -1555,8 +1554,7 @@ single binding. Vocabularies overlap by design, and the same notion is
 deliberately given a term in several of them, so <code>concepts</code> takes a list. The
 keywords that resolve components onto axes or channels take a list for a
 different reason: one set of numbers can be published in more than one frame or
-more than one color space at once, and each keyword states the rule for its own
-values.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+more than one color space at once.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="observable-observed-concepts">
@@ -1612,17 +1610,16 @@ Every annotation is <span class="bcp14">OPTIONAL</span>, and a schema can use an
 Conformance constrains only annotations that are present; it never requires
 another annotation or an annotated property to exist.<a href="#section-3-4" class="pilcrow">¶</a></p>
 <p id="section-3-5">Every <code>reference</code> value that is a URI <span class="bcp14">SHOULD</span> be resolvable, and dereferencing it
-<span class="bcp14">SHOULD</span> yield a definition of the identified term or system. That recommendation
-constrains the URI a schema author chooses. A processor is not required to
-dereference a <code>reference</code>, and an unresolved <code>reference</code> is indeterminate rather
-than incorrect.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<span class="bcp14">SHOULD</span> yield a definition of the identified term or system. A processor is not
+required to dereference a <code>reference</code>, and an unresolved <code>reference</code> is
+indeterminate rather than incorrect.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">The enumerations of this document are of two sorts. <code>semanticRole</code>,
 <code>derivation</code>, <code>statistic</code>, <code>phenomenonTimeRelation</code>, <code>referenceRole</code>,
 <code>sortOrder</code>, and the <code>kind</code> of <code>cadence</code> are closed, and a value outside the
 enumeration is invalid. The <code>kind</code> of a reference-style keyword is open, and a
 value outside the enumeration is valid; a processor <span class="bcp14">MUST</span> preserve it and <span class="bcp14">MUST NOT</span> reject a schema for carrying it.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">What a processor can verify follows that division. A value defined here is one a
-processor can act on, and this document states what each establishes. A value
+<p id="section-3-7">A value defined here is one a processor can act on, and this document states
+what each establishes. A value
 not defined here establishes nothing, and a processor <span class="bcp14">MUST NOT</span> infer a
 constraint from it. This document defines no registry of further values and no
 mechanism by which a private value acquires meaning for a processor that does
@@ -2020,10 +2017,7 @@ in this document use <code>example-catalog</code> where the cited catalog is fic
 record, and on a member schema of that object or tuple that carries a result.<a href="#section-5.1.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.1.3-2">On a record it identifies the observable property of every result in that record
 that does not carry one of its own. On a result member it identifies the
-observable property of that result alone and takes precedence over the record's.
-A record whose results observe different properties therefore carries one
-<code>observedProperty</code> on each such result, and a record whose results all observe
-the same property carries one on the record.<a href="#section-5.1.3-2" class="pilcrow">¶</a></p>
+observable property of that result alone and takes precedence over the record's.<a href="#section-5.1.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.1.3-3">Every annotation identifies exactly one observable property for the node it is
 attached to. A missing or unresolved reference is indeterminate and <span class="bcp14">MUST NOT</span> be
 repaired from labels, mappings, result schemas, units, descriptions, property
@@ -2075,8 +2069,6 @@ modelling that result as a nested object.<a href="#section-5.1.3-4" class="pilcr
 }
 </pre><a href="#section-5.1.3-6" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1.3-7">The two results share one feature and one phenomenon time, and each names the
-property it quantifies.<a href="#section-5.1.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2112,10 +2104,9 @@ conversion factors, or conversion formulas.<a href="#section-5.2-4" class="pilcr
         </h3>
 <p id="section-5.3-1">The <code>semanticRole</code> keyword identifies the observation or operational function of an
 annotated value.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">The value of <code>semanticRole</code> <span class="bcp14">MUST</span> be one of the permitted values defined in this
-section. The permitted values are a closed enumeration defined by this document.
-A <code>semanticRole</code> value is never a URI; terms drawn from external vocabularies
-are carried by <code>concepts</code> instead.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">The value of <code>semanticRole</code> <span class="bcp14">MUST</span> be one of a closed set of permitted values
+defined in this section. A <code>semanticRole</code> value is never a URI; terms drawn from
+external vocabularies are carried by <code>concepts</code> instead.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3"><code>semanticRole</code> is scalar; therefore each annotated schema element can carry one
 <code>semanticRole</code> value.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <div id="observation-result-concern">
@@ -2660,9 +2651,7 @@ binding together encode a temporal position.<a href="#section-5.3.5.4-2" class="
 <code>phenomenonTime</code>, or with <code>phenomenonTimeStart</code> and <code>phenomenonTimeEnd</code>. A
 forecast is an observation whose result time precedes its phenomenon time, and
 it carries the same temporal roles as any other observation; nothing about the
-phenomenon-time roles restricts them to positions that have already elapsed.
-Using them here means a consumer asking what was stated when, about when, reads
-the same two roles for a forecast as for a measurement.<a href="#section-5.3.5.4-3" class="pilcrow">¶</a></p>
+phenomenon-time roles restricts them to positions that have already elapsed.<a href="#section-5.3.5.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="forecastleadduration">
@@ -2943,8 +2932,8 @@ from a set of values.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <p id="section-5.5-4"><code>statistic</code> and the <code>statistic</code> derivation are one declaration in two parts. A
 schema whose <code>derivation</code> is <code>statistic</code> <span class="bcp14">MUST</span> carry a <code>statistic</code> keyword, and a
 schema carrying a <code>statistic</code> keyword <span class="bcp14">MUST</span> have a <code>derivation</code> of <code>statistic</code>.
-Neither part stands alone: the derivation says the value summarizes a set, and
-the keyword says how. Where <code>phenomenonTimeRelation</code> is <code>accumulation</code>,
+The derivation says the value summarizes a set, and the keyword says how. Where
+<code>phenomenonTimeRelation</code> is <code>accumulation</code>,
 <code>statistic</code> <span class="bcp14">MUST</span> be <code>sum</code>.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 <p id="section-5.5-5">A calculation that no value in the table names is <code>calculated</code> rather than
 <code>statistic</code>, and <a href="#derivation" class="auto internal xref">Section 5.4</a> states what a schema does instead.<a href="#section-5.5-5" class="pilcrow">¶</a></p>
@@ -3009,7 +2998,6 @@ computation, and a processor <span class="bcp14">MUST NOT</span> recompute a res
 }
 </pre><a href="#section-5.5-9" class="pilcrow">¶</a>
 </div>
-<p id="section-5.5-10">The two results are distinguished only by <code>statistic</code>.<a href="#section-5.5-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3227,9 +3215,8 @@ intended. A non-Core or ambiguous encoding is indeterminate without one.<a href=
 <p id="section-7.2.1-1"><code>reference</code> <span class="bcp14">MUST</span> identify one temporal reference definition. Where <code>kind</code> is
 <code>type</code> it <span class="bcp14">MUST</span> be a JSON Pointer <span>[<a href="#JSTRUCT-CORE" class="cite xref">JSTRUCT-CORE</a>]</span> resolving to a shareable type
 definition, and otherwise it <span class="bcp14">MUST</span> be an absolute URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. <code>kind</code> states
-which definition model the reference identifies, and therefore what a reader can
-expect to find at it. This document does not define a resolution protocol, URI
-layout, storage model, or definition serialization.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
+which definition model the reference identifies. This document does not define a
+resolution protocol, URI layout, storage model, or definition serialization.<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-2">Where the identified definition has a domain of validity, an annotated position
 <span class="bcp14">MUST</span> lie in that domain.<a href="#section-7.2.1-2" class="pilcrow">¶</a></p>
 </section>
@@ -3609,8 +3596,7 @@ array. No other properties are permitted.<a href="#section-8.1-2" class="pilcrow
 establishes an ordered set of axes, each with an axis direction and unit of
 measure. Where <code>kind</code> is <code>type</code> it <span class="bcp14">MUST</span> be a JSON Pointer <span>[<a href="#JSTRUCT-CORE" class="cite xref">JSTRUCT-CORE</a>]</span>
 resolving to a shareable type definition, and otherwise it <span class="bcp14">MUST</span> be an absolute
-URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. <code>kind</code> states which definition model the reference identifies,
-and therefore what a reader can expect to find at it.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
+URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. <code>kind</code> states which definition model the reference identifies.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1.1-2">A processor is not required to dereference the URI, and a returned
 representation need not expose the axes. This document does not define
 a resolution protocol, URI layout, storage model, or definition serialization.<a href="#section-8.1.1-2" class="pilcrow">¶</a></p>
@@ -4120,12 +4106,10 @@ meta-type the schema itself supplies.<a href="#section-8.2.4-11" class="pilcrow"
 axes the components of tensor quantities held in properties of an object or
 tuple are resolved. A tensor quantity is a grid of numbers that means nothing
 without a frame to read it against. Its rank is how many axes it takes to pick
-out one number of the grid: one for a vector, two for a stress or a rotation. A
-game engine turning a model to face the camera uses nine numbers to carry a
-direction out of the model's own frame and into the camera's. An engineer
-checking whether a bridge beam will crack uses nine numbers because the beam can
-be squeezed along its length and sheared across it at the same time, and no
-single number says both.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+out one number of the grid: one for a vector, two for a stress or a rotation. An
+engineer checking whether a bridge beam will crack uses nine numbers because the
+beam can be squeezed along its length and sheared across it at the same time, and
+no single number says both.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 <p id="section-8.3-2">At rank 1 the frame's declared order states the binding, which is what
 <code>vectorReferenceFrames</code> (<a href="#vector-reference-frames" class="auto internal xref">Section 8.2</a>) does and why <code>frames</code>
 requires at least two entries. Above rank 1 the vector model no longer suffices
@@ -4449,8 +4433,7 @@ cost that standard the ability to carry records laid out the other way, because
 its records are positional. It costs this document nothing, because <code>components</code>
 names members rather than positions. A schema whose quaternion is stored
 scalar-last and one whose quaternion is stored scalar-first carry the same
-annotation, with the names written in the order fixed here. The layout of the
-data is described, not constrained.<a href="#section-8.4.1-4" class="pilcrow">¶</a></p>
+annotation, with the names written in the order fixed here.<a href="#section-8.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-from-and-to-properties">
@@ -4610,8 +4593,7 @@ which was meant. That is the ambiguity this keyword removes.<a href="#section-8.
 <p id="section-8.4.4.1-5">The example below annotates an attitude carried as four separate properties. The
 record stores the scalar last, as the current attitude message standard requires
 of its own records, and <code>components</code> names it first, as this document requires
-of the annotation. Both statements hold at once, because one describes storage
-and the other describes meaning.<a href="#section-8.4.4.1-5" class="pilcrow">¶</a></p>
+of the annotation.<a href="#section-8.4.4.1-5" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-8.4.4.1-6">
 <pre>
 {
@@ -4867,8 +4849,7 @@ to be interpreted.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
 definition, and otherwise it <span class="bcp14">MUST</span> be an absolute URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. The identified
 definition <span class="bcp14">MUST</span> establish the linear referencing method, the measure origin, the
 increasing-measure direction, the measure unit, and the linear-element
-namespace. <code>kind</code> states which definition model the reference identifies, and
-therefore what a reader can expect to find at it.<a href="#section-8.5.1-1" class="pilcrow">¶</a></p>
+namespace. <code>kind</code> states which definition model the reference identifies.<a href="#section-8.5.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.5.1-2">A processor is not required to dereference the URI. This
 document does not define a resolution protocol, URI layout, storage model, or
 definition serialization.<a href="#section-8.5.1-2" class="pilcrow">¶</a></p>
@@ -5037,6 +5018,17 @@ to carry one:<a href="#section-8.5.6-4" class="pilcrow">¶</a></p>
       <h2 id="name-colorimetric-reference-char">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-colorimetric-reference-char" class="section-name selfRef">Colorimetric Reference Characteristics</a>
       </h2>
+<p id="section-9-1">Color is the worked instance of a larger family: components resolved onto the
+channels of a named space, where the space fixes the basis those numbers weigh,
+the reference they stand relative to, and the encoding they carry.
+<a href="#spatial-reference-characteristics" class="auto internal xref">Section 8</a> gives that treatment to positions and
+directions, and this section gives it to color, because color is the perceptual
+signal most often carried in general-purpose JSON — design tokens, stylesheets,
+image metadata — and the one most often carried with all of that left silent.
+Other members of the same family are out of scope here and left to later
+extensions: audio channel layout and loudness, hyperspectral and multiband
+imaging, and acoustic frequency weighting each resolve channel numbers onto a
+named space of their own, and each might be a keyword of this shape.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="color-spaces">
 <section id="section-9.1">
         <h3 id="name-the-colorspaces-keyword">
