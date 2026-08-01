@@ -237,6 +237,11 @@ informative:
       - org: World Wide Web Consortium
     date: 2025-06-24
     target: https://www.w3.org/TR/png-3/
+  CSS-COLOR-4:
+    title: "CSS Color Module Level 4"
+    author:
+      - org: World Wide Web Consortium
+    target: https://www.w3.org/TR/css-color-4/
 
 --- abstract
 
@@ -2688,6 +2693,15 @@ verify this, and this document defines no tolerance. The remaining entries of a
 matrix, a matrix carrying a scaling or a shear, and a matrix whose fourth row is
 anything other than three zeroes and a one are all outside this encoding.
 
+The first three entries of the fourth column of a `homogeneousMatrix` carry a
+length and the rest of the matrix is dimensionless, so those three entries are
+subject to the same unit rule as `translation` ({{transform-translation}}): their
+units MUST be mutually convertible and SHOULD be identical. A single nested
+property cannot state a unit for one position and not another, so a schema
+carrying a `homogeneousMatrix` in that form MUST establish those units in the
+referenced definition or in the indexed form of `components`, which names a
+separate property for each position.
+
 ### The `components` Property
 
 `components` names the members that carry the transformation, and its form
@@ -3044,7 +3058,8 @@ identified system.
 
 ### The `measure` Property
 
-`measure` MUST name a distinct direct numeric property. The property gives the
+`measure` MUST name a direct numeric property, distinct from `linearElement`.
+The property gives the
 distance from the measure origin along the identified linear element. It MUST
 have a `unit` or `ucumUnit` annotation compatible with the measure unit
 established by the identified system.
@@ -3087,8 +3102,13 @@ systems, or network topology.
 The following excerpt locates a point on a Washington State route, where `arm`
 is the accumulated route mile measured from the route origin. The cited service
 qualifies as an `lrs-network` because the layer it names publishes the route
-identifier syntax, the measure unit, and the increasing-measure direction in its
-own metadata rather than leaving them to a reader of the geometry:
+identifier syntax and the increasing-measure direction in its own metadata
+rather than leaving them to a reader of the geometry: it decomposes the route
+identifier into its parts and states that "a directional indicator has been added
+to the RouteIdentifier to distinguish between the increasing and decreasing
+direction of mileposting" {{WSDOT-LRS}}. It does not state the unit of the
+measure values, which is why the `measure` rule requires the annotated property
+to carry one:
 
 ~~~ json
 {
@@ -3150,8 +3170,8 @@ always.
 
 When present, `colorSpaces` MUST be a non-empty array. Each element MUST be an
 object with REQUIRED `reference`, `kind`, and `channels`, OPTIONAL `codePoints`,
-`alpha`, `alphaMode`, `transfer`, `illuminant`, and `observer`, and no other
-members. The keyword is an array because one record may carry a color in more
+`packing`, `alpha`, `alphaMode`, `transfer`, `illuminant`, and `observer`, and no
+other members. The keyword is an array because one record may carry a color in more
 than one space, as a characterization dataset does when it gives the device
 values that were printed alongside the color that was measured off the result.
 
@@ -3221,22 +3241,107 @@ overrides the transfer characteristics code point, and where `transfer` is
 
 `channels` MUST be a non-empty array of names of direct properties of the
 annotated object or tuple, all distinct, mapped by position onto the channels of
-the space in the order the identified definition declares them. The number of
-channels supplied MUST equal the number the identified space defines, and an
-opacity channel is not one of them. As with `coordinates` and `components`, the
-ordering is an assertion by the schema author and is never inferred from
-property order, property names, or position in a `tuple`.
+the space in the order the identified definition declares them. Except where
+`packing` is present, the number of channels supplied MUST equal the number the
+identified space defines, and an opacity channel is not one of them. As with
+`coordinates` and `components`, the ordering is an assertion by the schema author
+and is never inferred from property order, property names, or position in a
+`tuple`.
 
-Either every name is that of a property of numeric type, or the array holds
-exactly one name, that of a property whose type is `array` or `tuple` and whose
-elements are of numeric type, in which case the elements of that property supply
-the channels in order.
+Where `packing` is absent, either every name is that of a property of numeric
+type, or the array holds exactly one name, that of a property whose type is
+`array` or `tuple` and whose elements are of numeric type, in which case the
+elements of that property supply the channels in order. Where `packing` is
+present, the array holds exactly one name, that of a property of type `string`,
+and the channels are read out of that one value as {{packing}} states.
 
 This document does not fix the range or the unit of a channel value. Where the
 identified definition does not establish them, as it does not for a device
 control value, the schema SHOULD declare them, by a `unit` annotation, by a
 numeric range, or in the `description` of the property. The channels of one
-element SHOULD share one range convention.
+element SHOULD share one range convention. A `packing` establishes both, and a
+schema carrying one declares neither.
+
+### The `packing` Property {#packing}
+
+A color is often carried not as a set of numbers but as one string that has all
+of them inside it. The hexadecimal notation is the commonest such string in the
+world, and it asserts four things at once that the numbers alone do not: that the
+order is red, green, blue; that each channel is eight bits; that the range runs
+from zero to two hundred and fifty-five; and, in the CSS reading, that the space
+is sRGB with its transfer function applied. A reader who knows the convention
+supplies all four. This keyword exists so that they need not be known.
+
+`packing`, when present, states that one string property carries every channel of
+the element. Its value MUST be `hexRgb` or `hexRgba`.
+
+| Value | Meaning |
+|---|---|
+| `hexRgb` | Three channels in three or six hexadecimal digits. |
+| `hexRgba` | Three channels and an opacity in four or eight hexadecimal digits. |
+
+The value of the named property MUST consist of hexadecimal digits, optionally
+preceded by a single `#`, and MUST hold three or six digits under `hexRgb` and
+four or eight under `hexRgba`. The letters are case-insensitive, as {{CSS-COLOR-4}}
+says in as many words: "the case of the letters doesn't matter - `#00ff00` is
+identical to `#00FF00`". The `#` is part of the CSS token rather than of the
+notation, and a schema requiring one form or forbidding the other states so by a
+`pattern` {{JSTRUCT-VALIDATION}}; CSS itself accepts the bare form under the
+quirks mode of {{CSS-COLOR-4}}.
+
+In the six-digit and eight-digit forms each successive pair of digits is one
+channel, read as an integer from zero to two hundred and fifty-five, where zero is
+the minimum of that channel and two hundred and fifty-five is its maximum. In the
+three-digit and four-digit forms each single digit stands for the pair obtained by
+writing it twice, so that `#123` is `#112233`. The order is fixed by this document
+and is red, green, blue, and, under `hexRgba`, opacity. It is not taken from the
+order the identified definition declares, and an element whose identified space
+declares its channels in any other order MUST NOT use a `packing`.
+
+The identified space MUST define exactly three channels, and they MUST be
+additive primaries. `alpha` MUST NOT be present where `packing` is `hexRgba`,
+whose fourth channel is the opacity; `alphaMode` MAY be present there and applies
+to it. `alpha` MAY be present where `packing` is `hexRgb`, which carries none.
+
+A packing carries eight bits for each channel, which is not enough resolution for
+values proportional to light, so `transfer` SHOULD be `asDefined` or absent where
+`packing` is present.
+
+The space is still named by `reference`, and this document does not assume one. A
+bare hexadecimal string in a document that says nothing further is sRGB only
+because CSS says so, and CSS says so of the CSS notation and not of the digits:
+hex colors are among those that "resolve to sRGB" {{CSS-COLOR-4}}. A record
+carrying the same six digits for a wide-gamut display means a different color, and
+the difference is invisible in the value.
+
+The following excerpt is a design token whose color is written the way a
+stylesheet would write it.
+
+~~~ json
+{
+  "name": "BrandColorToken",
+  "type": "object",
+  "colorSpaces": [
+    {
+      "reference": "https://www.w3.org/TR/css-color-4/#predefined-sRGB",
+      "kind": "iec",
+      "channels": ["value"],
+      "packing": "hexRgba"
+    }
+  ],
+  "properties": {
+    "token": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{8}$"
+    }
+  },
+  "required": ["token", "value"],
+  "additionalProperties": false
+}
+~~~
 
 ### The `alpha` and `alphaMode` Properties
 
@@ -3245,14 +3350,18 @@ opacity, distinct from every name in `channels`. Its value is a dimensionless
 fraction from zero to one unless the property declares otherwise by a `unit`
 annotation or a numeric range, and where it declares otherwise a processor MUST
 reduce it to that fraction before applying `alphaMode`. `alphaMode` MUST NOT be
-present when `alpha` is absent, and states how the channel values stand to it.
+present when both `alpha` is absent and `packing` is not `hexRgba`, and states how
+the channel values stand to the opacity, wherever that opacity is carried. When
+present, its value MUST be `straight` or `premultiplied`.
 
 | Value | Meaning |
 |---|---|
 | `straight` | The channel values are independent of the opacity value. |
 | `premultiplied` | The channel values have already been multiplied by the opacity value. |
 
-When `alpha` is present and `alphaMode` is absent, the value is `straight`.
+Where an opacity is carried and `alphaMode` is absent, the value is `straight`.
+That is also the reading a packed hexadecimal opacity carries on its own, since
+the notation of {{CSS-COLOR-4}} does not premultiply.
 
 The two are not distinguishable by inspection, except at an opacity of zero,
 where the premultiplied channels are all zero and the color is gone. The PNG
@@ -3266,7 +3375,8 @@ everywhere the opacity is neither zero nor one.
 ### The `transfer` Property
 
 `transfer`, when present, states whether the channel values carry the transfer
-function of the identified space or are proportional to light.
+function of the identified space or are proportional to light. Its value MUST be
+`asDefined` or `linear`.
 
 | Value | Meaning |
 |---|---|
