@@ -11,8 +11,8 @@
   },
   "frameTransforms": [
     {
-      "from": { "reference": "#/definitions/SpacecraftBodyFrame", "kind": "type" },
-      "to": { "reference": "#/definitions/TerrestrialFrame", "kind": "type" },
+      "from": { "reference": { "$ref": "#/definitions/SpacecraftBodyFrame" }, "kind": "type" },
+      "to": { "reference": { "$ref": "#/definitions/TerrestrialFrame" }, "kind": "type" },
       "encoding": "quaternion",
       "components": ["qc", "q1", "q2", "q3"]
     }

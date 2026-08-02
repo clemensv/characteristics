@@ -94,7 +94,7 @@
       "description": "Scheduled departure of this trip from its first stop, carried in the native HFP encoding as an operating day and a clock reading within it. The pair identifies the trip and is the anchor that `dl` is measured against. The OperatingDayClockPosition meta-type declares the regime, because the operating day does not coincide with the calendar day and the clock reading wraps within a single operating day.",
       "semanticRole": "scheduledTime",
       "temporalReferenceSystem": {
-        "reference": "#/definitions/OperatingDayClockPosition",
+        "reference": { "$ref": "#/definitions/OperatingDayClockPosition" },
         "kind": "type",
         "position": "ordinal",
         "sortOrder": "forward"

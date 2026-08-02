@@ -67,7 +67,7 @@
       "description": "Reference instant to which every mean element below applies and from which an SGP4 propagator integrates. The instant is carried in the native element-set encoding: a four-digit year and a fractional day of that year, where day 1.0 is 00:00 on 1 January. SGP4 consumes this as a uniform count of days and applies no leap-second correction, so the encoding is not an RFC 3339 civil timestamp and cannot be read as one; the TleEpochPosition meta-type declares the regime. The `ordinal` member renders year and fractional day at fixed width, most significant first, so two epochs can be ordered lexically without implementing the regime, and the `utc` member carries the feeder's best-effort normalisation to a UTC-aware RFC 3339 timestamp for consumers that only need approximate civil time. From the CCSDS OMM `EPOCH` keyword.",
       "semanticRole": "phenomenonTime",
       "temporalReferenceSystem": {
-        "reference": "#/definitions/TleEpochPosition",
+        "reference": { "$ref": "#/definitions/TleEpochPosition" },
         "kind": "type",
         "position": "ordinal",
         "sortOrder": "forward"

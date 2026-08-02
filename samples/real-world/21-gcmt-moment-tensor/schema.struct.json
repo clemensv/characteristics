@@ -23,8 +23,8 @@
   "tensorReferenceFrames": [
     {
       "frames": [
-        { "reference": "#/definitions/UpSouthEastFrame", "kind": "type" },
-        { "reference": "#/definitions/UpSouthEastFrame", "kind": "type" }
+        { "reference": { "$ref": "#/definitions/UpSouthEastFrame" }, "kind": "type" },
+        { "reference": { "$ref": "#/definitions/UpSouthEastFrame" }, "kind": "type" }
       ],
       "symmetry": "symmetric",
       "components": [

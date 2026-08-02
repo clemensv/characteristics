@@ -51,7 +51,7 @@
       "type": "object",
       "description": "Location expressed in the internal agency road reference system defined by the LegacyRoutePosition meta-type. The linearElement, measure, and direction values in the annotation name properties of this object; those properties map onto the routeSegment, offset, and travelDirection members of the meta-type by their shared referenceRole values. The annotation mapping, not the property names, is authoritative.",
       "linearReferenceSystem": {
-        "reference": "#/definitions/LegacyRoutePosition",
+        "reference": { "$ref": "#/definitions/LegacyRoutePosition" },
         "kind": "type",
         "linearElement": "segmentCode",
         "measure": "chainage",

@@ -22,6 +22,17 @@ import sys
 
 ABSOLUTE_URI = re.compile(r"^[A-Za-z][A-Za-z0-9+.\-]*:")
 
+# The reference union in the meta-schema pairs an absolute URI with the core
+# TypeReference, imported from JSON Structure Core and therefore not present in
+# this document. A type reference is { "$ref": <JSON Pointer> }.
+TYPE_REFERENCE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "$ref": {"type": "jsonpointer"},
+        "description": {"type": "string"},
+    },
+}
+
 # Maps the $extends target of an add-in to the schema nodes it applies to.
 ANY_NODE = "*"
 PROPERTY_NODE = "property"
@@ -66,6 +77,8 @@ class MetaSchema:
                 self.keywords[keyword]["targets"].add(target)
 
     def resolve(self, pointer):
+        if pointer.rstrip("/").endswith("/definitions/TypeReference"):
+            return TYPE_REFERENCE_SCHEMA
         node = self.doc
         for token in pointer.lstrip("#").strip("/").split("/"):
             node = node[token.replace("~1", "/").replace("~0", "~")]
@@ -98,11 +111,24 @@ class MetaSchema:
             if not isinstance(value, dict):
                 errors.append(f"{path}: expected an object")
                 return
-            properties = schema.get("properties", {})
-            for member in schema.get("required", []):
+            properties = dict(schema.get("properties", {}))
+            required = list(schema.get("required", []))
+            additional = schema.get("additionalProperties")
+            base_ref = schema.get("$extends")
+            while base_ref:
+                base = self.resolve(base_ref)
+                for name, member_schema in base.get("properties", {}).items():
+                    properties.setdefault(name, member_schema)
+                for member in base.get("required", []):
+                    if member not in required:
+                        required.append(member)
+                if additional is None:
+                    additional = base.get("additionalProperties")
+                base_ref = base.get("$extends")
+            for member in required:
                 if member not in value:
                     errors.append(f"{path}: missing required member '{member}'")
-            if schema.get("additionalProperties") is False:
+            if additional is False:
                 for member in value:
                     if member not in properties:
                         errors.append(f"{path}: member '{member}' is not permitted")

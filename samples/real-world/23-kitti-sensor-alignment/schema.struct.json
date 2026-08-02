@@ -11,8 +11,8 @@
   },
   "frameTransforms": [
     {
-      "from": { "reference": "#/definitions/LaserScannerFrame", "kind": "type" },
-      "to": { "reference": "#/definitions/ReferenceCameraFrame", "kind": "type" },
+      "from": { "reference": { "$ref": "#/definitions/LaserScannerFrame" }, "kind": "type" },
+      "to": { "reference": { "$ref": "#/definitions/ReferenceCameraFrame" }, "kind": "type" },
       "encoding": "rotationMatrix",
       "components": "rotation",
       "translation": ["tx", "ty", "tz"]

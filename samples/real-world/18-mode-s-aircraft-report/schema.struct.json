@@ -85,7 +85,7 @@
       "description": "Instant at which the ground station decoded this transmission, from the `ts` field, as a count of milliseconds since the POSIX epoch. It is not the instant the reported state was true aboard the aircraft: Mode-S transmissions carry no timestamp, so the sampling instant is unavailable and can only be bounded by the transmission interval of the format concerned.",
       "semanticRole": "resultTime",
       "temporalReferenceSystem": {
-        "reference": "#/definitions/PosixMillisecondEpoch",
+        "reference": { "$ref": "#/definitions/PosixMillisecondEpoch" },
         "kind": "type",
         "sortOrder": "forward"
       }

@@ -99,6 +99,18 @@
               "$ref": "#/definitions/characteristics/ReferenceRole"
             },
             "description": "Role the annotated member plays within a meta-type."
+          },
+          "codedValues": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CodedValues"
+            },
+            "description": "External code list the annotated coded value is drawn from."
+          },
+          "measurementConditioning": {
+            "type": {
+              "$ref": "#/definitions/characteristics/MeasurementConditioning"
+            },
+            "description": "Frequency weighting, time weighting, and level reference the annotated scalar measurement carries."
           }
         },
         "additionalProperties": false
@@ -138,6 +150,16 @@
           "cadence": {
             "type": {
               "$ref": "#/definitions/characteristics/Cadence"
+            }
+          },
+          "codedValues": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CodedValues"
+            }
+          },
+          "measurementConditioning": {
+            "type": {
+              "$ref": "#/definitions/characteristics/MeasurementConditioning"
             }
           }
         },
@@ -179,6 +201,16 @@
             "type": {
               "$ref": "#/definitions/characteristics/Cadence"
             }
+          },
+          "codedValues": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CodedValues"
+            }
+          },
+          "measurementConditioning": {
+            "type": {
+              "$ref": "#/definitions/characteristics/MeasurementConditioning"
+            }
           }
         },
         "additionalProperties": false
@@ -219,6 +251,16 @@
             "type": {
               "$ref": "#/definitions/characteristics/Cadence"
             }
+          },
+          "codedValues": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CodedValues"
+            }
+          },
+          "measurementConditioning": {
+            "type": {
+              "$ref": "#/definitions/characteristics/MeasurementConditioning"
+            }
           }
         },
         "additionalProperties": false
@@ -258,6 +300,16 @@
           "cadence": {
             "type": {
               "$ref": "#/definitions/characteristics/Cadence"
+            }
+          },
+          "codedValues": {
+            "type": {
+              "$ref": "#/definitions/characteristics/CodedValues"
+            }
+          },
+          "measurementConditioning": {
+            "type": {
+              "$ref": "#/definitions/characteristics/MeasurementConditioning"
             }
           }
         },
@@ -317,6 +369,18 @@
               "$ref": "#/definitions/characteristics/ColorSpaces"
             },
             "description": "Color spaces in which channel values are expressed, binding existing members as ordered channels."
+          },
+          "audioChannels": {
+            "type": {
+              "$ref": "#/definitions/characteristics/AudioChannels"
+            },
+            "description": "Audio channel groups in which sample values are interpreted, binding existing members as ordered channels."
+          },
+          "spectralBands": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SpectralBands"
+            },
+            "description": "Spectral band sets onto which multiband components are resolved, binding existing members as ordered bands."
           }
         },
         "additionalProperties": false
@@ -367,48 +431,68 @@
             "type": {
               "$ref": "#/definitions/characteristics/ColorSpaces"
             }
+          },
+          "audioChannels": {
+            "type": {
+              "$ref": "#/definitions/characteristics/AudioChannels"
+            }
+          },
+          "spectralBands": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SpectralBands"
+            }
           }
         },
         "additionalProperties": false
       }
     },
     "characteristics": {
+      "ReferencedDefinition": {
+        "abstract": true,
+        "type": "object",
+        "description": "Abstract base for a characteristic that identifies a definition by reference and classifies it by kind.",
+        "properties": {
+          "reference": {
+            "type": [
+              "uri",
+              {
+                "$ref": "#/definitions/TypeReference"
+              }
+            ],
+            "description": "Absolute URI identifying the definition, or a type reference { \"$ref\": <JSON Pointer> } to a shareable type definition in the annotated schema."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Classification of the referenced definition. Open enumeration."
+          }
+        },
+        "required": [
+          "reference",
+          "kind"
+        ]
+      },
       "Concept": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "One external term identity. The kind enumeration is open.",
         "properties": {
-          "reference": {
-            "type": "uri",
-            "description": "Absolute URI identifying the term."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of term identified. Values defined by the specification are 'rdfs-class', 'rdf-property', 'owl-class', 'owl-object-property', 'owl-datatype-property', 'skos-concept', and 'dcterms-property'. The enumeration is open."
           }
         },
-        "required": [
-          "reference",
-          "kind"
-        ],
         "additionalProperties": false
       },
       "ObservedProperty": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "Identity of an observable. The kind enumeration is open.",
         "properties": {
-          "reference": {
-            "type": "uri",
-            "description": "Absolute URI identifying the observable."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of observable definition identified. The enumeration is open."
           }
         },
-        "required": [
-          "reference",
-          "kind"
-        ],
         "additionalProperties": false
       },
       "SemanticRole": {
@@ -539,13 +623,10 @@
         "description": "Expected recurrence pattern of a temporal position."
       },
       "TemporalReferenceSystem": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "Temporal reference system in which a position is expressed.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of system identified. Values defined by the specification are 'ogc-trs', 'ogc-temporal-crs', and 'type'. The enumeration is open."
@@ -561,35 +642,13 @@
             "description": "Direction of the encoded ordering relative to time. Defaults to 'forward'."
           }
         },
-        "required": [
-          "reference",
-          "kind"
-        ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
+        "additionalProperties": false
       },
       "CoordinateReferenceSystem": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "Spatial coordinate reference system binding existing members as ordered coordinates.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of system identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
@@ -605,35 +664,15 @@
           }
         },
         "required": [
-          "reference",
-          "kind",
           "coordinates"
         ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
+        "additionalProperties": false
       },
       "VectorReferenceFrame": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "One reference frame on whose axes the components of a vector quantity are resolved, binding existing members as ordered components.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of frame identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
@@ -655,26 +694,9 @@
           }
         },
         "required": [
-          "reference",
-          "kind",
           "components"
         ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
+        "additionalProperties": false
       },
       "VectorReferenceFrames": {
         "type": "array",
@@ -695,13 +717,10 @@
         ]
       },
       "FrameReference": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
-        "description": "Reference to one reference frame, by absolute URI or by JSON Pointer to a meta-type.",
+        "description": "Reference to one reference frame, by absolute URI or by type reference to a meta-type.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of frame identified. Values defined by the specification are 'ogc-crs', 'epsg', and 'type'. The enumeration is open."
@@ -713,26 +732,7 @@
             "description": "How the index in this position responds to a change of frame. Defaults to 'contravariant'."
           }
         },
-        "required": [
-          "reference",
-          "kind"
-        ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
+        "additionalProperties": false
       },
       "TensorComponent": {
         "type": "object",
@@ -942,13 +942,10 @@
         ]
       },
       "ColorSpace": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "Color space in which channel values held in members of the annotated type are expressed.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of definition identified. Values defined by the specification are 'itu', 'iec', 'cie', 'icc-profile', 'icc-registry', and 'type'. The enumeration is open."
@@ -998,26 +995,9 @@
           }
         },
         "required": [
-          "reference",
-          "kind",
           "channels"
         ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
+        "additionalProperties": false
       },
       "ColorSpaces": {
         "type": "array",
@@ -1029,14 +1009,144 @@
         },
         "minItems": 1
       },
+      "AudioChannel": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
+        "type": "object",
+        "description": "One audio channel group. The kind enumeration is open; levelReference and encoding are closed.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Sort of definition identified. Values defined by the specification are 'itu' and 'type'. The enumeration is open."
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Non-empty ordered array of distinct member names, one per channel of the layout, in the order the identified definition declares them."
+          },
+          "levelReference": {
+            "type": {
+              "$ref": "#/definitions/characteristics/AudioLevelReference"
+            },
+            "description": "What the sample amplitudes are relative to. Defaults to 'fullScale'."
+          },
+          "encoding": {
+            "type": {
+              "$ref": "#/definitions/characteristics/AudioEncoding"
+            },
+            "description": "How the stored numbers stand to amplitude. Defaults to 'linear'."
+          }
+        },
+        "required": [
+          "channels"
+        ],
+        "additionalProperties": false
+      },
+      "AudioChannels": {
+        "type": "array",
+        "description": "Non-empty array of audio channel groups carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/AudioChannel"
+          }
+        },
+        "minItems": 1
+      },
+      "AudioLevelReference": {
+        "type": "string",
+        "description": "Closed enumeration of audio level references.",
+        "enum": [
+          "fullScale",
+          "soundPressure"
+        ]
+      },
+      "AudioEncoding": {
+        "type": "string",
+        "description": "Closed enumeration of audio sample encodings.",
+        "enum": [
+          "linear",
+          "aLaw",
+          "muLaw"
+        ]
+      },
+      "SpectralBand": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
+        "type": "object",
+        "description": "One spectral band set. The kind and calibration enumerations are open.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Sort of definition identified. Values defined by the specification are 'sensor' and 'type'. The enumeration is open."
+          },
+          "bands": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Non-empty ordered array of distinct member names, one per band of the set, in the order the identified definition declares them."
+          },
+          "calibration": {
+            "type": "string",
+            "description": "What physical quantity each band value is. Values defined by the specification are 'digitalNumber', 'radiance', and 'reflectance'. The enumeration is open."
+          }
+        },
+        "required": [
+          "bands"
+        ],
+        "additionalProperties": false
+      },
+      "SpectralBands": {
+        "type": "array",
+        "description": "Non-empty array of spectral band sets carried by the annotated type.",
+        "items": {
+          "type": {
+            "$ref": "#/definitions/characteristics/SpectralBand"
+          }
+        },
+        "minItems": 1
+      },
+      "CodedValues": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
+        "type": "object",
+        "description": "Code list the annotated coded value is drawn from. The kind enumeration is open.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Sort of register identified. Values defined by the specification are 'wmo-codes', 'iso-country', 'iso-currency', 'iso-language', 'bcp47', 'unlocode', 'icao-location', 'icao-aircraft', 'iata', 'icd', 'snomed-ct', 'loinc', 'atc', 'unspsc', 'iana', and 'type'. The enumeration is open."
+          }
+        },
+        "additionalProperties": false
+      },
+      "MeasurementConditioning": {
+        "type": "object",
+        "description": "Frequency weighting, time weighting, and level reference a scalar measurement carries. At least one member is present; the enumerations are open.",
+        "properties": {
+          "weighting": {
+            "type": "string",
+            "description": "Frequency weighting. Values defined by the specification are 'a', 'c', and 'z'. The enumeration is open."
+          },
+          "timeWeighting": {
+            "type": "string",
+            "description": "Time weighting. Values defined by the specification are 'fast' and 'slow'. The enumeration is open."
+          },
+          "levelReference": {
+            "type": "string",
+            "description": "What the level is relative to: 'soundPressure' or an absolute URI identifying another reference."
+          }
+        },
+        "minProperties": 1,
+        "additionalProperties": false
+      },
       "LinearReferenceSystem": {
+        "$extends": "#/definitions/characteristics/ReferencedDefinition",
         "type": "object",
         "description": "Linear reference system binding existing members as linear element, measure, and direction.",
         "properties": {
-          "reference": {
-            "type": "string",
-            "description": "Absolute URI, or a JSON Pointer when kind is 'type'."
-          },
           "kind": {
             "type": "string",
             "description": "Sort of system identified. Values defined by the specification are 'lrs-network' and 'type'. The enumeration is open."
@@ -1059,65 +1169,12 @@
           }
         },
         "required": [
-          "reference",
-          "kind",
           "linearElement",
           "measure"
         ],
-        "additionalProperties": false,
-        "if": {
-          "type": {
-            "$ref": "#/definitions/characteristics/KindIsMetaType"
-          }
-        },
-        "then": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsPointer"
-          }
-        },
-        "else": {
-          "type": {
-            "$ref": "#/definitions/characteristics/ReferenceIsUri"
-          }
-        }
-      },
-      "KindIsMetaType": {
-        "type": "object",
-        "description": "Matches a reference-style annotation whose kind is 'type'.",
-        "properties": {
-          "kind": {
-            "type": "string",
-            "const": "type"
-          }
-        },
-        "required": [
-          "kind"
-        ]
-      },
-      "ReferenceIsPointer": {
-        "type": "object",
-        "description": "Requires reference to be a JSON Pointer into the same schema document.",
-        "properties": {
-          "reference": {
-            "type": "jsonpointer"
-          }
-        },
-        "required": [
-          "reference"
-        ]
-      },
-      "ReferenceIsUri": {
-        "type": "object",
-        "description": "Requires reference to be an absolute URI.",
-        "properties": {
-          "reference": {
-            "type": "uri"
-          }
-        },
-        "required": [
-          "reference"
-        ]
+        "additionalProperties": false
       }
     }
   }
 }
+

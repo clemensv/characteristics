@@ -11,7 +11,7 @@
   },
   "vectorReferenceFrames": [
     {
-      "reference": "#/definitions/GoesEpnFrame",
+      "reference": { "$ref": "#/definitions/GoesEpnFrame" },
       "kind": "type",
       "components": ["hp", "he", "hn"]
     }

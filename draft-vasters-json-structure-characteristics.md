@@ -242,6 +242,132 @@ informative:
     author:
       - org: World Wide Web Consortium
     target: https://www.w3.org/TR/css-color-4/
+  ITU-BS2051:
+    title: "Recommendation ITU-R BS.2051-3: Advanced sound system for programme production"
+    author:
+      - org: International Telecommunication Union
+    date: 2022-05
+    target: https://www.itu.int/rec/R-REC-BS.2051/en
+  ITU-BS1770:
+    title: "Recommendation ITU-R BS.1770-5: Algorithms to measure audio programme loudness and true-peak audio level"
+    author:
+      - org: International Telecommunication Union
+    date: 2023-11
+    target: https://www.itu.int/rec/R-REC-BS.1770/en
+  EBU-R128:
+    title: "EBU R 128: Loudness normalisation and permitted maximum level of audio signals"
+    author:
+      - org: European Broadcasting Union
+    date: 2023-11
+    target: https://tech.ebu.ch/publications/r128
+  ITU-BS2076:
+    title: "Recommendation ITU-R BS.2076: Audio Definition Model"
+    author:
+      - org: International Telecommunication Union
+    target: https://www.itu.int/rec/R-REC-BS.2076/en
+  ITU-G711:
+    title: "Recommendation ITU-T G.711: Pulse code modulation (PCM) of voice frequencies"
+    author:
+      - org: International Telecommunication Union
+    date: 1988-11
+    target: https://www.itu.int/rec/T-REC-G.711
+  USGS-LANDSAT:
+    title: "What are the band designations for the Landsat satellites?"
+    author:
+      - org: United States Geological Survey
+    target: https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites
+  USGS-LANDSAT-L1:
+    title: "Using the USGS Landsat Level-1 Data Product"
+    author:
+      - org: United States Geological Survey
+    target: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
+  WMO-CODES:
+    title: "WMO Codes Registry (WMO No. 306 Manual on Codes)"
+    author:
+      - org: World Meteorological Organization
+    target: https://codes.wmo.int/
+  IEC61672-1:
+    title: "IEC 61672-1:2013 Electroacoustics - Sound level meters - Part 1: Specifications"
+    author:
+      - org: International Electrotechnical Commission
+    date: 2013
+    target: https://webstore.iec.ch/en/publication/5708
+  ISO1683:
+    title: "ISO 1683:2015 Acoustics - Preferred reference values for acoustical and vibratory levels"
+    author:
+      - org: International Organization for Standardization
+    date: 2015
+    target: https://www.iso.org/standard/64648.html
+  ISO3166:
+    title: "ISO 3166: Codes for the representation of names of countries and their subdivisions"
+    author:
+      - org: International Organization for Standardization
+    target: https://www.iso.org/iso-3166-country-codes.html
+  ISO4217:
+    title: "ISO 4217: Codes for the representation of currencies"
+    author:
+      - org: International Organization for Standardization
+    target: https://www.iso.org/iso-4217-currency-codes.html
+  ISO639:
+    title: "ISO 639: Code for individual languages and language groups"
+    author:
+      - org: International Organization for Standardization
+    target: https://www.iso.org/iso-639-language-codes.html
+  IANA-LANGTAGS:
+    title: "Language Subtag Registry"
+    author:
+      - org: Internet Assigned Numbers Authority
+    target: https://www.iana.org/assignments/language-subtag-registry
+  UNLOCODE:
+    title: "UN/LOCODE: United Nations Code for Trade and Transport Locations"
+    author:
+      - org: United Nations Economic Commission for Europe
+    target: https://unece.org/trade/cefact/unlocode-code-list-country-and-territory
+  ICAO7910:
+    title: "Location Indicators (Doc 7910)"
+    author:
+      - org: International Civil Aviation Organization
+    target: https://store.icao.int/en/location-indicators-doc-7910
+  ICAO8643:
+    title: "Aircraft Type Designators (Doc 8643)"
+    author:
+      - org: International Civil Aviation Organization
+    target: https://www.icao.int/operational-safety/doc-8643-aircraft-type-designators
+  IATA-CODES:
+    title: "Airline and Airport Code Search"
+    author:
+      - org: International Air Transport Association
+    target: https://www.iata.org/en/publications/directories/code-search/
+  WHO-ICD:
+    title: "International Classification of Diseases (ICD)"
+    author:
+      - org: World Health Organization
+    target: https://icd.who.int/
+  SNOMED-CT:
+    title: "SNOMED CT"
+    author:
+      - org: SNOMED International
+    target: https://www.snomed.org/
+  LOINC:
+    title: "LOINC"
+    author:
+      - org: Regenstrief Institute
+    target: https://loinc.org/
+  WHO-ATC:
+    title: "ATC/DDD Index"
+    author:
+      - org: WHO Collaborating Centre for Drug Statistics Methodology
+    target: https://atcddd.fhi.no/atc_ddd_index/
+  UNSPSC:
+    title: "United Nations Standard Products and Services Code (UNSPSC)"
+    author:
+      - org: United Nations Global Marketplace
+    target: https://www.ungm.org/Public/UNSPSC
+  IANA-PROTOCOLS:
+    title: "Protocol Registries"
+    author:
+      - org: Internet Assigned Numbers Authority
+    target: https://www.iana.org/protocols
 
 --- abstract
 
@@ -297,15 +423,16 @@ Most keywords defined here share one shape. Each is an object carrying a
 names the model the definition belongs to. This lets a reader know how to
 interpret it and a processor know what can be checked.
 `concepts`, `observedProperty`, `temporalReferenceSystem`,
-`coordinateReferenceSystem`, `linearReferenceSystem`, and the entries of
-`colorSpaces` all follow this shape.
+`coordinateReferenceSystem`, `linearReferenceSystem`, `codedValues`, and the
+entries of `colorSpaces`, `audioChannels`, and `spectralBands` all follow this
+shape.
 
 A definition is ordinarily maintained outside the schema, and `reference` is
 then an absolute URI {{RFC3986}}. The reference-system keywords also admit a
 definition held in the schema itself, carried by a shareable type that
 {{meta-types}} calls a meta-type; `kind` is then `type` and `reference` is a
-JSON Pointer to that type. The `kind` determines which form applies, and each
-keyword states the rule for its own values.
+type reference `{ "$ref": <JSON Pointer> }` to that type. The `kind` determines
+which form applies, and each keyword states the rule for its own values.
 
 A `kind` names a definition model and not the format of the resource that
 carries it. The enumerations are open so that an author whose model is not
@@ -355,9 +482,11 @@ that defines a temporal type, and binds an existing member of it.
 observation record, and on a member schema of one that carries a result,
 subject to {{observed-property}}.
 `coordinateReferenceSystem`, `vectorReferenceFrames`, `tensorReferenceFrames`,
-`frameTransforms`, `linearReferenceSystem`, and `colorSpaces` MAY occur on an
-object or tuple and bind existing properties. `referenceRole` MAY occur on a
-member of a meta-type, subject to {{meta-types}}.
+`frameTransforms`, `linearReferenceSystem`, `colorSpaces`, `audioChannels`, and
+`spectralBands` MAY occur on an object or tuple and bind existing properties.
+`codedValues` and `measurementConditioning` MAY occur on a property, collection
+item, map value, or choice member schema, subject to their sections.
+`referenceRole` MAY occur on a member of a meta-type, subject to {{meta-types}}.
 
 All keywords defined here are direct peer keywords, and no wrapper is implied.
 Every annotation is OPTIONAL, and a schema can use any subset, including none.
@@ -371,10 +500,11 @@ indeterminate rather than incorrect.
 
 The enumerations of this document are of two sorts. `semanticRole`,
 `derivation`, `statistic`, `phenomenonTimeRelation`, `referenceRole`,
-`sortOrder`, and the `kind` of `cadence` are closed, and a value outside the
-enumeration is invalid. The `kind` of a reference-style keyword is open, and a
-value outside the enumeration is valid; a processor MUST preserve it and MUST
-NOT reject a schema for carrying it.
+`sortOrder`, the `kind` of `cadence`, and the `levelReference` and `encoding` of
+`audioChannels` are closed, and a value outside the enumeration is invalid. The
+`weighting`, `timeWeighting`, and `calibration` enumerations, and the `kind` of a
+reference-style keyword, are open, and a value outside the enumeration is valid;
+a processor MUST preserve it and MUST NOT reject a schema for carrying it.
 
 A value defined here is one a processor can act on, and this document states
 what each establishes. A value
@@ -400,6 +530,10 @@ not already know it.
 | `linearReferenceSystem` | LRS and properties forming a location along a linear element. |
 | `colorSpaces` | Color spaces and properties forming the channels of color values. |
 | `referenceRole` | Function of a member within a reference-system meta-type. |
+| `audioChannels` | Audio channel layout, level reference, and encoding for channel values. |
+| `spectralBands` | Spectral bands and ordered properties forming the bands of a multiband value. |
+| `codedValues` | Binding from a coded property to an external code list. |
+| `measurementConditioning` | Frequency or time weighting and level reference a scalar measurement carries. |
 
 Omission means undeclared unless stated otherwise. It never implies compatible,
 successful, or acceptable data.
@@ -1419,11 +1553,181 @@ Example:
 }
 ~~~
 
+# Coded Value Characteristics {#coded-value-characteristics}
+
+## The `codedValues` Keyword {#coded-values}
+
+The `codedValues` keyword binds the annotated property to a code list,
+so that the coded value it carries can be resolved to the meaning the list
+assigns it.
+
+A coded value is a number or a short string that stands for a state in a
+register maintained elsewhere: a present-weather code, an airport identifier, a
+diagnosis code. The register gives each code a meaning, and the value alone does
+not. This keyword differs from the reference-style keywords that bind components
+to the axes of a space in that it binds a single value to a list of meanings, and
+it differs from `concepts` in that `concepts` binds the node to one term while
+`codedValues` binds the property to a whole enumeration that its instance values
+draw from.
+
+When present, `codedValues` MUST be an object with a REQUIRED `reference` and a
+REQUIRED `kind`, and no other members.
+
+### The `reference` and `kind` Properties
+
+`reference` identifies one code list. Where `kind` is `type` it MUST be a type
+reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type
+definition that enumerates the codes, and otherwise it MUST be an absolute URI
+{{RFC3986}}. `kind` classifies
+which register model the reference identifies. It is an open enumeration; the
+following values are defined here:
+
+| Kind | Referenced definition |
+|---|---|
+| `wmo-codes` | A register in the WMO Codes Registry {{WMO-CODES}}. |
+| `iso-country` | A country or subdivision code of {{ISO3166}}. |
+| `iso-currency` | A currency code of {{ISO4217}}. |
+| `iso-language` | A language code of {{ISO639}}. |
+| `bcp47` | A language tag of the IANA Language Subtag Registry {{IANA-LANGTAGS}}. |
+| `unlocode` | A location code of UN/LOCODE {{UNLOCODE}}. |
+| `icao-location` | An ICAO location indicator {{ICAO7910}}. |
+| `icao-aircraft` | An ICAO aircraft type designator {{ICAO8643}}. |
+| `iata` | An IATA airline, airport, or location code {{IATA-CODES}}. |
+| `icd` | A code of the WHO International Classification of Diseases {{WHO-ICD}}. |
+| `snomed-ct` | A concept identifier of SNOMED CT {{SNOMED-CT}}. |
+| `loinc` | A code of LOINC {{LOINC}}. |
+| `atc` | A code of the WHO Anatomical Therapeutic Chemical classification {{WHO-ATC}}. |
+| `unspsc` | A commodity code of UNSPSC {{UNSPSC}}. |
+| `iana` | An entry in an IANA protocol registry {{IANA-PROTOCOLS}}. |
+| `type` | A meta-type in the annotated schema whose enumeration lists the codes, as {{meta-types}} describes. |
+
+The annotated value MUST be of a scalar type, a string or an integer, of the
+kind the identified list uses for its notations. Where `kind` is `type`, the
+identified type enumerates the code notations, and a value denotes the entry
+whose notation it equals.
+
+A value in an instance denotes the entry the register publishes for that value.
+How the value is joined to the entry, whether by appending it to the register
+URI or by another rule, is stated by the register and not by this document. Some
+registers, including {{WMO-CODES}}, publish each entry at a dereferenceable URI;
+a reference to such a register identifies more often than it resolves, which is
+true of the other reference-style keywords as well.
+
+A missing or unresolved register is indeterminate and MUST NOT be repaired from
+labels, property names, descriptions, or samples. A value that the register does
+not define is not made meaningful by this annotation.
+
+A processor is not required to dereference the URI. This document does not define
+a resolution protocol, URI layout, storage model, or definition serialization.
+
+### Example
+
+The property below carries a present-weather code from the WMO register for
+present weather, whose entries are the integers zero through several hundred.
+
+~~~ json
+{
+  "name": "SurfaceObservation",
+  "type": "object",
+  "properties": {
+    "stationId": { "type": "string" },
+    "presentWeather": {
+      "type": "int32",
+      "codedValues": {
+        "reference": "http://codes.wmo.int/bufr4/codeflag/0-20-003",
+        "kind": "wmo-codes"
+      }
+    }
+  },
+  "required": ["stationId", "presentWeather"],
+  "additionalProperties": false
+}
+~~~
+
+# Measurement Conditioning Characteristics {#measurement-conditioning}
+
+## The `measurementConditioning` Keyword {#measurement-conditioning-keyword}
+
+The `measurementConditioning` keyword states the frequency weighting, time
+weighting, and level reference that a scalar measurement carries, so that two values of
+the same unit that were conditioned differently are not compared as like
+quantities.
+
+A weighted level is a single number, not a bundle of channels, and its unit does
+not record how it was made. An A-weighted sound level and a Z-weighted one are
+both in decibels, and comparing them is a mistake the numbers do not prevent.
+The weighting, the time constant, and the reference the level stands against are
+the hidden convention this keyword carries.
+
+When present, `measurementConditioning` MUST be an object with an OPTIONAL
+`weighting`, an OPTIONAL `timeWeighting`, and an OPTIONAL `levelReference`, and no
+other members. At least one of the three MUST be present. The annotated value
+MUST be of numeric type.
+
+### The `weighting` Property
+
+`weighting`, when present, names the frequency weighting the value carries. It is
+an open enumeration; the values defined here are the frequency weightings of
+{{IEC61672-1}}:
+
+| Value | Meaning |
+|---|---|
+| `a` | A-weighting. |
+| `c` | C-weighting. |
+| `z` | Zero-weighting, the flat response. |
+
+### The `timeWeighting` Property
+
+`timeWeighting`, when present, names the time weighting the value carries. It is
+an open enumeration; the values defined here are the time weightings of
+{{IEC61672-1}}:
+
+| Value | Meaning |
+|---|---|
+| `fast` | Fast time weighting. |
+| `slow` | Slow time weighting. |
+
+The impulse time weighting of the superseded IEC 651 is not among these; where a
+legacy dataset needs it, it is carried as an open value.
+
+### The `levelReference` Property
+
+`levelReference`, when present, states what the level is relative to. Its value
+MUST be `soundPressure` or an absolute URI {{RFC3986}} identifying another
+reference. Under `soundPressure` the reference is 20 micropascals {{ISO1683}},
+and the level is sound pressure level.
+
+### Example
+
+The property below carries an A-weighted, fast, sound-pressure level.
+
+~~~ json
+{
+  "name": "NoiseReading",
+  "type": "object",
+  "properties": {
+    "sensorId": { "type": "string" },
+    "soundLevel": {
+      "type": "double",
+      "unit": "dB",
+      "measurementConditioning": {
+        "weighting": "a",
+        "timeWeighting": "fast",
+        "levelReference": "soundPressure"
+      }
+    }
+  },
+  "required": ["sensorId", "soundLevel"],
+  "additionalProperties": false
+}
+~~~
+
 # Reference System Meta-Types {#meta-types}
 
 A reference system need not be published by an authority. Where the `kind` of a
-reference-system keyword is `type`, `reference` is a JSON Pointer
-{{JSTRUCT-CORE}} to a shareable type definition, and that type definition is the
+reference-system keyword is `type`, `reference` is a type reference
+`{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type definition, and
+that type definition is the
 definition of the system. Such a type is a meta-type. It is ordinarily
 maintained in its own document and brought into `definitions` with `$import`
 {{JSTRUCT-IMPORT}}, so that one definition serves every schema that cites it.
@@ -1567,7 +1871,8 @@ intended. A non-Core or ambiguous encoding is indeterminate without one.
 ### The `reference` Property
 
 `reference` MUST identify one temporal reference definition. Where `kind` is
-`type` it MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a shareable type
+`type` it MUST be a type reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}}
+to a shareable type
 definition, and otherwise it MUST be an absolute URI {{RFC3986}}. `kind` states
 which definition model the reference identifies. This document does not define a
 resolution protocol, URI layout, storage model, or definition serialization.
@@ -1701,7 +2006,7 @@ processor can order two positions without implementing the definition.
       "type": "object",
       "semanticRole": "phenomenonTime",
       "temporalReferenceSystem": {
-        "reference": "#/definitions/RaceClockPosition",
+        "reference": { "$ref": "#/definitions/RaceClockPosition" },
         "kind": "type",
         "position": "ordinal"
       },
@@ -1839,8 +2144,9 @@ array. No other properties are permitted.
 
 `reference` MUST identify one coordinate reference system whose definition
 establishes an ordered set of axes, each with an axis direction and unit of
-measure. Where `kind` is `type` it MUST be a JSON Pointer {{JSTRUCT-CORE}}
-resolving to a shareable type definition, and otherwise it MUST be an absolute
+measure. Where `kind` is `type` it MUST be a type reference
+`{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type definition, and
+otherwise it MUST be an absolute
 URI {{RFC3986}}. `kind` states which definition model the reference identifies.
 
 A processor is not required to dereference the URI, and a returned
@@ -2237,12 +2543,12 @@ and are carried separately.
   "type": "object",
   "vectorReferenceFrames": [
     {
-      "reference": "#/definitions/GseFrame",
+      "reference": { "$ref": "#/definitions/GseFrame" },
       "kind": "type",
       "components": ["bx", "by_gse", "bz_gse"]
     },
     {
-      "reference": "#/definitions/GsmFrame",
+      "reference": { "$ref": "#/definitions/GsmFrame" },
       "kind": "type",
       "components": ["bx", "by_gsm", "bz_gsm"]
     }
@@ -2347,9 +2653,9 @@ each coefficient is picked out by three axes of the same crystal frame.
   "tensorReferenceFrames": [
     {
       "frames": [
-        { "reference": "#/definitions/CrystalAxes", "kind": "type" },
-        { "reference": "#/definitions/CrystalAxes", "kind": "type" },
-        { "reference": "#/definitions/CrystalAxes", "kind": "type" }
+        { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" },
+        { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" },
+        { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" }
       ],
       "components": "d"
     }
@@ -2463,8 +2769,8 @@ order. What a reader of the text file must look up, the schema carries.
   "tensorReferenceFrames": [
     {
       "frames": [
-        { "reference": "#/definitions/UseFrame", "kind": "type" },
-        { "reference": "#/definitions/UseFrame", "kind": "type" }
+        { "reference": { "$ref": "#/definitions/UseFrame" }, "kind": "type" },
+        { "reference": { "$ref": "#/definitions/UseFrame" }, "kind": "type" }
       ],
       "symmetry": "symmetric",
       "components": [
@@ -2761,7 +3067,7 @@ of the annotation.
   "type": "object",
   "frameTransforms": [
     {
-      "from": { "reference": "#/definitions/BodyFrame", "kind": "type" },
+      "from": { "reference": { "$ref": "#/definitions/BodyFrame" }, "kind": "type" },
       "to": {
         "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
         "kind": "ogc-crs"
@@ -2895,8 +3201,8 @@ the reader, as declarations.
   "type": "object",
   "frameTransforms": [
     {
-      "from": { "reference": "#/definitions/LaserFrame", "kind": "type" },
-      "to": { "reference": "#/definitions/CameraFrame", "kind": "type" },
+      "from": { "reference": { "$ref": "#/definitions/LaserFrame" }, "kind": "type" },
+      "to": { "reference": { "$ref": "#/definitions/CameraFrame" }, "kind": "type" },
       "encoding": "rotationMatrix",
       "components": "rotation",
       "translation": ["tx", "ty", "tz"]
@@ -2985,7 +3291,8 @@ When present, `linearReferenceSystem` MUST be an object with REQUIRED
 ### The `reference` Property
 
 `reference` MUST identify one linear reference system. Where `kind` is `type` it
-MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a shareable type
+MUST be a type reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a
+shareable type
 definition, and otherwise it MUST be an absolute URI {{RFC3986}}. The identified
 definition MUST establish the linear referencing method, the measure origin, the
 increasing-measure direction, the measure unit, and the linear-element
@@ -3127,10 +3434,12 @@ the reference they stand relative to, and the encoding they carry.
 directions, and this section gives it to color, because color is the perceptual
 signal most often carried in general-purpose JSON — design tokens, stylesheets,
 image metadata — and the one most often carried with all of that left silent.
-Other members of the same family are out of scope here and left to later
-extensions: audio channel layout and loudness, hyperspectral and multiband
-imaging, and acoustic frequency weighting each resolve channel numbers onto a
-named space of their own, and each might be a keyword of this shape.
+The same family continues past color in {{signal-channel-characteristics}}, where
+audio channel layout and multiband imaging resolve channel numbers onto a named
+space as color does. A coded value bound to an external list
+({{coded-value-characteristics}}) and the weighting a scalar measurement carries
+({{measurement-conditioning}}) are relatives of a different shape, each treated
+in its own section.
 
 ## The `colorSpaces` Keyword {#color-spaces}
 
@@ -3169,8 +3478,8 @@ values that were printed alongside the color that was measured off the result.
 ### The `reference` and `kind` Properties
 
 `reference` MUST identify one color space or one set of device control values.
-Where `kind` is `type` it MUST be a JSON Pointer {{JSTRUCT-CORE}} resolving to a
-shareable type definition. Where `kind` is `icc-profile` it MUST be a URI
+Where `kind` is `type` it MUST be a type reference `{ "$ref": <JSON Pointer> }`
+{{JSTRUCT-CORE}} to a shareable type definition. Where `kind` is `icc-profile` it MUST be a URI
 {{RFC3986}} identifying the profile; the profile identifier {{ICC-SPEC}}
 computes over the profile contents is not itself a URI, and a schema carrying
 only that identifier MUST express it as one, under a scheme of the schema
@@ -3483,6 +3792,253 @@ illuminant and the observer are known, and the file the numbers came from is one
 of the ones that says so. The annotation carries what that file carries, in a
 place a processor can read.
 
+# Signal Channel Characteristics {#signal-channel-characteristics}
+
+The keywords of this section resolve components onto the channels of a named
+space, as {{colorimetric-reference-characteristics}} does for color. A signal is
+a bundle of channel numbers that means nothing until something states which
+channel is which, what the numbers stand relative to, and how they are encoded.
+Color carries that in `colorSpaces`; audio and multiband imaging carry it here.
+
+## The `audioChannels` Keyword {#audio-channels}
+
+The `audioChannels` keyword identifies the channel layout in which audio sample
+values held in properties of an object or tuple are to be interpreted, the level
+the samples are relative to, and the encoding they carry.
+
+An audio sample is a measurement of a signal, and a set of samples is not sound
+until something states which loudspeaker or which role each channel drives, what
+the numbers stand relative to, and whether they are amplitudes or a companded
+encoding of them. A bare array carries none of that, and the conventions that
+carry it differ between formats.
+
+When present, `audioChannels` MUST be a non-empty array. Each element MUST be an
+object with a REQUIRED `reference`, a REQUIRED `kind`, a REQUIRED `channels`, an
+OPTIONAL `levelReference`, and an OPTIONAL `encoding`, and no other members. The
+keyword is an array because one record may carry more than one channel group, as
+a programme does when a commentary track accompanies a music-and-effects mix.
+
+### The `reference` and `kind` Properties
+
+`reference` MUST identify one channel layout whose definition establishes an
+ordered set of channels, each with a loudspeaker position or a role. Where
+`kind` is `type` it MUST be a type reference `{ "$ref": <JSON Pointer> }`
+{{JSTRUCT-CORE}} to a shareable type definition, and otherwise it MUST be an
+absolute URI {{RFC3986}}.
+`kind` classifies which definition model the reference identifies. It is an open
+enumeration; the following values are defined here:
+
+| Kind | Referenced definition |
+|---|---|
+| `itu` | A Recommendation of the International Telecommunication Union, such as the loudspeaker configurations of {{ITU-BS2051}}. |
+| `type` | A meta-type in the annotated schema, as {{meta-types}} describes. |
+
+A layout recommendation such as {{ITU-BS2051}} defines several configurations,
+and a bare reference to it names the recommendation rather than one of them; a
+schema that must pin one configuration deep-links to it or carries it as a
+`type`. Where the recommendation mints no per-configuration URI, the deep link is
+a fragment that names the configuration in the recommendation's own notation, as
+`#0+5+0` names its five-loudspeaker system with a low-frequency-effects channel;
+the fragment identifies the configuration whether or not the recommendation
+serves it. A processor is not required to dereference the URI. This document does
+not define a resolution protocol, URI layout, storage model, or definition
+serialization.
+
+### The `channels` Property
+
+`channels` MUST be a non-empty array of names of direct properties of the
+annotated object or tuple, all distinct, mapped by position onto the channels of
+the layout in the order the identified definition declares them. The number of
+channels supplied MUST equal the number the identified layout defines. As with
+`coordinates` and the channels of `colorSpaces`, the ordering is an assertion by
+the schema author and is never inferred from property order, property names, or
+position in a `tuple`. A low-frequency-effects channel is one of the channels,
+in the position the layout assigns it, and is not inferred from a property name.
+Either every name is that of a property of numeric type, or the array holds
+exactly one name, that of a property whose type is `array` or `tuple` and whose
+elements are of numeric type, in which case the elements of that property supply
+the channels in order.
+
+### The `levelReference` Property
+
+`levelReference`, when present, states what the sample amplitudes are relative
+to. Its value MUST be `fullScale` or `soundPressure`.
+
+| Value | Meaning |
+|---|---|
+| `fullScale` | Zero decibels is digital full scale, the greatest level the encoding represents, so a level in decibels is dBFS. The numeric range of the samples is stated by the property, not by this value. |
+| `soundPressure` | The amplitudes are calibrated sound pressures, whose reference is 20 micropascals {{ISO1683}} and whose level in decibels is sound pressure level. |
+
+Where absent, the reference is `fullScale`. Programme loudness is not a
+per-sample reference: it is an integrated, gated, frequency-weighted measure of
+a whole programme, defined by {{ITU-BS1770}} and given a target by
+{{EBU-R128}}, and a schema that carries it carries it as its own annotated
+value, not as the level reference of the channels.
+
+### The `encoding` Property
+
+`encoding`, when present, states how the stored numbers stand to amplitude. Its
+value MUST be `linear`, `aLaw`, or `muLaw`. Under `linear` the numbers are
+proportional to amplitude, whether stored as integers or as floating point.
+Under `aLaw` or `muLaw` each channel value is the eight-bit code word that
+{{ITU-G711}} defines, an integer from zero to two hundred and fifty-five, and a
+reader restores amplitude by the inverse companding before any arithmetic. Where
+absent, the encoding is `linear`.
+
+Object-based and scene-based audio, in which a sample is not one loudspeaker,
+are not channel layouts in this sense; they are described by the Audio
+Definition Model {{ITU-BS2076}} and are outside this keyword. The time axis of
+audio, the sample rate, is a regular temporal cadence and is carried by
+`temporalReferenceSystem` and `cadence` ({{cadence}}), not here.
+
+### Example
+
+The record below is one multichannel sample frame of a five-channel-with-LFE
+programme, whose layout is the 0+5+0 system of {{ITU-BS2051}}. The six property
+names are the schema author's; the order of `channels` is what binds them to the
+layout.
+
+~~~ json
+{
+  "name": "SurroundSampleFrame",
+  "type": "object",
+  "audioChannels": [
+    {
+      "reference": "https://www.itu.int/rec/R-REC-BS.2051/en#0+5+0",
+      "kind": "itu",
+      "channels": ["l", "r", "c", "lfe", "ls", "rs"],
+      "levelReference": "fullScale",
+      "encoding": "linear"
+    }
+  ],
+  "properties": {
+    "frameIndex": { "type": "int64" },
+    "l":   { "type": "double" },
+    "r":   { "type": "double" },
+    "c":   { "type": "double" },
+    "lfe": { "type": "double" },
+    "ls":  { "type": "double" },
+    "rs":  { "type": "double" }
+  },
+  "required": ["frameIndex", "l", "r", "c", "lfe", "ls", "rs"],
+  "additionalProperties": false
+}
+~~~
+
+## The `spectralBands` Keyword {#spectral-bands}
+
+The `spectralBands` keyword identifies the spectral bands onto which the
+components of a multiband value held in properties of an object or tuple are
+resolved, in the order a named sensor or band set declares them.
+
+A multiband pixel is a row of numbers, one per band, and it means nothing until
+something states which wavelengths each band covers and what physical quantity
+the number is. The bands of one sensor are not the bands of another even where
+they are given the same colour name, and a raw count is not a radiance until the
+sensor's calibration is applied.
+
+When present, `spectralBands` MUST be a non-empty array. Each element MUST be an
+object with a REQUIRED `reference`, a REQUIRED `kind`, a REQUIRED `bands`, and an
+OPTIONAL `calibration`, and no other members. The keyword is an array because one
+record may resolve its components onto more than one band set, as a fused product
+does when it carries bands from two instruments.
+
+### The `reference` and `kind` Properties
+
+`reference` MUST identify one band set whose definition establishes an ordered
+set of bands, each with a wavelength range. Where `kind` is `type` it MUST be a
+type reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type
+definition, and
+otherwise it MUST be an absolute URI {{RFC3986}}. `kind` classifies which
+definition model the reference identifies. It is an open enumeration; the
+following values are defined here:
+
+| Kind | Referenced definition |
+|---|---|
+| `sensor` | A band set published by the operator of an instrument, such as the Operational Land Imager bands of {{USGS-LANDSAT}}. |
+| `type` | A meta-type in the annotated schema, as {{meta-types}} describes. |
+
+A publication that lists the band sets of several instruments names one of them
+by a deep link, a fragment naming the instrument where the publisher mints no
+per-instrument URI, as `#landsat-8-9-oli` names the Operational Land Imager; the
+fragment identifies the band set whether or not the publication serves it. A
+processor is not required to dereference the URI. This document does not
+define a resolution protocol, URI layout, storage model, or definition
+serialization.
+
+### The `bands` Property
+
+`bands` MUST be a non-empty array of names of direct properties of the annotated
+object or tuple, all distinct, mapped by position onto the bands of the set in
+the order the identified definition declares them. The number of bands supplied
+MUST equal the number the identified set defines. As with the channels of
+`colorSpaces`, the ordering is an assertion by the schema author and is never
+inferred from property order, property names, or position in a `tuple`. Either
+every name is that of a property of numeric type, or the array holds exactly one
+name, that of a property whose type is `array` or `tuple` and whose elements are
+of numeric type, in which case the elements of that property supply the bands in
+order.
+
+### The `calibration` Property
+
+`calibration`, when present, states what physical quantity each band value is.
+It is an open enumeration; the values defined here are:
+
+| Value | Meaning |
+|---|---|
+| `digitalNumber` | The values are quantized, calibrated, scaled digital numbers in the identified product encoding, which become a physical quantity only when the per-band coefficients of the acquisition are applied. |
+| `radiance` | The values are spectral radiance, and their unit is stated by JSON Structure Units {{JSTRUCT-UNITS}}. |
+| `reflectance` | The values are reflectance, a dimensionless fraction, of the kind the identified product defines, such as top-of-atmosphere planetary reflectance with or without a solar-angle correction; where they are stored scaled, the property states the scale. |
+
+Where absent, the calibration is not established by this annotation and the
+identified definition or the unit of the property governs. The rescaling from a
+digital number to radiance or reflectance is per-band; for the Landsat imagers
+it is a multiplicative and an additive coefficient for each band, delivered in
+the product metadata {{USGS-LANDSAT-L1}}, and a schema that holds digital numbers
+holds those coefficients as their own values. A quantity the values defined here
+do not name, such as brightness temperature, is carried as an open value.
+
+### Example
+
+The record below is one pixel of a nine-band Operational Land Imager scene,
+whose bands are those of {{USGS-LANDSAT}}, carried as reflectance.
+
+~~~ json
+{
+  "name": "OliPixel",
+  "type": "object",
+  "spectralBands": [
+    {
+      "reference": "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites#landsat-8-9-oli",
+      "kind": "sensor",
+      "bands": [
+        "coastalAerosol", "blue", "green", "red",
+        "nir", "swir1", "swir2", "pan", "cirrus"
+      ],
+      "calibration": "reflectance"
+    }
+  ],
+  "properties": {
+    "column": { "type": "int32" },
+    "row": { "type": "int32" },
+    "coastalAerosol": { "type": "double" },
+    "blue": { "type": "double" },
+    "green": { "type": "double" },
+    "red": { "type": "double" },
+    "nir": { "type": "double" },
+    "swir1": { "type": "double" },
+    "swir2": { "type": "double" },
+    "pan": { "type": "double" },
+    "cirrus": { "type": "double" }
+  },
+  "required": [
+    "column", "row", "coastalAerosol", "blue", "green", "red",
+    "nir", "swir1", "swir2", "pan", "cirrus"
+  ],
+  "additionalProperties": false
+}
+~~~
+
 # Conformance {#conformance}
 
 ## Check Outcomes {#check-outcomes}
@@ -3564,6 +4120,10 @@ A processor MUST NOT infer:
 * a color space, an illuminant, an observer, a transfer function, or an alpha
   mode from channel names, from the range the channel values fall in, or from
   the number of channels present;
+* an audio channel layout, level reference, or encoding; a spectral band set or
+  calibration; a code-list binding; or a measurement weighting, time weighting,
+  or level reference, from names, samples, units, or the number of members
+  present;
 * that members sharing a name prefix, a unit, or an observed property are the
   components of one vector quantity; or
 * permission to aggregate, convert, transform, reject outliers, or infer
