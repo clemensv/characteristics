@@ -1575,30 +1575,30 @@ REQUIRED `kind`, and no other members.
 
 ### The `reference` and `kind` Properties
 
-`reference` identifies one code list. Where `kind` is `type` it MUST be a type
-reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type
-definition that enumerates the codes, and otherwise it MUST be an absolute URI
-{{RFC3986}}. `kind` classifies
-which register model the reference identifies. It is an open enumeration; the
-following values are defined here:
+`reference` identifies one specific code list. It MUST be an absolute URI
+{{RFC3986}}, or, where `kind` is `type`, a type reference
+`{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a shareable type definition that
+enumerates the codes. `kind` does not name the list; it classifies the register
+model the list belongs to, so that a processor knows how the list is organized
+and how a value joins to an entry. Several lists of one model are distinguished
+by `reference`, not by `kind`: the country, currency, and language tables are
+three `iso` lists, and the location indicators and aircraft type designators are
+two `icao` lists. `kind` is an open enumeration; the following values are
+defined here:
 
-| Kind | Referenced definition |
+| Kind | Kind of list |
 |---|---|
 | `wmo-codes` | A register in the WMO Codes Registry {{WMO-CODES}}. |
-| `iso-country` | A country or subdivision code of {{ISO3166}}. |
-| `iso-currency` | A currency code of {{ISO4217}}. |
-| `iso-language` | A language code of {{ISO639}}. |
-| `bcp47` | A language tag of the IANA Language Subtag Registry {{IANA-LANGTAGS}}. |
-| `unlocode` | A location code of UN/LOCODE {{UNLOCODE}}. |
-| `icao-location` | An ICAO location indicator {{ICAO7910}}. |
-| `icao-aircraft` | An ICAO aircraft type designator {{ICAO8643}}. |
-| `iata` | An IATA airline, airport, or location code {{IATA-CODES}}. |
-| `icd` | A code of the WHO International Classification of Diseases {{WHO-ICD}}. |
-| `snomed-ct` | A concept identifier of SNOMED CT {{SNOMED-CT}}. |
-| `loinc` | A code of LOINC {{LOINC}}. |
-| `atc` | A code of the WHO Anatomical Therapeutic Chemical classification {{WHO-ATC}}. |
-| `unspsc` | A commodity code of UNSPSC {{UNSPSC}}. |
-| `iana` | An entry in an IANA protocol registry {{IANA-PROTOCOLS}}. |
+| `iso` | An ISO code table, such as the ISO 3166 country codes {{ISO3166}}, the ISO 4217 currency codes {{ISO4217}}, or the ISO 639 language codes {{ISO639}}. |
+| `unlocode` | The UN/LOCODE location code list {{UNLOCODE}}. |
+| `icao` | An ICAO code list, such as the location indicators of {{ICAO7910}} or the aircraft type designators of {{ICAO8643}}. |
+| `iata` | An IATA code directory {{IATA-CODES}}. |
+| `iana` | An IANA registry {{IANA-PROTOCOLS}}, such as the Language Subtag Registry {{IANA-LANGTAGS}}. |
+| `icd` | A linearization of the WHO International Classification of Diseases {{WHO-ICD}}. |
+| `snomed-ct` | A SNOMED CT edition or reference set {{SNOMED-CT}}. |
+| `loinc` | The LOINC database {{LOINC}}. |
+| `atc` | The WHO Anatomical Therapeutic Chemical classification {{WHO-ATC}}. |
+| `unspsc` | The UNSPSC commodity code set {{UNSPSC}}. |
 | `type` | A meta-type in the annotated schema whose enumeration lists the codes, as {{meta-types}} describes. |
 
 The annotated value MUST be of a scalar type, a string or an integer, of the
@@ -4343,6 +4343,54 @@ elements and the measure. The Washington state route network used in
 {{linear-reference-systems}} is served at
 `https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/FeatureServer/9`
 {{WSDOT-LRS}}.
+
+## Code Lists {#code-list-uris}
+
+A `reference` identifies one specific code list, and `kind` classifies the
+register model that list belongs to ({{coded-values}}). The registers fall into
+two tiers by how a `reference` behaves.
+
+Some publish a resolvable URI for the list, or for each entry, so that a
+`reference` both identifies and dereferences:
+
+* `wmo-codes`: a register in the WMO Codes Registry, such as
+  `http://codes.wmo.int/bufr4/codeflag/0-20-003`, the present-weather register,
+  whose entries are served beneath it {{WMO-CODES}}.
+* `iana`: a registry served under `https://www.iana.org/assignments/`, such as
+  `https://www.iana.org/assignments/media-types/media-types.xhtml` for media
+  types, or `https://www.iana.org/assignments/language-subtag-registry` for the
+  BCP 47 language subtags {{IANA-PROTOCOLS}} {{IANA-LANGTAGS}}.
+* `snomed-ct`: an edition under the SNOMED CT URI scheme, `http://snomed.info/sct`
+  for the International Edition, with a module or version appended for a specific
+  release {{SNOMED-CT}}.
+* `loinc`: the LOINC code system, `http://loinc.org` {{LOINC}}.
+* `icd`: a WHO linearization, `http://id.who.int/icd/release/11/mms` for the
+  ICD-11 mortality and morbidity statistics {{WHO-ICD}}.
+
+The rest publish their lists in standards or directories that mint no per-list
+machine URI. A `reference` to one identifies more often than it resolves, and
+names the standard's identifier or landing page:
+
+* `iso`: an ISO code table, named by its catalogue page such as
+  `https://www.iso.org/iso-3166-country-codes.html`, or by a standard URN such as
+  `urn:iso:std:iso:3166:-1` {{ISO3166}} {{ISO4217}} {{ISO639}}.
+* `unlocode`:
+  `https://unece.org/trade/cefact/unlocode-code-list-country-and-territory`
+  {{UNLOCODE}}.
+* `icao`: the location indicators of Doc 7910,
+  `https://store.icao.int/en/location-indicators-doc-7910`, or the aircraft type
+  designators of Doc 8643,
+  `https://www.icao.int/operational-safety/doc-8643-aircraft-type-designators`
+  {{ICAO7910}} {{ICAO8643}}.
+* `iata`: `https://www.iata.org/en/publications/directories/code-search/`
+  {{IATA-CODES}}.
+* `atc`: `https://atcddd.fhi.no/atc_ddd_index/` {{WHO-ATC}}.
+* `unspsc`: `https://www.ungm.org/Public/UNSPSC` {{UNSPSC}}.
+
+A processor is not required to dereference a `reference` of either tier, and an
+unresolved `reference` is indeterminate rather than incorrect. Under `kind`
+`type` the list is a meta-type in the schema and `reference` is the type
+reference `{ "$ref": <JSON Pointer> }`, not a URI.
 
 # Changes from draft-vasters-json-structure-characteristics-00
 {:numbered="false"}

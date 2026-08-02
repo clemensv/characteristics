@@ -1117,7 +1117,7 @@
         "properties": {
           "kind": {
             "type": "string",
-            "description": "Sort of register identified. Values defined by the specification are 'wmo-codes', 'iso-country', 'iso-currency', 'iso-language', 'bcp47', 'unlocode', 'icao-location', 'icao-aircraft', 'iata', 'icd', 'snomed-ct', 'loinc', 'atc', 'unspsc', 'iana', and 'type'. The enumeration is open."
+            "description": "Sort of register the identified list belongs to. Values defined by the specification are 'wmo-codes', 'iso', 'unlocode', 'icao', 'iata', 'iana', 'icd', 'snomed-ct', 'loinc', 'atc', 'unspsc', and 'type'. The enumeration is open."
           }
         },
         "additionalProperties": false
