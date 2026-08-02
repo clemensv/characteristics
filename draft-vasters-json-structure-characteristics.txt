@@ -99,74 +99,97 @@ Table of Contents
        5.3.6.  Status Concern
      5.4.  The derivation Keyword
      5.5.  The statistic Keyword
-   6.  Reference System Meta-Types
-     6.1.  The referenceRole Keyword
-   7.  Temporal Reference Characteristics
-     7.1.  The phenomenonTimeRelation Keyword
-     7.2.  The temporalReferenceSystem Keyword
-       7.2.1.  The reference Property
-       7.2.2.  The kind Property
-       7.2.3.  The position Property
-       7.2.4.  The sortOrder Property
-       7.2.5.  Type Compatibility
-     7.3.  The cadence Keyword
-       7.3.1.  The kind Property
-       7.3.2.  The period Property
-   8.  Spatial Reference Characteristics
-     8.1.  The coordinateReferenceSystem Keyword
-       8.1.1.  The reference Property
-       8.1.2.  The kind Property
-       8.1.3.  The coordinates Property
-       8.1.4.  Vertical and Compound Systems
-     8.2.  The vectorReferenceFrames Keyword
-       8.2.1.  The reference and kind Properties
-       8.2.2.  The components Property
-       8.2.3.  The variance Property
-       8.2.4.  Multiple Frames and Shared Components
-     8.3.  The tensorReferenceFrames Keyword
-       8.3.1.  The frames Property
-       8.3.2.  The components Property
-     8.4.  The frameTransforms Keyword
-       8.4.1.  The Conventions This Document Fixes
-       8.4.2.  The from and to Properties
-       8.4.3.  The encoding Property
-       8.4.4.  The components Property
-       8.4.5.  The rotationSequence Property
-       8.4.6.  The translation Property
-     8.5.  The linearReferenceSystem Keyword
-       8.5.1.  The reference Property
-       8.5.2.  The kind Property
-       8.5.3.  The linearElement Property
-       8.5.4.  The measure Property
-       8.5.5.  The measureEnd Property
-       8.5.6.  The direction Property
-   9.  Colorimetric Reference Characteristics
-     9.1.  The colorSpaces Keyword
-       9.1.1.  The reference and kind Properties
-       9.1.2.  The codePoints Property
-       9.1.3.  The channels Property
-       9.1.4.  The packing Property
-       9.1.5.  The alpha and alphaMode Properties
-       9.1.6.  The transfer Property
-       9.1.7.  The illuminant and observer Properties
-       9.1.8.  Example
-   10. Conformance
-     10.1.  Check Outcomes
-     10.2.  Schema Conformance
-     10.3.  Processing Conformance
-     10.4.  Inheritance and Imports
-   11. Extension Meta-Schema
-   12. Security and Privacy Considerations
-   13. IANA Considerations
-   14. References
-     14.1.  Normative References
-     14.2.  Informative References
+   6.  Coded Value Characteristics
+     6.1.  The codedValues Keyword
+       6.1.1.  The reference and kind Properties
+       6.1.2.  Example
+   7.  Measurement Conditioning Characteristics
+     7.1.  The measurementConditioning Keyword
+       7.1.1.  The weighting Property
+       7.1.2.  The timeWeighting Property
+       7.1.3.  The levelReference Property
+       7.1.4.  Example
+   8.  Reference System Meta-Types
+     8.1.  The referenceRole Keyword
+   9.  Temporal Reference Characteristics
+     9.1.  The phenomenonTimeRelation Keyword
+     9.2.  The temporalReferenceSystem Keyword
+       9.2.1.  The reference Property
+       9.2.2.  The kind Property
+       9.2.3.  The position Property
+       9.2.4.  The sortOrder Property
+       9.2.5.  Type Compatibility
+     9.3.  The cadence Keyword
+       9.3.1.  The kind Property
+       9.3.2.  The period Property
+   10. Spatial Reference Characteristics
+     10.1.  The coordinateReferenceSystem Keyword
+       10.1.1.  The reference Property
+       10.1.2.  The kind Property
+       10.1.3.  The coordinates Property
+       10.1.4.  Vertical and Compound Systems
+     10.2.  The vectorReferenceFrames Keyword
+       10.2.1.  The reference and kind Properties
+       10.2.2.  The components Property
+       10.2.3.  The variance Property
+       10.2.4.  Multiple Frames and Shared Components
+     10.3.  The tensorReferenceFrames Keyword
+       10.3.1.  The frames Property
+       10.3.2.  The components Property
+     10.4.  The frameTransforms Keyword
+       10.4.1.  The Conventions This Document Fixes
+       10.4.2.  The from and to Properties
+       10.4.3.  The encoding Property
+       10.4.4.  The components Property
+       10.4.5.  The rotationSequence Property
+       10.4.6.  The translation Property
+     10.5.  The linearReferenceSystem Keyword
+       10.5.1.  The reference Property
+       10.5.2.  The kind Property
+       10.5.3.  The linearElement Property
+       10.5.4.  The measure Property
+       10.5.5.  The measureEnd Property
+       10.5.6.  The direction Property
+   11. Colorimetric Reference Characteristics
+     11.1.  The colorSpaces Keyword
+       11.1.1.  The reference and kind Properties
+       11.1.2.  The codePoints Property
+       11.1.3.  The channels Property
+       11.1.4.  The packing Property
+       11.1.5.  The alpha and alphaMode Properties
+       11.1.6.  The transfer Property
+       11.1.7.  The illuminant and observer Properties
+       11.1.8.  Example
+   12. Signal Channel Characteristics
+     12.1.  The audioChannels Keyword
+       12.1.1.  The reference and kind Properties
+       12.1.2.  The channels Property
+       12.1.3.  The levelReference Property
+       12.1.4.  The encoding Property
+       12.1.5.  Example
+     12.2.  The spectralBands Keyword
+       12.2.1.  The reference and kind Properties
+       12.2.2.  The bands Property
+       12.2.3.  The calibration Property
+       12.2.4.  Example
+   13. Conformance
+     13.1.  Check Outcomes
+     13.2.  Schema Conformance
+     13.3.  Processing Conformance
+     13.4.  Inheritance and Imports
+   14. Extension Meta-Schema
+   15. Security and Privacy Considerations
+   16. IANA Considerations
+   17. References
+     17.1.  Normative References
+     17.2.  Informative References
    Appendix A.  Reference URIs (Informative)
      A.1.  Vocabularies
      A.2.  Temporal Reference Systems
      A.3.  Coordinate Reference Systems
      A.4.  Vector Reference Frames
      A.5.  Linear Reference Systems
+     A.6.  Code Lists
    Changes from draft-vasters-json-structure-characteristics-00
    Acknowledgments
    Author's Address
@@ -215,16 +238,17 @@ Table of Contents
    property that names the model the definition belongs to.  This lets a
    reader know how to interpret it and a processor know what can be
    checked. concepts, observedProperty, temporalReferenceSystem,
-   coordinateReferenceSystem, linearReferenceSystem, and the entries of
-   colorSpaces all follow this shape.
+   coordinateReferenceSystem, linearReferenceSystem, codedValues, and
+   the entries of colorSpaces, audioChannels, and spectralBands all
+   follow this shape.
 
    A definition is ordinarily maintained outside the schema, and
    reference is then an absolute URI [RFC3986].  The reference-system
    keywords also admit a definition held in the schema itself, carried
-   by a shareable type that Section 6 calls a meta-type; kind is then
-   type and reference is a JSON Pointer to that type.  The kind
-   determines which form applies, and each keyword states the rule for
-   its own values.
+   by a shareable type that Section 8 calls a meta-type; kind is then
+   type and reference is a type reference { "$ref": <JSON Pointer> } to
+   that type.  The kind determines which form applies, and each keyword
+   states the rule for its own values.
 
    A kind names a definition model and not the format of the resource
    that carries it.  The enumerations are open so that an author whose
@@ -281,9 +305,12 @@ Table of Contents
    an observation record, and on a member schema of one that carries a
    result, subject to Section 5.1. coordinateReferenceSystem,
    vectorReferenceFrames, tensorReferenceFrames, frameTransforms,
-   linearReferenceSystem, and colorSpaces MAY occur on an object or
-   tuple and bind existing properties. referenceRole MAY occur on a
-   member of a meta-type, subject to Section 6.
+   linearReferenceSystem, colorSpaces, audioChannels, and spectralBands
+   MAY occur on an object or tuple and bind existing properties.
+   codedValues and measurementConditioning MAY occur on a property,
+   collection item, map value, or choice member schema, subject to their
+   sections. referenceRole MAY occur on a member of a meta-type, subject
+   to Section 8.
 
    All keywords defined here are direct peer keywords, and no wrapper is
    implied.  Every annotation is OPTIONAL, and a schema can use any
@@ -298,10 +325,12 @@ Table of Contents
 
    The enumerations of this document are of two sorts. semanticRole,
    derivation, statistic, phenomenonTimeRelation, referenceRole,
-   sortOrder, and the kind of cadence are closed, and a value outside
-   the enumeration is invalid.  The kind of a reference-style keyword is
-   open, and a value outside the enumeration is valid; a processor MUST
-   preserve it and MUST NOT reject a schema for carrying it.
+   sortOrder, the kind of cadence, and the levelReference and encoding
+   of audioChannels are closed, and a value outside the enumeration is
+   invalid.  The weighting, timeWeighting, and calibration enumerations,
+   and the kind of a reference-style keyword, are open, and a value
+   outside the enumeration is valid; a processor MUST preserve it and
+   MUST NOT reject a schema for carrying it.
 
    A value defined here is one a processor can act on, and this document
    states what each establishes.  A value not defined here establishes
@@ -362,6 +391,21 @@ Table of Contents
     +---------------------------+-------------------------------------+
     | referenceRole             | Function of a member within a       |
     |                           | reference-system meta-type.         |
+    +---------------------------+-------------------------------------+
+    | audioChannels             | Audio channel layout, level         |
+    |                           | reference, and encoding for channel |
+    |                           | values.                             |
+    +---------------------------+-------------------------------------+
+    | spectralBands             | Spectral bands and ordered          |
+    |                           | properties forming the bands of a   |
+    |                           | multiband value.                    |
+    +---------------------------+-------------------------------------+
+    | codedValues               | Binding from a coded property to an |
+    |                           | external code list.                 |
+    +---------------------------+-------------------------------------+
+    | measurementConditioning   | Frequency or time weighting and     |
+    |                           | level reference a scalar            |
+    |                           | measurement carries.                |
     +---------------------------+-------------------------------------+
 
                                   Table 1
@@ -1430,15 +1474,223 @@ Table of Contents
      "additionalProperties": false
    }
 
-6.  Reference System Meta-Types
+6.  Coded Value Characteristics
+
+6.1.  The codedValues Keyword
+
+   The codedValues keyword binds the annotated property to a code list,
+   so that the coded value it carries can be resolved to the meaning the
+   list assigns it.
+
+   A coded value is a number or a short string that stands for a state
+   in a register maintained elsewhere: a present-weather code, an
+   airport identifier, a diagnosis code.  The register gives each code a
+   meaning, and the value alone does not.  This keyword differs from the
+   reference-style keywords that bind components to the axes of a space
+   in that it binds a single value to a list of meanings, and it differs
+   from concepts in that concepts binds the node to one term while
+   codedValues binds the property to a whole enumeration that its
+   instance values draw from.
+
+   When present, codedValues MUST be an object with a REQUIRED reference
+   and a REQUIRED kind, and no other members.
+
+6.1.1.  The reference and kind Properties
+
+   reference identifies one specific code list.  It MUST be an absolute
+   URI [RFC3986], or, where kind is type, a type reference { "$ref":
+   <JSON Pointer> } [JSTRUCT-CORE] to a shareable type definition that
+   enumerates the codes. kind does not name the list; it classifies the
+   register model the list belongs to, so that a processor knows how the
+   list is organized and how a value joins to an entry.  Several lists
+   of one model are distinguished by reference, not by kind: the
+   country, currency, and language tables are three iso lists, and the
+   location indicators and aircraft type designators are two icao lists.
+   kind is an open enumeration; the following values are defined here:
+
+    +===========+====================================================+
+    | Kind      | Kind of list                                       |
+    +===========+====================================================+
+    | wmo-codes | A register in the WMO Codes Registry [WMO-CODES].  |
+    +-----------+----------------------------------------------------+
+    | iso       | An ISO code table, such as the ISO 3166 country    |
+    |           | codes [ISO3166], the ISO 4217 currency codes       |
+    |           | [ISO4217], or the ISO 639 language codes [ISO639]. |
+    +-----------+----------------------------------------------------+
+    | unlocode  | The UN/LOCODE location code list [UNLOCODE].       |
+    +-----------+----------------------------------------------------+
+    | icao      | An ICAO code list, such as the location indicators |
+    |           | of [ICAO7910] or the aircraft type designators of  |
+    |           | [ICAO8643].                                        |
+    +-----------+----------------------------------------------------+
+    | iata      | An IATA code directory [IATA-CODES].               |
+    +-----------+----------------------------------------------------+
+    | iana      | An IANA registry [IANA-PROTOCOLS], such as the     |
+    |           | Language Subtag Registry [IANA-LANGTAGS].          |
+    +-----------+----------------------------------------------------+
+    | icd       | A linearization of the WHO International           |
+    |           | Classification of Diseases [WHO-ICD].              |
+    +-----------+----------------------------------------------------+
+    | snomed-ct | A SNOMED CT edition or reference set [SNOMED-CT].  |
+    +-----------+----------------------------------------------------+
+    | loinc     | The LOINC database [LOINC].                        |
+    +-----------+----------------------------------------------------+
+    | atc       | The WHO Anatomical Therapeutic Chemical            |
+    |           | classification [WHO-ATC].                          |
+    +-----------+----------------------------------------------------+
+    | unspsc    | The UNSPSC commodity code set [UNSPSC].            |
+    +-----------+----------------------------------------------------+
+    | type      | A meta-type in the annotated schema whose          |
+    |           | enumeration lists the codes, as Section 8          |
+    |           | describes.                                         |
+    +-----------+----------------------------------------------------+
+
+                                 Table 5
+
+   The annotated value MUST be of a scalar type, a string or an integer,
+   of the kind the identified list uses for its notations.  Where kind
+   is type, the identified type enumerates the code notations, and a
+   value denotes the entry whose notation it equals.
+
+   A value in an instance denotes the entry the register publishes for
+   that value.  How the value is joined to the entry, whether by
+   appending it to the register URI or by another rule, is stated by the
+   register and not by this document.  Some registers, including
+   [WMO-CODES], publish each entry at a dereferenceable URI; a reference
+   to such a register identifies more often than it resolves, which is
+   true of the other reference-style keywords as well.
+
+   A missing or unresolved register is indeterminate and MUST NOT be
+   repaired from labels, property names, descriptions, or samples.  A
+   value that the register does not define is not made meaningful by
+   this annotation.
+
+   A processor is not required to dereference the URI.  This document
+   does not define a resolution protocol, URI layout, storage model, or
+   definition serialization.
+
+6.1.2.  Example
+
+   The property below carries a present-weather code from the WMO
+   register for present weather, whose entries are the integers zero
+   through several hundred.
+
+   {
+     "name": "SurfaceObservation",
+     "type": "object",
+     "properties": {
+       "stationId": { "type": "string" },
+       "presentWeather": {
+         "type": "int32",
+         "codedValues": {
+           "reference": "http://codes.wmo.int/bufr4/codeflag/0-20-003",
+           "kind": "wmo-codes"
+         }
+       }
+     },
+     "required": ["stationId", "presentWeather"],
+     "additionalProperties": false
+   }
+
+7.  Measurement Conditioning Characteristics
+
+7.1.  The measurementConditioning Keyword
+
+   The measurementConditioning keyword states the frequency weighting,
+   time weighting, and level reference that a scalar measurement
+   carries, so that two values of the same unit that were conditioned
+   differently are not compared as like quantities.
+
+   A weighted level is a single number, not a bundle of channels, and
+   its unit does not record how it was made.  An A-weighted sound level
+   and a Z-weighted one are both in decibels, and comparing them is a
+   mistake the numbers do not prevent.  The weighting, the time
+   constant, and the reference the level stands against are the hidden
+   convention this keyword carries.
+
+   When present, measurementConditioning MUST be an object with an
+   OPTIONAL weighting, an OPTIONAL timeWeighting, and an OPTIONAL
+   levelReference, and no other members.  At least one of the three MUST
+   be present.  The annotated value MUST be of numeric type.
+
+7.1.1.  The weighting Property
+
+   weighting, when present, names the frequency weighting the value
+   carries.  It is an open enumeration; the values defined here are the
+   frequency weightings of [IEC61672-1]:
+
+              +=======+====================================+
+              | Value | Meaning                            |
+              +=======+====================================+
+              | a     | A-weighting.                       |
+              +-------+------------------------------------+
+              | c     | C-weighting.                       |
+              +-------+------------------------------------+
+              | z     | Zero-weighting, the flat response. |
+              +-------+------------------------------------+
+
+                                 Table 6
+
+7.1.2.  The timeWeighting Property
+
+   timeWeighting, when present, names the time weighting the value
+   carries.  It is an open enumeration; the values defined here are the
+   time weightings of [IEC61672-1]:
+
+                     +=======+======================+
+                     | Value | Meaning              |
+                     +=======+======================+
+                     | fast  | Fast time weighting. |
+                     +-------+----------------------+
+                     | slow  | Slow time weighting. |
+                     +-------+----------------------+
+
+                                 Table 7
+
+   The impulse time weighting of the superseded IEC 651 is not among
+   these; where a legacy dataset needs it, it is carried as an open
+   value.
+
+7.1.3.  The levelReference Property
+
+   levelReference, when present, states what the level is relative to.
+   Its value MUST be soundPressure or an absolute URI [RFC3986]
+   identifying another reference.  Under soundPressure the reference is
+   20 micropascals [ISO1683], and the level is sound pressure level.
+
+7.1.4.  Example
+
+   The property below carries an A-weighted, fast, sound-pressure level.
+
+   {
+     "name": "NoiseReading",
+     "type": "object",
+     "properties": {
+       "sensorId": { "type": "string" },
+       "soundLevel": {
+         "type": "double",
+         "unit": "dB",
+         "measurementConditioning": {
+           "weighting": "a",
+           "timeWeighting": "fast",
+           "levelReference": "soundPressure"
+         }
+       }
+     },
+     "required": ["sensorId", "soundLevel"],
+     "additionalProperties": false
+   }
+
+8.  Reference System Meta-Types
 
    A reference system need not be published by an authority.  Where the
-   kind of a reference-system keyword is type, reference is a JSON
-   Pointer [JSTRUCT-CORE] to a shareable type definition, and that type
-   definition is the definition of the system.  Such a type is a meta-
-   type.  It is ordinarily maintained in its own document and brought
-   into definitions with $import [JSTRUCT-IMPORT], so that one
-   definition serves every schema that cites it.
+   kind of a reference-system keyword is type, reference is a type
+   reference { "$ref": <JSON Pointer> } [JSTRUCT-CORE] to a shareable
+   type definition, and that type definition is the definition of the
+   system.  Such a type is a meta-type.  It is ordinarily maintained in
+   its own document and brought into definitions with $import
+   [JSTRUCT-IMPORT], so that one definition serves every schema that
+   cites it.
 
    A meta-type declares the members of the system, and the annotation
    maps the members of the annotated schema onto them.  The two need not
@@ -1446,9 +1698,9 @@ Table of Contents
 
    A meta-type is an ordinary type definition that a schema author
    writes, and it is unrelated to the extension meta-schema of
-   Section 11, which is the schema of this specification.
+   Section 14, which is the schema of this specification.
 
-6.1.  The referenceRole Keyword
+8.1.  The referenceRole Keyword
 
    referenceRole states the function of a member within a meta-type.  It
    MAY occur on a property, collection item, map value, or choice member
@@ -1461,10 +1713,10 @@ Table of Contents
           | Value         | Function of the member              |
           +===============+=====================================+
           | position      | Carries a temporal position, mapped |
-          |               | by position (Section 7.2).          |
+          |               | by position (Section 9.2).          |
           +---------------+-------------------------------------+
           | linearElement | Identifies a linear element, mapped |
-          |               | by linearElement (Section 8.5).     |
+          |               | by linearElement (Section 10.5).    |
           +---------------+-------------------------------------+
           | measure       | Carries a distance along a linear   |
           |               | element, mapped by measure.         |
@@ -1473,7 +1725,7 @@ Table of Contents
           |               | orientation, mapped by direction.   |
           +---------------+-------------------------------------+
 
-                                  Table 5
+                                  Table 8
 
    One meta-type MUST NOT declare two members with the same
    referenceRole.  A member without referenceRole is a component of the
@@ -1487,10 +1739,10 @@ Table of Contents
 
    A coordinate reference system takes no roles, because its meta-type
    is a tuple and the order of its elements establishes the axes
-   (Section 8.1).  A vector reference frame takes no roles for the same
-   reason (Section 8.2).
+   (Section 10.1).  A vector reference frame takes no roles for the same
+   reason (Section 10.2).
 
-7.  Temporal Reference Characteristics
+9.  Temporal Reference Characteristics
 
    The keywords in this section concern temporal positions, the values
    that place an observation or an operational event on a time line.
@@ -1499,7 +1751,7 @@ Table of Contents
    to be read, and cadence states how successive positions are expected
    to recur.
 
-7.1.  The phenomenonTimeRelation Keyword
+9.1.  The phenomenonTimeRelation Keyword
 
    The phenomenonTimeRelation keyword refines how a result value relates
    to phenomenonTime.  When semanticRole: observationValue is also
@@ -1524,7 +1776,7 @@ Table of Contents
      |              | phenomenon-time period.                        |
      +--------------+------------------------------------------------+
 
-                                  Table 6
+                                  Table 9
 
    instant and untilNext can be resolved only when a sibling
    phenomenonTime annotation identifies a temporal position. interval
@@ -1588,7 +1840,7 @@ Table of Contents
      "additionalProperties": false
    }
 
-7.2.  The temporalReferenceSystem Keyword
+9.2.  The temporalReferenceSystem Keyword
 
    The temporalReferenceSystem keyword identifies the temporal reference
    definition needed to interpret an encoded temporal position or
@@ -1607,19 +1859,19 @@ Table of Contents
    fully intended.  A non-Core or ambiguous encoding is indeterminate
    without one.
 
-7.2.1.  The reference Property
+9.2.1.  The reference Property
 
    reference MUST identify one temporal reference definition.  Where
-   kind is type it MUST be a JSON Pointer [JSTRUCT-CORE] resolving to a
-   shareable type definition, and otherwise it MUST be an absolute URI
-   [RFC3986]. kind states which definition model the reference
-   identifies.  This document does not define a resolution protocol, URI
-   layout, storage model, or definition serialization.
+   kind is type it MUST be a type reference { "$ref": <JSON Pointer> }
+   [JSTRUCT-CORE] to a shareable type definition, and otherwise it MUST
+   be an absolute URI [RFC3986]. kind states which definition model the
+   reference identifies.  This document does not define a resolution
+   protocol, URI layout, storage model, or definition serialization.
 
    Where the identified definition has a domain of validity, an
    annotated position MUST lie in that domain.
 
-7.2.2.  The kind Property
+9.2.2.  The kind Property
 
    kind classifies which definition model the URI identifies.  It is an
    open enumeration.  The following values are defined here:
@@ -1639,10 +1891,10 @@ Table of Contents
        | type             | A meta-type declaring a member whose   |
        |                  | referenceRole is position, alongside   |
        |                  | the components of the regime           |
-       |                  | (Section 6).                           |
+       |                  | (Section 8).                           |
        +------------------+----------------------------------------+
 
-                                  Table 7
+                                  Table 10
 
    Other values MAY name further definition models.  Appendix A lists
    resolvable URIs for the registered kinds.
@@ -1663,7 +1915,7 @@ Table of Contents
    express, such as reset behavior and comparison across scopes, is
    stated in its description.
 
-7.2.3.  The position Property
+9.2.3.  The position Property
 
    position is REQUIRED when the annotation is attached to an object or
    tuple and is prohibited otherwise.  It MUST name a direct member of
@@ -1680,7 +1932,7 @@ Table of Contents
    identifiers, or other detail.  A processor is not required to
    interpret them.
 
-7.2.4.  The sortOrder Property
+9.2.4.  The sortOrder Property
 
    sortOrder states how the ordering of the encoded value runs relative
    to temporal order.  When present, it MUST be one of:
@@ -1693,7 +1945,7 @@ Table of Contents
         | backward | An increasing value is an earlier position. |
         +----------+---------------------------------------------+
 
-                                 Table 8
+                                 Table 11
 
    When sortOrder is absent, the value is forward.
 
@@ -1708,7 +1960,7 @@ Table of Contents
    their own type at all is not made orderable by declaring either
    value.
 
-7.2.5.  Type Compatibility
+9.2.5.  Type Compatibility
 
    The referenced definition establishes an encoding, and the annotated
    schema MUST be able to carry it:
@@ -1726,7 +1978,7 @@ Table of Contents
    |                                        | tuple carrying position |
    +----------------------------------------+-------------------------+
 
-                                 Table 9
+                                 Table 12
 
    Where the definition establishes a unit for its axis, a numeric
    position MUST carry a unit or ucumUnit annotation compatible with
@@ -1779,7 +2031,7 @@ Table of Contents
          "type": "object",
          "semanticRole": "phenomenonTime",
          "temporalReferenceSystem": {
-           "reference": "#/definitions/RaceClockPosition",
+           "reference": { "$ref": "#/definitions/RaceClockPosition" },
            "kind": "type",
            "position": "ordinal"
          },
@@ -1834,7 +2086,7 @@ Table of Contents
    UTC or elapsed session time requires an authoritative synchronization
    relation or transformation.
 
-7.3.  The cadence Keyword
+9.3.  The cadence Keyword
 
    The cadence keyword describes expected producer behavior across
    successive values of an annotated temporal position.  A temporal role
@@ -1845,7 +2097,7 @@ Table of Contents
    When present, cadence MUST be an object with a REQUIRED kind string
    and an OPTIONAL period.  No other properties are permitted.
 
-7.3.1.  The kind Property
+9.3.1.  The kind Property
 
    kind states the expected recurrence pattern and MUST be one of:
 
@@ -1859,9 +2111,9 @@ Table of Contents
     | onChange  | Observations occur when represented state changes. |
     +-----------+----------------------------------------------------+
 
-                                 Table 10
+                                 Table 13
 
-7.3.2.  The period Property
+9.3.2.  The period Property
 
    period is REQUIRED when kind is fixed and is prohibited otherwise.
    It MUST express a positive interval in the temporal reference system
@@ -1901,7 +2153,7 @@ Table of Contents
      "additionalProperties": false
    }
 
-8.  Spatial Reference Characteristics
+10.  Spatial Reference Characteristics
 
    Each keyword in this section has two parts. reference and kind
    identify an external definition of a reference system.  The remaining
@@ -1910,7 +2162,7 @@ Table of Contents
    held across several members, so these keywords attach to a complex
    type and are not meaningful on a scalar.
 
-8.1.  The coordinateReferenceSystem Keyword
+10.1.  The coordinateReferenceSystem Keyword
 
    The coordinateReferenceSystem keyword identifies the coordinate
    reference system [ISO19111] under which coordinate values held in
@@ -1920,21 +2172,21 @@ Table of Contents
    REQUIRED reference string, a REQUIRED kind string, and a REQUIRED
    coordinates array.  No other properties are permitted.
 
-8.1.1.  The reference Property
+10.1.1.  The reference Property
 
    reference MUST identify one coordinate reference system whose
    definition establishes an ordered set of axes, each with an axis
-   direction and unit of measure.  Where kind is type it MUST be a JSON
-   Pointer [JSTRUCT-CORE] resolving to a shareable type definition, and
-   otherwise it MUST be an absolute URI [RFC3986]. kind states which
-   definition model the reference identifies.
+   direction and unit of measure.  Where kind is type it MUST be a type
+   reference { "$ref": <JSON Pointer> } [JSTRUCT-CORE] to a shareable
+   type definition, and otherwise it MUST be an absolute URI [RFC3986].
+   kind states which definition model the reference identifies.
 
    A processor is not required to dereference the URI, and a returned
    representation need not expose the axes.  This document does not
    define a resolution protocol, URI layout, storage model, or
    definition serialization.
 
-8.1.2.  The kind Property
+10.1.2.  The kind Property
 
    kind classifies which definition model the URI identifies.  It is an
    open enumeration.  The following values are defined here:
@@ -1951,10 +2203,10 @@ Table of Contents
           +---------+------------------------------------------+
           | type    | A meta-type that is a tuple whose        |
           |         | elements in order are the axes of an     |
-          |         | engineering or local system (Section 6). |
+          |         | engineering or local system (Section 8). |
           +---------+------------------------------------------+
 
-                                 Table 11
+                                 Table 14
 
    Other values MAY name further definition models.
 
@@ -1970,7 +2222,7 @@ Table of Contents
    Schema authors SHOULD use a registered definition where one exists.
    Appendix A lists resolvable URIs for the registered kinds.
 
-8.1.3.  The coordinates Property
+10.1.3.  The coordinates Property
 
    coordinates MUST be a non-empty ordered array of distinct property
    names.  Every name MUST resolve to a direct property of the annotated
@@ -2063,7 +2315,7 @@ Table of Contents
      "additionalProperties": false
    }
 
-8.1.4.  Vertical and Compound Systems
+10.1.4.  Vertical and Compound Systems
 
    A vertical coordinate reference system has one axis, and coordinates
    then names one property.  This is the binding that makes a height or
@@ -2166,7 +2418,7 @@ Table of Contents
    operation, or transformation.  Those definitions and semantics come
    from ISO 19111 and the referenced authority.
 
-8.2.  The vectorReferenceFrames Keyword
+10.2.  The vectorReferenceFrames Keyword
 
    The vectorReferenceFrames keyword identifies the reference frames on
    whose axes the components of vector quantities held in properties of
@@ -2178,8 +2430,9 @@ Table of Contents
    because moving the origin does not change a vector, whereas a
    coordinate reference system has one, fixed by its datum.  A record
    may carry both kinds of quantity: coordinateReferenceSystem binds the
-   members that give a position (Section 8.1), and vectorReferenceFrames
-   binds the members that give the components of a vector.
+   members that give a position (Section 10.1), and
+   vectorReferenceFrames binds the members that give the components of a
+   vector.
 
    A frame contributes directions only, and so does not establish the
    units of the members it binds.  The axes of a coordinate reference
@@ -2194,10 +2447,10 @@ Table of Contents
    is an array because a single record may carry more than one vector
    quantity, and each quantity is resolved in its own frame.
 
-8.2.1.  The reference and kind Properties
+10.2.1.  The reference and kind Properties
 
    reference and kind have the same value space and the same meaning as
-   in coordinateReferenceSystem (Section 8.1), under one added
+   in coordinateReferenceSystem (Section 10.1), under one added
    condition: the axes of the referenced system MUST be directions
    rather than angles, since a component is a projection onto a
    direction.
@@ -2211,7 +2464,7 @@ Table of Contents
    axis points in.  The meta-type establishes the axes and their order,
    not the units of the annotated members.
 
-8.2.2.  The components Property
+10.2.2.  The components Property
 
    components behaves as coordinates does.  It MUST be a non-empty array
    of names, and it takes one of two forms.  In the first, every name is
@@ -2232,7 +2485,7 @@ Table of Contents
    second, MUST equal the number of axes the frame declares.  The
    ordering is an assertion by the schema author and is never inferred.
 
-8.2.3.  The variance Property
+10.2.3.  The variance Property
 
    variance states how the components respond to a change of frame.
    When present, it MUST be one of:
@@ -2249,10 +2502,10 @@ Table of Contents
       |               | of a gradient or a surface normal do.      |
       +---------------+--------------------------------------------+
 
-                                 Table 12
+                                 Table 15
 
    Writing M for the matrix that carries coordinates in one frame into
-   coordinates in another, in the sense Section 8.4.1 fixes, a
+   coordinates in another, in the sense Section 10.4.1 fixes, a
    contravariant triple v becomes M v and a covariant triple w becomes
    the inverse transpose of M applied to w.  The change of frame is the
    passive one: the quantity does not move, the frame does.
@@ -2274,7 +2527,7 @@ Table of Contents
    without reading variance is right for rotations and wrong for
    everything else, which is what this member exists to prevent.
 
-8.2.4.  Multiple Frames and Shared Components
+10.2.4.  Multiple Frames and Shared Components
 
    Two elements MAY cite the same reference, which is how a record
    reporting two distinct vector quantities in one frame is written.  A
@@ -2299,7 +2552,7 @@ Table of Contents
    vectorReferenceFrames binds vector quantities and nothing else.  A
    rotation, a stress, a strain, or any other quantity whose components
    take more than one axis index is bound by tensorReferenceFrames
-   (Section 8.3), since the declared order of a single frame cannot
+   (Section 10.3), since the declared order of a single frame cannot
    state which axis each component belongs to.  A quaternion carrying a
    rotation is bound by neither keyword: three of its four members lie
    along the axes of a frame and the fourth does not, so no ordered list
@@ -2355,12 +2608,12 @@ Table of Contents
      "type": "object",
      "vectorReferenceFrames": [
        {
-         "reference": "#/definitions/GseFrame",
+         "reference": { "$ref": "#/definitions/GseFrame" },
          "kind": "type",
          "components": ["bx", "by_gse", "bz_gse"]
        },
        {
-         "reference": "#/definitions/GsmFrame",
+         "reference": { "$ref": "#/definitions/GsmFrame" },
          "kind": "type",
          "components": ["bx", "by_gsm", "bz_gsm"]
        }
@@ -2410,7 +2663,7 @@ Table of Contents
    referenced authority or from the meta-type the schema itself
    supplies.
 
-8.3.  The tensorReferenceFrames Keyword
+10.3.  The tensorReferenceFrames Keyword
 
    The tensorReferenceFrames keyword identifies the reference frames on
    whose axes the components of tensor quantities held in properties of
@@ -2423,11 +2676,11 @@ Table of Contents
    the same time, and no single number says both.
 
    At rank 1 the frame's declared order states the binding, which is
-   what vectorReferenceFrames (Section 8.2) does and why frames requires
-   at least two entries.  Above rank 1 the vector model no longer
-   suffices and member names are insufficient. vectorReferenceFrames and
-   tensorReferenceFrames coexist, because vectors are common and should
-   be easy to declare.
+   what vectorReferenceFrames (Section 10.2) does and why frames
+   requires at least two entries.  Above rank 1 the vector model no
+   longer suffices and member names are insufficient.
+   vectorReferenceFrames and tensorReferenceFrames coexist, because
+   vectors are common and should be easy to declare.
 
    When present, tensorReferenceFrames MUST be a non-empty array.  Each
    element MUST be an object with a REQUIRED frames array, a REQUIRED
@@ -2435,11 +2688,11 @@ Table of Contents
    are permitted.  The keyword is an array because one record may carry
    more than one tensor quantity.
 
-8.3.1.  The frames Property
+10.3.1.  The frames Property
 
    frames MUST be an array of at least two objects, each with REQUIRED
    reference and kind members whose values are as defined for
-   vectorReferenceFrames (Section 8.2).  The number of entries is the
+   vectorReferenceFrames (Section 10.2).  The number of entries is the
    rank of the tensor, and the index in position k ranges over the axes
    of the frame given by entry k, in the order that frame declares.
 
@@ -2449,7 +2702,7 @@ Table of Contents
    in the second frame to a vector in the first, as for a rotation
    matrix or a Jacobian.
 
-   Each entry MAY carry variance as defined in Section 8.2.3, stating
+   Each entry MAY carry variance as defined in Section 10.2.3, stating
    how the index in that position responds to a change of the frame it
    ranges over.  The entries of one tensor need not agree.  A stress
    tensor is contravariant in both indices, while a Jacobian is
@@ -2468,9 +2721,9 @@ Table of Contents
      "tensorReferenceFrames": [
        {
          "frames": [
-           { "reference": "#/definitions/CrystalAxes", "kind": "type" },
-           { "reference": "#/definitions/CrystalAxes", "kind": "type" },
-           { "reference": "#/definitions/CrystalAxes", "kind": "type" }
+           { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" },
+           { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" },
+           { "reference": { "$ref": "#/definitions/CrystalAxes" }, "kind": "type" }
          ],
          "components": "d"
        }
@@ -2531,7 +2784,7 @@ Table of Contents
    not expressible here, and every component of such a tensor that is
    carried MUST be named individually.
 
-8.3.2.  The components Property
+10.3.2.  The components Property
 
    components MUST take one of two forms, each of which states the
    pairing of index to value in the schema, and neither of which admits
@@ -2592,8 +2845,8 @@ Table of Contents
      "tensorReferenceFrames": [
        {
          "frames": [
-           { "reference": "#/definitions/UseFrame", "kind": "type" },
-           { "reference": "#/definitions/UseFrame", "kind": "type" }
+           { "reference": { "$ref": "#/definitions/UseFrame" }, "kind": "type" },
+           { "reference": { "$ref": "#/definitions/UseFrame" }, "kind": "type" }
          ],
          "symmetry": "symmetric",
          "components": [
@@ -2687,9 +2940,10 @@ Table of Contents
    transformation, and it cannot describe the quaternion, the axis and
    angle, or the three Euler angles that the same transformation is more
    often published as.  Where the annotated properties carry a
-   transformation, frameTransforms (Section 8.4) SHOULD be used instead.
+   transformation, frameTransforms (Section 10.4) SHOULD be used
+   instead.
 
-8.4.  The frameTransforms Keyword
+10.4.  The frameTransforms Keyword
 
    The frameTransforms keyword identifies properties of an object or
    tuple that carry a transformation from one reference frame to
@@ -2732,7 +2986,7 @@ Table of Contents
    the orientation of a single instrument against two different
    reference frames.
 
-8.4.1.  The Conventions This Document Fixes
+10.4.1.  The Conventions This Document Fixes
 
    Every frame named by from or to MUST be right-handed and MUST declare
    exactly three axes, and a positive angle MUST be read as a rotation
@@ -2769,12 +3023,12 @@ Table of Contents
    scalar-first carry the same annotation, with the names written in the
    order fixed here.
 
-8.4.2.  The from and to Properties
+10.4.2.  The from and to Properties
 
    from and to MUST each be an object with a REQUIRED reference and a
    REQUIRED kind, whose value spaces and meanings are those they have in
-   vectorReferenceFrames (Section 8.2).  The axes of both frames MUST be
-   directions rather than angles. variance MUST NOT appear in either,
+   vectorReferenceFrames (Section 10.2).  The axes of both frames MUST
+   be directions rather than angles. variance MUST NOT appear in either,
    since a frame named by a transformation is not an index position of a
    quantity.
 
@@ -2782,7 +3036,7 @@ Table of Contents
    two realizations of one frame, or between one frame at two epochs, is
    written that way.
 
-8.4.3.  The encoding Property
+10.4.3.  The encoding Property
 
    encoding states which arrangement of numbers carries the
    transformation.  It is a closed enumeration, and a value outside it
@@ -2807,11 +3061,11 @@ Table of Contents
       |                   | acting on augmented coordinates.       |
       +-------------------+----------------------------------------+
 
-                                 Table 13
+                                 Table 16
 
    Every encoding but the last carries a rotation and nothing else, and
    an offset between the origins of the two frames is then carried by
-   translation (Section 8.4.6) or not at all. homogeneousMatrix carries
+   translation (Section 10.4.6) or not at all. homogeneousMatrix carries
    the rotation and the offset together in one matrix M4, acting on
    augmented coordinates as [x', 1] = M4 [x, 1] written as column
    vectors.  Its first three rows and first three columns are the
@@ -2832,14 +3086,14 @@ Table of Contents
    The first three entries of the fourth column of a homogeneousMatrix
    carry a length and the rest of the matrix is dimensionless, so those
    three entries are subject to the same unit rule as translation
-   (Section 8.4.6): their units MUST be mutually convertible and SHOULD
+   (Section 10.4.6): their units MUST be mutually convertible and SHOULD
    be identical.  A single nested property cannot state a unit for one
    position and not another, so a schema carrying a homogeneousMatrix in
    that form MUST establish those units in the referenced definition or
    in the indexed form of components, which names a separate property
    for each position.
 
-8.4.4.  The components Property
+10.4.4.  The components Property
 
    components names the members that carry the transformation, and its
    form follows encoding.
@@ -2854,8 +3108,8 @@ Table of Contents
    For rotationMatrix and homogeneousMatrix, components MUST be either
    the name of one property whose type is an array or a tuple nested
    twice, the outer index selecting the row, or an array of indexed
-   components in the form tensorReferenceFrames uses (Section 8.3), each
-   stating its own index of two non-negative integers, row first.
+   components in the form tensorReferenceFrames uses (Section 10.3),
+   each stating its own index of two non-negative integers, row first.
    Neither form leaves a row-major or column-major reading open, which a
    flat array of nine or sixteen values would.
 
@@ -2867,7 +3121,7 @@ Table of Contents
    so no position is determined by any other and none may be left
    undeclared.
 
-8.4.4.1.  Quaternions
+10.4.4.1.  Quaternions
 
    The four names given for quaternion are, in order, the member
    carrying the scalar and the members carrying the three components of
@@ -2921,7 +3175,7 @@ Table of Contents
      "type": "object",
      "frameTransforms": [
        {
-         "from": { "reference": "#/definitions/BodyFrame", "kind": "type" },
+         "from": { "reference": { "$ref": "#/definitions/BodyFrame" }, "kind": "type" },
          "to": {
            "reference": "http://www.opengis.net/def/crs/EPSG/0/4978",
            "kind": "ogc-crs"
@@ -2964,7 +3218,7 @@ Table of Contents
      "qc": 0.7071068
    }
 
-8.4.4.2.  Axis and Angle
+10.4.4.2.  Axis and Angle
 
    The four names given for axisAngle are, in order, the member carrying
    the angle and the members carrying the three components of the axis.
@@ -2978,7 +3232,7 @@ Table of Contents
    units, its rotation entries carrying none and its offset entries
    carrying a length.
 
-8.4.4.3.  Euler Angles
+10.4.4.3.  Euler Angles
 
    eulerAngles requires rotationSequence, and the three names in
    components are the angles of the first, second, and third rotation in
@@ -3002,7 +3256,7 @@ Table of Contents
    and the issue that preceded it for sixteen years never stated it at
    all [CCSDS-ADM1].
 
-8.4.5.  The rotationSequence Property
+10.4.5.  The rotationSequence Property
 
    rotationSequence MUST be present when encoding is eulerAngles and
    MUST NOT be present otherwise.  Its value MUST be three characters
@@ -3022,16 +3276,16 @@ Table of Contents
    permitted, though the standard that first enumerated them discouraged
    them "as their use can cause confusion" [CCSDS-ADM1].
 
-8.4.6.  The translation Property
+10.4.6.  The translation Property
 
    translation, when present, MUST be an array of exactly three names of
    direct properties of the annotated object or tuple, all of numeric
    type and all distinct, giving the coordinates of the origin of the
    from frame expressed in the to frame, on the axes of the to frame in
    the order that frame declares them.  That is the t of x' = M x + t
-   (Section 8.4.1), and it is the offset from the origin of the to frame
-   to the origin of the from frame, not the other way about.  Their
-   units MUST be mutually convertible and SHOULD be identical.
+   (Section 10.4.1), and it is the offset from the origin of the to
+   frame to the origin of the from frame, not the other way about.
+   Their units MUST be mutually convertible and SHOULD be identical.
 
    translation MUST NOT be present when encoding is homogeneousMatrix,
    whose fourth column carries the same three values in the same sense.
@@ -3059,8 +3313,8 @@ Table of Contents
      "type": "object",
      "frameTransforms": [
        {
-         "from": { "reference": "#/definitions/LaserFrame", "kind": "type" },
-         "to": { "reference": "#/definitions/CameraFrame", "kind": "type" },
+         "from": { "reference": { "$ref": "#/definitions/LaserFrame" }, "kind": "type" },
+         "to": { "reference": { "$ref": "#/definitions/CameraFrame" }, "kind": "type" },
          "encoding": "rotationMatrix",
          "components": "rotation",
          "translation": ["tx", "ty", "tz"]
@@ -3134,7 +3388,7 @@ Table of Contents
    nothing carries the layout, which is the division of labor this
    keyword ends.
 
-8.5.  The linearReferenceSystem Keyword
+10.5.  The linearReferenceSystem Keyword
 
    The linearReferenceSystem keyword identifies the linear reference
    system [ISO19148] under which a location held in properties of an
@@ -3144,21 +3398,22 @@ Table of Contents
    reference, kind, linearElement, and measure strings and OPTIONAL
    measureEnd and direction strings.  No other properties are permitted.
 
-8.5.1.  The reference Property
+10.5.1.  The reference Property
 
    reference MUST identify one linear reference system.  Where kind is
-   type it MUST be a JSON Pointer [JSTRUCT-CORE] resolving to a
-   shareable type definition, and otherwise it MUST be an absolute URI
-   [RFC3986].  The identified definition MUST establish the linear
-   referencing method, the measure origin, the increasing-measure
-   direction, the measure unit, and the linear-element namespace. kind
-   states which definition model the reference identifies.
+   type it MUST be a type reference { "$ref": <JSON Pointer> }
+   [JSTRUCT-CORE] to a shareable type definition, and otherwise it MUST
+   be an absolute URI [RFC3986].  The identified definition MUST
+   establish the linear referencing method, the measure origin, the
+   increasing-measure direction, the measure unit, and the linear-
+   element namespace. kind states which definition model the reference
+   identifies.
 
    A processor is not required to dereference the URI.  This document
    does not define a resolution protocol, URI layout, storage model, or
    definition serialization.
 
-8.5.2.  The kind Property
+10.5.2.  The kind Property
 
    kind classifies which definition model the URI identifies.  It is an
    open enumeration.  The following values are defined here:
@@ -3173,10 +3428,10 @@ Table of Contents
     +-------------+---------------------------------------------------+
     | type        | A meta-type declaring members whose referenceRole |
     |             | is linearElement and measure, and optionally      |
-    |             | direction (Section 6).                            |
+    |             | direction (Section 8).                            |
     +-------------+---------------------------------------------------+
 
-                                  Table 14
+                                  Table 17
 
    Other values MAY name further definition models.  Appendix A
    discusses the availability of registered definitions.
@@ -3202,14 +3457,14 @@ Table of Contents
    direction, and linear-element namespace are stated in the description
    of the meta-type or of its members.
 
-8.5.3.  The linearElement Property
+10.5.3.  The linearElement Property
 
    linearElement MUST name a direct property of the annotated object or
    tuple.  The property value identifies the road, railway, waterway,
    route, or other linear element within the linear-element namespace
    established by the identified system.
 
-8.5.4.  The measure Property
+10.5.4.  The measure Property
 
    measure MUST name a direct numeric property, distinct from
    linearElement.  The property gives the distance from the measure
@@ -3217,7 +3472,7 @@ Table of Contents
    ucumUnit annotation compatible with the measure unit established by
    the identified system.
 
-8.5.5.  The measureEnd Property
+10.5.5.  The measureEnd Property
 
    measureEnd, when present, MUST name another distinct direct numeric
    property whose type and unit are those required of measure.
@@ -3238,7 +3493,7 @@ Table of Contents
    system whose increasing-measure direction opposes the direction of
    travel encodes a forward span with a decreasing pair.
 
-8.5.6.  The direction Property
+10.5.6.  The direction Property
 
    direction, when present, MUST name another distinct direct property.
    Its value qualifies the direction of travel or orientation using the
@@ -3293,22 +3548,23 @@ Table of Contents
      "additionalProperties": false
    }
 
-9.  Colorimetric Reference Characteristics
+11.  Colorimetric Reference Characteristics
 
    Color is the worked instance of a larger family: components resolved
    onto the channels of a named space, where the space fixes the basis
    those numbers weigh, the reference they stand relative to, and the
-   encoding they carry.  Section 8 gives that treatment to positions and
-   directions, and this section gives it to color, because color is the
-   perceptual signal most often carried in general-purpose JSON — design
-   tokens, stylesheets, image metadata — and the one most often carried
-   with all of that left silent.  Other members of the same family are
-   out of scope here and left to later extensions: audio channel layout
-   and loudness, hyperspectral and multiband imaging, and acoustic
-   frequency weighting each resolve channel numbers onto a named space
-   of their own, and each might be a keyword of this shape.
+   encoding they carry.  Section 10 gives that treatment to positions
+   and directions, and this section gives it to color, because color is
+   the perceptual signal most often carried in general-purpose JSON —
+   design tokens, stylesheets, image metadata — and the one most often
+   carried with all of that left silent.  The same family continues past
+   color in Section 12, where audio channel layout and multiband imaging
+   resolve channel numbers onto a named space as color does.  A coded
+   value bound to an external list (Section 6) and the weighting a
+   scalar measurement carries (Section 7) are relatives of a different
+   shape, each treated in its own section.
 
-9.1.  The colorSpaces Keyword
+11.1.  The colorSpaces Keyword
 
    The colorSpaces keyword identifies the color spaces in which channel
    values held in properties of an object or tuple are to be
@@ -3321,17 +3577,17 @@ Table of Contents
    of those are almost never carried with the numbers, and the ones that
    are are carried by conventions that differ between formats.
 
-   The keywords of Section 8 lean on registers.  A position has the EPSG
-   dataset and the OGC definitions server behind it, and a schema names
-   a system by a URI that resolves to a definition of it.  Color has no
-   equivalent.  The International Color Consortium publishes registries
-   of RGB color spaces and of print characterization data, but those are
-   pages written for a reader rather than identifiers minted for a
-   machine [ICC-REGISTRY].  What exists in place of a register is of two
-   other sorts.  A standards document may assign a code point, as
-   [ITU-H273] assigns combinations of primaries, transfer function,
-   matrix coefficients, and signal range to four integers.  Or the
-   definition travels with the data as a profile, identified by a
+   The keywords of Section 10 lean on registers.  A position has the
+   EPSG dataset and the OGC definitions server behind it, and a schema
+   names a system by a URI that resolves to a definition of it.  Color
+   has no equivalent.  The International Color Consortium publishes
+   registries of RGB color spaces and of print characterization data,
+   but those are pages written for a reader rather than identifiers
+   minted for a machine [ICC-REGISTRY].  What exists in place of a
+   register is of two other sorts.  A standards document may assign a
+   code point, as [ITU-H273] assigns combinations of primaries, transfer
+   function, matrix coefficients, and signal range to four integers.  Or
+   the definition travels with the data as a profile, identified by a
    checksum over its own contents [ICC-SPEC].  Neither is a URI and
    neither dereferences.  A reference in this keyword identifies more
    often than it resolves, which is true of the other reference-style
@@ -3345,17 +3601,17 @@ Table of Contents
    characterization dataset does when it gives the device values that
    were printed alongside the color that was measured off the result.
 
-9.1.1.  The reference and kind Properties
+11.1.1.  The reference and kind Properties
 
    reference MUST identify one color space or one set of device control
-   values.  Where kind is type it MUST be a JSON Pointer [JSTRUCT-CORE]
-   resolving to a shareable type definition.  Where kind is icc-profile
-   it MUST be a URI [RFC3986] identifying the profile; the profile
-   identifier [ICC-SPEC] computes over the profile contents is not
-   itself a URI, and a schema carrying only that identifier MUST express
-   it as one, under a scheme of the schema author's choosing that states
-   which digest the remainder is.  Otherwise it MUST be an absolute URI
-   [RFC3986].
+   values.  Where kind is type it MUST be a type reference { "$ref":
+   <JSON Pointer> } [JSTRUCT-CORE] to a shareable type definition.
+   Where kind is icc-profile it MUST be a URI [RFC3986] identifying the
+   profile; the profile identifier [ICC-SPEC] computes over the profile
+   contents is not itself a URI, and a schema carrying only that
+   identifier MUST express it as one, under a scheme of the schema
+   author's choosing that states which digest the remainder is.
+   Otherwise it MUST be an absolute URI [RFC3986].
 
    What the identified definition must establish follows from what is
    being identified.
@@ -3377,7 +3633,7 @@ Table of Contents
    |                        | characterized.                          |
    +------------------------+-----------------------------------------+
 
-                                 Table 15
+                                 Table 18
 
    A set of device control values is not a color space in the
    colorimetric sense, and the third row exists because such values are
@@ -3409,16 +3665,16 @@ Table of Contents
        |              | Color Consortium publishes [ICC-REGISTRY]. |
        +--------------+--------------------------------------------+
        | type         | A meta-type in the annotated schema, as    |
-       |              | Section 6 describes.                       |
+       |              | Section 8 describes.                       |
        +--------------+--------------------------------------------+
 
-                                  Table 16
+                                  Table 19
 
    A processor is not required to dereference the URI.  This document
    does not define a resolution protocol, URI layout, storage model, or
    definition serialization.
 
-9.1.2.  The codePoints Property
+11.1.2.  The codePoints Property
 
    codePoints, when present, MUST be an array of exactly four non-
    negative integers, being the color primaries, transfer
@@ -3439,7 +3695,7 @@ Table of Contents
    characteristics code point, and where transfer is asDefined or
    absent, that code point governs.
 
-9.1.3.  The channels Property
+11.1.3.  The channels Property
 
    channels MUST be a non-empty array of names of direct properties of
    the annotated object or tuple, all distinct, mapped by position onto
@@ -3457,7 +3713,7 @@ Table of Contents
    in which case the elements of that property supply the channels in
    order.  Where packing is present, the array holds exactly one name,
    that of a property of type string, and the channels are read out of
-   that one value as Section 9.1.4 states.
+   that one value as Section 11.1.4 states.
 
    This document does not fix the range or the unit of a channel value.
    Where the identified definition does not establish them, as it does
@@ -3467,7 +3723,7 @@ Table of Contents
    convention.  A packing establishes both, and a schema carrying one
    declares neither.
 
-9.1.4.  The packing Property
+11.1.4.  The packing Property
 
    A color is often carried not as a set of numbers but as one string
    that has all of them inside it.  The hexadecimal notation is the
@@ -3491,7 +3747,7 @@ Table of Contents
      |         | hexadecimal digits.                                |
      +---------+----------------------------------------------------+
 
-                                 Table 17
+                                 Table 20
 
    The value of the named property MUST consist of hexadecimal digits,
    optionally preceded by a single #, and MUST hold three or six digits
@@ -3559,7 +3815,7 @@ Table of Contents
      "additionalProperties": false
    }
 
-9.1.5.  The alpha and alphaMode Properties
+11.1.5.  The alpha and alphaMode Properties
 
    alpha, when present, MUST name a direct property of numeric type
    carrying opacity, distinct from every name in channels.  Its value is
@@ -3581,7 +3837,7 @@ Table of Contents
          |               | multiplied by the opacity value.     |
          +---------------+--------------------------------------+
 
-                                 Table 18
+                                 Table 21
 
    Where an opacity is carried and alphaMode is absent, the value is
    straight.  That is also the reading a packed hexadecimal opacity
@@ -3598,7 +3854,7 @@ Table of Contents
    exist, and values carried from one to the other without the
    conversion are wrong everywhere the opacity is neither zero nor one.
 
-9.1.6.  The transfer Property
+11.1.6.  The transfer Property
 
    transfer, when present, states whether the channel values carry the
    transfer function of the identified space or are proportional to
@@ -3615,7 +3871,7 @@ Table of Contents
     |           | the identified space but not its transfer function. |
     +-----------+-----------------------------------------------------+
 
-                                  Table 19
+                                  Table 22
 
    When absent, the value is asDefined.
 
@@ -3628,7 +3884,7 @@ Table of Contents
    values, and the PNG specification requires compositing to be
    performed on "intensity samples (not gamma-encoded samples)" [PNG3].
 
-9.1.7.  The illuminant and observer Properties
+11.1.7.  The illuminant and observer Properties
 
    illuminant and observer, when present, state the conditions the
    values are relative to. illuminant names a standard illuminant, and
@@ -3669,7 +3925,7 @@ Table of Contents
    product name.  A schema naming the space but not the edition
    describes two different sets of numbers.
 
-9.1.8.  Example
+11.1.8.  Example
 
    A characterization dataset pairs the device values that were sent to
    a press with the color that was measured off the printed result.  The
@@ -3730,9 +3986,315 @@ Table of Contents
    numbers came from is one of the ones that says so.  The annotation
    carries what that file carries, in a place a processor can read.
 
-10.  Conformance
+12.  Signal Channel Characteristics
 
-10.1.  Check Outcomes
+   The keywords of this section resolve components onto the channels of
+   a named space, as Section 11 does for color.  A signal is a bundle of
+   channel numbers that means nothing until something states which
+   channel is which, what the numbers stand relative to, and how they
+   are encoded.  Color carries that in colorSpaces; audio and multiband
+   imaging carry it here.
+
+12.1.  The audioChannels Keyword
+
+   The audioChannels keyword identifies the channel layout in which
+   audio sample values held in properties of an object or tuple are to
+   be interpreted, the level the samples are relative to, and the
+   encoding they carry.
+
+   An audio sample is a measurement of a signal, and a set of samples is
+   not sound until something states which loudspeaker or which role each
+   channel drives, what the numbers stand relative to, and whether they
+   are amplitudes or a companded encoding of them.  A bare array carries
+   none of that, and the conventions that carry it differ between
+   formats.
+
+   When present, audioChannels MUST be a non-empty array.  Each element
+   MUST be an object with a REQUIRED reference, a REQUIRED kind, a
+   REQUIRED channels, an OPTIONAL levelReference, and an OPTIONAL
+   encoding, and no other members.  The keyword is an array because one
+   record may carry more than one channel group, as a programme does
+   when a commentary track accompanies a music-and-effects mix.
+
+12.1.1.  The reference and kind Properties
+
+   reference MUST identify one channel layout whose definition
+   establishes an ordered set of channels, each with a loudspeaker
+   position or a role.  Where kind is type it MUST be a type reference {
+   "$ref": <JSON Pointer> } [JSTRUCT-CORE] to a shareable type
+   definition, and otherwise it MUST be an absolute URI [RFC3986]. kind
+   classifies which definition model the reference identifies.  It is an
+   open enumeration; the following values are defined here:
+
+          +======+=============================================+
+          | Kind | Referenced definition                       |
+          +======+=============================================+
+          | itu  | A Recommendation of the International       |
+          |      | Telecommunication Union, such as the        |
+          |      | loudspeaker configurations of [ITU-BS2051]. |
+          +------+---------------------------------------------+
+          | type | A meta-type in the annotated schema, as     |
+          |      | Section 8 describes.                        |
+          +------+---------------------------------------------+
+
+                                 Table 23
+
+   A layout recommendation such as [ITU-BS2051] defines several
+   configurations, and a bare reference to it names the recommendation
+   rather than one of them; a schema that must pin one configuration
+   deep-links to it or carries it as a type.  Where the recommendation
+   mints no per-configuration URI, the deep link is a fragment that
+   names the configuration in the recommendation's own notation, as
+   #0+5+0 names its five-loudspeaker system with a low-frequency-effects
+   channel; the fragment identifies the configuration whether or not the
+   recommendation serves it.  A processor is not required to dereference
+   the URI.  This document does not define a resolution protocol, URI
+   layout, storage model, or definition serialization.
+
+12.1.2.  The channels Property
+
+   channels MUST be a non-empty array of names of direct properties of
+   the annotated object or tuple, all distinct, mapped by position onto
+   the channels of the layout in the order the identified definition
+   declares them.  The number of channels supplied MUST equal the number
+   the identified layout defines.  As with coordinates and the channels
+   of colorSpaces, the ordering is an assertion by the schema author and
+   is never inferred from property order, property names, or position in
+   a tuple.  A low-frequency-effects channel is one of the channels, in
+   the position the layout assigns it, and is not inferred from a
+   property name.  Either every name is that of a property of numeric
+   type, or the array holds exactly one name, that of a property whose
+   type is array or tuple and whose elements are of numeric type, in
+   which case the elements of that property supply the channels in
+   order.
+
+12.1.3.  The levelReference Property
+
+   levelReference, when present, states what the sample amplitudes are
+   relative to.  Its value MUST be fullScale or soundPressure.
+
+       +===============+==========================================+
+       | Value         | Meaning                                  |
+       +===============+==========================================+
+       | fullScale     | Zero decibels is digital full scale, the |
+       |               | greatest level the encoding represents,  |
+       |               | so a level in decibels is dBFS.  The     |
+       |               | numeric range of the samples is stated   |
+       |               | by the property, not by this value.      |
+       +---------------+------------------------------------------+
+       | soundPressure | The amplitudes are calibrated sound      |
+       |               | pressures, whose reference is 20         |
+       |               | micropascals [ISO1683] and whose level   |
+       |               | in decibels is sound pressure level.     |
+       +---------------+------------------------------------------+
+
+                                 Table 24
+
+   Where absent, the reference is fullScale.  Programme loudness is not
+   a per-sample reference: it is an integrated, gated, frequency-
+   weighted measure of a whole programme, defined by [ITU-BS1770] and
+   given a target by [EBU-R128], and a schema that carries it carries it
+   as its own annotated value, not as the level reference of the
+   channels.
+
+12.1.4.  The encoding Property
+
+   encoding, when present, states how the stored numbers stand to
+   amplitude.  Its value MUST be linear, aLaw, or muLaw.  Under linear
+   the numbers are proportional to amplitude, whether stored as integers
+   or as floating point.  Under aLaw or muLaw each channel value is the
+   eight-bit code word that [ITU-G711] defines, an integer from zero to
+   two hundred and fifty-five, and a reader restores amplitude by the
+   inverse companding before any arithmetic.  Where absent, the encoding
+   is linear.
+
+   Object-based and scene-based audio, in which a sample is not one
+   loudspeaker, are not channel layouts in this sense; they are
+   described by the Audio Definition Model [ITU-BS2076] and are outside
+   this keyword.  The time axis of audio, the sample rate, is a regular
+   temporal cadence and is carried by temporalReferenceSystem and
+   cadence (Section 9.3), not here.
+
+12.1.5.  Example
+
+   The record below is one multichannel sample frame of a five-channel-
+   with-LFE programme, whose layout is the 0+5+0 system of [ITU-BS2051].
+   The six property names are the schema author's; the order of channels
+   is what binds them to the layout.
+
+   {
+     "name": "SurroundSampleFrame",
+     "type": "object",
+     "audioChannels": [
+       {
+         "reference": "https://www.itu.int/rec/R-REC-BS.2051/en#0+5+0",
+         "kind": "itu",
+         "channels": ["l", "r", "c", "lfe", "ls", "rs"],
+         "levelReference": "fullScale",
+         "encoding": "linear"
+       }
+     ],
+     "properties": {
+       "frameIndex": { "type": "int64" },
+       "l":   { "type": "double" },
+       "r":   { "type": "double" },
+       "c":   { "type": "double" },
+       "lfe": { "type": "double" },
+       "ls":  { "type": "double" },
+       "rs":  { "type": "double" }
+     },
+     "required": ["frameIndex", "l", "r", "c", "lfe", "ls", "rs"],
+     "additionalProperties": false
+   }
+
+12.2.  The spectralBands Keyword
+
+   The spectralBands keyword identifies the spectral bands onto which
+   the components of a multiband value held in properties of an object
+   or tuple are resolved, in the order a named sensor or band set
+   declares them.
+
+   A multiband pixel is a row of numbers, one per band, and it means
+   nothing until something states which wavelengths each band covers and
+   what physical quantity the number is.  The bands of one sensor are
+   not the bands of another even where they are given the same colour
+   name, and a raw count is not a radiance until the sensor's
+   calibration is applied.
+
+   When present, spectralBands MUST be a non-empty array.  Each element
+   MUST be an object with a REQUIRED reference, a REQUIRED kind, a
+   REQUIRED bands, and an OPTIONAL calibration, and no other members.
+   The keyword is an array because one record may resolve its components
+   onto more than one band set, as a fused product does when it carries
+   bands from two instruments.
+
+12.2.1.  The reference and kind Properties
+
+   reference MUST identify one band set whose definition establishes an
+   ordered set of bands, each with a wavelength range.  Where kind is
+   type it MUST be a type reference { "$ref": <JSON Pointer> }
+   [JSTRUCT-CORE] to a shareable type definition, and otherwise it MUST
+   be an absolute URI [RFC3986]. kind classifies which definition model
+   the reference identifies.  It is an open enumeration; the following
+   values are defined here:
+
+           +========+=========================================+
+           | Kind   | Referenced definition                   |
+           +========+=========================================+
+           | sensor | A band set published by the operator of |
+           |        | an instrument, such as the Operational  |
+           |        | Land Imager bands of [USGS-LANDSAT].    |
+           +--------+-----------------------------------------+
+           | type   | A meta-type in the annotated schema, as |
+           |        | Section 8 describes.                    |
+           +--------+-----------------------------------------+
+
+                                 Table 25
+
+   A publication that lists the band sets of several instruments names
+   one of them by a deep link, a fragment naming the instrument where
+   the publisher mints no per-instrument URI, as #landsat-8-9-oli names
+   the Operational Land Imager; the fragment identifies the band set
+   whether or not the publication serves it.  A processor is not
+   required to dereference the URI.  This document does not define a
+   resolution protocol, URI layout, storage model, or definition
+   serialization.
+
+12.2.2.  The bands Property
+
+   bands MUST be a non-empty array of names of direct properties of the
+   annotated object or tuple, all distinct, mapped by position onto the
+   bands of the set in the order the identified definition declares
+   them.  The number of bands supplied MUST equal the number the
+   identified set defines.  As with the channels of colorSpaces, the
+   ordering is an assertion by the schema author and is never inferred
+   from property order, property names, or position in a tuple.  Either
+   every name is that of a property of numeric type, or the array holds
+   exactly one name, that of a property whose type is array or tuple and
+   whose elements are of numeric type, in which case the elements of
+   that property supply the bands in order.
+
+12.2.3.  The calibration Property
+
+   calibration, when present, states what physical quantity each band
+   value is.  It is an open enumeration; the values defined here are:
+
+     +===============+==============================================+
+     | Value         | Meaning                                      |
+     +===============+==============================================+
+     | digitalNumber | The values are quantized, calibrated, scaled |
+     |               | digital numbers in the identified product    |
+     |               | encoding, which become a physical quantity   |
+     |               | only when the per-band coefficients of the   |
+     |               | acquisition are applied.                     |
+     +---------------+----------------------------------------------+
+     | radiance      | The values are spectral radiance, and their  |
+     |               | unit is stated by JSON Structure Units       |
+     |               | [JSTRUCT-UNITS].                             |
+     +---------------+----------------------------------------------+
+     | reflectance   | The values are reflectance, a dimensionless  |
+     |               | fraction, of the kind the identified product |
+     |               | defines, such as top-of-atmosphere planetary |
+     |               | reflectance with or without a solar-angle    |
+     |               | correction; where they are stored scaled,    |
+     |               | the property states the scale.               |
+     +---------------+----------------------------------------------+
+
+                                 Table 26
+
+   Where absent, the calibration is not established by this annotation
+   and the identified definition or the unit of the property governs.
+   The rescaling from a digital number to radiance or reflectance is
+   per-band; for the Landsat imagers it is a multiplicative and an
+   additive coefficient for each band, delivered in the product metadata
+   [USGS-LANDSAT-L1], and a schema that holds digital numbers holds
+   those coefficients as their own values.  A quantity the values
+   defined here do not name, such as brightness temperature, is carried
+   as an open value.
+
+12.2.4.  Example
+
+   The record below is one pixel of a nine-band Operational Land Imager
+   scene, whose bands are those of [USGS-LANDSAT], carried as
+   reflectance.
+
+   {
+     "name": "OliPixel",
+     "type": "object",
+     "spectralBands": [
+       {
+         "reference": "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites#landsat-8-9-oli",
+         "kind": "sensor",
+         "bands": [
+           "coastalAerosol", "blue", "green", "red",
+           "nir", "swir1", "swir2", "pan", "cirrus"
+         ],
+         "calibration": "reflectance"
+       }
+     ],
+     "properties": {
+       "column": { "type": "int32" },
+       "row": { "type": "int32" },
+       "coastalAerosol": { "type": "double" },
+       "blue": { "type": "double" },
+       "green": { "type": "double" },
+       "red": { "type": "double" },
+       "nir": { "type": "double" },
+       "swir1": { "type": "double" },
+       "swir2": { "type": "double" },
+       "pan": { "type": "double" },
+       "cirrus": { "type": "double" }
+     },
+     "required": [
+       "column", "row", "coastalAerosol", "blue", "green", "red",
+       "nir", "swir1", "swir2", "pan", "cirrus"
+     ],
+     "additionalProperties": false
+   }
+
+13.  Conformance
+
+13.1.  Check Outcomes
 
    A check defined by this document has one of three outcomes.  It is
    valid when a processor evaluated it and it held, invalid when a
@@ -3760,7 +4322,7 @@ Table of Contents
    that named checks be evaluated rather than left indeterminate.  This
    document requires it of no check.
 
-10.2.  Schema Conformance
+13.2.  Schema Conformance
 
    A conforming schema selects the versioned extension meta-schema URI.
    It MAY use any subset of the annotations defined by this document,
@@ -3783,10 +4345,10 @@ Table of Contents
    or values within annotations, and those checks are never
    indeterminate.  External resolution, domain-of-validity, mapping-
    review, and transformation checks are indeterminate while the
-   definition they depend on is unresolved, and Section 10.1 states how
+   definition they depend on is unresolved, and Section 13.1 states how
    a processor reports them.
 
-10.3.  Processing Conformance
+13.3.  Processing Conformance
 
    A conforming processor MUST preserve declarations, externally
    resolved facts, and inferences separately.  It MUST preserve the
@@ -3835,6 +4397,11 @@ Table of Contents
       an alpha mode from channel names, from the range the channel
       values fall in, or from the number of channels present;
 
+   *  an audio channel layout, level reference, or encoding; a spectral
+      band set or calibration; a code-list binding; or a measurement
+      weighting, time weighting, or level reference, from names,
+      samples, units, or the number of members present;
+
    *  that members sharing a name prefix, a unit, or an observed
       property are the components of one vector quantity; or
 
@@ -3845,7 +4412,7 @@ Table of Contents
    MUST treat unresolved identifiers, domains, mappings, or conversions
    as indeterminate rather than compatible.
 
-10.4.  Inheritance and Imports
+13.4.  Inheritance and Imports
 
    An annotation on an inherited property or type remains part of the
    effective schema.  Core inheritance does not define a local override
@@ -3869,7 +4436,7 @@ Table of Contents
    values of one keyword in force is not conforming, and a processor
    MUST NOT select between them.
 
-11.  Extension Meta-Schema
+14.  Extension Meta-Schema
 
    The extension meta-schema will be published at:
 
@@ -3894,7 +4461,7 @@ Table of Contents
    rather than by the meta-schema alone.  No companion reference type or
    import is required.
 
-12.  Security and Privacy Considerations
+15.  Security and Privacy Considerations
 
    Incorrect or malicious catalog entries, labels, mappings, feature
    identities, or procedure identities can cause results from different
@@ -3927,13 +4494,13 @@ Table of Contents
    and explicit trust decisions.  Dereferencing can disclose processor
    interest.
 
-13.  IANA Considerations
+16.  IANA Considerations
 
    This document has no IANA actions.
 
-14.  References
+17.  References
 
-14.1.  Normative References
+17.1.  Normative References
 
    [ISO19108] International Organization for Standardization, "ISO
               19108:2002 Geographic information - Temporal schema",
@@ -3992,7 +4559,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-14.2.  Informative References
+17.2.  Informative References
 
    [CCSDS-ADM]
               Consultative Committee for Space Data Systems, "Attitude
@@ -4023,6 +4590,11 @@ Table of Contents
               n.d., <https://www.dublincore.org/specifications/dublin-
               core/dcmi-terms/>.
 
+   [EBU-R128] European Broadcasting Union, "EBU R 128: Loudness
+              normalisation and permitted maximum level of audio
+              signals", November 2023,
+              <https://tech.ebu.ch/publications/r128>.
+
    [EPSG]     International Association of Oil and Gas Producers, "EPSG
               Geodetic Parameter Dataset", n.d., <https://epsg.org/>.
 
@@ -4043,6 +4615,29 @@ Table of Contents
               <https://www.ldeo.columbia.edu/~gcmt/projects/CMT/catalog/
               allorder.ndk_explained>.
 
+   [IANA-LANGTAGS]
+              Internet Assigned Numbers Authority, "Language Subtag
+              Registry", n.d., <https://www.iana.org/assignments/
+              language-subtag-registry>.
+
+   [IANA-PROTOCOLS]
+              Internet Assigned Numbers Authority, "Protocol
+              Registries", n.d., <https://www.iana.org/protocols>.
+
+   [IATA-CODES]
+              International Air Transport Association, "Airline and
+              Airport Code Search", n.d.,
+              <https://www.iata.org/en/publications/directories/code-
+              search/>.
+
+   [ICAO7910] International Civil Aviation Organization, "Location
+              Indicators (Doc 7910)", n.d.,
+              <https://store.icao.int/en/location-indicators-doc-7910>.
+
+   [ICAO8643] International Civil Aviation Organization, "Aircraft Type
+              Designators (Doc 8643)", n.d., <https://www.icao.int/
+              operational-safety/doc-8643-aircraft-type-designators>.
+
    [ICC-REGISTRY]
               International Color Consortium, "ICC Characterization Data
               Registry", n.d., <https://registry.color.org/>.
@@ -4052,11 +4647,57 @@ Table of Contents
               structure (ISO 15076-1:2025, ICC.1:2022, profile version
               4.4)", 2022, <https://www.color.org/v4spec.xalter>.
 
+   [IEC61672-1]
+              International Electrotechnical Commission, "IEC
+              61672-1:2013 Electroacoustics - Sound level meters - Part
+              1: Specifications", 2013,
+              <https://webstore.iec.ch/en/publication/5708>.
+
+   [ISO639]   International Organization for Standardization, "ISO 639:
+              Code for individual languages and language groups", n.d.,
+              <https://www.iso.org/iso-639-language-codes.html>.
+
+   [ISO1683]  International Organization for Standardization, "ISO
+              1683:2015 Acoustics - Preferred reference values for
+              acoustical and vibratory levels", 2015,
+              <https://www.iso.org/standard/64648.html>.
+
+   [ISO3166]  International Organization for Standardization, "ISO 3166:
+              Codes for the representation of names of countries and
+              their subdivisions", n.d.,
+              <https://www.iso.org/iso-3166-country-codes.html>.
+
+   [ISO4217]  International Organization for Standardization, "ISO 4217:
+              Codes for the representation of currencies", n.d.,
+              <https://www.iso.org/iso-4217-currency-codes.html>.
+
    [ISO11664-4]
               International Commission on Illumination, "Colorimetry -
               Part 4: CIE 1976 L*a*b* colour space (ISO/CIE
               11664-4:2019)", 2019, <https://cie.co.at/publications/
               colorimetry-part-4-cie-1976-lab-colour-space-1>.
+
+   [ITU-BS1770]
+              International Telecommunication Union, "Recommendation
+              ITU-R BS.1770-5: Algorithms to measure audio programme
+              loudness and true-peak audio level", November 2023,
+              <https://www.itu.int/rec/R-REC-BS.1770/en>.
+
+   [ITU-BS2051]
+              International Telecommunication Union, "Recommendation
+              ITU-R BS.2051-3: Advanced sound system for programme
+              production", May 2022,
+              <https://www.itu.int/rec/R-REC-BS.2051/en>.
+
+   [ITU-BS2076]
+              International Telecommunication Union, "Recommendation
+              ITU-R BS.2076: Audio Definition Model", n.d.,
+              <https://www.itu.int/rec/R-REC-BS.2076/en>.
+
+   [ITU-G711] International Telecommunication Union, "Recommendation
+              ITU-T G.711: Pulse code modulation (PCM) of voice
+              frequencies", November 1988,
+              <https://www.itu.int/rec/T-REC-G.711>.
 
    [ITU-H273] International Telecommunication Union, "Recommendation
               ITU-T H.273: Coding-independent code points for video
@@ -4076,6 +4717,9 @@ Table of Contents
    [KITTI]    Geiger, A., Lenz, P., Stiller, C., and R. Urtasun, "Vision
               meets Robotics: The KITTI Dataset", 2013,
               <https://www.cvlibs.net/publications/Geiger2013IJRR.pdf>.
+
+   [LOINC]    Regenstrief Institute, "LOINC", n.d.,
+              <https://loinc.org/>.
 
    [NAIF-QUAT]
               NASA Jet Propulsion Laboratory, Navigation and Ancillary
@@ -4120,6 +4764,10 @@ Table of Contents
               Organization System Reference", n.d.,
               <https://www.w3.org/TR/skos-reference/>.
 
+   [SNOMED-CT]
+              SNOMED International, "SNOMED CT", n.d.,
+              <https://www.snomed.org/>.
+
    [SOSA-SSN] World Wide Web Consortium, "Semantic Sensor Network
               Ontology", n.d., <https://www.w3.org/TR/vocab-ssn/>.
 
@@ -4134,6 +4782,38 @@ Table of Contents
               Coordinate Systems", n.d.,
               <https://sscweb.gsfc.nasa.gov/users_guide/
               Appendix_C.html>.
+
+   [UNLOCODE] United Nations Economic Commission for Europe, "UN/LOCODE:
+              United Nations Code for Trade and Transport Locations",
+              n.d., <https://unece.org/trade/cefact/unlocode-code-list-
+              country-and-territory>.
+
+   [UNSPSC]   United Nations Global Marketplace, "United Nations
+              Standard Products and Services Code (UNSPSC)", n.d.,
+              <https://www.ungm.org/Public/UNSPSC>.
+
+   [USGS-LANDSAT]
+              United States Geological Survey, "What are the band
+              designations for the Landsat satellites?", n.d.,
+              <https://www.usgs.gov/faqs/what-are-band-designations-
+              landsat-satellites>.
+
+   [USGS-LANDSAT-L1]
+              United States Geological Survey, "Using the USGS Landsat
+              Level-1 Data Product", n.d., <https://www.usgs.gov/
+              landsat-missions/using-usgs-landsat-level-1-data-product>.
+
+   [WHO-ATC]  WHO Collaborating Centre for Drug Statistics Methodology,
+              "ATC/DDD Index", n.d.,
+              <https://atcddd.fhi.no/atc_ddd_index/>.
+
+   [WHO-ICD]  World Health Organization, "International Classification
+              of Diseases (ICD)", n.d., <https://icd.who.int/>.
+
+   [WMO-CODES]
+              World Meteorological Organization, "WMO Codes Registry
+              (WMO No. 306 Manual on Codes)", n.d.,
+              <https://codes.wmo.int/>.
 
    [WSDOT-LRS]
               Washington State Department of Transportation, "State
@@ -4271,7 +4951,7 @@ A.4.  Vector Reference Frames
    Where the community that publishes the list also serves a resolvable
    definition, that URI is the reference and the token is not; where it
    does not, the frame is written as a tuple meta-type in the schema
-   document and cited with kind type, as in Section 8.2.
+   document and cited with kind type, as in Section 10.2.
 
 A.5.  Linear Reference Systems
 
@@ -4297,9 +4977,67 @@ A.5.  Linear Reference Systems
    geometry.  A service published under that directive is an lrs-
    network, and its layer and metadata resources establish the linear
    elements and the measure.  The Washington state route network used in
-   Section 8.5 is served at
+   Section 10.5 is served at
    https://data.wsdot.wa.gov/arcgis/rest/services/Shared/LRSData/
    FeatureServer/9 [WSDOT-LRS].
+
+A.6.  Code Lists
+
+   A reference identifies one specific code list, and kind classifies
+   the register model that list belongs to (Section 6.1).  The registers
+   fall into two tiers by how a reference behaves.
+
+   Some publish a resolvable URI for the list, or for each entry, so
+   that a reference both identifies and dereferences:
+
+   *  wmo-codes: a register in the WMO Codes Registry, such as
+      http://codes.wmo.int/bufr4/codeflag/0-20-003, the present-weather
+      register, whose entries are served beneath it [WMO-CODES].
+
+   *  iana: a registry served under https://www.iana.org/assignments/,
+      such as https://www.iana.org/assignments/media-types/media-
+      types.xhtml for media types, or https://www.iana.org/assignments/
+      language-subtag-registry for the BCP 47 language subtags
+      [IANA-PROTOCOLS] [IANA-LANGTAGS].
+
+   *  snomed-ct: an edition under the SNOMED CT URI scheme,
+      http://snomed.info/sct for the International Edition, with a
+      module or version appended for a specific release [SNOMED-CT].
+
+   *  loinc: the LOINC code system, http://loinc.org [LOINC].
+
+   *  icd: a WHO linearization, http://id.who.int/icd/release/11/mms for
+      the ICD-11 mortality and morbidity statistics [WHO-ICD].
+
+   The rest publish their lists in standards or directories that mint no
+   per-list machine URI.  A reference to one identifies more often than
+   it resolves, and names the standard's identifier or landing page:
+
+   *  iso: an ISO code table, named by its catalogue page such as
+      https://www.iso.org/iso-3166-country-codes.html, or by a standard
+      URN such as urn:iso:std:iso:3166:-1 [ISO3166] [ISO4217] [ISO639].
+
+   *  unlocode: https://unece.org/trade/cefact/unlocode-code-list-
+      country-and-territory [UNLOCODE].
+
+   *  icao: the location indicators of Doc 7910,
+      https://store.icao.int/en/location-indicators-doc-7910, or the
+      aircraft type designators of Doc 8643, https://www.icao.int/
+      operational-safety/doc-8643-aircraft-type-designators [ICAO7910]
+      [ICAO8643].
+
+   *  iata: https://www.iata.org/en/publications/directories/code-
+      search/ [IATA-CODES].
+
+   *  atc: https://atcddd.fhi.no/atc_ddd_index/ [WHO-ATC].
+
+   *  unspsc: https://www.ungm.org/Public/UNSPSC [UNSPSC].
+
+   A processor is not required to dereference a reference of either
+   tier, and an unresolved reference is indeterminate rather than
+   incorrect.  Under kind type the list is a meta-type in the schema and
+   reference is the type reference { "$ref": <JSON Pointer> }, not a
+   URI.
 
 Changes from draft-vasters-json-structure-characteristics-00
 
