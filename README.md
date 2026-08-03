@@ -124,6 +124,44 @@ domain and publisher. See the [real-world README](samples/real-world/README.md).
 | 20 | [`20-goes-magnetometer`](samples/real-world/20-goes-magnetometer/) | NOAA SWPC GOES magnetometer |
 
 
+## Schema comprehension evaluation
+
+To test whether the annotations actually make these schemas
+*machine-understandable*, every sample was put in front of an isolated language
+model (`GPT-5 mini`). Each run received only two files — the sample's
+`schema.struct.json` and its `example.json`, copied into a neutral sandbox with
+no repository, directory names, or specification text — and was asked to propose
+the valuable analytics dimensions the stream supports and why, then to flag any
+ambiguities and rate its own confidence.
+
+Across all samples:
+
+* **Comprehension was near-universal.** Every agent proposed
+	domain-appropriate analytics; confidence was *high* for the large majority
+	and *medium* for only a handful (forecasts, an attitude quaternion, and a
+	per-sample audio frame), with none rating *low*.
+* **The annotations were self-describing and load-bearing.** Every agent
+	independently named specific annotations as what let it interpret the data —
+	none reported the annotations as unhelpful.
+* **In the reference-system, coded-value, and conditioning cases the
+	annotation produced the *correct* answer rather than a plausible guess.**
+	For example, agents used `temporalReferenceSystem` meta-types to refuse an
+	unsafe mapping to UTC, `coordinateReferenceSystem` to require axis-order and
+	vertical-datum handling, `vectorReferenceFrames`/`tensorReferenceFrames` to
+	mark spacecraft-local components as not cross-comparable while treating the
+	frame-invariant magnitude as comparable, `measurementConditioning` to infer
+	A-weighting and the reference sound-pressure level, `codedValues` to plan
+	registry joins against published code lists, and `spectralBands` to construct
+	band-difference features.
+
+The remaining *medium* ratings were appropriate caution about genuine residual
+ambiguities the payload does not resolve (ensemble spread, quaternion
+handedness, per-sample audio edges), not failures of understanding.
+
+Full method, per-sample results, and the annotation-driven reasoning cases are
+recorded in [`EVALUATION.md`](EVALUATION.md).
+
+
 ## Command Line Usage
 
 Formatted text and HTML versions of the draft can be built using `make`.

@@ -1,6 +1,6 @@
 # Characteristics annotations on real feed schemas
 
-Twenty-four samples derived from data published by live open-data feeds and by
+Twenty-eight samples derived from data published by live open-data feeds and by
 standing reference datasets. Most of the schemas were taken from the xRegistry
 documents in the
 [real-time-sources](https://github.com/clemensv/real-time-sources) feeders; the
@@ -57,6 +57,10 @@ that the meaning of each symbol can be stated symbol by symbol. See
 | 22 | [`22-ccsds-attitude-quaternion`](22-ccsds-attitude-quaternion/) | CCSDS Attitude Parameter Message | `frameTransforms` carrying a quaternion, with `components` naming the scalar first while the message stores it last, and both frames written out as meta-types because the message identifies them by bare names from an annex. |
 | 23 | [`23-kitti-sensor-alignment`](23-kitti-sensor-alignment/) | KITTI `calib_velo_to_cam.txt` | `frameTransforms` carrying a rotation matrix in the nested form, so no row-major convention has to be agreed, plus `translation` naming three members resolved on the axes of the target frame. |
 | 24 | [`24-fogra-characterization-patch`](24-fogra-characterization-patch/) | ICC characterization data registry, FOGRA51 | `colorSpaces` carrying two spaces over one record — the ink amounts sent to the press and the colorimetric values read back — with `illuminant` and `observer` declared on the second because the numbers are unreadable without them. |
+| 25 | [`25-sensor-community-noise`](25-sensor-community-noise/) | Sensor.Community `SensorReading` | `measurementConditioning` carrying the A-weighting and sound-pressure reference on three noise levels, the min and max also marked as statistics, while the particulate and temperature channels beside them carry a unit and nothing to condition. |
+| 26 | [`26-vatsim-pilot-position`](26-vatsim-pilot-position/) | VATSIM `PilotPosition` | `codedValues` binding an aircraft type designator and two aerodrome codes to their ICAO registers — all `kind` `icao`, but three entries in two lists, so `reference` and not `kind` says which list each draws from. |
+| 27 | [`27-firms-modis-fire-detection`](27-firms-modis-fire-detection/) | NASA FIRMS `FireDetection` (MODIS) | `spectralBands` binding two brightness-temperature values to the MODIS thermal-anomaly channels 21/22 and 31, with `calibration` `brightnessTemperature` carried as an open value. |
+| 28 | [`28-broadcast-audio-frame`](28-broadcast-audio-frame/) | ITU-R BS.2051 / ADM delivery frame | `audioChannels` as an array of two channel groups over one record — a 0+5+0 main mix and a 0+2+0 commentary bed — each stating its level reference and encoding, with programme loudness carried as its own measured value beside the samples. The frame counter is a sample-clock position (`temporalReferenceSystem` meta-type) with a fixed one-sample `cadence` and an explicit `sample_rate` that turns frames into seconds. |
 
 ## What the annotations carry
 
