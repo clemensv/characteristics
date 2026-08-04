@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/10-phenomenon-time-relation",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/10-phenomenon-time-relation",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "WeatherStationReport",
   "description": "Automatic weather station report demonstrating all four phenomenonTimeRelation values. The record carries both an instantaneous observation time (observed_at, role phenomenonTime) for instant and untilNext readings, and an hourly window boundary pair (window_start / window_end, roles phenomenonTimeStart / phenomenonTimeEnd) for interval and accumulation results. The summary window is the half-open period [window_start, window_end); by convention window_end equals observed_at so the instantaneous sample coincides with the window close.",
   "type": "object",

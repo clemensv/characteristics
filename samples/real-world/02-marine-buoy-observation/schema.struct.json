@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/02-marine-buoy-observation",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/02-marine-buoy-observation",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "BuoyObservation",
   "description": "Real-time standard meteorological and oceanographic observation from an NDBC buoy, C-MAN station, or partner platform. Sourced from the NDBC latest_obs.txt composite file which is updated every five minutes. Fields cover wind, waves, pressure, temperature, dewpoint, pressure tendency, visibility, and tide. Derived from the noaa-ndbc feeder schema published in the xRegistry catalogue. The sample demonstrates the derivation and statistic pair working together - mean over the averaging window for wind speed, wind direction and wave period, maximum for the peak gust, mean over the highest one-third of waves for significant wave height - alongside calculated members for the reduced pressure, the dewpoint and the three-hour pressure tendency, measured members for the raw sensor channels, phenomenonTimeRelation separating instantaneous readings from windowed ones, a fixed five-minute cadence on the observation time, and a coordinateReferenceSystem binding over the platform latitude/longitude. Every measurement member is optional; a channel that the platform did not report in a given cycle is omitted from the record.",
   "type": "object",
@@ -61,7 +61,7 @@
     },
     "wind_direction": {
       "type": "double",
-      "description": "Wind direction (the direction the wind is coming from) averaged over an 8-minute period for buoys or a 2-minute period for land stations. Unit: degrees true. The reported value is the mean of the samples taken over that averaging window rather than an instantaneous reading.",
+      "description": "Wind direction (the direction the wind is coming from) averaged over an 8-minute period for buoys or a 2-minute period for land stations. Unit: degrees true. The reported value is the mean of the samples taken over that averaging window rather than an instantaneous reading. The window ends at the observation time, and its length is not fixed by this schema: it follows the station type, which the record does not carry, so no `supportPeriod` is declared and the extent of the period must be obtained from the NDBC station metadata.",
       "unit": "deg",
       "symbol": "°",
       "semanticRole": "observationValue",
@@ -75,7 +75,7 @@
     },
     "wind_speed": {
       "type": "double",
-      "description": "Average wind speed during the observation period: 8 minutes for buoys, 2 minutes for land stations. Unit: meters per second. The reported value is the mean of the anemometer samples taken over that averaging window.",
+      "description": "Average wind speed during the observation period: 8 minutes for buoys, 2 minutes for land stations. Unit: meters per second. The reported value is the mean of the anemometer samples taken over that averaging window. The window ends at the observation time and its length follows the station type, which the record does not carry, so no `supportPeriod` is declared and the extent of the period is indeterminate from this schema alone.",
       "unit": "m/s",
       "symbol": "m/s",
       "semanticRole": "observationValue",
@@ -89,7 +89,7 @@
     },
     "gust": {
       "type": "double",
-      "description": "Peak 5-second or 8-second gust speed during the observation period. Unit: meters per second. The reported value is the greatest short-interval wind speed observed within the same averaging window that produced wind_speed.",
+      "description": "Peak 5-second or 8-second gust speed during the observation period. Unit: meters per second. The reported value is the greatest short-interval wind speed observed within the same averaging window that produced wind_speed, whose length follows the station type and is not fixed by this schema, so no `supportPeriod` is declared here either.",
       "unit": "m/s",
       "symbol": "m/s",
       "semanticRole": "observationValue",
@@ -110,6 +110,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT20M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Length",
         "kind": "qudt-quantity-kind"
@@ -123,6 +127,10 @@
       "semanticRole": "observationValue",
       "derivation": "calculated",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT20M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Period",
         "kind": "qudt-quantity-kind"
@@ -137,6 +145,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT20M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Period",
         "kind": "qudt-quantity-kind"
@@ -150,6 +162,10 @@
       "semanticRole": "observationValue",
       "derivation": "calculated",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT20M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Angle",
         "kind": "qudt-quantity-kind"
@@ -215,6 +231,10 @@
       "semanticRole": "observationValue",
       "derivation": "calculated",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT3H",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Pressure",
         "kind": "qudt-quantity-kind"

@@ -5,6 +5,8 @@
 *.txt
 *.upload
 *~
+.tmp-*
+__pycache__/
 .tags
 /*-[0-9][0-9].xml
 /.*.mk
@@ -18,6 +20,8 @@
 Gemfile.lock
 archive.json
 draft-vasters-json-structure-characteristics.xml
+/evaluation/results/
+/evaluation/__pycache__/
 package-lock.json
 report.xml
 !requirements.txt

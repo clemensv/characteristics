@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/10-transit-vehicle-position",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/10-transit-vehicle-position",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "VehiclePosition",
   "description": "Normalized payload for one SIRI 2.0 VehicleActivity element emitted by a configured provider feed. The bridge emits one event per monitored vehicle activity in each poll cycle, keyed by the stable operator code and vehicle reference. Derived from the SIRI feeder schema published in the xRegistry catalogue. The sample demonstrates the scheduledTime and actualTime pair that carries the real-time content of a transit feed: the aimed departure and aimed arrival of the monitored journey are scheduled positions, the expected arrival recomputed by the AVL system is the actual position, and the instant at which the AVL system recorded the vehicle activity is the phenomenon time of the position fix. It further demonstrates a coordinateReferenceSystem binding over the reported longitude and latitude in CRS84 axis order, the monitored vehicle as the feature of interest, measured observationValue members for the kinematic channels, a status member for the monitoring flag, an effectiveTimeEnd for the staleness horizon, and a fixed cadence matching the SIRI Vehicle Monitoring poll interval.",
   "type": "object",

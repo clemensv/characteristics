@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/21-gcmt-moment-tensor",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/21-gcmt-moment-tensor",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "GcmtMomentTensor",
   "description": "A centroid-moment-tensor solution as published in the Global CMT catalogue, transcribed from the fixed-column `ndk` record into a record with named members. The sample exists because the six members `mrr`, `mtt`, `mpp`, `mrt`, `mrp` and `mtp` are the independent components of one symmetric rank-2 tensor, and because the frame their letters refer to is stated nowhere in the data: the catalogue defines r as up, t as south and p as east in the document that describes the file format, while the Aki-Richards convention in wide use elsewhere is north, east, down. Reading the components against the wrong convention flips the signs of the off-diagonal terms and nothing in the payload objects. It demonstrates tensorReferenceFrames naming one frame at both index positions, `symmetry` of `symmetric` so that six members determine nine components, the indexed form of `components` so that no packing order has to be agreed, a frame written out as a meta-type because no register serves it, a frame-invariant scalar moment beside the frame-dependent components it is derived from, and a horizontal coordinate reference system over the centroid position. The tensor components are an inversion result rather than a reading, so every one of them carries derivation `calculated`.",
   "type": "object",

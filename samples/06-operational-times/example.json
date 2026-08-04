@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/06-operational-times",
+  "$schema": "https://schemas.example.org/semantic-annotations/06-operational-times",
   "runId": "f3a8c2e1-9d7b-4f5a-b6e0-2c4d8e6f1a3b",
   "samplingStation": "USGS-07010000",
   "scheduledSampleTime": "2026-07-18T08:00:00Z",

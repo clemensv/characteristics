@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/11-cadence",
+  "$schema": "https://schemas.example.org/semantic-annotations/11-cadence",
   "gateway_id": "GW-BLDG7-NORTH",
   "temperature": {
     "measured_at": "2026-07-30T14:10:00Z",

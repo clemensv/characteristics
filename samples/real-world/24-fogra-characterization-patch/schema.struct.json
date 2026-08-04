@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/24-fogra-characterization-patch",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureUnits"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/24-fogra-characterization-patch",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureUnits"],
   "name": "FograCharacterizationPatch",
   "description": "One patch of a printing characterization dataset, transcribed from the FOGRA51 file published in the characterization data registry of the International Color Consortium. The sample exists because the record holds the same colour twice, once as the four ink amounts that were sent to the press and once as the three colorimetric values that were read back off the sheet, and neither triple nor quadruple means anything without the conditions of the measurement. The file states those conditions in a header line and the numbers carry them nowhere: a different illuminant or a different observer over the same sheet returns different numbers, and a different backing or filter over the same sheet returns different numbers again. It demonstrates colorSpaces carrying two spaces over one record, `channels` binding members in the order the space defines rather than the order the record stores them in, and `illuminant` and `observer` declared on the colorimetric space because the file states both and the values are unreadable without them.",
   "type": "object",

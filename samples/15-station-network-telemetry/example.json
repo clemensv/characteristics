@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/15-station-network-telemetry",
+  "$schema": "https://schemas.example.org/semantic-annotations/15-station-network-telemetry",
   "networkId": "PNWAQM-001",
   "batchIssueTime": "2026-07-28T14:03:22Z",
   "readings": [

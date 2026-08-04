@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/05-flattened-periods",
+  "$schema": "https://schemas.example.org/semantic-annotations/05-flattened-periods",
   "advisoryId": "c4a1e9d7-2b3f-4a5c-8e6d-0f7b9a3c2e1d",
   "monitoringSite": "EPA-AQS-060371201",
   "averagingWindowStart": "2026-07-22T09:00:00Z",

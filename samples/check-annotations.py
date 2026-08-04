@@ -4,7 +4,7 @@
 The JSON Structure SDK validators check a schema document against Core and the
 extensions they know about, but they ignore annotation keywords contributed by an
 add-in they do not implement. This script closes that gap for the Characteristics
-extension: it reads ``characteristics-v0.json``, derives the keyword set and the
+extension: it reads ``semantic-annotations-v0.json``, derives the keyword set and the
 value types from the add-ins listed under ``$offers``, and validates every
 annotation found in a sample schema against those definitions.
 
@@ -64,7 +64,7 @@ class MetaSchema:
     def __init__(self, doc):
         self.doc = doc
         self.keywords = {}
-        offers = doc.get("$offers", {}).get("JSONStructureCharacteristics", [])
+        offers = doc.get("$offers", {}).get("JSONStructureSemanticAnnotations", [])
         if isinstance(offers, str):
             offers = [offers]
         for pointer in offers:
@@ -166,12 +166,26 @@ class MetaSchema:
                 errors.append(f"{path}: expected an absolute URI, got '{value}'")
             if declared == "jsonpointer" and not value.startswith(("#/", "/")):
                 errors.append(f"{path}: expected a JSON Pointer, got '{value}'")
-        elif declared in ("int32", "int64", "integer"):
-            if isinstance(value, bool) or not isinstance(value, int):
-                errors.append(f"{path}: expected an integer")
+        elif declared in ("int32", "int64", "integer", "double", "float", "decimal", "number"):
+            if declared in ("int32", "int64", "integer"):
+                if isinstance(value, bool) or not isinstance(value, int):
+                    errors.append(f"{path}: expected an integer")
+                    return
+            elif isinstance(value, bool) or not isinstance(value, (int, float)):
+                errors.append(f"{path}: expected a number")
                 return
             if "minimum" in schema and value < schema["minimum"]:
                 errors.append(f"{path}: expected at least {schema['minimum']}, got {value}")
+            if "maximum" in schema and value > schema["maximum"]:
+                errors.append(f"{path}: expected at most {schema['maximum']}, got {value}")
+            if "exclusiveMinimum" in schema and value <= schema["exclusiveMinimum"]:
+                errors.append(
+                    f"{path}: expected greater than {schema['exclusiveMinimum']}, got {value}"
+                )
+            if "exclusiveMaximum" in schema and value >= schema["exclusiveMaximum"]:
+                errors.append(
+                    f"{path}: expected less than {schema['exclusiveMaximum']}, got {value}"
+                )
         elif declared is not None:
             errors.append(f"{path}: unsupported meta-schema type '{declared}'")
             return

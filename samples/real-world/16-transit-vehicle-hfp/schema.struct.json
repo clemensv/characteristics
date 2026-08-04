@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/16-transit-vehicle-hfp",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/16-transit-vehicle-hfp",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "VehicleEvent",
   "description": "A `vp` vehicle-position event from the HSL High-Frequency Positioning feed for the Helsinki region, published on MQTT at roughly one message per second per vehicle. Derived from the hsl-hfp feeder schema published in the xRegistry catalogue. The sample exists because the upstream member names are two-to-four letter abbreviations of internal jargon whose semantics cannot be recovered from the payload: `dl`, `oday`, `drst`, `odo`, `loc`, `occu`, `ttarr`, `ttdep`. It demonstrates observingProcedure carrying the provenance of a position fix rather than the identity of an instrument, phenomenonTimeRelation accumulation on an odometer that resets at the start of each trip, a scheduled time located in a non-civil operating-day regime declared as a temporalReferenceSystem meta-type, scheduledTime on two members of one record, and a schedule deviation whose sign convention is the opposite of the one a consumer would assume. The flat upstream `oday` and `start` members are lifted into the `journey_start` object so that the operating-day regime has a node to attach to; every other member keeps its upstream name.",
   "type": "object",
@@ -177,7 +177,7 @@
     "acc": {
       "type": "double",
       "unit": "m/s2",
-      "description": "Acceleration in metres per second squared, from the HFP payload `acc` field. The vehicle does not measure it: it is the difference between this speed sample and the previous one divided by the interval between them, so it inherits the noise of both samples and is undefined for the first message of a trip.",
+      "description": "Acceleration in metres per second squared, from the HFP payload `acc` field. The vehicle does not measure it: it is the difference between this speed sample and the previous one divided by the interval between them, so it inherits the noise of both samples and is undefined for the first message of a trip. The interval it characterizes closes at `tst` and opens at the timestamp of the preceding message, which this record does not carry, and its length varies with the actual spacing of messages. No `supportPeriod` is declared because there is no length to state, and the extent of the period is indeterminate from the record alone. The one-second cadence on `tst` says what the vehicle is expected to emit next and does not bound this interval.",
       "semanticRole": "observationValue",
       "derivation": "calculated",
       "phenomenonTimeRelation": "interval",
@@ -190,7 +190,7 @@
       "type": "int32",
       "unit": "m",
       "minimum": 0,
-      "description": "Odometer reading in metres, from the HFP payload `odo` field. It is not a lifetime total: the counter is reset when the trip starts, so the value accumulates over the interval from the scheduled departure carried by `journey_start` to `tst`.",
+      "description": "Odometer reading in metres, from the HFP payload `odo` field. It is not a lifetime total: the counter is reset when the vehicle actually begins the trip, so the value accumulates from that reset up to `tst`. The reset instant is not carried by this record. `journey_start` holds the scheduled departure, which is a `scheduledTime` and does not supply a phenomenon-time boundary, and `dl` measures precisely the discrepancy between the schedule and the vehicle's actual running. The length of the accumulation therefore differs from message to message and from vehicle to vehicle, so no `supportPeriod` is declared and the opening boundary of the period is indeterminate from the record.",
       "semanticRole": "observationValue",
       "derivation": "measured",
       "phenomenonTimeRelation": "accumulation",

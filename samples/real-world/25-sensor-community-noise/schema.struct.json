@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/25-sensor-community-noise",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureUnits"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/25-sensor-community-noise",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureUnits"],
   "name": "SensorCommunityNoiseReading",
   "description": "One telemetry reading from a Sensor.Community citizen node that carries a noise sensor, transcribed from the io.sensor.community SensorReading event of the real-time-sources feeder. The sample exists because the three sound levels the node reports are all in decibels and all A-weighted, and a decibel figure means nothing until the weighting it was taken under and the reference it stands against are stated: an A-weighted level and an unweighted level over the same sound are different numbers, and a level relative to twenty micropascals and a level relative to digital full scale are different numbers again. It demonstrates `measurementConditioning` attaching to each acoustic value to carry the A-weighting and the sound-pressure reference the feed documents but the numbers do not, and it demonstrates that the keyword attaches only to the conditioned measurements: the particulate and temperature channels in the same record carry a unit and no conditioning, because there is nothing hidden in them to state. The feed names the weighting but not the time constant, so `timeWeighting` is omitted rather than guessed, and the two extrema are additionally marked as the `minimum` and `maximum` statistics they are.",
   "type": "object",

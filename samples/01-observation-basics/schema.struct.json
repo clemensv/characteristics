@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/01-observation-basics",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/01-observation-basics",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "RiverGaugingObservation",
   "description": "A water-level reading from a river gauging station. Demonstrates observedProperty on the record type and the semanticRole values featureOfInterest, observingProcedure, observationValue, resultQuality, phenomenonTime, and resultTime.",
   "type": "object",

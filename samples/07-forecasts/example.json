@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/07-forecasts",
+  "$schema": "https://schemas.example.org/semantic-annotations/07-forecasts",
   "bulletinId": "f7a3c2d1-0b4e-4f89-9a12-3e5678901bcd",
   "stationId": "USGS-09380000",
   "issuedAt": "2026-07-30T06:00:00Z",

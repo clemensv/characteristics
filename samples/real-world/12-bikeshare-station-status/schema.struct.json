@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/12-bikeshare-station-status",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/12-bikeshare-station-status",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "StationStatus",
   "description": "Near-real-time station availability data from the GBFS `station_status.json` feed. Each record reports the current inventory of rentable vehicles and available docks together with boolean operating flags and the upstream `last_reported` timestamp for the station. Derived from the GBFS bikeshare feeder schema published in the xRegistry catalogue. The sample demonstrates event-driven publication and counted quantities: an onChange cadence on the station report time, count statistics on the vehicle and dock inventories, status members for the installed, renting and returning flags, the station as the feature of interest, the distinction between the phenomenon time at which the operator backend last observed the station and the result time at which the feed document was assembled, and a temporalReferenceSystem binding for the POSIX second counts that carry both.",
   "type": "object",

@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/03-aerodrome-metar",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/03-aerodrome-metar",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "Metar",
   "description": "METAR aviation weather observation from the AviationWeather.gov API. Reports surface conditions including temperature, dewpoint, wind, visibility, pressure, clouds, and flight category for an ICAO reporting station. Derived from the aviationweather feeder schema published in the xRegistry catalogue. The sample demonstrates a routine aerodrome report: concepts on the result members bound to published vocabulary terms, an hourly fixed cadence on the observation time, phenomenonTime and resultTime distinguished from one another, the report type carried as a status member, observedProperty stated both for the record as a whole and for each individual result member, and two coordinate reference system bindings - a vertical CRS over the station elevation on the record and a horizontal CRS over the station latitude/longitude on the nested position object.",
   "type": "object",
@@ -139,6 +139,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Angle",
         "kind": "qudt-quantity-kind"
@@ -153,6 +157,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Speed",
         "kind": "qudt-quantity-kind"
@@ -167,6 +175,10 @@
       "derivation": "statistic",
       "statistic": "maximum",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Speed",
         "kind": "qudt-quantity-kind"

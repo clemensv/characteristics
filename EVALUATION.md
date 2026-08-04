@@ -1,7 +1,7 @@
 # Schema Comprehension Evaluation
 
 This document records an empirical test of the central claim behind *JSON
-Structure: Characteristics*: that the annotations make a schema **understandable
+Structure: Semantic and Reference-System Annotations*: that the annotations make a schema **understandable
 to a machine reader on its own**, without access to the specification, the
 surrounding repository, or a human explaining the domain.
 
@@ -9,6 +9,16 @@ The test was run over **all 43 worked examples** in [`samples/`](samples/)
 (15 teaching samples plus 28 real-world samples). Each sample was handed to an
 isolated language model that saw nothing but the sample's own schema and one
 example instance.
+
+> **Status.** This is the record of the *first* probe, and its design is weak in
+> four ways that questions 57 to 59 of [`Q-A.md`](Q-A.md) set out: the score is
+> the subject's opinion of itself, 40 of the 43 samples had no control arm,
+> nothing was blinded, and one model is one data point. The document is kept
+> because it is what was actually run, not because the method is sound. A
+> harness that supplies an independent supervisor, a control arm for every
+> sample, blinding with a measured integrity check, and more than one model is
+> in [`evaluation/`](evaluation/). Read the numbers below as an exploratory
+> observation and the harness as the thing that is meant to produce evidence.
 
 ---
 
@@ -53,9 +63,31 @@ given:
 3. Which **annotations it named** as load-bearing — and, critically, whether the
    annotation changed the answer from a plausible guess to a *correct* one.
 
-This is a comprehension probe, not a benchmark with a numeric score. The signal
-is qualitative: *does the semantic layer carry enough for an uninformed reader to
-reason correctly about the data?*
+Only the first and third of these are worth anything, and the third was assessed
+by reading the transcripts rather than by any rule. The second is the subject
+grading itself. This is a comprehension probe, not a benchmark with a numeric
+score.
+
+### 1.4 Two kinds of claim, and only one of them was checked
+
+A transcript makes claims of two kinds, and they are not equally checkable.
+
+A **schema-grounded** claim is one the annotations entail: that `time_tag`
+carries phenomenon time, that the components are resolved on a named frame and
+are therefore not comparable across frames, that the values are in `nT`. Whether
+a transcript got such a claim right is decidable by anyone holding the schema,
+and it is what this evaluation is competent to assess.
+
+A **domain-correct** claim is one about whether an analysis is any good for its
+field: whether the proposed fire-detection metric is the one a remote-sensing
+group would use, whether the moment-tensor decomposition is the useful one,
+whether something important was left out. Nothing in this evaluation checks
+those, and no language model can settle them. Where §4 below says an agent
+"proposed registry joins" or "built a band-difference metric", the claim being
+made is that the annotation supplied the fact the proposal rests on — not that
+the proposal is what a practitioner would do. That second question needs the
+review asked for in questions 3 and 56, from OGC, ICC, ITU, and the publishers
+of the feeds these samples are drawn from.
 
 ---
 
@@ -69,6 +101,11 @@ reason correctly about the data?*
 | Low confidence | 0 |
 | Agents that named annotations as materially helpful | 43 / 43 |
 | Agents that reported annotations as unhelpful ("none") | 0 / 43 |
+
+These are self-ratings and carry the weight of self-ratings. A model asked how
+confident it is will say high, and 40 out of 43 is about what one would expect
+from asking. The row that carries information is the last two: which specific
+annotations the transcripts leaned on, which is checkable against §3 and §4.
 
 The three medium ratings — `07-forecasts`, `22-ccsds-attitude-quaternion`, and
 `28-broadcast-audio-frame` — were caution about genuine residual ambiguities in
@@ -183,47 +220,67 @@ caution about something the *payload itself* leaves open.
 * **`22-ccsds-attitude-quaternion`** — read the scalar-last component order from
   the annotation but flagged quaternion **handedness / rotation sense** as an
   edge the sample record does not pin down.
-* **`28-broadcast-audio-frame`** — flagged residual per-sample edge cases, yet it
-  used `sample_rate` + `frame_index` to reconstruct frame timing
-  (`seconds = frame_index / sample_rate`) and read full-scale normalization from
-  the `levelReference` / `encoding` annotations. This is the sample where an
-  earlier revision was ambiguous about timing; after `temporalReferenceSystem`,
-  `cadence`, and an explicit `sample_rate` were added, the agent no longer flags
-  missing sample-rate information — a direct confirmation that the added
-  annotations closed the gap.
+* **`28-broadcast-audio-frame`** — flagged residual per-sample edge cases and
+  read full-scale normalization from the `levelReference` / `encoding`
+  annotations. It also reconstructed frame timing as
+  `seconds = frame_index / sample_rate`. An earlier revision of this document
+  recorded that reconstruction as a success. It is not one, and reviewing it
+  changed the specification rather than the evaluation. Nothing in the schema
+  said that `sample_rate` realizes the clock the `frame_index` counts on; the
+  agent inferred it from the member's name and from its unit being one of
+  frequency, which is exactly the inference the draft now forbids a processor
+  from drawing. The sample itself was wrong to invite it — its clock meta-type
+  named the member in prose — and both the sample and the draft's worked example
+  were corrected. What this case actually demonstrates is the failure mode the
+  document is about: a reader will supply a missing relation from a plausible
+  name, and will not report having done so.
 
 ---
 
 ## 6. Interpretation and caveats
 
-**What this shows.** Even a small, general model, fully isolated, could interpret
-all 43 schemas well enough to propose sound analytics — 40 of 43 at high
-confidence and none at low — and in every case named specific annotations as the
-thing that made the data legible. In the reference-system, coded-value, and
-conditioning cases the annotation is what produced the *correct* answer
-(comparability rules, registry joins, frame invariance, weighting) instead of a
-plausible-sounding guess. The semantic layer is therefore both **self-describing**
-(a reader can discover what it means from the schema) and **load-bearing** (it
-changes the analytical conclusion).
+**What this supports, and what it does not.** A small, general model, working
+from two files, produced readings of all 43 schemas that were coherent enough to
+propose analytics from, and the transcripts repeatedly turned on specific
+annotations — comparability across frames, registry joins, weighting curves, the
+refusal to map an instrument clock onto UTC. That is evidence that the semantic
+layer is discoverable from the schema and that a reader uses it. It is not
+evidence of how much difference it makes, because for 40 of the 43 samples
+nothing was run without it.
 
-**Caveats.**
+**Caveats.** The first four are design defects, not qualifications.
 
-* This is a comprehension probe, not a scored benchmark; "confidence" is the
-  agent's own self-assessment.
-* A single small model was used; results will vary with model and prompt. The
-  choice of a small model is deliberate — a frontier model's prior knowledge
-  would blur the line between what the *schema* conveys and what the model
-  already knew.
+* **The score is self-reported.** "Confidence" is the subject's opinion of its
+  own work, collected by asking it. It is not a measurement.
+* **There is almost no control.** Six samples have committed unannotated
+  companions; the other 37 have nothing to compare against. Without a control
+  arm, a correct statement about a METAR feed cannot be attributed to the
+  annotation rather than to the model already knowing what a METAR is.
+* **Nothing was blinded.** The same author wrote the annotations, ran the probe,
+  and read the transcripts.
+* **One model is one data point.** The choice of a small model is deliberate — a
+  frontier model's prior knowledge would blur the line between what the schema
+  conveys and what the model already knew — but one model of any size cannot
+  separate a property of the schemas from a property of that model.
 * Isolation was enforced by sandboxing and instruction, not by a hardened
-  sandbox; the neutral file and directory names were the main defense against
-  domain leakage.
+  sandbox. Neutral file and directory names were the main defense against domain
+  leakage, and they are not sufficient: the schemas name their source feed in
+  the root `description`.
 * Each sample was judged on its own; no cross-sample consistency was tested.
+
+The harness in [`evaluation/`](evaluation/) addresses the first four. It derives
+a rubric of schema-entailed claims mechanically, runs every sample in both an
+annotated and a stripped arm, has a separate supervisor model grade blinded
+transcripts claim by claim with a quote required for every verdict, and reports
+the rate of positively wrong statements in each arm. Its own limits are set out
+in its README, and they include the one that matters most here: it still cannot
+tell whether an analysis is right for its domain.
 
 ---
 
 ## 7. Reproducing the test
 
-For each sample directory `D`:
+To reproduce what is recorded above, for each sample directory `D`:
 
 1. Create an empty directory `S`.
 2. Copy `D/schema.struct.json` → `S/schema.json` and
@@ -236,3 +293,8 @@ For each sample directory `D`:
 
 Delete the sandbox directories when finished; they contain only copies of the
 sample files.
+
+To run the controlled version instead, see [`evaluation/README.md`](evaluation/README.md).
+It builds both arms, both prompts, and the grading itself; `--transport none`
+writes every prompt without calling a model, so the method can be inspected
+before any of it is trusted.

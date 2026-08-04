@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/15-pollen-forecast",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/15-pollen-forecast",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "PollenForecast",
   "description": "A forecast from Germany's Deutscher Wetterdienst (DWD) for one area or station. It carries pollen exposure forecasts by region and plant type for the period published by the upstream source. Derived from the dwd-pollenflug feeder schema published in the xRegistry catalogue. The upstream record is flat: it carries three columns per taxon, named today, tomorrow and the day after, so the lead time is encoded in the property name and cannot be annotated. The sample restructures that record into a bulletin header plus an array of one entry per lead, which is the intended demonstration: the lead is then a value carried once per entry and takes forecastLeadDuration, and each entry states the phenomenon-time day it describes with phenomenonTimeStart and phenomenonTimeEnd. The issue timestamp takes forecastIssueTime and carries a fixed daily cadence at the DWD issue rate; the announced next issue takes scheduledTime; the window during which the bulletin is in force takes effectiveTimeStart and effectiveTimeEnd, which is a different axis from the days the forecast describes. The severity index values are produced by the DWD medical-meteorology model and are therefore modeled, and each result member names its pollen taxon with observedProperty.",
   "type": "object",

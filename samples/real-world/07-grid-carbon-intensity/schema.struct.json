@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/07-grid-carbon-intensity",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/07-grid-carbon-intensity",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "RegionalIntensity",
   "description": "Half-hourly carbon intensity and generation mix for one of the 17 GB Distribution Network Operator (DNO) regions, published by National Grid ESO. Each record covers a specific DNO region identified by its numeric region ID. Derived from the carbon-intensity feeder schema published in the xRegistry catalogue. The sample demonstrates the forecast/outturn contrast that a settlement-period feed carries: the same observed property is reported twice for one half-hour, once as a modelled forecast issued ahead of the period and once as the calculated outturn settled after it. It shows forecastIssueTime and forecastLeadDuration alongside the flattened settlement-period boundaries phenomenonTimeStart and phenomenonTimeEnd, phenomenonTimeRelation interval on every value that characterises the period rather than an instant, a fixed half-hourly cadence on the period start, featureOfInterest on the region identifier, and status on the qualitative index band. Every result member is optional; a channel that National Grid ESO did not publish for a given settlement period is omitted from the record rather than nulled.",
   "type": "object",

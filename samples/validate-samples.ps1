@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-    Validates the JSON Structure: Characteristics samples.
+    Validates the JSON Structure: Semantic and Reference-System Annotations samples.
 
 .DESCRIPTION
     Runs five checks:
 
-      1. The extension meta-schema (characteristics-v0.json) is a conforming
+      1. The extension meta-schema (semantic-annotations-v0.json) is a conforming
          JSON Structure schema document. Skipped unless the json-structure/meta
          repository is checked out beside this one, because the meta-schema
          imports the Extended meta-schema.
       2. Every sample schema conforms to JSON Structure Core and the extensions
          it declares in $uses.
       3. Every example.json instance conforms to the schema beside it.
-      4. Every Characteristics annotation in every sample schema conforms to the
+      4. Every annotation in every sample schema conforms to the
          extension meta-schema.
       5. Every schema-unannotated.struct.json companion is a conforming schema,
          accepts the instance beside it, and is up to date with respect to the
@@ -23,7 +23,7 @@
     uses make-unannotated.py, both of which read the meta-schema directly.
 
 .EXAMPLE
-    ./validate-characteristics.ps1
+    ./validate-samples.ps1
 #>
 
 [CmdletBinding()]
@@ -33,7 +33,7 @@ $ErrorActionPreference = 'Stop'
 
 $samplesRoot = $PSScriptRoot
 $repoRoot = Split-Path -Parent $samplesRoot
-$metaSchema = Join-Path $repoRoot 'characteristics-v0.json'
+$metaSchema = Join-Path $repoRoot 'semantic-annotations-v0.json'
 $extendedMeta = Join-Path (Split-Path -Parent $repoRoot) 'meta/extended/v0/index.json'
 $coreMeta = Join-Path (Split-Path -Parent $repoRoot) 'meta/core/v0/index.json'
 
@@ -58,10 +58,10 @@ if ((Test-Path $extendedMeta) -and (Test-Path $coreMeta)) {
         -m "https://json-structure.org/meta/extended/v0/#=$extendedMeta" `
         -m "https://json-structure.org/meta/core/v0/#=$coreMeta" `
         --quiet $metaSchema 2>&1
-    Write-Result ($LASTEXITCODE -eq 0) 'characteristics-v0.json' $output
+    Write-Result ($LASTEXITCODE -eq 0) 'semantic-annotations-v0.json' $output
 }
 else {
-    Write-Host '  [skip] characteristics-v0.json (json-structure/meta not checked out beside this repository)' -ForegroundColor Yellow
+    Write-Host '  [skip] semantic-annotations-v0.json (json-structure/meta not checked out beside this repository)' -ForegroundColor Yellow
 }
 
 $schemas = Get-ChildItem -Path $samplesRoot -Recurse -Filter 'schema.struct.json' | Sort-Object FullName

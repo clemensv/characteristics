@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/23-kitti-sensor-alignment",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureUnits"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/23-kitti-sensor-alignment",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureUnits"],
   "name": "KittiSensorAlignment",
   "description": "The rigid alignment between the rotating laser scanner and the reference camera of the KITTI autonomous driving dataset, transcribed from the `calib_velo_to_cam.txt` file of a recording day. The sample exists because the file carries twelve numbers, a calibration timestamp and nothing else: nine numbers that are a rotation and three that are an offset, with no statement of whether the nine are rows or columns, no statement of which frame the offset is resolved on, and the direction of the transformation carried only by the name of the file. The two readings of the nine numbers are transposes of one another and both are valid rotations, so no arithmetic check distinguishes them; only knowing how the sensors are bolted to the vehicle does. It demonstrates frameTransforms carrying a rotation matrix in the nested form, where the outer index is the row and no row-major or column-major convention has to be agreed, `translation` naming three members resolved on the axes of the target frame, and both sensor frames written out as meta-types because no register serves a frame bolted to one research vehicle.",
   "type": "object",

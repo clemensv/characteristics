@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-structure.org/meta/extended/v0/#",
-  "$id": "https://json-structure.org/meta/characteristics/v0/#",
+  "$id": "https://json-structure.org/meta/semantic-annotations/v0/#",
   "$import": "https://json-structure.org/meta/extended/v0/#",
   "$uses": [
     "JSONStructureUnits",
@@ -9,7 +9,7 @@
     "JSONStructureValidation"
   ],
   "$offers": {
-    "JSONStructureCharacteristics": [
+    "JSONStructureSemanticAnnotations": [
       "#/definitions/features/ConceptsAddIn",
       "#/definitions/features/ObservationPropertyAddIn",
       "#/definitions/features/ObservationArrayAddIn",
@@ -21,7 +21,7 @@
     ]
   },
   "$root": "#/definitions/SchemaDocument",
-  "name": "JSONStructureCharacteristics",
+  "name": "JSONStructureSemanticAnnotations",
   "description": "Meta-schema for JSON Structure: Characteristics. It validates the shape of each annotation defined by that specification: the presence and form of its members, the enumerations the specification states are closed, and the form required of a reference for the accompanying kind. It does not express a rule whose subject lies outside the annotated node.",
   "definitions": {
     "features": {
@@ -81,6 +81,12 @@
               "$ref": "#/definitions/characteristics/PhenomenonTimeRelation"
             },
             "description": "How the annotated value relates to the phenomenon time of its record."
+          },
+          "supportPeriod": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SupportPeriod"
+            },
+            "description": "Length of the phenomenon-time period the annotated value characterizes, and which boundary of it the anchoring position occupies. Permitted only where phenomenonTimeRelation is 'interval' or 'accumulation'."
           },
           "temporalReferenceSystem": {
             "type": {
@@ -531,9 +537,9 @@
           "modeled"
         ]
       },
-      "Statistic": {
+      "UnparameterizedStatistic": {
         "type": "string",
-        "description": "Closed enumeration of summary functions.",
+        "description": "Closed enumeration of summary functions that take no parameter.",
         "enum": [
           "mean",
           "median",
@@ -546,6 +552,47 @@
           "variance",
           "range"
         ]
+      },
+      "ParameterizedStatistic": {
+        "type": "object",
+        "description": "A summary function that takes a parameter, together with its parameter.",
+        "properties": {
+          "function": {
+            "type": "string",
+            "description": "Closed enumeration of summary functions that take a parameter.",
+            "enum": [
+              "percentile",
+              "nthHighest",
+              "nthLowest"
+            ]
+          },
+          "percentile": {
+            "type": "double",
+            "description": "Percentile rank. Present if and only if function is 'percentile'.",
+            "exclusiveMinimum": 0,
+            "exclusiveMaximum": 100
+          },
+          "rank": {
+            "type": "int32",
+            "description": "Position from the end of the ordered set. Present if and only if function is 'nthHighest' or 'nthLowest'.",
+            "minimum": 2
+          }
+        },
+        "required": [
+          "function"
+        ],
+        "additionalProperties": false
+      },
+      "Statistic": {
+        "type": [
+          {
+            "$ref": "#/definitions/characteristics/UnparameterizedStatistic"
+          },
+          {
+            "$ref": "#/definitions/characteristics/ParameterizedStatistic"
+          }
+        ],
+        "description": "Summary function that produced a result from a set of values. The string form names a function that takes no parameter; the object form names a parameterized function and carries its parameter."
       },
       "PhenomenonTimeRelation": {
         "type": "string",
@@ -566,6 +613,35 @@
           "measure",
           "direction"
         ]
+      },
+      "SupportPeriodAnchor": {
+        "type": "string",
+        "description": "Closed enumeration stating which boundary of a support period the anchoring position occupies.",
+        "enum": [
+          "start",
+          "end"
+        ]
+      },
+      "SupportPeriod": {
+        "type": "object",
+        "description": "Length of the phenomenon-time period a result characterizes, and which boundary of that period the anchoring position occupies.",
+        "properties": {
+          "length": {
+            "type": "any",
+            "description": "Positive interval in the temporal reference system applicable to the anchoring position. A Core duration for datetime, date, or time."
+          },
+          "anchor": {
+            "type": {
+              "$ref": "#/definitions/characteristics/SupportPeriodAnchor"
+            },
+            "description": "Whether the anchoring position opens or closes the period."
+          }
+        },
+        "required": [
+          "length",
+          "anchor"
+        ],
+        "additionalProperties": false
       },
       "SortOrder": {
         "type": "string",
@@ -1029,7 +1105,7 @@
           },
           "levelReference": {
             "type": {
-              "$ref": "#/definitions/characteristics/AudioLevelReference"
+              "$ref": "#/definitions/characteristics/LevelReference"
             },
             "description": "What the sample amplitudes are relative to. Defaults to 'fullScale'."
           },
@@ -1055,22 +1131,13 @@
         },
         "minItems": 1
       },
-      "AudioLevelReference": {
+      "LevelReference": {
         "type": "string",
-        "description": "Closed enumeration of audio level references.",
-        "enum": [
-          "fullScale",
-          "soundPressure"
-        ]
+        "description": "What a level or a sample amplitude is relative to. Values defined by the specification are 'fullScale' and 'soundPressure'. Any other value is an absolute URI identifying another reference. The enumeration is open."
       },
       "AudioEncoding": {
         "type": "string",
-        "description": "Closed enumeration of audio sample encodings.",
-        "enum": [
-          "linear",
-          "aLaw",
-          "muLaw"
-        ]
+        "description": "How the stored numbers stand to amplitude. Values defined by the specification are 'linear', 'float', 'aLaw', and 'muLaw'. Any other value is an absolute URI identifying another encoding. The enumeration is open."
       },
       "SpectralBand": {
         "$extends": "#/definitions/characteristics/ReferencedDefinition",
@@ -1135,8 +1202,10 @@
             "description": "Time weighting. Values defined by the specification are 'fast' and 'slow'. The enumeration is open."
           },
           "levelReference": {
-            "type": "string",
-            "description": "What the level is relative to: 'soundPressure' or an absolute URI identifying another reference."
+            "type": {
+              "$ref": "#/definitions/characteristics/LevelReference"
+            },
+            "description": "What the level is relative to."
           }
         },
         "minProperties": 1,

@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/09-orbit-mean-elements",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/09-orbit-mean-elements",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "OrbitMeanElements",
   "description": "A General Perturbations (GP) orbital element set for one catalogued object, as published by CelesTrak at `NORAD/elements/gp.php`. This is a CCSDS Orbit Mean-Elements Message (OMM, CCSDS 502.0-B-3) fit by the US Space Force 18th Space Defense Squadron to Space Surveillance Network observations for use with the SGP4 propagator. Emitted whenever the bridge observes a new or refreshed element set for the object; GP data updates several times per day at no fixed period. Derived from the celestrak feeder schema published in the xRegistry catalogue. The sample demonstrates a temporal reference system that is not civil time: the element-set epoch is carried in its native TLE encoding of a four-digit year plus a fractional day of that year, counted as a uniform day number with no leap-second correction, so it is read through the TleEpochPosition meta-type rather than as an RFC 3339 timestamp, and the temporalReferenceSystem annotation names the fixed-width ordinate that orders positions. It further demonstrates that a fitted orbit is a model product and not a measurement: every mean element carries derivation modeled, the satellite is the featureOfInterest, the mean-element theory that produced the fit is the observingProcedure, the OMM creation date is the resultTime, and the cadence is irregular. No coordinateReferenceSystem is declared, because the elements are not terrestrial coordinates.",
   "type": "object",

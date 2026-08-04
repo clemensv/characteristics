@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/20-goes-magnetometer",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/20-goes-magnetometer",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "GoesMagnetometer",
   "description": "One-minute averaged magnetometer readings from a GOES spacecraft, published by the NOAA Space Weather Prediction Center. Derived from the noaa-goes feeder schema published in the xRegistry catalogue. The sample exists because `hp`, `he` and `hn` are the three components of one vector quantity resolved in a spacecraft-local frame that no register serves, and because the letters invite exactly the wrong reading: `hp` is northward, `he` is earthward, and `hn` is eastward. It demonstrates vectorReferenceFrames binding the three components to a frame written out as a meta-type, a calculated magnitude alongside the measured components it is computed from, observingProcedure on the spacecraft rather than on a site, and resultQuality carried by a boolean that marks the readings as contaminated by the spacecraft's own thrusters. The frame binds the members that give the components of a vector, where the coordinate reference system annotation would bind the members that give a position.",
   "type": "object",

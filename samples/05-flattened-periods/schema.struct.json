@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/05-flattened-periods",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/05-flattened-periods",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "AirQualityAdvisory",
   "description": "An air-quality advisory carrying two independent time axes as flattened period-boundary pairs. phenomenonTimeStart and phenomenonTimeEnd bound the one-hour averaging window over which the mean PM2.5 concentration was computed — this is the period of the world the result is about. effectiveTimeStart and effectiveTimeEnd bound the period during which the advisory is in force — this is the period the record is meant to be acted on. The two axes are independent: the phenomenon window is fixed by the measurement schedule, while the advisory window is set by the issuing authority and may span several averaging windows. Note: the periods that this specification pairs with phenomenonTimeRelation use the half-open convention [start,end); averagingWindowEnd is therefore excluded from the phenomenon window under that convention.",
   "type": "object",

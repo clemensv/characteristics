@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/22-ccsds-attitude-quaternion",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/22-ccsds-attitude-quaternion",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "CcsdsAttitudeQuaternion",
   "description": "A spacecraft attitude reported as a quaternion, transcribed from the Attitude Parameter Message the Consultative Committee for Space Data Systems prints as an example in its Attitude Data Messages standard. The sample exists because four numbers between minus one and one are not an orientation until six independent conventions have been settled, and the message settles them in the text of the standard rather than in the record. Which frame the rotation starts from and which it ends at is fixed by the standard as running from `REF_FRAME_A` to `REF_FRAME_B`; whether the scalar is stored first or last is fixed by the standard as last; whether the rotation turns the body or turns the frame is stated only in an annex; and the handedness of the angle is stated nowhere. Read against the other choice of sense the same four numbers give the opposite rotation, and nothing in the payload objects. It demonstrates frameTransforms carrying a quaternion, `components` naming the scalar first while the record stores it last, and both frames written out as meta-types because the message identifies them by bare names drawn from a list in an annex rather than by any resolvable identifier.",
   "type": "object",

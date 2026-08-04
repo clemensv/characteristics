@@ -1,14 +1,14 @@
 <!-- regenerate: off (set to off if you edit this file) -->
 
-# JSON Structure: Characteristics
+# JSON Structure: Semantic and Reference-System Annotations
 
 This is the working area for the individual Internet-Draft, "JSON Structure:
-Characteristics".
+Semantic and Reference-System Annotations".
 
-* [Editor's Copy](https://clemensv.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.html)
+* [Editor's Copy](https://json-structure.github.io/semantic-annotations/#go.draft-vasters-json-structure-characteristics.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-vasters-json-structure-characteristics)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-vasters-json-structure-characteristics)
-* [Compare Editor's Copy to Individual Draft](https://clemensv.github.io/characteristics/#go.draft-vasters-json-structure-characteristics.diff)
+* [Compare Editor's Copy to Individual Draft](https://json-structure.github.io/semantic-annotations/#go.draft-vasters-json-structure-characteristics.diff)
 
 
 ## Contributing
@@ -22,29 +22,45 @@ The GitHub interface supports creating pull requests using the Edit (✏) button
 
 ## Scope and Non-goals
 
+A quality of a value earns a keyword here when a consumer must know it to decide
+whether two values may be combined or compared, and when it holds for the type
+rather than varying from one instance to the next.
+
 Scope:
 
 * Defines optional annotations for observation-oriented semantics in JSON
 	Structure schemas: `concepts`, `semanticRole`, `observedProperty`,
 	`phenomenonTimeRelation`, `derivation`, `statistic`,
 	`temporalReferenceSystem`, `cadence`, `coordinateReferenceSystem`,
-	`vectorReferenceFrames`, and `linearReferenceSystem`.
+	`vectorReferenceFrames`, `tensorReferenceFrames`, `frameTransforms`,
+	`linearReferenceSystem`, `referenceRole`, `colorSpaces`, `audioChannels`,
+	`spectralBands`, `codedValues`, and `measurementConditioning`.
 * Covers roles for observation results, time semantics, quality,
 	feature-of-interest variants, and observing procedure.
-* Defines bindings for temporal, coordinate, vector-frame, and linear reference
-	systems.
-* Defines derivation and cadence annotations for result interpretation.
+* Defines bindings for temporal, coordinate, vector-frame, tensor-frame, and
+	linear reference systems, and for transformations between frames.
+* Defines bindings for color spaces, audio channel layouts, spectral bands, and
+	external code lists.
+* Defines derivation, cadence, and measurement-conditioning annotations for
+	result interpretation.
 
 Non-goals:
 
 * It is not a full ISO 19156 model or a normative JSON encoding of that model.
+	It defines a role vocabulary laid over a record someone else designed, not an
+	observation as a type to instantiate, classes for procedures or features, or
+	relationships among observation entities. No record has to be shaped like an
+	observation to carry these annotations.
 * It does not define complete vocabularies for observed properties,
 	procedures, quality values, or features of interest.
 * It does not define identity or general relationship semantics
 	(see JSON Structure Relations).
 * It does not define units or conversion behavior
 	(see JSON Structure Units).
-* It does not define statistics, analytical methods, causal interpretation,
+* It does not define analytical procedures. It names summary functions but does
+	not define what they compute, how gaps are treated, whether a window is
+	inclusive, or whether a consumer may recompute a value.
+* It does not define causal interpretation,
 	execution policy, governance policy, or lineage policy.
 
 Reference alignment:
@@ -56,10 +72,10 @@ Reference alignment:
 
 ## Samples
 
-[`samples/`](samples/) holds thirty-five worked examples. Each directory contains a
+[`samples/`](samples/) holds forty-three worked examples. Each directory contains a
 `schema.struct.json` that declares the extension meta-schema
-[`characteristics-v0.json`](characteristics-v0.json) and an `example.json`
-instance that conforms to it. Run [`samples/validate-characteristics.ps1`](samples/validate-characteristics.ps1)
+[`semantic-annotations-v0.json`](semantic-annotations-v0.json) and an `example.json`
+instance that conforms to it. Run [`samples/validate-samples.ps1`](samples/validate-samples.ps1)
 to check every schema, every instance, and every annotation.
 
 Where a sample carries an `enum`, the meaning of each symbol is stated with
@@ -97,8 +113,9 @@ Fifteen samples introduce the annotations one theme at a time. See the
 
 ### Real-world samples
 
-Twenty samples annotate schemas published by live open-data feeds, one per
-domain and publisher. See the [real-world README](samples/real-world/README.md).
+Twenty-eight samples annotate schemas published by live open-data feeds and
+standing reference datasets, one per domain and publisher. See the
+[real-world README](samples/real-world/README.md).
 
 | # | Directory | Source |
 |---|---|---|
@@ -122,44 +139,58 @@ domain and publisher. See the [real-world README](samples/real-world/README.md).
 | 18 | [`18-mode-s-aircraft-report`](samples/real-world/18-mode-s-aircraft-report/) | Mode-S / ADS-B downlink reports |
 | 19 | [`19-bmrs-generation-mix`](samples/real-world/19-bmrs-generation-mix/) | Elexon BMRS generation mix |
 | 20 | [`20-goes-magnetometer`](samples/real-world/20-goes-magnetometer/) | NOAA SWPC GOES magnetometer |
+| 21 | [`21-gcmt-moment-tensor`](samples/real-world/21-gcmt-moment-tensor/) | Global CMT moment tensor catalogue |
+| 22 | [`22-ccsds-attitude-quaternion`](samples/real-world/22-ccsds-attitude-quaternion/) | CCSDS Attitude Parameter Message |
+| 23 | [`23-kitti-sensor-alignment`](samples/real-world/23-kitti-sensor-alignment/) | KITTI lidar-to-camera calibration |
+| 24 | [`24-fogra-characterization-patch`](samples/real-world/24-fogra-characterization-patch/) | ICC characterization registry, FOGRA51 |
+| 25 | [`25-sensor-community-noise`](samples/real-world/25-sensor-community-noise/) | Sensor.Community noise and air quality |
+| 26 | [`26-vatsim-pilot-position`](samples/real-world/26-vatsim-pilot-position/) | VATSIM pilot position reports |
+| 27 | [`27-firms-modis-fire-detection`](samples/real-world/27-firms-modis-fire-detection/) | NASA FIRMS MODIS fire detections |
+| 28 | [`28-broadcast-audio-frame`](samples/real-world/28-broadcast-audio-frame/) | ITU-R BS.2051 / ADM delivery frame |
 
 
 ## Schema comprehension evaluation
 
-To test whether the annotations actually make these schemas
-*machine-understandable*, every sample was put in front of an isolated language
-model (`GPT-5 mini`). Each run received only two files — the sample's
-`schema.struct.json` and its `example.json`, copied into a neutral sandbox with
-no repository, directory names, or specification text — and was asked to propose
-the valuable analytics dimensions the stream supports and why, then to flag any
-ambiguities and rate its own confidence.
+Every sample was put in front of an isolated language model (`GPT-5 mini`). Each
+run received only two files — the sample's `schema.struct.json` and its
+`example.json`, copied into a neutral sandbox with no repository, directory
+names, or specification text — and was asked to propose the valuable analytics
+dimensions the stream supports and why, then to flag any ambiguities and rate
+its own confidence.
 
-Across all samples:
+**Read the result as an observation, not as evidence.** The method has four
+defects, and they are not incidental: the score is the subject's opinion of
+itself, 40 of the 43 samples were run without an unannotated control, nothing
+was blinded, and one model is one data point. What the run supports is that the
+annotations are discoverable from the schema and get used. It does not support a
+claim about how much difference they make, because for most samples nothing was
+run without them.
 
-* **Comprehension was near-universal.** Every agent proposed
-	domain-appropriate analytics; confidence was *high* for the large majority
-	and *medium* for only a handful (forecasts, an attitude quaternion, and a
-	per-sample audio frame), with none rating *low*.
-* **The annotations were self-describing and load-bearing.** Every agent
-	independently named specific annotations as what let it interpret the data —
-	none reported the annotations as unhelpful.
-* **In the reference-system, coded-value, and conditioning cases the
-	annotation produced the *correct* answer rather than a plausible guess.**
-	For example, agents used `temporalReferenceSystem` meta-types to refuse an
-	unsafe mapping to UTC, `coordinateReferenceSystem` to require axis-order and
-	vertical-datum handling, `vectorReferenceFrames`/`tensorReferenceFrames` to
-	mark spacecraft-local components as not cross-comparable while treating the
-	frame-invariant magnitude as comparable, `measurementConditioning` to infer
-	A-weighting and the reference sound-pressure level, `codedValues` to plan
-	registry joins against published code lists, and `spectralBands` to construct
-	band-difference features.
+What is worth reporting from it is not the confidence ratings but which
+annotations the transcripts turned on, which is checkable:
 
-The remaining *medium* ratings were appropriate caution about genuine residual
-ambiguities the payload does not resolve (ensemble spread, quaternion
-handedness, per-sample audio edges), not failures of understanding.
+* Agents used `temporalReferenceSystem` meta-types to *refuse* a mapping to UTC
+	that the schema does not license, `coordinateReferenceSystem` to require
+	axis-order and vertical-datum handling rather than assuming lat/lon,
+	`vectorReferenceFrames`/`tensorReferenceFrames` to mark spacecraft-local
+	components as not cross-comparable while treating the frame-invariant
+	magnitude as comparable, `measurementConditioning` to recover A-weighting and
+	the reference sound pressure, `codedValues` to plan registry joins against
+	published code lists, and `spectralBands` to construct band-difference
+	features.
+* One transcript did the opposite and is more instructive: it reconstructed
+	audio frame timing by dividing a frame counter by a member called
+	`sample_rate`, a relation nothing in the schema stated. That is the failure
+	mode the document is about, it went unremarked in the first write-up, and
+	fixing it changed the specification and the sample rather than the
+	evaluation.
 
-Full method, per-sample results, and the annotation-driven reasoning cases are
-recorded in [`EVALUATION.md`](EVALUATION.md).
+Method, per-sample results, and the full list of caveats are in
+[`EVALUATION.md`](EVALUATION.md). A controlled version — mechanically derived
+rubric, an unannotated control arm for every sample, blinded grading by a
+separate supervisor model, and a reported rate of positively wrong statements
+per arm — is in [`evaluation/`](evaluation/), together with an account of what
+it still cannot establish.
 
 
 ## Command Line Usage

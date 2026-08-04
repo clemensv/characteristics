@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/02-concepts-vocabulary",
+  "$schema": "https://schemas.example.org/semantic-annotations/02-concepts-vocabulary",
   "specimenId": "IEO-SPEC-2026-1104",
   "scientificName": "Engraulis encrasicolus",
   "collectedBy": "https://orcid.org/0000-0002-1825-0097",

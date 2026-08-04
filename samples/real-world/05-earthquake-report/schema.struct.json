@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/05-earthquake-report",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/05-earthquake-report",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "EarthquakeReport",
   "description": "JMA Bosai earthquake and seismic intensity report header enriched with parsed hypocenter coordinates and prefecture intensity summaries. Derived from the jma-bosai-quake feeder schema published in the xRegistry catalogue and trimmed to the hypocentre, magnitude, origin time, report issue time and report status. The sample demonstrates the split between phenomenon time (the earthquake origin time), result time (the bulletin issue time) and ingestion time (the handover to the JMA distribution system); a status role on the issued/corrected/cancelled information type; derivation 'calculated' on the hypocentre coordinates, the hypocentre depth and the magnitude, with the bulletin product code carried as the result quality that states how mature that solution is; derivation 'statistic' with statistic 'maximum' on the reported maximum seismic intensity; concepts on the record type bound to published vocabulary terms; and a horizontal coordinate reference system binding over the hypocentre latitude and longitude.",
   "type": "object",

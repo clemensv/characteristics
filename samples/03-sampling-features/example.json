@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.example.org/characteristics/03-sampling-features",
+  "$schema": "https://schemas.example.org/semantic-annotations/03-sampling-features",
   "monitoringStation": "EA-WQ-TRENT-042",
   "waterSampleId": "SAMP-2026-06-10-0742",
   "riverReach": "GB04020008",

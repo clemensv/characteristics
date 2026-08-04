@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/27-firms-modis-fire-detection",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureUnits"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/27-firms-modis-fire-detection",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureUnits"],
   "name": "FirmsModisFireDetection",
   "description": "One active-fire pixel detection from a NASA FIRMS MODIS product, transcribed from the NASA.FIRMS.FireDetection event of the real-time-sources feeder for the case where the acquiring instrument is MODIS. The sample exists because the two temperatures the record carries are not one number twice: `brightness` is the pixel radiance expressed as a temperature in MODIS channel 21/22, near four micrometres, and `bright_t31` is the same in channel 31, near eleven micrometres, and the fire-detection algorithm works precisely by comparing the two bands. A bare pair of Kelvin values says neither which wavelength each was measured in nor that they are brightness temperatures rather than surface temperatures. It demonstrates `spectralBands` binding the two band values to the sensor's thermal-anomaly band set in the order that set declares them, with the specific two-band subset named by a fragment on the sensor's band specification, as the specification's own Landsat example names a sensor by fragment; and it demonstrates `calibration` stating that the values are brightness temperatures, an open calibration value, since the enumeration names digital numbers, radiance, and reflectance but not the thermal case. The nine-band Operational Land Imager example in the specification shows the fuller multiband form; this is the minimal real-feed case.",
   "type": "object",

@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/19-bmrs-generation-mix",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/19-bmrs-generation-mix",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "GenerationMix",
   "description": "The half-hourly generation outturn summary for the GB transmission system, published by Elexon on the Balancing Mechanism Reporting Service. Derived from the elexon-bmrs feeder schema published in the xRegistry catalogue. The sample exists because the member names are BMRS fuel-type codes: `ccgt_mw` and `ocgt_mw` name two kinds of gas turbine, `npshyd_mw` and `ps_mw` name two kinds of hydro that a naive consumer would add together, and the seven `int*_mw` members are not fuels at all but named subsea cables whose values are signed net flows. It demonstrates a record with no feature-of-interest member, because the feature is the GB transmission system and never varies, so nothing in the payload identifies it; a phenomenonTimeStart with no matching end, because the settlement period is closed by the fixed cadence rather than by a second timestamp; and a mean over the settlement period on every value, because the feed reports average power and not instantaneous power, so summing the members and multiplying by half an hour yields energy while summing them across periods does not.",
   "type": "object",
@@ -24,7 +24,7 @@
     },
     "start_time": {
       "type": "datetime",
-      "description": "UTC instant at which the settlement period begins, from the `start_time` field. The feed carries no end instant; the period is half an hour long and half-open, so the end is the start of the next record in the series and is implied by the fixed cadence declared here.",
+      "description": "UTC instant at which the settlement period begins, from the `start_time` field. The feed carries no end instant. The period is half an hour long and half-open, and each value member states that length in its own `supportPeriod` anchored on this position; the cadence declared here says what the publisher is expected to do next and does not bound the period any value applies to.",
       "semanticRole": "phenomenonTimeStart",
       "cadence": {
         "kind": "fixed",
@@ -39,6 +39,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -52,6 +56,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -65,6 +73,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -78,6 +90,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -91,6 +107,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -104,6 +124,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -117,6 +141,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -130,6 +158,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -143,6 +175,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -156,6 +192,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -169,6 +209,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -182,6 +226,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -195,6 +243,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -208,6 +260,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -221,6 +277,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -234,6 +294,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"
@@ -247,6 +311,10 @@
       "derivation": "statistic",
       "statistic": "mean",
       "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT30M",
+        "anchor": "start"
+      },
       "observedProperty": {
         "reference": "http://qudt.org/vocab/quantitykind/Power",
         "kind": "qudt-quantity-kind"

@@ -1,7 +1,7 @@
-# JSON Structure: Characteristics Samples
+# JSON Structure: Semantic and Reference-System Annotations Samples
 
 Fifteen worked examples of the annotations defined by
-[JSON Structure: Characteristics](../draft-vasters-json-structure-characteristics.md).
+[JSON Structure: Semantic and Reference-System Annotations](../draft-vasters-json-structure-characteristics.md).
 Each directory holds a `schema.struct.json` and an `example.json` instance that
 conforms to it.
 
@@ -10,20 +10,20 @@ same annotations to schemas published by live open-data feeds, one per domain
 and publisher.
 
 Every schema declares the extension meta-schema
-`https://json-structure.org/meta/characteristics/v0/#` and activates the
+`https://json-structure.org/meta/semantic-annotations/v0/#` and activates the
 annotations through the JSON Structure extension mechanism:
 
 ```json
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/01-observation-basics",
-  "$uses": ["JSONStructureCharacteristics"]
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/01-observation-basics",
+  "$uses": ["JSONStructureSemanticAnnotations"]
 }
 ```
 
-The meta-schema itself lives at [`characteristics-v0.json`](../characteristics-v0.json)
+The meta-schema itself lives at [`semantic-annotations-v0.json`](../semantic-annotations-v0.json)
 in the root of this repository. It offers a single feature,
-`JSONStructureCharacteristics`, whose add-ins contribute the annotation keywords
+`JSONStructureSemanticAnnotations`, whose add-ins contribute the annotation keywords
 to the Core `Property`, `ObjectType`, `TupleType`, `ArrayType`, `SetType`,
 `MapType`, and `ChoiceType` definitions.
 
@@ -68,7 +68,7 @@ Where a sample carries an `enum`, the meaning of each symbol is carried in
 `altenums` from the [Alternate Names](../../alternate-names/) extension rather
 than packed into the description of the enclosing member. The affected schemas
 list `JSONStructureAlternateNames` in `$uses` alongside
-`JSONStructureCharacteristics`, and each `altenums` object carries a `lang:en`
+`JSONStructureSemanticAnnotations`, and each `altenums` object carries a `lang:en`
 map of display labels and a `description` map of one sentence per symbol. The
 member's own `description` then states what the code list is, and what a
 consumer must know about it as a whole, instead of restating each symbol. The
@@ -90,19 +90,19 @@ Install the JSON Structure Python SDK, then run the script:
 
 ```powershell
 pip install json-structure
-./validate-characteristics.ps1
+./validate-samples.ps1
 ```
 
 The script runs five checks:
 
-1. `characteristics-v0.json` is a conforming JSON Structure schema document.
+1. `semantic-annotations-v0.json` is a conforming JSON Structure schema document.
    This step is skipped unless the [json-structure/meta](https://github.com/json-structure/meta)
    repository is checked out beside this one, because the meta-schema imports the
    Extended meta-schema.
 2. Every sample schema conforms to JSON Structure Core and to the extensions it
    declares in `$uses`.
 3. Every `example.json` conforms to the schema beside it.
-4. Every Characteristics annotation conforms to the extension meta-schema.
+4. Every annotation conforms to the extension meta-schema.
 5. Every `schema-unannotated.struct.json` conforms, accepts the `example.json`
    beside it, and is up to date with respect to the annotated schema it is
    derived from.
@@ -111,7 +111,7 @@ Steps 2 to 4 walk every sample directory under `samples/`, including
 `real-world/`.
 
 Step 4 is performed by [`check-annotations.py`](check-annotations.py), which reads
-`characteristics-v0.json`, derives the keyword set and the annotation value types
+`semantic-annotations-v0.json`, derives the keyword set and the annotation value types
 from the add-ins listed under `$offers`, and validates each annotation it finds.
 The SDK validators do not do this themselves: they ignore annotation keywords
 contributed by an add-in they do not implement. The same script checks the shape

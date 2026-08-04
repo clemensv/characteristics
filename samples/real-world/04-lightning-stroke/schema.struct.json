@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/04-lightning-stroke",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/04-lightning-stroke",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "LightningStroke",
   "description": "One located lightning stroke from the public LightningMaps / Blitzortung live websocket feed. The stroke identity is the tuple of source_id and stroke_id because the upstream browser client tracks the last seen stroke id separately for each source stream. Derived from the blitzortung feeder schema published in the xRegistry catalogue. The sample demonstrates a geolocated instantaneous event: an irregular cadence on the stroke time, a temporal reference system binding for an ISO-8601 timestamp carried as a plain string, the located position grouped so that it can carry one horizontal coordinate reference system binding together with derivation 'calculated' and phenomenonTimeRelation 'instant', an estimated accuracy diameter and the set of contributing detectors both carried as result quality, and two geohash encodings marked as calculated because the bridge derives them from the located position.",
   "type": "object",

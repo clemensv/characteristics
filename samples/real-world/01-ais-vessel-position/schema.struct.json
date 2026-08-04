@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/01-ais-vessel-position",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/01-ais-vessel-position",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "StandardClassBPositionReport",
   "description": "Standard Class B equipment position report (ITU-R M.1371 message 18) relayed by aisstream.io. Class B 'CS' and 'SO' shipborne mobile equipment use it to report position, speed and course over ground; it also advertises the unit's display, DSC, band and Message 22 capabilities. Derived from the aisstream.io feeder schema published in the xRegistry catalogue. The sample demonstrates a moving vessel as the feature of interest, a coordinateReferenceSystem binding over the reported latitude/longitude pair, an irregular cadence on the position-fix time, the distinction between phenomenonTime and ingestionTime, measured observationValue members for the motion channels, resultQuality members for the decoder and position-integrity flags, and status members for the unit's operating mode.",
   "type": "object",

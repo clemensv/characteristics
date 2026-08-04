@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/08-public-power-generation",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/08-public-power-generation",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "PublicPower",
   "description": "Net electricity generation by fuel type for a given country at a specific 15-minute interval. Sourced from the Energy-Charts /public_power endpoint (Fraunhofer ISE) which aggregates ENTSO-E transparency platform data. Each record represents one timestamp in the parallel-array response, with individual production types flattened into named fields in megawatts (MW). Negative values for hydro pumped storage consumption and cross-border trading indicate consumption or export. Derived from the energy-charts feeder schema published in the xRegistry catalogue. The sample demonstrates interval-integrated quantities: every production type is the mean power sustained across the quarter-hourly market time unit rather than an instantaneous reading, so each carries phenomenonTimeRelation interval with derivation statistic and statistic mean, while load is the total of all consumption in the market area and carries statistic sum, and residual load and the renewable share are deterministic calculations of the other members and carry derivation calculated. The interval boundaries are flattened into phenomenonTimeStart and phenomenonTimeEnd, the bidding-zone country code is the featureOfInterest, the record and each result member bind a QUDT quantity kind through observedProperty, and the interval start carries a fixed quarter-hourly cadence. Every result member is optional; a production type that the market area does not report is omitted from the record rather than nulled.",
   "type": "object",

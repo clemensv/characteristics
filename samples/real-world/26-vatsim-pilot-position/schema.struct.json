@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/26-vatsim-pilot-position",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureUnits"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/26-vatsim-pilot-position",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureUnits"],
   "name": "VatsimPilotPosition",
   "description": "One pilot position report from the VATSIM network, transcribed from the net.vatsim.PilotPosition event of the real-time-sources feeder. The sample exists because three of its fields are short codes whose meaning lives in registers maintained by the International Civil Aviation Organization, and a code is not its meaning: `B77W` is an aircraft type only because Doc 8643 says so, and `EGLL` is an aerodrome only because Doc 7910 says so. It demonstrates `codedValues` binding each coded field to the list it draws from, and it demonstrates the division of labour between `reference` and `kind` that the keyword rests on. All three codes share the `kind` `icao`, because ICAO is the register model behind them, yet the aircraft type designator and the two location indicators are three entries in two different lists, and it is `reference` — not `kind` — that says which list each field draws from.",
   "type": "object",

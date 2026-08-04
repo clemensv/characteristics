@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/09-derivation-and-statistic",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/09-derivation-and-statistic",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "DailyWeatherSummary",
   "description": "Daily weather summary for a meteorological station, demonstrating the biconditional between derivation and statistic: a statistic keyword MUST be present when and only when derivation is 'statistic'. Temperature extremes and the daily mean are statistics over the 24-hour period; precipitation total is a sum statistic over an accumulation period; station pressure at the end-of-day snapshot is a direct measurement; dew-point depression at the snapshot is a calculated value; and the following-day precipitation probability is a modeled value. The two temporal axes are independent: dayStart and dayEnd bound the period-based statistics and the accumulation, while snapshotTime is the instant for point readings.",
   "type": "object",

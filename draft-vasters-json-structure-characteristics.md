@@ -1,6 +1,6 @@
 ---
-title: "JSON Structure: Characteristics"
-abbrev: "JSON Structure Characteristics"
+title: "JSON Structure: Semantic and Reference-System Annotations"
+abbrev: "JSON Structure Semantic Annotations"
 category: exp
 
 docname: draft-vasters-json-structure-characteristics-latest
@@ -13,8 +13,8 @@ area: Web and Internet Transport
 workgroup: Building Blocks for HTTP APIs
 keyword: Internet-Draft
 venue:
-  github: "json-structure/characteristics"
-  latest: "https://json-structure.github.io/characteristics/draft-vasters-json-structure-characteristics.html"
+  github: "json-structure/semantic-annotations"
+  latest: "https://json-structure.github.io/semantic-annotations/draft-vasters-json-structure-characteristics.html"
 
 author:
   - fullname: Clemens Vasters
@@ -80,6 +80,11 @@ informative:
     author:
       - fullname: Clemens Vasters
     target: https://json-structure.github.io/import/draft-vasters-json-structure-import.html
+  JSTRUCT-ALTNAMES:
+    title: "JSON Structure: Alternate Names and Descriptions"
+    author:
+      - fullname: Clemens Vasters
+    target: https://json-structure.github.io/alternate-names/draft-vasters-json-structure-alternate-names.html
   OGC-TOPIC2:
     title: "OGC Abstract Specification Topic 2: Referencing by coordinates"
     author:
@@ -106,6 +111,11 @@ informative:
     author:
       - org: World Wide Web Consortium
     target: https://www.w3.org/TR/vocab-ssn/
+  PROV-O:
+    title: "PROV-O: The PROV Ontology"
+    author:
+      - org: World Wide Web Consortium
+    target: https://www.w3.org/TR/prov-o/
   RDF-CONCEPTS:
     title: "RDF 1.1 Concepts and Abstract Syntax"
     author:
@@ -374,13 +384,27 @@ informative:
 Data types describe representation, but they do not explain the semantic,
 temporal, spatial, and operational characteristics needed to interpret and
 compare data. This document defines optional JSON Structure annotations that
-bind schema nodes to terms in external vocabularies, and annotations for
+bind schema nodes to terms in external vocabularies; annotations for
 observation results, observed properties, features of interest, procedures,
-time semantics, quality, derivation, cadence, and spatial referencing.
+time semantics, quality, derivation, and cadence; annotations for spatial
+referencing by coordinates, by vector and tensor reference frames, by
+transformations between frames, and along linear elements; and annotations for
+color spaces, audio channel layouts, spectral bands, code lists, and
+measurement conditioning.
+
+The annotations make an incompatibility between two data sets detectable by
+machine; they do not resolve one. This document defines no conversion, and a
+processor that cannot resolve a referenced definition reports the check as
+indeterminate rather than assuming agreement. Correctly declining to combine
+two values is the outcome these annotations enable; transforming them so that
+they can be combined remains the work of a tool that holds the authoritative
+definitions.
 
 The annotations provide progressively richer evidence. Their absence does not
 make a schema invalid, and the annotations do not define analytical procedures,
-expressions, causal inference, execution policy, or lineage.
+expressions, causal inference, execution policy, or a lineage model. Several of
+them carry lineage facts; none of them chains one value to another, and a schema
+needing lineage in the modeled sense uses a provenance model beside them.
 
 --- middle
 
@@ -402,16 +426,69 @@ published vocabulary, so that two systems naming a thing differently can
 establish that they mean the same thing; declare what a record observes and
 which member carries the result, as distinct from the property observed, the
 feature it belongs to, the procedure that produced it, and the time it applies
-to; and name the reference system a value is expressed against, whether a
-temporal regime, a coordinate reference system, a vector reference frame, or a
-linear reference system, so that a position or a direction can be interpreted
-and two of them compared.
+to; name the reference system a value is expressed against, whether a temporal
+regime, a coordinate reference system, a vector or tensor reference frame, a
+transformation from one frame to another, or a linear reference system, so that
+a position, a direction, or an orientation can be interpreted and two of them
+compared; and resolve the members that together carry one compound value onto
+the axes, channels, or bands that give them meaning, whether those of a color
+space, an audio channel layout, or a set of spectral bands.
 
-Each of these is a binding to a definition maintained elsewhere. This document
-defines no vocabulary, no observation model, and no reference system of its own.
-Established bodies publish them, and an annotation refers to one. What is
+The same concern applies to a value that stands alone. One keyword binds a
+coded value to the register that assigns the code its meaning, so that a number
+or a short string can be resolved rather than guessed at from a member name.
+Another records the frequency weighting, time weighting, and level reference
+that a conditioned measurement already carries, so that a sound level measured
+under one weighting is not silently compared with one measured under another.
+
+Most of these are bindings to a definition maintained elsewhere. This document
+defines no vocabulary, no reference system, no color space, no channel layout,
+and no code list of its own. Established bodies
+publish them, and an annotation refers to one. What is
 defined here is the form of that reference, the roles a schema may assign to its
 own members, and the rules by which a processor can check that the two agree.
+
+The roles are the one place where that account needs qualifying. `semanticRole`
+and `derivation` do carry a vocabulary of observation concepts, and this document
+does not pretend otherwise. What it declines to be is a normative encoding of the
+observation model of {{ISO19156}}. It defines no observation as a type to
+instantiate, no classes for procedures or features, and no relationships among
+observation entities, and it requires no record to be shaped like an observation.
+The roles describe what the members of a record already are, over a structure
+someone else fixed. A record does not become an observation by carrying them, a
+schema that carries none is not deficient for that reason, and a processor MUST
+NOT reconstruct an observation entity from the roles it finds.
+
+Nor does this document define analytical procedures. Several keywords name an
+operation, and naming one is not specifying it. A schema that declares a value
+an hourly mean records an operation that has already been performed; it does not
+state what a mean computes, how gaps in the set were treated, whether the window
+was inclusive of its bounds, or whether a consumer may recompute the value. The
+annotations describe what was done, and a processor MUST NOT read an instruction
+out of them.
+
+Nor does it define a lineage model, although several keywords carry lineage
+facts: `derivation` says how a value was produced, `observingProcedure`
+identifies what produced it, and `ingestionTime` says when a system received it.
+{{PROV-O}} gives entities, activities, and agents identities and relates them by
+derivation and attribution. What is here is flat and confined to one record,
+with no identity for the act that produced a value and no way to chain a value
+to the value it came from. The two do not conflict and a record can carry both;
+the `concepts` example maps a publication instant onto `prov:generatedAtTime`
+({{concepts}}).
+
+The keywords defined here are chosen by one test. A quality of a value earns a
+keyword when a consumer must know it to decide whether two values may be
+combined or compared, and when it holds for the type rather than varying from
+one instance to the next. Axis order, frequency weighting, and the register a
+code is drawn from meet that test: get one of them wrong and an arithmetic
+result is wrong while every value still validates. Licensing, retention, and
+endpoint addressing do not meet it, because they do not change what may be
+computed from a value. A per-observation calibration record does not meet it,
+because it varies from one record to the next and belongs in the payload rather
+than in the schema. Geometry, provenance, and unit algebra do not meet it,
+because each is a model in its own right that another specification defines;
+this document cites those rather than restating them.
 
 The annotations are optional and additive. A processor that does not implement
 them reads the schema exactly as JSON Structure Core defines it.
@@ -423,13 +500,15 @@ Most keywords defined here share one shape. Each is an object carrying a
 names the model the definition belongs to. This lets a reader know how to
 interpret it and a processor know what can be checked.
 `concepts`, `observedProperty`, `temporalReferenceSystem`,
-`coordinateReferenceSystem`, `linearReferenceSystem`, `codedValues`, and the
-entries of `colorSpaces`, `audioChannels`, and `spectralBands` all follow this
-shape.
+`coordinateReferenceSystem`, `linearReferenceSystem`, `codedValues`, the entries
+of `vectorReferenceFrames`, `colorSpaces`, `audioChannels`, and
+`spectralBands`, and the frames named by `tensorReferenceFrames` and
+`frameTransforms` all follow this shape.
 
 A definition is ordinarily maintained outside the schema, and `reference` is
-then an absolute URI {{RFC3986}}. The reference-system keywords also admit a
-definition held in the schema itself, carried by a shareable type that
+then an absolute URI {{RFC3986}}. Every one of these keywords except `concepts`
+and `observedProperty` also admits a definition held in the schema itself,
+carried by a shareable type that
 {{meta-types}} calls a meta-type; `kind` is then `type` and `reference` is a
 type reference `{ "$ref": <JSON Pointer> }` to that type. The `kind` determines
 which form applies, and each keyword states the rule for its own values.
@@ -442,13 +521,20 @@ The annotations bind terms; they do not express statements, node identity, or
 entailment, and this document defines no prefix mechanism and no compact URI
 form.
 
-A value is read against one temporal or coordinate reference system and
-quantifies one phenomenon, so those keywords and `observedProperty` each take a
-single binding. Vocabularies overlap by design, and the same notion is
+A value is read against one temporal or coordinate reference system, quantifies
+one phenomenon, and draws its code from one register, so those keywords,
+`observedProperty`, and `codedValues` each take a single binding. Vocabularies
+overlap by design, and the same notion is
 deliberately given a term in several of them, so `concepts` takes a list. The
-keywords that resolve components onto axes or channels take a list for a
-different reason: one set of numbers can be published in more than one frame or
-more than one color space at once.
+keywords that resolve components onto axes, channels, or bands take a list for a
+different reason: one record can carry several such quantities at once, and one
+set of numbers can be published in more than one frame or more than one color
+space at once.
+
+`measurementConditioning` stands apart from this shape. It identifies no
+external definition, because what it records is not a system a value is read
+against but a treatment the value has already undergone, and it states that
+treatment directly.
 
 ## Observable and Observed Property Concepts {#observable-observed-concepts}
 
@@ -469,14 +555,15 @@ optionally its qualifiers.
 # Annotation Model {#annotation-model}
 
 `concepts` MAY occur on a type definition and on a property, collection item,
-map value, or choice member schema, subject to {{vocabulary-characteristics}}.
+map value, or choice member schema, subject to {{vocabulary-annotations}}.
 
 `semanticRole`, `derivation`, `temporalReferenceSystem`, and `cadence` MAY occur
 directly on a property, collection item, map value, or choice member schema,
-subject to {{observation-characteristics}}. `phenomenonTimeRelation` MAY occur on a
-direct property. `statistic` MAY occur wherever `derivation` occurs, subject to
-{{statistic}}. `temporalReferenceSystem` MAY also occur on an object or tuple
-that defines a temporal type, and binds an existing member of it.
+subject to {{observation-annotations}}. `phenomenonTimeRelation` and
+`supportPeriod` MAY occur on a direct property. `statistic` MAY occur wherever
+`derivation` occurs, subject to {{statistic}}. `temporalReferenceSystem` MAY
+also occur on an object or tuple that defines a temporal type, and binds an
+existing member of it.
 
 `observedProperty` MAY occur on an object or tuple intended to describe an
 observation record, and on a member schema of one that carries a result,
@@ -493,18 +580,67 @@ Every annotation is OPTIONAL, and a schema can use any subset, including none.
 Conformance constrains only annotations that are present; it never requires
 another annotation or an annotated property to exist.
 
+Several keywords bind members of the annotated type by name. Such a name is the
+name of the property as declared in the schema, and it is resolved against the
+effective definition of the annotated type, which includes members contributed
+by `$extends` and members of an imported or shadowing definition
+{{JSTRUCT-IMPORT}}. A name that does not resolve to a direct member of that
+effective definition is invalid. An alternate, localized, or otherwise
+serialization-facing name assigned to a member by another extension, such as
+JSON Structure Alternate Names {{JSTRUCT-ALTNAMES}}, changes how the member
+appears in an instance document and does not change the identity the annotation
+binds; a processor MUST NOT resolve a member name stated in an annotation
+against such a name, and MUST NOT treat the presence of one as altering the
+mapping.
+
 Every `reference` value that is a URI SHOULD be resolvable, and dereferencing it
 SHOULD yield a definition of the identified term or system. A processor is not
 required to dereference a `reference`, and an unresolved `reference` is
 indeterminate rather than incorrect.
 
-The enumerations of this document are of two sorts. `semanticRole`,
-`derivation`, `statistic`, `phenomenonTimeRelation`, `referenceRole`,
-`sortOrder`, the `kind` of `cadence`, and the `levelReference` and `encoding` of
-`audioChannels` are closed, and a value outside the enumeration is invalid. The
-`weighting`, `timeWeighting`, and `calibration` enumerations, and the `kind` of a
-reference-style keyword, are open, and a value outside the enumeration is valid;
-a processor MUST preserve it and MUST NOT reject a schema for carrying it.
+A `reference` identifies whatever its URI identifies, revision included, and
+this document defines no version, epoch, or as-of member to stand beside it. A
+body that revises definitions and means them to stay citable puts the revision
+in the identifier, which is what the naming policy behind the identifiers used
+throughout this document provides for: a definition is named
+`/def/{objectType}/{authority}/{version}/{code}` {{OGC-NAMES}}, so the `0` in
+`http://www.opengis.net/def/crs/EPSG/0/4326` occupies a version position that a
+schema needing one edition rather than another fills in. A schema pins an
+edition by writing the identifier the publisher supplies for it.
+
+A separate member would state in a second place what the URI already carries,
+and no processor could reconcile the two without resolving the reference, which
+none is required to do. Where a publisher revises without giving each revision
+an identifier, a schema SHOULD record that fact in `description`, which informs
+a reader without inviting a processor to act on it.
+
+The enumerations of this document are of two sorts, and one rule divides them.
+An enumeration is closed where its values select a behavior that this document
+itself defines, so that a value outside it would establish nothing for any
+processor. An enumeration is open where its values name a model, register, or
+definition that another body maintains, because this document cannot enumerate
+what others publish and a value it has not heard of may still be one that a
+reader knows.
+
+Closed are `semanticRole`, `derivation`, `statistic` in both of its forms,
+`phenomenonTimeRelation`, `referenceRole`, `sortOrder`, the `kind` of `cadence`,
+the `anchor` of `supportPeriod`,
+the `variance` of `vectorReferenceFrames` and `tensorReferenceFrames`, the
+`symmetry` of `tensorReferenceFrames`, the `encoding` and `rotationSequence` of
+`frameTransforms`, and the `alphaMode` and `transfer` of `colorSpaces`. A value
+outside a closed enumeration is invalid.
+
+Open are the `kind` of every reference-style keyword, the `weighting` and
+`timeWeighting` of `measurementConditioning`, the `levelReference` of both
+`measurementConditioning` and `audioChannels`, the `calibration` of
+`spectralBands`, and the `encoding` of `audioChannels`. A value
+outside an open enumeration is valid; a processor MUST preserve it and MUST NOT
+reject a schema for carrying it.
+
+Closure states where a value's meaning comes from, and is not a claim that a
+list is finished. A later version of this document may add values to a closed
+enumeration, and the versioned meta-schema URI a schema names is what tells a
+processor which set is in force ({{extension-meta-schema}}).
 
 A value defined here is one a processor can act on, and this document states
 what each establishes. A value
@@ -513,12 +649,30 @@ constraint from it. This document defines no registry of further values and no
 mechanism by which a private value acquires meaning for a processor that does
 not already know it.
 
+Because the open enumerations are open, two authors may choose one token for two
+unrelated things. `kind` classifies and `reference` identifies, and that
+division bounds the consequence. A processor MUST NOT treat a `kind` value as
+establishing the identity of a definition, and MUST NOT conclude from two
+schemas carrying equal `kind` values that they draw on the same register, model,
+or definition. Where `kind` agrees and `reference` does not, the references
+govern. A processor meeting a `kind` it does not recognize reports the check
+indeterminate ({{check-outcomes}}).
+
+That bounds a collision rather than preventing one. A registry of `kind` values
+is the remedy; a future revision of this document is expected to establish one,
+and none exists at the time of writing. Until one does, a `kind` value outside
+those defined here means what it means only to a processor that already knows
+it. A schema SHOULD use a value defined here where one fits, and SHOULD NOT coin
+a broad token such as `sensor` or `registry` for a private arrangement, since
+the broadest tokens are the ones most likely to be coined twice.
+
 | Keyword | Meaning |
 |---|---|
 | `concepts` | Terms in external vocabularies that the annotated node corresponds to. |
 | `semanticRole` | Function of a result, temporal, quality, status, or operational value. |
 | `observedProperty` | Reference to an observable-property definition. |
 | `phenomenonTimeRelation` | Refinement of how a result relates to `phenomenonTime`. |
+| `supportPeriod` | Length of the phenomenon-time period a result characterizes, and the position anchoring it. |
 | `derivation` | Category describing how a result value was produced. |
 | `statistic` | Summary function that produced a result from a set of values. |
 | `temporalReferenceSystem` | Binding from a temporal-position encoding to its reference definition. |
@@ -538,7 +692,7 @@ not already know it.
 Omission means undeclared unless stated otherwise. It never implies compatible,
 successful, or acceptable data.
 
-# Vocabulary Characteristics {#vocabulary-characteristics}
+# Vocabulary Annotations {#vocabulary-annotations}
 
 ## The `concepts` Keyword {#concepts}
 
@@ -684,7 +838,7 @@ Example:
 }
 ~~~
 
-# Observation Characteristics {#observation-characteristics}
+# Observation Annotations {#observation-annotations}
 
 ## The `observedProperty` Keyword {#observed-property}
 
@@ -1430,7 +1584,9 @@ When present, `derivation` MUST be one of:
 
 Routine conversion, rounding, or serialization does not by itself change
 `measured` to `calculated`. The category identifies no source, formula,
-software, detailed procedure, or lineage.
+software, or detailed procedure, and it is not a lineage model: it does not
+identify the act that produced the value or relate that value to the values it
+was derived from ({{PROV-O}}).
 
 `statistic` and `calculated` divide the calculations between them. Where the
 result is one of the summaries this document names, the derivation is
@@ -1440,6 +1596,39 @@ calculation is `calculated`, and the schema SHOULD explain the method in the
 `description` of the annotated schema. This document defines no expression
 language, and a processor MUST NOT parse a `description` or reproduce a
 calculation from it.
+
+The names alone do not divide the categories, and the tests below do. They are
+stated so that two authors describing the same value reach the same category.
+
+The first division is between `measured` and the rest, and it is the one that
+carries the most weight for a consumer. A value is `measured` where it is what
+an observation procedure read, and it is not `measured` where any function, fit,
+inference, or model stood between the procedure and the value. Unit conversion,
+rounding, and serialization are not such functions, as stated above.
+
+Determinism divides `calculated` from `estimated` and `modeled`. Where the same
+inputs must yield the same output, and the function could be written down, the
+value is `calculated` however elaborate the arithmetic and however many inputs
+it consumes. A dew point obtained from a measured temperature and a measured
+humidity by a published formula is `calculated`.
+
+Dependence on unobserved state divides `modeled` from `estimated`. An
+`estimated` value carries only what the observations carry, arranged under an
+assumption about their error: an interpolated fill for a failed sensor, or a
+strike position derived from arrival times at several detectors, is `estimated`,
+because something was observed and the value is an inference from evidence that
+does not determine it. A `modeled` value carries information the observations do
+not contain, supplied by the model's own representation of the system, and the
+procedure would produce a value for a place and time at which nothing was
+observed at all. A forecast temperature is `modeled`. A value that a model
+produced and that observations then corrected, as in a reanalysis or an
+assimilated field, is `modeled`, because the model supplies the state and the
+observations only constrain it.
+
+Where the choice among `calculated`, `estimated`, and `modeled` is genuinely
+unclear, the schema SHOULD state the method in `description`. An author MUST NOT
+resolve such a case by choosing `measured`, and a processor MUST NOT infer a
+formula, a model, an uncertainty, or a procedure from any of these values.
 
 Example:
 
@@ -1465,7 +1654,13 @@ Example:
 The `statistic` keyword names the summary function that produced a result value
 from a set of values.
 
-When present, `statistic` MUST be one of:
+Most summary functions are fully identified by their name. A few are not: a
+percentile is not one function but a family, and naming the family without the
+rank identifies nothing. `statistic` therefore takes two forms. A function that
+takes no parameter is written as a string, and a function that takes one is
+written as an object that names the function and carries the parameter.
+
+When `statistic` is a string, it MUST be one of:
 
 | Statistic | Meaning |
 |---|---|
@@ -1480,28 +1675,67 @@ When present, `statistic` MUST be one of:
 | `variance` | Variance of the set. |
 | `range` | Difference between the greatest and least value. |
 
+When `statistic` is an object, it MUST carry a `function` member and the
+parameter member that `function` requires, and no other members. `function`
+MUST be one of:
+
+| Function | Parameter | Meaning |
+|---|---|---|
+| `percentile` | `percentile` | Value below which the stated percentage of the set falls. |
+| `nthHighest` | `rank` | Value at the stated position counting down from the greatest. |
+| `nthLowest` | `rank` | Value at the stated position counting up from the least. |
+
+`percentile` MUST be a number greater than zero and less than one hundred, and
+`rank` MUST be an integer of two or more. `percentile` MUST be present when
+`function` is `percentile` and MUST NOT be present otherwise; `rank` MUST be
+present when `function` is `nthHighest` or `nthLowest` and MUST NOT be present
+otherwise.
+
+Both enumerations are closed. A `statistic` that is a string outside the first
+table, or an object whose `function` is outside the second, is invalid.
+
+One meaning has one spelling. A function that takes no parameter MUST be written
+in the string form, so `{ "function": "mean" }` is invalid. A percentile of zero
+or one hundred MUST be written as `minimum` or `maximum`, and a rank of one MUST
+be written as `maximum` or `minimum`, which is why the ranges above exclude
+them. A quantile is expressed as the equivalent percentile, so a quantile of
+0.95 is written as a `percentile` of 95. Without these rules two schemas could
+declare the same statistic in ways that no equality test would match.
+
+A rank is not a percentile. The fourth-highest value of a set of three hundred
+and sixty-five is the 99.18th percentile and of a set of ninety is the 96.7th,
+so neither form can be rewritten as the other without knowing how many values
+the set held, and `statistic` does not state that. Both forms are needed because
+both are what definitions in force actually specify: an air quality limit is
+commonly expressed as a rank, and a service level objective as a percentile.
+
 `statistic` and the `statistic` derivation are one declaration in two parts. A
 schema whose `derivation` is `statistic` MUST carry a `statistic` keyword, and a
 schema carrying a `statistic` keyword MUST have a `derivation` of `statistic`.
 The derivation says the value summarizes a set, and the keyword says how. Where
 `phenomenonTimeRelation` is `accumulation`,
-`statistic` MUST be `sum`.
+`statistic` MUST be the string `sum`.
 
-A calculation that no value in the table names is `calculated` rather than
+A calculation that no value in either table names is `calculated` rather than
 `statistic`, and {{derivation}} states what a schema does instead.
 
 A vocabulary term names the phenomenon and frequently excludes the summary
 function, so an hourly mean and an hourly maximum of one phenomenon carry the
 same `observedProperty` and differ only here. Two results that carry the same
 observable property and different statistics are not comparable as like
-quantities.
+quantities. The parameter is part of the statistic: a 95th percentile and a 99th
+percentile are different statistics, as are a fourth-highest and a
+fifth-highest, and a processor MUST NOT treat two parameterized statistics as
+alike unless both the function and the parameter agree.
 
 The set that the statistic summarizes is the one the other annotations already
 establish: the temporal roles give its extent in time, and the feature and
 procedure roles give its subject. This document defines no other scoping, and
-`statistic` takes no arguments. It does not state a window alignment, a
-weighting, a sample count, a treatment of missing values, a percentile, or a
-computation, and a processor MUST NOT recompute a result from it.
+the only argument `statistic` takes is the one that identifies the function.
+It does not state a window alignment, a weighting, a sample count, a treatment
+of missing values, an interpolation method by which a percentile is obtained
+from a finite set, or a computation, and a processor MUST NOT recompute a
+result from it.
 
 Example:
 
@@ -1553,7 +1787,94 @@ Example:
 }
 ~~~
 
-# Coded Value Characteristics {#coded-value-characteristics}
+The record below carries two parameterized statistics of the same observable
+over the same interval. They differ only in the parameter, and nothing but the
+parameter distinguishes them.
+
+~~~ json
+{
+  "name": "RequestLatencySummary",
+  "type": "object",
+  "properties": {
+    "window_start": {
+      "type": "datetime",
+      "examples": ["2026-07-27T12:00:00Z"],
+      "semanticRole": "phenomenonTimeStart"
+    },
+    "window_end": {
+      "type": "datetime",
+      "examples": ["2026-07-27T12:05:00Z"],
+      "semanticRole": "phenomenonTimeEnd"
+    },
+    "latency_p95": {
+      "type": "double",
+      "unit": "ms",
+      "description": "Request latency below which 95 percent of requests in the window completed",
+      "examples": [128.4],
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": { "function": "percentile", "percentile": 95 }
+    },
+    "latency_p99": {
+      "type": "double",
+      "unit": "ms",
+      "description": "Request latency below which 99 percent of requests in the window completed",
+      "examples": [512.7],
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": { "function": "percentile", "percentile": 99 }
+    }
+  },
+  "required": ["window_start", "window_end", "latency_p95", "latency_p99"],
+  "additionalProperties": false
+}
+~~~
+
+The record below carries a rank. The fourth-highest daily maximum is the form
+in which an ozone air quality standard is stated, and it is not the same
+statistic as any percentile unless the number of days in the year is known.
+
+~~~ json
+{
+  "name": "AnnualOzoneSummary",
+  "type": "object",
+  "observedProperty": {
+    "reference": "https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html#mole_fraction_of_ozone_in_air",
+    "kind": "cf-standard-name"
+  },
+  "properties": {
+    "site": {
+      "type": "string",
+      "examples": ["US-060370016"],
+      "semanticRole": "featureOfInterest"
+    },
+    "year_start": {
+      "type": "datetime",
+      "examples": ["2025-01-01T00:00:00Z"],
+      "semanticRole": "phenomenonTimeStart"
+    },
+    "year_end": {
+      "type": "datetime",
+      "examples": ["2026-01-01T00:00:00Z"],
+      "semanticRole": "phenomenonTimeEnd"
+    },
+    "fourth_highest_daily_max_8h": {
+      "type": "double",
+      "unit": "[ppb]",
+      "description": "Fourth-highest daily maximum eight-hour mean ozone mole fraction of the calendar year",
+      "examples": [68.0],
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": { "function": "nthHighest", "rank": 4 },
+      "phenomenonTimeRelation": "interval"
+    }
+  },
+  "required": ["site", "year_start", "year_end", "fourth_highest_daily_max_8h"],
+  "additionalProperties": false
+}
+~~~
+
+# Coded Value Annotations {#coded-value-annotations}
 
 ## The `codedValues` Keyword {#coded-values}
 
@@ -1644,7 +1965,7 @@ present weather, whose entries are the integers zero through several hundred.
 }
 ~~~
 
-# Measurement Conditioning Characteristics {#measurement-conditioning}
+# Measurement Conditioning Annotations {#measurement-conditioning}
 
 ## The `measurementConditioning` Keyword {#measurement-conditioning-keyword}
 
@@ -1690,12 +2011,24 @@ an open enumeration; the values defined here are the time weightings of
 The impulse time weighting of the superseded IEC 651 is not among these; where a
 legacy dataset needs it, it is carried as an open value.
 
-### The `levelReference` Property
+### The `levelReference` Property {#level-reference}
 
-`levelReference`, when present, states what the level is relative to. Its value
-MUST be `soundPressure` or an absolute URI {{RFC3986}} identifying another
-reference. Under `soundPressure` the reference is 20 micropascals {{ISO1683}},
-and the level is sound pressure level.
+`levelReference`, when present, states what the level is relative to. This is one
+property appearing in two keywords: the `levelReference` of `audioChannels`
+({{audio-level-reference}}) takes the same values with the same meanings, since
+both answer the same question about a quantity expressed on a logarithmic scale.
+
+| Value | Meaning |
+|---|---|
+| `soundPressure` | The reference is 20 micropascals {{ISO1683}}, and a level in decibels is sound pressure level. |
+| `fullScale` | The reference is digital full scale, the greatest level the representation admits, and a level in decibels is dBFS. |
+
+The enumeration is open. A value outside it MUST be an absolute URI {{RFC3986}}
+identifying another reference, because a level may be referred to a voltage, a
+power, or a quantity that the standard governing an instrument fixes, and this
+document does not enumerate what other bodies define. A processor that does not
+know a value MUST preserve it, MUST NOT reject the schema for carrying it, and
+MUST NOT compare a level against one carrying a different reference.
 
 ### Example
 
@@ -1768,13 +2101,15 @@ and the order of its elements establishes the axes ({{coordinate-reference-syste
 A vector reference frame takes no roles for the same reason
 ({{vector-reference-frames}}).
 
-# Temporal Reference Characteristics {#temporal-reference-characteristics}
+# Temporal Reference Annotations {#temporal-reference-annotations}
 
 The keywords in this section concern temporal positions, the values that place
 an observation or an operational event on a time line.
 `phenomenonTimeRelation` states how a result relates to the position it
-accompanies, `temporalReferenceSystem` states how a position value is to be
-read, and `cadence` states how successive positions are expected to recur.
+accompanies, `supportPeriod` gives the length of the period a result
+characterizes where the record bounds it at one end, `temporalReferenceSystem`
+states how a position value is to be read, and `cadence` states how successive
+positions are expected to recur.
 
 ## The `phenomenonTimeRelation` Keyword {#phenomenon-time-relation}
 
@@ -1788,16 +2123,18 @@ When present, it MUST be one of:
 |---|---|
 | `instant` | Result applies at the sibling temporal position having role `phenomenonTime`. |
 | `untilNext` | Result applies from that position until the next actual compatible observation. |
-| `interval` | Result characterizes the half-open phenomenon-time period encoded by sibling boundaries. |
+| `interval` | Result characterizes a half-open phenomenon-time period the record encodes. |
 | `accumulation` | Result is accumulated over that half-open phenomenon-time period. |
 
 `instant` and `untilNext` can be resolved only when a sibling
 `phenomenonTime` annotation identifies a temporal position. `interval` and
-`accumulation` can be resolved only when sibling `phenomenonTimeStart` and
-`phenomenonTimeEnd` annotations identify boundaries in a common reference
-regime or through an authoritative conversion. Otherwise the support is
-declared but its temporal extent is indeterminate. Effective-time and
-operational roles do not supply phenomenon-time boundaries.
+`accumulation` can be resolved when sibling `phenomenonTimeStart` and
+`phenomenonTimeEnd` annotations identify boundaries in a common reference regime
+or through an authoritative conversion, and can be resolved when `supportPeriod`
+states the length of the period and a sibling position anchors it
+({{support-period}}). Otherwise the support is declared but its temporal extent
+is indeterminate. Effective-time and operational roles do not supply
+phenomenon-time boundaries.
 
 These values state how a result relates to a phenomenon time and not how it was
 produced; the summary function, where there is one, is carried by `statistic`
@@ -1851,6 +2188,135 @@ period, so it reads against the sibling boundary pair:
   "additionalProperties": false
 }
 ~~~
+
+## The `supportPeriod` Keyword {#support-period}
+
+The `supportPeriod` keyword states the length of the phenomenon-time period a
+result characterizes, for a period the record bounds at one end rather than two.
+A mean wind speed over the ten minutes ending at the observation time, a
+half-hourly settlement quantity stamped with the instant its period opens, and a
+pressure change over the preceding three hours are all of that shape: the length
+is fixed by the publishing arrangement, and one position in the record fixes
+where the period sits. Such a feed carries no second boundary and gains nothing
+from a schema that invents a member for one.
+
+When present, `supportPeriod` MUST be an object with a REQUIRED `length` and a
+REQUIRED `anchor`. No other properties are permitted.
+
+### The `length` Property
+
+`length` states the extent of the period and MUST express a positive interval in
+the temporal reference system applicable to the anchoring position. For a Core
+`datetime`, `date`, or `time`, it MUST be a positive Core `duration`. Another
+temporal reference system MAY use a numeric, string, or structured interval
+representation defined by that system, on the terms {{cadence}} states for
+`period`.
+
+### The `anchor` Property
+
+`anchor` states which boundary of the period the anchoring position occupies and
+MUST be one of:
+
+| Value | Meaning |
+|---|---|
+| `start` | The anchoring position opens the period, which runs forward from it. |
+| `end` | The anchoring position closes the period, which runs back to it. |
+
+The anchoring position is the sibling annotated `phenomenonTimeStart` when
+`anchor` is `start`, and the sibling annotated `phenomenonTimeEnd` when `anchor`
+is `end`. Where the record carries no member in that role, the anchoring
+position is the sibling annotated `phenomenonTime`. Where it carries neither,
+the period has a length and no location, and the extent remains indeterminate.
+
+The period is half-open on the terms {{phenomenon-time-relation}} states. For an
+anchoring position `t`, an `anchor` of `end` gives `[t - length, t)` and an
+`anchor` of `start` gives `[t, t + length)`.
+
+`supportPeriod` MUST NOT be present unless `phenomenonTimeRelation` is
+`interval` or `accumulation`, and MUST NOT be present where sibling
+`phenomenonTimeStart` and `phenomenonTimeEnd` annotations both identify
+boundaries, because the record then encodes the period and a stated length would
+restate or contradict it.
+
+The boundary roles do not subsume this keyword. `phenomenonTimeStart` and
+`phenomenonTimeEnd` annotate members, so they state a period only where the
+record carries a value at each end of it, and the resolution rules of this
+document read one sibling in each role. Support is a property of a result
+rather than of a record, and one record may carry results of differing extent:
+a buoy report may close a twenty-minute wave summary and a three-hour pressure
+change at a single observation time, leaving one place to put a boundary and
+two periods to state. `supportPeriod` is carried by the result it describes,
+so each result states its own extent, and a length fixed by the publishing
+arrangement is stated once in the schema rather than transmitted in every
+record.
+
+A support period is a fact about one value and a cadence is a fact about a
+producer. The two are often numerically equal and are never the same statement.
+A station reporting hourly a mean taken over the last ten minutes of each hour
+has a cadence of one hour and a support period of ten minutes, and a schema
+declaring only the cadence would leave a reader free to treat fifty minutes of
+every hour as observed. `cadence` does not bound a phenomenon time
+({{cadence}}), and `supportPeriod` asserts nothing about whether a successor
+record exists or when it arrives.
+
+Where the length is not fixed by the schema, because it varies with the station,
+the instrument, or the message, there is no length to state and a schema MUST
+NOT state a nominal one. The extent is then indeterminate, and a schema SHOULD
+record in `description` what governs the length, so that a reader learns where
+to obtain it rather than assuming a value.
+
+Example. A surface report carries a mean wind speed over the ten minutes ending
+at the observation time and a rainfall total accumulated over the hour that
+opens at the stated instant. The record has one boundary member and two periods:
+
+~~~ json
+{
+  "name": "SurfaceReport",
+  "type": "object",
+  "properties": {
+    "observed_at": {
+      "type": "datetime",
+      "examples": ["2026-07-27T12:50:00Z"],
+      "semanticRole": "phenomenonTime"
+    },
+    "accumulation_opens": {
+      "type": "datetime",
+      "examples": ["2026-07-27T12:00:00Z"],
+      "semanticRole": "phenomenonTimeStart"
+    },
+    "wind_speed": {
+      "type": "double",
+      "unit": "m/s",
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": "mean",
+      "phenomenonTimeRelation": "interval",
+      "supportPeriod": { "length": "PT10M", "anchor": "end" }
+    },
+    "rainfall": {
+      "type": "double",
+      "unit": "mm",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "accumulation",
+      "supportPeriod": { "length": "PT1H", "anchor": "start" }
+    }
+  },
+  "required": [
+    "observed_at",
+    "accumulation_opens",
+    "wind_speed",
+    "rainfall"
+  ],
+  "additionalProperties": false
+}
+~~~
+
+The record carries no `phenomenonTimeEnd`, so `wind_speed` anchors on
+`observed_at` and covers `[12:40Z, 12:50Z)`. `rainfall` anchors on
+`accumulation_opens` and covers `[12:00Z, 13:00Z)`. The two periods overlap and
+neither is the other, and a reader that took the observation instant for both
+would attribute the hour's rain to ten minutes of it.
 
 ## The `temporalReferenceSystem` Keyword {#temporal-reference-systems}
 
@@ -1987,7 +2453,7 @@ processor can order two positions without implementing the definition.
 
 ~~~ json
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
   "$id": "https://schemas.example.org/racing-speed-observation",
   "name": "RacingSpeedObservation",
   "type": "object",
@@ -2089,10 +2555,55 @@ the annotated temporal position. For a Core `datetime`, `date`, or `time`, it
 MUST be a positive Core `duration`. Another temporal reference system MAY use a
 numeric, string, or structured interval representation defined by that system.
 
+That latitude is what makes a rapid cadence expressible, and a schema for one
+SHOULD use it rather than force the period into civil time. A duration is
+written in seconds and their decimal fractions, and many rates that are exact on
+their own clock have no exact expression there: audio sampled at 48 kHz advances
+one frame every 1/48000 of a second, so any duration written for it is rounded,
+and a consumer that places positions by accumulating it drifts further from the
+truth with every frame. Writing the period more exactly does not help, because
+civil time cannot express the instants either. A stream whose positions are
+counted is not a stream whose positions are seconds.
+
+Where the values are counted on a clock of their own, the schema declares that
+clock as a meta-type, names it in `temporalReferenceSystem`
+({{temporal-reference-systems}}), and gives `period` as a count of that clock's
+own units, which for a value recorded once per tick is the integer 1. The
+cadence is then exact, because it is stated in the system the values are
+expressed in.
+
+The conversion to seconds is data rather than annotation. A rate varies from one
+delivery to the next while the schema stays the same, so a member of the record
+carries it, annotated with a `unit` {{JSTRUCT-UNITS}}, and a consumer MUST NOT
+assume a conventional value for it. Where a schema serves one rate and no other,
+`const` or `enum` {{JSTRUCT-CORE}} pins the value on that member.
+
+No keyword binds a clock to the member carrying its rate. A processor MUST NOT
+take a member to be the rate of a clock because of the member's name or because
+its unit is one of frequency, and MUST NOT convert a position counted on such a
+clock to elapsed civil time unless a relation to civil time is established
+outside these annotations. The meta-type declaring the clock states that
+relation, or its absence, in its `description` ({{temporal-reference-systems}}).
+
 Cadence is not delivery time, a service-level objective, a completeness
 assertion, or a phenomenon-time boundary. It does not assert that every
 position has a record, that records arrive in order, or that an `untilNext`
 successor exists.
+
+Cadence is an expectation and not a constraint, and the distinction is
+normative. A schema that declares a cadence constrains no instance document. An
+instance whose values do not follow the declared cadence is not invalid for that
+reason, because a stream that misses a beat is late rather than malformed, and a
+processor MUST NOT reject an instance, a value, or a schema on the ground that
+observed timing departs from a declared cadence. A runtime service level belongs
+to an agreement between a producer and a consumer, not to a schema.
+
+A consumer may still act on a cadence. A declared period sizes a window, sets a
+threshold beyond which a value is treated as stale, and makes an absent value
+detectable as a gap rather than absorbed silently. Each of those is a decision
+the consumer makes about its own processing. None of them changes the meaning of
+a value, and none licenses a value to be supplied where none was recorded
+({{security-considerations}}).
 
 Example:
 
@@ -2122,7 +2633,65 @@ Example:
 }
 ~~~
 
-# Spatial Reference Characteristics {#spatial-reference-characteristics}
+A cadence too rapid for civil time, stated on a clock of its own:
+
+~~~ json
+{
+  "name": "AudioSampleFrame",
+  "type": "object",
+  "properties": {
+    "frame_index": {
+      "type": "int64",
+      "description": "Position of this frame, counted in samples from the start of the delivery",
+      "semanticRole": "phenomenonTime",
+      "temporalReferenceSystem": {
+        "reference": { "$ref": "#/definitions/AudioSampleClock" },
+        "kind": "type",
+        "sortOrder": "forward"
+      },
+      "cadence": {
+        "kind": "fixed",
+        "period": 1
+      }
+    },
+    "sample_rate": {
+      "type": "int32",
+      "unit": "Hz",
+      "description": "Sample frames per second for this delivery"
+    },
+    "amplitude": {
+      "type": "double",
+      "semanticRole": "observationValue"
+    }
+  },
+  "required": ["frame_index", "sample_rate", "amplitude"],
+  "additionalProperties": false,
+  "definitions": {
+    "AudioSampleClock": {
+      "name": "AudioSampleClock",
+      "type": "object",
+      "description": "A position is a count of sample frames from the start of the delivery. The clock advances one unit per frame and does not reset within a delivery, so positions sort numerically and are comparable within one delivery and not across deliveries. Elapsed seconds are the count divided by the frame rate of the delivery; this meta-type does not supply that rate.",
+      "properties": {
+        "frame_count": {
+          "type": "int64",
+          "description": "Count of sample frames from the start of the delivery.",
+          "referenceRole": "position"
+        }
+      },
+      "required": ["frame_count"],
+      "additionalProperties": false
+    }
+  }
+}
+~~~
+
+The cadence here is one sample-clock unit and is exact. Written as a duration it
+could only have been approximated: `PT0.0000208333S` is short of a
+forty-eight-kilohertz frame by about thirty-three picoseconds, which is nothing
+in one frame and a full sample every thirteen seconds of programme, growing
+without bound for as long as the recording runs.
+
+# Spatial Reference Annotations {#spatial-reference-annotations}
 
 Each keyword in this section has two parts. `reference` and `kind` identify an
 external definition of a reference system. The remaining properties bind the
@@ -2846,8 +3415,8 @@ the instance carries the values themselves, that is, with the exponent applied.
 
 The value under `mtp` sits at row 1 and column 2, and the declaration of
 `symmetric` puts the same value at row 2 and column 1. Nothing in the instance
-says so, which is the point: the six numbers alone determine nine components
-only once the schema has stated the frame, the index of each, and the symmetry.
+says so: the six numbers alone determine nine components only once the schema
+has stated the frame, the index of each, and the symmetry.
 
 `UseFrame` is a local frame, and up, south, and east are directions only once a
 point on the Earth is given. The point is the one the `coordinateReferenceSystem`
@@ -2924,18 +3493,18 @@ of the rotation that transforms the basis vectors of frame A into the basis
 vectors of frame B", and the matrix it corresponds to is defined by
 `XB = MBA * XA` {{CCSDS-ADM}}.
 
-That committee is also the reason this document fixes these choices rather than
-offering them as members to be declared. Its first issue made both the direction
-and the placement of the quaternion scalar into fields a producer filled in,
-`ATTITUDE_DIR` taking `A2B` or `B2A` and `QUATERNION_TYPE` taking `FIRST` or
-`LAST` {{CCSDS-ADM1}}. Its second issue deleted both, recording the rationale as
-"Simplicity of the standard" and, for the wider set of changes that pinned the
-meanings down, "To avoid misuse of exchange data" {{CCSDS-ADM}}. Fixing them
-cost that standard the ability to carry records laid out the other way, because
-its records are positional. It costs this document nothing, because `components`
-names members rather than positions. A schema whose quaternion is stored
-scalar-last and one whose quaternion is stored scalar-first carry the same
-annotation, with the names written in the order fixed here.
+This document fixes these choices rather than offering them as members to be
+declared, and that committee is the precedent. Its first issue made both the
+direction and the placement of the quaternion scalar into fields a producer
+filled in, `ATTITUDE_DIR` taking `A2B` or `B2A` and `QUATERNION_TYPE` taking
+`FIRST` or `LAST` {{CCSDS-ADM1}}. Its second issue deleted both, recording the
+rationale as "Simplicity of the standard" and, for the wider set of changes that
+pinned the meanings down, "To avoid misuse of exchange data" {{CCSDS-ADM}}.
+Fixing them cost that standard the ability to carry records laid out the other
+way, because its records are positional. It costs this document nothing, because
+`components` names members rather than positions. A schema whose quaternion is
+stored scalar-last and one whose quaternion is stored scalar-first carry the
+same annotation, with the names written in the order fixed here.
 
 ### The `from` and `to` Properties
 
@@ -3033,16 +3602,16 @@ The four values taken together SHOULD have unit norm, and the scalar SHOULD be
 non-negative, which confines the rotation angle to a half turn either way
 {{CCSDS-ADM1}}.
 
-One worked case settles the sense beyond argument. Let the `to` frame be the
-`from` frame turned a quarter turn in the right-hand sense about the third axis,
-so that the first axis of the `to` frame has the coordinates 0, 1, 0 in the
-`from` frame. The quaternion is then the scalar 0.7071 with axis components 0,
-0, 0.7071, and a vector whose coordinates in the `from` frame are 1, 0, 0 has
-the coordinates 0, -1, 0 in the `to` frame. Those are the values {{CCSDS-ADM}}
-prints for the same case.
+A worked case fixes the sense. Let the `to` frame be the `from` frame turned a
+quarter turn in the right-hand sense about the third axis, so that the first
+axis of the `to` frame has the coordinates 0, 1, 0 in the `from` frame. The
+quaternion is then the scalar 0.7071 with axis components 0, 0, 0.7071, and a
+vector whose coordinates in the `from` frame are 1, 0, 0 has the coordinates 0,
+-1, 0 in the `to` frame. Those are the values {{CCSDS-ADM}} prints for the same
+case.
 
-The other sense is in wide enough use to be worth naming. The SPICE toolkit
-places the scalar first, as this document does, and measures its angle as the
+One other convention is in wide enough use to name. The SPICE toolkit places
+the scalar first, as this document does, and measures its angle as the
 rotation of the coordinate system from the base frame in the right-hand sense,
 as this document does. It nevertheless carries the negation of the vector part
 this document carries, so for the case above it gives the scalar 0.7071 with
@@ -3137,17 +3706,17 @@ first letter names, the second turns the frame the first produced about the axis
 the second letter names, and the third turns the frame the second produced, the
 result being the `to` frame. Under the extrinsic reading, where every rotation
 is about an axis of the original frame, the same three angles against the same
-sequence describe a different transformation. The equivalent extrinsic
-statement of one intrinsic transformation reads the sequence backwards and
-applies the same three angle values in the reverse order; degenerate cases, such
-as all three angles being zero, agree under both readings.
+sequence describe a different transformation. Nothing is lost by fixing the
+intrinsic reading, because every extrinsic sequence has an intrinsic equal that
+{{rotation-sequence}} gives; degenerate cases, such as all three angles being
+zero, agree under both readings and need no conversion.
 
 That this needs saying is shown by the standard that most needs it. The current
 attitude message standard states the composition is intrinsic exactly once, in
 an annex marked informative {{CCSDS-ADM}}, and the issue that preceded it for
 sixteen years never stated it at all {{CCSDS-ADM1}}.
 
-### The `rotationSequence` Property
+### The `rotationSequence` Property {#rotation-sequence}
 
 `rotationSequence` MUST be present when `encoding` is `eulerAngles` and MUST NOT
 be present otherwise. Its value MUST be three characters drawn from `X`, `Y`,
@@ -3160,6 +3729,52 @@ valid. The leftmost character names the axis of the first rotation.
 third, in the order that frame declares its axes. The letters are positional and
 carry no direction of their own, whatever the frame calls its axes: in a frame
 declaring north, east, and down, `X` is north, `Y` is east, and `Z` is down.
+
+Twelve values are enough for every rotation, including every rotation a source
+states extrinsically, and an annotator working from such a source converts
+rather than looks for a value that is not there. A rotation stated extrinsically
+as a sequence of three axes with three angles is the same rotation as the
+intrinsic sequence whose axis letters are those three in reverse, taking the same
+three angle values in reverse order. Both reverse. Reversing the letters while
+leaving the angles in place, or the reverse of that, gives a different rotation,
+and is the error this paragraph exists to prevent.
+
+The twelve conversions are these. In every row the angles reverse, so
+`components` names the member holding the source's third angle first and the
+member holding its first angle last.
+
+| Extrinsic sequence | `rotationSequence` value | `components` order |
+|---|---|---|
+| `XYX` | `XYX` | third, second, first |
+| `XYZ` | `ZYX` | third, second, first |
+| `XZX` | `XZX` | third, second, first |
+| `XZY` | `YZX` | third, second, first |
+| `YXY` | `YXY` | third, second, first |
+| `YXZ` | `ZXY` | third, second, first |
+| `YZX` | `XZY` | third, second, first |
+| `YZY` | `YZY` | third, second, first |
+| `ZXY` | `YXZ` | third, second, first |
+| `ZXZ` | `ZXZ` | third, second, first |
+| `ZYX` | `XYZ` | third, second, first |
+| `ZYZ` | `ZYZ` | third, second, first |
+
+The six sequences whose first and third letters are equal reverse to themselves,
+and those rows are the ones to read carefully: the value written is the same
+string the source gives, which makes it easy to conclude that nothing needs
+doing. Something does. The angles still reverse, and an extrinsic `ZXZ` recorded
+as an intrinsic `ZXZ` with the angles left in source order is a different
+rotation from the one the source states.
+
+A source giving an extrinsic X-then-Y-then-Z rotation of 10, 20, and 30 degrees
+is therefore annotated with a `rotationSequence` of `ZYX`, and `components`
+naming the member holding 30 degrees first, then the member holding 20, then the
+member holding 10. The members themselves do not move and their values are not
+rewritten; only the order in which `components` names them changes. Because
+nothing in the annotation records that the source was extrinsic, a schema that
+converts SHOULD say so in `description`, so that a later reader comparing the
+schema against the source document does not read the reversal as a mistake.
+An extrinsic reading MUST NOT be recorded by inventing a thirteenth value, a
+lower-case spelling, or any other marking.
 
 The six values whose first and third characters are equal are permitted, though
 the standard that first enumerated them discouraged them "as their use can cause
@@ -3425,19 +4040,19 @@ to carry one:
 }
 ~~~
 
-# Colorimetric Reference Characteristics {#colorimetric-reference-characteristics}
+# Colorimetric Reference Annotations {#colorimetric-reference-annotations}
 
 Color is the worked instance of a larger family: components resolved onto the
 channels of a named space, where the space fixes the basis those numbers weigh,
 the reference they stand relative to, and the encoding they carry.
-{{spatial-reference-characteristics}} gives that treatment to positions and
+{{spatial-reference-annotations}} gives that treatment to positions and
 directions, and this section gives it to color, because color is the perceptual
 signal most often carried in general-purpose JSON — design tokens, stylesheets,
 image metadata — and the one most often carried with all of that left silent.
-The same family continues past color in {{signal-channel-characteristics}}, where
+The same family continues past color in {{signal-channel-annotations}}, where
 audio channel layout and multiband imaging resolve channel numbers onto a named
 space as color does. A coded value bound to an external list
-({{coded-value-characteristics}}) and the weighting a scalar measurement carries
+({{coded-value-annotations}}) and the weighting a scalar measurement carries
 ({{measurement-conditioning}}) are relatives of a different shape, each treated
 in its own section.
 
@@ -3453,7 +4068,7 @@ light or to the signal that drives a display. Most of those are almost never
 carried with the numbers, and the ones that are are carried by conventions that
 differ between formats.
 
-The keywords of {{spatial-reference-characteristics}} lean on registers. A
+The keywords of {{spatial-reference-annotations}} lean on registers. A
 position has the EPSG dataset and the OGC definitions server behind it, and a
 schema names a system by a URI that resolves to a definition of it. Color has no
 equivalent. The International Color Consortium publishes registries of RGB color
@@ -3474,6 +4089,17 @@ object with REQUIRED `reference`, `kind`, and `channels`, OPTIONAL `codePoints`,
 other members. The keyword is an array because one record may carry a color in more
 than one space, as a characterization dataset does when it gives the device
 values that were printed alongside the color that was measured off the result.
+
+These members can disagree, and one principle settles every case in which they
+do. `reference` identifies a definition that describes a class of data, while
+`codePoints`, `transfer`, `illuminant`, and `observer` state what is true of
+*this* data. The narrower statement prevails, because a schema author declaring
+one is recording a fact about the values in hand and a definition cannot be. The
+specific rules follow from that and are stated where each member is defined
+({{color-code-points}}, {{color-transfer}}, {{color-illuminant-observer}}); no
+rule lets a definition override a member, and none of them makes a schema
+invalid, since a processor that cannot resolve the definition cannot detect the
+disagreement in the first place.
 
 ### The `reference` and `kind` Properties
 
@@ -3516,9 +4142,12 @@ enumeration. The following values are defined here:
 
 A processor is not required to dereference the URI. This document does not
 define a resolution protocol, URI layout, storage model, or definition
-serialization.
+serialization. Where an element carries `codePoints`, `transfer`, `illuminant`,
+or `observer` alongside `reference`, those members prevail over the identified
+definition where the two disagree ({{color-code-points}}, {{color-transfer}},
+{{color-illuminant-observer}}).
 
-### The `codePoints` Property
+### The `codePoints` Property {#color-code-points}
 
 `codePoints`, when present, MUST be an array of exactly four non-negative
 integers, being the color primaries, transfer characteristics, matrix
@@ -3672,7 +4301,7 @@ is sometimes called 'unassociated' or 'non-premultiplied' alpha", and, flatly,
 exist, and values carried from one to the other without the conversion are wrong
 everywhere the opacity is neither zero nor one.
 
-### The `transfer` Property
+### The `transfer` Property {#color-transfer}
 
 `transfer`, when present, states whether the channel values carry the transfer
 function of the identified space or are proportional to light. Its value MUST be
@@ -3693,7 +4322,7 @@ value of 1.0 stands for {{ICC-REGISTRY}}. Arithmetic on color is defined
 on the linear values, and the PNG specification requires compositing to be
 performed on "intensity samples (not gamma-encoded samples)" {{PNG3}}.
 
-### The `illuminant` and `observer` Properties
+### The `illuminant` and `observer` Properties {#color-illuminant-observer}
 
 `illuminant` and `observer`, when present, state the conditions the values are
 relative to. `illuminant` names a standard illuminant, and SHOULD use a
@@ -3709,7 +4338,13 @@ colour-matching functions of the CIE 1931 standard colorimetric system or the
 CIE 1964 standard colorimetric system" {{ISO11664-4}}. Values computed under the
 two observers from one sample differ, and nothing in the values records which
 was used. Where the identified definition does not establish the illuminant and
-the observer, a schema SHOULD declare `illuminant` and `observer`.
+the observer, a schema SHOULD declare `illuminant` and `observer`. Where the
+definition does establish them and the declared members disagree with it, the
+declared members prevail and a processor MUST prefer them, for the reason that
+the schema author is stating the condition these values were computed under and
+the definition is stating the condition its class of values is customarily
+computed under. A processor SHOULD report the disagreement, and MUST NOT treat
+it as making the schema invalid.
 
 Published measurement data shows both practices. The characterization datasets
 of the International Color Consortium carry their conditions in the file itself.
@@ -3792,10 +4427,10 @@ illuminant and the observer are known, and the file the numbers came from is one
 of the ones that says so. The annotation carries what that file carries, in a
 place a processor can read.
 
-# Signal Channel Characteristics {#signal-channel-characteristics}
+# Signal Channel Annotations {#signal-channel-annotations}
 
 The keywords of this section resolve components onto the channels of a named
-space, as {{colorimetric-reference-characteristics}} does for color. A signal is
+space, as {{colorimetric-reference-annotations}} does for color. A signal is
 a bundle of channel numbers that means nothing until something states which
 channel is which, what the numbers stand relative to, and how they are encoded.
 Color carries that in `colorSpaces`; audio and multiband imaging carry it here.
@@ -3859,17 +4494,21 @@ exactly one name, that of a property whose type is `array` or `tuple` and whose
 elements are of numeric type, in which case the elements of that property supply
 the channels in order.
 
-### The `levelReference` Property
+### The `levelReference` Property {#audio-level-reference}
 
 `levelReference`, when present, states what the sample amplitudes are relative
-to. Its value MUST be `fullScale` or `soundPressure`.
+to. Its values, their meanings, and its openness are those of the
+`levelReference` of `measurementConditioning` ({{level-reference}}), which
+defines them. Under `fullScale` the numeric range of the samples is stated by
+the property carrying them and not by this value.
 
-| Value | Meaning |
-|---|---|
-| `fullScale` | Zero decibels is digital full scale, the greatest level the encoding represents, so a level in decibels is dBFS. The numeric range of the samples is stated by the property, not by this value. |
-| `soundPressure` | The amplitudes are calibrated sound pressures, whose reference is 20 micropascals {{ISO1683}} and whose level in decibels is sound pressure level. |
+The default differs from that of `measurementConditioning`. Here, absence means
+`fullScale`, because digital audio samples are referred to full scale unless
+something says otherwise. Under `measurementConditioning`, absence means that no
+level reference is stated, because a conditioned measurement has no comparable
+default.
 
-Where absent, the reference is `fullScale`. Programme loudness is not a
+Programme loudness is not a
 per-sample reference: it is an integrated, gated, frequency-weighted measure of
 a whole programme, defined by {{ITU-BS1770}} and given a target by
 {{EBU-R128}}, and a schema that carries it carries it as its own annotated
@@ -3878,12 +4517,38 @@ value, not as the level reference of the channels.
 ### The `encoding` Property
 
 `encoding`, when present, states how the stored numbers stand to amplitude. Its
-value MUST be `linear`, `aLaw`, or `muLaw`. Under `linear` the numbers are
-proportional to amplitude, whether stored as integers or as floating point.
-Under `aLaw` or `muLaw` each channel value is the eight-bit code word that
-{{ITU-G711}} defines, an integer from zero to two hundred and fifty-five, and a
-reader restores amplitude by the inverse companding before any arithmetic. Where
-absent, the encoding is `linear`.
+value MUST be one of the values below or an absolute URI identifying another
+encoding.
+
+| Value | Meaning |
+|---|---|
+| `linear` | The numbers are proportional to amplitude, and full scale is the range the annotated member's declared type permits. |
+| `float` | The numbers are proportional to amplitude and full scale is unit magnitude, so a sample of `1.0` is at full scale. A magnitude greater than one is legal and is a level above full scale. |
+| `aLaw` | Each channel value is the eight-bit A-law code word that {{ITU-G711}} defines. |
+| `muLaw` | Each channel value is the eight-bit mu-law code word that {{ITU-G711}} defines. |
+
+Where absent, the encoding is `linear`.
+
+The division between `linear` and `float` is the scale, not the storage type. A
+member of floating-point type whose samples run to the range of an integer
+quantization is `linear`; a member whose samples are normalized to unit
+magnitude is `float`, whatever its declared type. The distinction matters
+because every value validates under either and only one of them makes a
+decibel level or a sum of channels come out right, and because a `float`
+member may legitimately carry a magnitude greater than one that a reader
+must not treat as an error.
+
+Under `aLaw` or `muLaw` each channel value is
+an integer from zero to two hundred and fifty-five, and a
+reader restores amplitude by the inverse companding before any arithmetic.
+
+The enumeration is open because a sample encoding is a definition maintained
+elsewhere, as G.711 companding is. A value that is a URI SHOULD identify a
+definition of the encoding. A processor that does not know a value MUST
+preserve it, MUST NOT reject the schema for carrying it, and MUST NOT assume
+that the numbers are proportional to amplitude; the check is indeterminate
+rather than incorrect. A compressed bitstream is not a set of channel members
+and is outside this keyword whatever its encoding is called.
 
 Object-based and scene-based audio, in which a sample is not one loudspeaker,
 are not channel layouts in this sense; they are described by the Audio
@@ -4144,11 +4809,15 @@ JSON Structure Import copies complete definitions, including annotations
 {{JSTRUCT-IMPORT}}. Shadowing replaces the complete imported definition; it does
 not merge individual annotations.
 
-An annotation belongs to the definition it is written on, so characteristics are
+Member names stated by an annotation are resolved as {{annotation-model}}
+requires: against the effective definition of the annotated type, and against
+declared property names rather than serialized ones.
+
+An annotation belongs to the definition it is written on, so annotations are
 part of what a type means rather than of how one schema uses it. A schema that
-needs different characteristics for the same structure shadows the definition
+needs different annotations for the same structure shadows the definition
 and restates them, or defines a distinct type. This document defines no overlay
-by which a schema attaches characteristics to a definition it does not own.
+by which a schema attaches annotations to a definition it does not own.
 
 Where a type would inherit the same keyword from more than one base, the derived
 definition MUST state that keyword itself, and the stated value is the effective
@@ -4159,9 +4828,9 @@ not conforming, and a processor MUST NOT select between them.
 
 The extension meta-schema will be published at:
 
-`https://json-structure.org/meta/characteristics/v0/#`
+`https://json-structure.org/meta/semantic-annotations/v0/#`
 
-It offers one feature, `JSONStructureCharacteristics`, whose add-ins contribute
+It offers one feature, `JSONStructureSemanticAnnotations`, whose add-ins contribute
 the keywords defined here to the Core property, object, tuple, array, set, map,
 and choice definitions. A schema activates this specification by selecting that
 URI and naming the feature in `$uses`. The meta-schema enables JSON Structure
@@ -4187,6 +4856,34 @@ catalog-URI identity, MUST NOT infer equivalence from discovery labels, and MUST
 unreviewed or non-exact mapping as approval. Catalog write access and mapping
 review therefore require authentication, authorization, audit, and provenance.
 Deprecation alternatives are migration advice, not automatic substitutions.
+
+No annotation is checked against the data it describes. Validation confirms that
+a named member exists, that a closed enumeration holds, and that components and
+units agree in number and kind; it cannot confirm that a `reference` still
+identifies the definition the values are actually expressed against. An
+annotation is therefore a claim that can be true when written and false later
+without anything failing: an instrument is recalibrated, a station is resurveyed
+onto a new datum, a producer reorders channels or changes a rate, a code list is
+superseded. The schema continues to validate and the annotation continues to
+read as authoritative.
+
+Stale annotation is for that reason more dangerous than absent annotation. The
+prohibitions in {{processing-conformance}} guard the absent case, where a
+processor is required to decline rather than guess; they do not guard the stale
+case, where a processor holds an explicit statement, has no ground to doubt it,
+and proceeds with a combination it would otherwise have refused. A schema author
+MUST revise the annotations of a schema in the same change that alters what the
+schema describes, and a consumer MUST NOT treat an annotation as evidence more
+current than the schema revision carrying it.
+
+The same property makes annotations a target. Modifying a schema changes what
+data means without touching the data, without failing validation, and without
+any signal to a consumer: a substituted CRS reference relocates every
+coordinate, an `alphaMode` moved between `straight` and `premultiplied` alters
+every composite, an altered `levelReference` shifts every level by an amount
+large enough to matter and plausible enough to pass review. Schema distribution
+therefore needs the integrity protection the data needs, and a change to an
+annotation warrants the review a change to a type warrants.
 
 Incorrect temporal roles, boundaries, reference systems, transformations, or
 domains of validity can reorder positions or create false coverage. Cadence MUST
@@ -4224,7 +4921,7 @@ A `reference` identifies a term, not the namespace of the model that defines it;
 in those models and that are widely used with observation data include the
 Semantic Sensor Network ontology {{SOSA-SSN}}, which publishes
 `http://www.w3.org/ns/sosa/` and `http://www.w3.org/ns/ssn/`, and the Provenance
-Ontology, which publishes `http://www.w3.org/ns/prov#`.
+Ontology {{PROV-O}}, which publishes `http://www.w3.org/ns/prov#`.
 
 ## Temporal Reference Systems {#temporal-reference-uris}
 

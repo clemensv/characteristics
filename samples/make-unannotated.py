@@ -20,7 +20,7 @@ import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
-META = ROOT.parent / "characteristics-v0.json"
+META = ROOT.parent / "semantic-annotations-v0.json"
 
 DIRECTORIES = [
     "09-orbit-mean-elements",

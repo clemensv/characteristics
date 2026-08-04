@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/06-solar-xray-flare",
-  "$uses": ["JSONStructureCharacteristics"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/06-solar-xray-flare",
+  "$uses": ["JSONStructureSemanticAnnotations"],
   "name": "XrayFlare",
   "description": "Individual solar X-ray flare event detected by the GOES primary satellite XRS instrument, as reported by the SWPC goes/primary/xray-flares-7-day endpoint. Each record represents a discrete flare event with onset, peak, and end times plus X-ray classifications on the standard A/B/C/M/X logarithmic scale. The flare classification is based on peak 0.1-0.8 nm X-ray flux: C-class (1e-6 W/m^2), M-class (1e-5), X-class (1e-4). Derived from the noaa-goes feeder schema published in the xRegistry catalogue. The sample demonstrates that the characteristics annotations are not Earth-bound: the feature of interest is the Sun, the observing procedure is the GOES spacecraft carrying the XRS instrument, no coordinate reference system applies because the feed carries no position, and the ISO-8601 timestamps are transported as plain strings and so state their temporal reference system explicitly. It also demonstrates the flattened interval roles phenomenonTimeStart and phenomenonTimeEnd on the flare onset and end, a phenomenonTime on the peak instant, derivation 'statistic' with statistic 'maximum' on the peak flux, phenomenonTimeRelation 'interval' on the time-integrated flux, and an irregular cadence because flares are not scheduled.",
   "type": "object",

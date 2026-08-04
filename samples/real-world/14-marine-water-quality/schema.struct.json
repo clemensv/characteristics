@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/14-marine-water-quality",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/14-marine-water-quality",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "WaterQualityReading",
   "description": "A water-quality reading from a King County (Washington) marine monitoring mooring in Puget Sound, carrying the CTD, optical and nutrient channels published for one sampling cycle. Derived from the king-county-marine feeder schema published in the xRegistry catalogue; the upstream description text on that schema is a copy of the King County Metro water-taxi wording and does not describe this record, so it has been replaced with an accurate one. The sample demonstrates the three-tier feature-of-interest chain: the mooring is the featureOfInterest, the water parcel at the sampled depth is the proximateFeatureOfInterest, and the marine basin for which the reading is environmentally interpreted is the ultimateFeatureOfInterest, none of which is inferred from another. It also demonstrates observingProcedure for the profiling sonde, observedProperty on the record and on each result member, resultQuality for the QARTOD flag, the split between measured in-situ sensor channels and calculated quantities such as practical salinity, specific conductance and oxygen saturation, standardDeviation statistics over the burst window, phenomenonTime against resultTime, and a fixed fifteen-minute cadence at the mooring sampling interval. Every measurement member is optional; a channel that the mooring did not report in a given cycle is omitted from the record rather than nulled.",
   "type": "object",
@@ -195,7 +195,7 @@
     },
     "chlorophyll_stddev_ug_l": {
       "type": "double",
-      "description": "Standard deviation of chlorophyll fluorescence in micrograms per liter, summarizing the fluorometer burst taken within the sampling cycle. It carries the same observable property as the chlorophyll concentration and differs from it only in the summary function applied, so the two are not comparable as like quantities.",
+      "description": "Standard deviation of chlorophyll fluorescence in micrograms per liter, summarizing the fluorometer burst taken within the sampling cycle. It carries the same observable property as the chlorophyll concentration and differs from it only in the summary function applied, so the two are not comparable as like quantities. The burst lies within the sampling cycle but its length is configured per deployment and is not published in this feed, so no `supportPeriod` is declared and the extent of the period the value characterizes is indeterminate from the record.",
       "unit": "ug/L",
       "symbol": "µg/L",
       "semanticRole": "observationValue",
@@ -222,7 +222,7 @@
     },
     "turbidity_stddev_ntu": {
       "type": "double",
-      "description": "Standard deviation of turbidity in nephelometric turbidity units, summarizing the optical backscatter burst taken within the sampling cycle.",
+      "description": "Standard deviation of turbidity in nephelometric turbidity units, summarizing the optical backscatter burst taken within the sampling cycle. As with the chlorophyll standard deviation, the burst length is configured per deployment and is not published, so no `supportPeriod` is declared and the extent of the period is indeterminate from the record.",
       "unit": "NTU",
       "symbol": "NTU",
       "semanticRole": "observationValue",

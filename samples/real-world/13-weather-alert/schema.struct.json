@@ -1,7 +1,7 @@
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/13-weather-alert",
-  "$uses": ["JSONStructureCharacteristics", "JSONStructureAlternateNames"],
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/13-weather-alert",
+  "$uses": ["JSONStructureSemanticAnnotations", "JSONStructureAlternateNames"],
   "name": "WeatherAlert",
   "description": "A weather or non-weather alert from the US National Weather Service, distributed through the Integrated Public Alert and Warning System (IPAWS). Follows the CAP (Common Alerting Protocol) standard. Derived from the nws-alerts feeder schema published in the xRegistry catalogue. The sample demonstrates the separation of the two independent temporal axes that CAP carries: the hazard itself is bounded by onset and ends, which take phenomenonTimeStart and phenomenonTimeEnd, while the bulletin is in force between effective and expires, which take effectiveTimeStart and effectiveTimeEnd. A warning in force for eighteen hours may concern a phenomenon lasting minutes, and neither pair bounds the other. The sent time is the resultTime and carries an irregular cadence because alerts are issued as hazards arise rather than on a schedule. The CAP status and message-type fields take semanticRole status because they state how the record is to be treated; severity, certainty and urgency are assessments of the hazard rather than of the record and are deliberately left unannotated.",
   "type": "object",

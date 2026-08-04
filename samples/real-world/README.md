@@ -1,4 +1,4 @@
-# Characteristics annotations on real feed schemas
+# Semantic and reference-system annotations on real feed schemas
 
 Twenty-eight samples derived from data published by live open-data feeds and by
 standing reference datasets. Most of the schemas were taken from the xRegistry
@@ -6,7 +6,7 @@ documents in the
 [real-time-sources](https://github.com/clemensv/real-time-sources) feeders; the
 last few were transcribed from published record formats that have no schema of
 their own. All of them are annotated with the keywords defined by
-[JSON Structure: Characteristics](../../draft-vasters-json-structure-characteristics.md).
+[JSON Structure: Semantic and Reference-System Annotations](../../draft-vasters-json-structure-characteristics.md).
 
 They differ from the [teaching samples](../) one directory up: those are written
 to isolate one part of the annotation model each, whereas these start from a
@@ -19,9 +19,9 @@ conforms to it. The header is the same as for the teaching samples:
 
 ```json
 {
-  "$schema": "https://json-structure.org/meta/characteristics/v0/#",
-  "$id": "https://schemas.example.org/characteristics/real-world/01-ais-vessel-position",
-  "$uses": ["JSONStructureCharacteristics"]
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://schemas.example.org/semantic-annotations/real-world/01-ais-vessel-position",
+  "$uses": ["JSONStructureSemanticAnnotations"]
 }
 ```
 
@@ -101,7 +101,7 @@ derived from.
 ## Validation
 
 These samples are covered by
-[`../validate-characteristics.ps1`](../validate-characteristics.ps1), which walks
+[`../validate-samples.ps1`](../validate-samples.ps1), which walks
 every `schema.struct.json` under `samples/`, and then checks each
 `schema-unannotated.struct.json` in the same way.
 
@@ -126,7 +126,7 @@ their sources in five ways, each of which is stated in the affected schema's own
   numeric type and left out of `required`, because a unit may not be attached to
   a union. An unreported channel is therefore absent rather than null.
 - `identity` and `$root` were removed, because the Relations extension is not
-  enabled by the Characteristics meta-schema. Upstream `altnames` were dropped,
+  enabled by the semantic-annotations meta-schema. Upstream `altnames` were dropped,
   because a name a consumer maps onto is not what these samples are about.
 
 Reference URIs that point at `example.org` are placeholders for composite
