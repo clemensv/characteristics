@@ -81,8 +81,7 @@ than an implementation detail.
 
 It is **a different model family from a different vendor** than the subject. A
 model grading its own family's output is the weakest link in an evaluation of
-this shape, and the recorded runs were regraded across that boundary once it was
-available.
+this shape, so the boundary is crossed deliberately.
 
 It is **adversarial**. It is told that credit is earned and never assumed, that
 the default verdict is `unaddressed`, and that a grader who credits an answer
@@ -175,16 +174,16 @@ because a model grading its own transcript is not supervision.
   the layer appears to buy nothing. This understates the annotations against a
   hand-written description and says nothing about whether a machine could act on
   either.
-* **The supervisor is not stable, and the instability is large.** Both runs were
-  graded twice: once by the same model family as the subject under neutral
-  instructions, then again by a different vendor's model under the adversarial
-  stance. The second grading moved `correct` in the comprehension run from 248 to
-  190 on the `annotated` arm, and moved `incorrect` in the query run from 7 to 31
-  on the `prose` arm. Both gradings are kept, the earlier one under
-  `prior-grading/`, so the movement can be inspected rather than taken on trust.
-  The figures quoted here are the adversarial cross-vendor grading throughout. No
-  difference between adjacent arms smaller than that movement should be read as
-  evidence of anything.
+* **The supervisor is not stable, and the instability is large.** Each run is
+  graded twice on identical transcripts: once by the adversarial cross-vendor
+  supervisor, which is what the figures below report, and once by a same-family
+  supervisor under neutral instructions, kept alongside under `prior-grading/`.
+  Only the grader differs between the two, so the pair measures how far a
+  supervisor's identity and stance move the numbers. It is far: `correct` on the
+  comprehension `annotated` arm differs by 58 claims between them, and
+  `incorrect` on the query `prose` arm differs by 24. No difference between
+  adjacent arms smaller than that should be read as evidence of anything, and no
+  absolute figure here should be quoted without its grader.
 * **Counting claims overstates repeated mistakes.** The rubric emits one claim
   per annotated member, so a single decision in a query is scored once for every
   member it touches. In the BMRS sample one division by the elapsed time between
@@ -196,15 +195,14 @@ because a model grading its own transcript is not supervision.
   `specification.md` into the run directory and tells the subject to read it,
   but nothing checks that it did. A subject that skips the file produces a
   transcript indistinguishable from the `annotated` arm, and the arm silently
-  measures nothing. The recorded run had to be re-run once for exactly this
-  reason. Any null result for that arm is only worth reading if the subject can
-  be shown to have opened the file.
+  measures nothing. Any null result for that arm is only worth reading if the
+  subject can be shown to have opened the file.
 
 ## The recorded runs
 
-Two runs are kept under version control. Both were answered and graded by
+Two runs are kept under version control. Both are answered and graded by
 sub-agents with no access to this repository beyond the single prompt file each
-was given.
+is given.
 
 ### `recorded-run` — the comprehension task
 
@@ -232,14 +230,13 @@ samples that carry them:
 
 Every wrong answer in that subset is the `bare` arm inferring the length of a
 settlement period from the spacing of records, which is the reading the
-`supportPeriod` keyword exists to rule out and the defect the BMRS sample
-previously encoded in its own prose. It is the one part of either run that both
-gradings agree on almost exactly.
+`supportPeriod` keyword exists to rule out. It is the one part of either run that
+both graders agree on almost exactly.
 
 ### `query-run` — the streaming-query task
 
 Seed 31, six samples, 188 scoreable claims, four arms, 752 verdicts. The claims
-are the same kind; what changed is that they are scored against SQL.
+are the same kind; what differs is that they are scored against SQL.
 
 | arm | correct | wrong | declined | untouched | coverage | accuracy | hazard | haz/ans |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -269,13 +266,13 @@ arm looks like a regression; read properly, it is tied for best.
 `prose` arm is exactly level with `bare`, at eleven wrong decisions each, while
 the two annotated arms make three. The claim-level figures flatter `prose`
 because its mistakes happen to fall on members that carry fewer claims. Prose
-told the reader enough to describe the feed correctly, and not enough to make it
+tells the reader enough to describe the feed correctly, and not enough to make it
 write different SQL.
 
 **The unannotated reader is wrong most times it commits.** Its `haz/ans` is
-0.6703: of the claims its query engaged at all, two thirds were violated,
-against 0.3636 for the same arm on the comprehension task. Prose lets a reader
-hedge and SQL does not.
+0.6703: of the claims its query engages at all, two thirds are violated, against
+0.3636 for the same arm on the comprehension task. Prose lets a reader hedge and
+SQL does not.
 
 **On the `supportPeriod` claims the separation is total.** Restricted to those
 25 claims in this run:
@@ -292,17 +289,17 @@ successive records — `/ DATEDIFF(minute, ...)` in one, `3600.0 /
 seconds_since_previous_period` in the other — which is verbatim the reading the
 keyword exists to forbid. The `annotated` arm never does it.
 
-The `spec` arm does, and that is the uncomfortable half of the result. It had
-the annotations and the specification and still derived the period from record
-spacing. One of the two annotation-bearing arms honoured the keyword and one did
-not, on one sample. The annotation is doing something no description did, and it
+The `spec` arm does, and that is the uncomfortable half of the result. It has the
+annotations and the specification and still derives the period from record
+spacing. One of the two annotation-bearing arms honours the keyword and one does
+not, on one sample. The annotation is doing something no description does, and it
 is not doing it reliably. Anyone quoting the `annotated` column of that table
 should quote the `spec` column beside it.
 
 **The residual mistake is the time axis.** Of the eight distinct non-`bare`
 violations, five are one error: naming an operational timestamp in `TIMESTAMP
 BY` when the schema annotates a different member as the phenomenon time. One
-answer stated the rule and broke it in the same breath, writing `Event time:
+answer states the rule and breaks it in the same breath, writing `Event time:
 TIMESTAMP BY TimeReceived, and no other member` under a schema that marks
 `TimeReceived` as `ingestionTime`. An annotation a reader can recite is not yet
 an annotation a reader acts on, and that is the strongest argument in either run
@@ -314,41 +311,44 @@ operational member, and the rubric scores any such choice as a violation. The
 count is an upper bound on carelessness and a lower bound on the awkwardness of
 the constraint.
 
-### What the change of supervisor did
+### How much of this is the grader
 
-Both runs were graded twice on identical transcripts: first by the same model
-family as the subject under neutral instructions, then by a different vendor's
-model told to be adversarial. Only the grader changed.
+Each run is scored twice on identical transcripts. The figures above are the
+adversarial cross-vendor grading; `prior-grading/` holds a same-family
+supervisor's verdicts on the same material under neutral instructions.
 
 | | comprehension `annotated` correct | query `prose` wrong | query `bare` declined |
 | --- | ---: | ---: | ---: |
 | same family, neutral | 248 | 7 | 83 |
 | cross-vendor, adversarial | 190 | 31 | 12 |
 
-The first grading credited the `prose` arm with 20 of 25 `supportPeriod` claims
-correct in the query run. Its query divides by `DATEDIFF(minute, ...)`. The
-second grading scores those 12 as violations and 4 as correct. That is the
-adversarial rule about prose not overriding SQL doing exactly what it was added
-to do, and it is the reason the earlier figures should not be quoted.
+The query run's `supportPeriod` claims show what separates them. The neutral
+grader scores the `prose` arm 20 of 25 correct; that arm's query computes its
+rate as `/ DATEDIFF(minute, ...)`, dividing by the spacing of records. The
+adversarial grader, told that prose does not override SQL, scores 12 of them as
+violations. Where the two disagree, the disagreement is nearly always a claim
+the transcript discusses correctly and its code contradicts.
 
-Both gradings are kept. The earlier one is under `prior-grading/` in each run
-directory, complete with its verdicts and quotes.
+That is a large sensitivity, and it is the reason no absolute number here should
+travel without the grader attached. What survives both graders is the ordering:
+`bare` well behind `prose`, and `prose` behind the two annotated arms, in both
+runs.
 
 ### What is common to both
 
-Subjects and supervisor were separate sub-agents with no access to this
-conversation, this repository, or each other, each given one prompt file and
-forbidden any other read. The subjects are one model family; the supervisor is a
-different family from a different vendor, and self-identified as such when
+Subjects and supervisor are separate sub-agents with no access to any
+conversation, to this repository, or to each other, each given one prompt file
+and forbidden any other read. The subjects are one model family; the supervisor
+is a different family from a different vendor, and self-identifies as such when
 asked. That closes the worst of the circularity, but the two vendors' models are
 trained on overlapping public data and neither is a domain expert, so this is a
 weaker independence than two human reviewers would give.
 
-The blinding half-held. In the comprehension run the supervisor named an
-annotated arm 10 times out of 13 and said `cannot tell` 3 times; in the query run
-it named one 6 times out of 6. Chance is a half, since two of the four arms are
-annotated. The earlier same-family grading said `cannot tell` not once in
-nineteen gradings, so the cross-vendor supervisor is measurably less certain
+The blinding half-holds. In the comprehension run the supervisor names an
+annotated arm 10 times out of 13 and says `cannot tell` 3 times; in the query run
+it names one 6 times out of 6. Chance is a half, since two of the four arms are
+annotated. The neutral same-family supervisor says `cannot tell` not once in
+nineteen gradings, so the adversarial cross-vendor one is measurably less certain
 which transcript was richer — but it is still well above chance, and no figure
 here is protected by the blinding.
 
@@ -417,8 +417,7 @@ against the transcripts that produced them. Their copies of `specification.md`
 are not kept, being duplicates of the draft two directories up; `--emit` writes
 one again when a run needs it.
 
-Each also holds a `prior-grading/` directory: the verdicts, results and summary
-from the first, same-family, non-adversarial grading of the very same
-transcripts. Nothing else differs between the two, so the pair is the only
-honest measure this harness has of how much a supervisor's identity and stance
-move the numbers. `--report` ignores it.
+Each also holds a `prior-grading/` directory: a second set of verdicts on the
+same transcripts from a same-family supervisor under neutral instructions. It is
+the harness's only measure of how far the numbers depend on who grades them.
+`--report` ignores it.
