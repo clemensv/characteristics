@@ -1,0 +1,682 @@
+{
+  "sample": "18-mode-s-aircraft-report",
+  "task": "comprehension",
+  "claims": [
+    {
+      "id": "#::coordinateReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order lat, lon. Axis order follows that binding and must not be assumed.",
+      "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+      "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+      "literals": [
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
+    },
+    {
+      "id": "#/properties/ts::semanticRole",
+      "tier": "scoreable",
+      "statement": "`ts` is an operational instant (`resultTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/ts semanticRole=resultTime",
+      "negative": "Using `ts` as the event time of the observation.",
+      "literals": [
+        "ts"
+      ]
+    },
+    {
+      "id": "#/properties/ts::temporalReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Positions in `ts` are expressed in the temporal reference system `#/definitions/PosixMillisecondEpoch` (kind `type`), not in an unqualified civil clock.",
+      "evidence": "#/properties/ts temporalReferenceSystem.kind=type",
+      "negative": "Reading `ts` as ordinary UTC.",
+      "literals": [
+        "ts",
+        "type"
+      ]
+    },
+    {
+      "id": "#/properties/ts::temporalReferenceSystem.civil",
+      "tier": "scoreable",
+      "statement": "`ts` is on a clock of its own. Converting it to civil time requires a synchronisation relation that the schema does not supply, so a correct reader declines the conversion or states the external input it would need.",
+      "evidence": "#/properties/ts temporalReferenceSystem.kind=type",
+      "negative": "Converting `ts` to UTC as though the mapping were given.",
+      "literals": [
+        "ts"
+      ]
+    },
+    {
+      "id": "#/properties/ts::unit",
+      "tier": "scoreable",
+      "statement": "`ts` is expressed in `ms`.",
+      "evidence": "#/properties/ts unit=ms",
+      "negative": "Assuming a different or conventional unit for `ts`.",
+      "literals": [
+        "ts",
+        "ms"
+      ]
+    },
+    {
+      "id": "#/properties/alt::derivation",
+      "tier": "scoreable",
+      "statement": "`alt` is calculated rather than measured directly.",
+      "evidence": "#/properties/alt derivation=calculated",
+      "negative": "Treating `alt` as a direct measurement.",
+      "literals": [
+        "alt"
+      ]
+    },
+    {
+      "id": "#/properties/alt::unit",
+      "tier": "scoreable",
+      "statement": "`alt` is expressed in `[ft_i]`.",
+      "evidence": "#/properties/alt unit=[ft_i]",
+      "negative": "Assuming a different or conventional unit for `alt`.",
+      "literals": [
+        "alt",
+        "[ft_i]"
+      ]
+    },
+    {
+      "id": "#/properties/lat::derivation",
+      "tier": "scoreable",
+      "statement": "`lat` is calculated rather than measured directly.",
+      "evidence": "#/properties/lat derivation=calculated",
+      "negative": "Treating `lat` as a direct measurement.",
+      "literals": [
+        "lat"
+      ]
+    },
+    {
+      "id": "#/properties/lat::unit",
+      "tier": "scoreable",
+      "statement": "`lat` is expressed in `deg`.",
+      "evidence": "#/properties/lat unit=deg",
+      "negative": "Assuming a different or conventional unit for `lat`.",
+      "literals": [
+        "lat",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/lon::derivation",
+      "tier": "scoreable",
+      "statement": "`lon` is calculated rather than measured directly.",
+      "evidence": "#/properties/lon derivation=calculated",
+      "negative": "Treating `lon` as a direct measurement.",
+      "literals": [
+        "lon"
+      ]
+    },
+    {
+      "id": "#/properties/lon::unit",
+      "tier": "scoreable",
+      "statement": "`lon` is expressed in `deg`.",
+      "evidence": "#/properties/lon unit=deg",
+      "negative": "Assuming a different or conventional unit for `lon`.",
+      "literals": [
+        "lon",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/spd::derivation",
+      "tier": "scoreable",
+      "statement": "`spd` is calculated rather than measured directly.",
+      "evidence": "#/properties/spd derivation=calculated",
+      "negative": "Treating `spd` as a direct measurement.",
+      "literals": [
+        "spd"
+      ]
+    },
+    {
+      "id": "#/properties/spd::unit",
+      "tier": "scoreable",
+      "statement": "`spd` is expressed in `[kn_i]`.",
+      "evidence": "#/properties/spd unit=[kn_i]",
+      "negative": "Assuming a different or conventional unit for `spd`.",
+      "literals": [
+        "spd",
+        "[kn_i]"
+      ]
+    },
+    {
+      "id": "#/properties/ang::derivation",
+      "tier": "scoreable",
+      "statement": "`ang` is calculated rather than measured directly.",
+      "evidence": "#/properties/ang derivation=calculated",
+      "negative": "Treating `ang` as a direct measurement.",
+      "literals": [
+        "ang"
+      ]
+    },
+    {
+      "id": "#/properties/ang::unit",
+      "tier": "scoreable",
+      "statement": "`ang` is expressed in `deg`.",
+      "evidence": "#/properties/ang unit=deg",
+      "negative": "Assuming a different or conventional unit for `ang`.",
+      "literals": [
+        "ang",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/vr::derivation",
+      "tier": "scoreable",
+      "statement": "`vr` is calculated rather than measured directly.",
+      "evidence": "#/properties/vr derivation=calculated",
+      "negative": "Treating `vr` as a direct measurement.",
+      "literals": [
+        "vr"
+      ]
+    },
+    {
+      "id": "#/properties/vr::unit",
+      "tier": "scoreable",
+      "statement": "`vr` is expressed in `[ft_i]/min`.",
+      "evidence": "#/properties/vr unit=[ft_i]/min",
+      "negative": "Assuming a different or conventional unit for `vr`.",
+      "literals": [
+        "vr",
+        "[ft_i]/min"
+      ]
+    },
+    {
+      "id": "#/properties/rssi::semanticRole",
+      "tier": "scoreable",
+      "statement": "`rssi` qualifies the result; it is not itself a result value and must not be analysed as one.",
+      "evidence": "#/properties/rssi semanticRole=resultQuality",
+      "negative": "Treating `rssi` as an observed quantity.",
+      "literals": [
+        "rssi"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "bare",
+    "B": "spec",
+    "C": "annotated",
+    "D": "prose"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "bare": {
+      "correct": 4,
+      "incorrect": 0,
+      "declined": 12,
+      "unaddressed": 2,
+      "claims": 18,
+      "answered": 4,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.8889,
+      "decline_rate": 0.6667
+    },
+    "spec": {
+      "correct": 14,
+      "incorrect": 1,
+      "declined": 0,
+      "unaddressed": 3,
+      "claims": 18,
+      "answered": 15,
+      "accuracy": 0.9333,
+      "hazard": 0.0556,
+      "hazard_answered": 0.0667,
+      "coverage": 0.8333,
+      "decline_rate": 0.0
+    },
+    "annotated": {
+      "correct": 13,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 5,
+      "claims": 18,
+      "answered": 13,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.7222,
+      "decline_rate": 0.0
+    },
+    "prose": {
+      "correct": 9,
+      "incorrect": 1,
+      "declined": 0,
+      "unaddressed": 8,
+      "claims": 18,
+      "answered": 10,
+      "accuracy": 0.9,
+      "hazard": 0.0556,
+      "hazard_answered": 0.1,
+      "coverage": 0.5556,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "B",
+    "why": "Transcript B references specific specification rules and schemas explicitly as opposed to the other transcripts."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The declared bounds make degrees the only sensible reading, but no geodetic datum is stated"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "the two coordinates are bound as a single coordinate in a named geodetic reference system"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "one geodetic reference frame is declared for the whole feed, with the axis order pinned explicitly"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "the axis it establishes is the axis of the **reception**, not of the aircraft state"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "the abscissa is reception time and not the time the position was true"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**the instant at which the reported state was actually true aboard the aircraft is not available in this feed at all**"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "a difference of two timestamps is a difference of *decode* instants, not of the instants at which the reported states were true"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a position is a count of milliseconds since 1970-01-01T00:00:00Z that ignores leap seconds"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The axis is a count of milliseconds since the 1970 epoch that **ignores leap seconds**"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "expressed as milliseconds since the POSIX epoch, and it therefore lands directly on civil UTC"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Placing a value on a civil calendar requires three things none of which is stated"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "dividing by one thousand and rendering the result as a conventional epoch instant is the correct civil rendering"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The member does carry an explicit millisecond unit"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Altitude is a pressure-derived quantity, not a height. Nothing here is a raw measurement"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Position is a solution to an ambiguous encoding."
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "degree differences are not distances, and this specification supplies no transformation"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Arithmetic means of degrees are only approximately a centroid"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Position is a solution to an ambiguous encoding."
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "degree differences are not distances, and this specification supplies no transformation"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Arithmetic means of degrees are only approximately a centroid"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Knots — but the schema states the subtype bit"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "the arithmetic mean of degrees is wrong across the 0/360 wrap"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the arithmetic mean of degrees is wrong across the 0/360 wrap"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "pool a horizontal speed in knots with a vertical rate in feet per minute"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Feet per minute, positive upward"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "This is a property of the reception, not of the transmitter, so any per-aircraft aggregate of it is really measuring the receiver"
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "It is the record's single result-quality value"
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "classified as *result quality*, not as an observation of the aircraft"
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    }
+  ]
+}

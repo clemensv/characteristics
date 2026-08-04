@@ -1,0 +1,104 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "correct", "quote": "Read them in the declared axis order — latitude first, longitude second"},
+    {"claim": 1, "transcript": "B", "verdict": "declined"},
+    {"claim": 1, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 1, "transcript": "D", "verdict": "correct", "quote": "degrees in EPSG:4326"},
+
+    {"claim": 2, "transcript": "A", "verdict": "correct", "quote": "which is declared the phenomenon time"},
+    {"claim": 2, "transcript": "B", "verdict": "correct", "quote": "observation timestamp is the axis of the thing described"},
+    {"claim": 2, "transcript": "C", "verdict": "correct", "quote": "the vehicle's state — is established by the sample timestamp"},
+    {"claim": 2, "transcript": "D", "verdict": "correct", "quote": "`tst` is the phenomenon-time axis of the observations."},
+
+    {"claim": 3, "transcript": "A", "verdict": "correct", "quote": "The declared one-second cadence is an expectation about the producer, not a guarantee"},
+    {"claim": 3, "transcript": "B", "verdict": "declined"},
+    {"claim": 3, "transcript": "C", "verdict": "correct", "quote": "The nominal one-second cadence is a statement about what the vehicle is expected to emit next"},
+    {"claim": 3, "transcript": "D", "verdict": "correct", "quote": "the one-second cadence is a declared expectation of emission, not a guarantee of uniform sampling"},
+
+    {"claim": 4, "transcript": "A", "verdict": "correct", "quote": "It is a planned position in an operating-day regime"},
+    {"claim": 4, "transcript": "B", "verdict": "correct", "quote": "A clock position on the operating-day clock, not an instant and not a time of day."},
+    {"claim": 4, "transcript": "C", "verdict": "correct", "quote": "It is an operating-day clock position, not a civil instant"},
+    {"claim": 4, "transcript": "D", "verdict": "correct", "quote": "a position, not an instant"},
+
+    {"claim": 5, "transcript": "A", "verdict": "correct", "quote": "A position in this regime must not be compared with a UTC instant"},
+    {"claim": 5, "transcript": "B", "verdict": "correct", "quote": "operating-day clock is a second, non-instant axis"},
+    {"claim": 5, "transcript": "C", "verdict": "correct", "quote": "it must not be compared with one without converting through the operating-day regime"},
+    {"claim": 5, "transcript": "D", "verdict": "correct", "quote": "a position on a different, non-civil axis: the operating-day regime"},
+
+    {"claim": 6, "transcript": "A", "verdict": "correct", "quote": "Nothing in the two files supplies a conversion from that regime to UTC."},
+    {"claim": 6, "transcript": "B", "verdict": "correct", "quote": "does not become an instant without a timezone and an operating-day rule"},
+    {"claim": 6, "transcript": "C", "verdict": "correct", "quote": "requires the local UTC offset, which these records do not carry"},
+    {"claim": 6, "transcript": "D", "verdict": "correct", "quote": "Relating the two axes requires information not in these files."},
+
+    {"claim": 7, "transcript": "A", "verdict": "correct", "quote": "an arithmetic mean of degrees is not a meaningful location"},
+    {"claim": 7, "transcript": "B", "verdict": "declined"},
+    {"claim": 7, "transcript": "C", "verdict": "correct", "quote": "a degree of longitude is roughly half the ground distance of a degree of latitude"},
+    {"claim": 7, "transcript": "D", "verdict": "correct", "quote": "degrees in EPSG:4326"},
+
+    {"claim": 8, "transcript": "A", "verdict": "correct", "quote": "an arithmetic mean of degrees is not a meaningful location"},
+    {"claim": 8, "transcript": "B", "verdict": "declined"},
+    {"claim": 8, "transcript": "C", "verdict": "correct", "quote": "a degree of longitude is roughly half the ground distance of a degree of latitude"},
+    {"claim": 8, "transcript": "D", "verdict": "correct", "quote": "degrees in EPSG:4326"},
+
+    {"claim": 9, "transcript": "A", "verdict": "correct", "quote": "Speed is declared a directly measured, instantaneous quantity in m/s"},
+    {"claim": 9, "transcript": "B", "verdict": "declined"},
+    {"claim": 9, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 9, "transcript": "D", "verdict": "correct", "quote": "instantaneous, m/s, ratio-scaled"},
+
+    {"claim": 10, "transcript": "A", "verdict": "correct", "quote": "Degrees clockwise from geographic north, in [0, 360]."},
+    {"claim": 10, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "D", "verdict": "correct", "quote": "359° and 1° are two degrees apart, not 358"},
+
+    {"claim": 11, "transcript": "A", "verdict": "correct", "quote": "It is a calculated difference between the current speed sample and the preceding one"},
+    {"claim": 11, "transcript": "B", "verdict": "declined"},
+    {"claim": 11, "transcript": "C", "verdict": "correct", "quote": "It is not measured; it is a difference quotient"},
+    {"claim": 11, "transcript": "D", "verdict": "correct", "quote": "calculated over an interval that closes at `tst`"},
+
+    {"claim": 12, "transcript": "A", "verdict": "correct", "quote": "Two acceleration values therefore characterise intervals of unknown and different length."},
+    {"claim": 12, "transcript": "B", "verdict": "incorrect", "quote": "Same treatment as speed: internally comparable, not convertible, time-weighted if averaged"},
+    {"claim": 12, "transcript": "C", "verdict": "correct", "quote": "Two acceleration values therefore describe periods of different and unknown duration"},
+    {"claim": 12, "transcript": "D", "verdict": "correct", "quote": "they characterise intervals of *different and unknown length*"},
+
+    {"claim": 13, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 13, "transcript": "B", "verdict": "declined"},
+    {"claim": 13, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 13, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 14, "transcript": "A", "verdict": "correct", "quote": "An accumulator with a per-trip origin at the *actual* start of running."},
+    {"claim": 14, "transcript": "B", "verdict": "correct", "quote": "A cumulative counter."},
+    {"claim": 14, "transcript": "C", "verdict": "correct", "quote": "the counter is reset at the actual (not scheduled) start of each trip"},
+    {"claim": 14, "transcript": "D", "verdict": "correct", "quote": "an accumulation from a reset at the vehicle's *actual* trip start"},
+
+    {"claim": 15, "transcript": "A", "verdict": "correct", "quote": "are valid distances in metres"},
+    {"claim": 15, "transcript": "B", "verdict": "declined"},
+    {"claim": 15, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 15, "transcript": "D", "verdict": "correct", "quote": "that double-counts every metre once per message"},
+
+    {"claim": 16, "transcript": "A", "verdict": "correct", "quote": "The deviation figure is computed onboard against the trip's schedule anchor"},
+    {"claim": 16, "transcript": "B", "verdict": "declined"},
+    {"claim": 16, "transcript": "C", "verdict": "correct", "quote": "it is a producer-computed figure"},
+    {"claim": 16, "transcript": "D", "verdict": "correct", "quote": "the quantity is computed onboard against the same schedule the trip is running"},
+
+    {"claim": 17, "transcript": "A", "verdict": "correct", "quote": "it is stated in seconds"},
+    {"claim": 17, "transcript": "B", "verdict": "declined"},
+    {"claim": 17, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 17, "transcript": "D", "verdict": "correct", "quote": "this many seconds off its timetable"},
+
+    {"claim": 18, "transcript": "A", "verdict": "correct", "quote": "Planned times, not observed ones."},
+    {"claim": 18, "transcript": "B", "verdict": "correct", "quote": "actual-minus-scheduled is a valid duration"},
+    {"claim": 18, "transcript": "C", "verdict": "correct", "quote": "are planned instants, not observations"},
+    {"claim": 18, "transcript": "D", "verdict": "correct", "quote": "planned UTC instants normalised by the publisher"},
+
+    {"claim": 19, "transcript": "A", "verdict": "correct", "quote": "Planned times, not observed ones."},
+    {"claim": 19, "transcript": "B", "verdict": "correct", "quote": "actual-minus-scheduled is a valid duration"},
+    {"claim": 19, "transcript": "C", "verdict": "correct", "quote": "are planned instants, not observations"},
+    {"claim": 19, "transcript": "D", "verdict": "correct", "quote": "planned UTC instants normalised by the publisher"},
+
+    {"claim": 20, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 20, "transcript": "B", "verdict": "declined"},
+    {"claim": 20, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 20, "transcript": "D", "verdict": "correct", "quote": "declared as a percentage with a QUDT-style observable property"}
+  ],
+  "blinding": {"richest": "D", "why": "D names schema-level facts no other transcript reaches — EPSG:4326, m/s, seconds, percentage with a declared derivation, and the ordinal's exact rendering."}
+}

@@ -1,0 +1,64 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 1, "transcript": "B", "verdict": "declined"},
+    {"claim": 1, "transcript": "C", "verdict": "correct", "quote": "angular coordinates in EPSG:4326, with axis order"},
+    {"claim": 1, "transcript": "D", "verdict": "correct", "quote": "whose axis order is latitude first, longitude second"},
+
+    {"claim": 2, "transcript": "A", "verdict": "correct", "quote": "the receipt instant is **not** when the reported thing happened"},
+    {"claim": 2, "transcript": "B", "verdict": "correct", "quote": "this axis is a reception axis, not an observation axis"},
+    {"claim": 2, "transcript": "C", "verdict": "correct", "quote": "`ingestionTime` and belongs to the pipeline, not to the vessel"},
+    {"claim": 2, "transcript": "D", "verdict": "correct", "quote": "forbids reading such a value as the time the phenomenon occurred"},
+
+    {"claim": 3, "transcript": "A", "verdict": "correct", "quote": "The time axis of the described thing is set by the originator's fix second"},
+    {"claim": 3, "transcript": "B", "verdict": "incorrect", "quote": "`Timestamp` does not establish a time axis"},
+    {"claim": 3, "transcript": "C", "verdict": "correct", "quote": "The time axis of the *thing described* is established by `Timestamp`"},
+    {"claim": 3, "transcript": "D", "verdict": "correct", "quote": "That is the member declared as phenomenon time"},
+
+    {"claim": 4, "transcript": "A", "verdict": "declined"},
+    {"claim": 4, "transcript": "B", "verdict": "declined"},
+    {"claim": 4, "transcript": "C", "verdict": "correct", "quote": "the cadence is declared irregular"},
+    {"claim": 4, "transcript": "D", "verdict": "correct", "quote": "declared to recur irregularly, so gaps are not anomalies"},
+
+    {"claim": 5, "transcript": "A", "verdict": "correct", "quote": "The decode-validity flag is a **gate, not a covariate**"},
+    {"claim": 5, "transcript": "B", "verdict": "correct", "quote": "These are predicates about a record, not measurements."},
+    {"claim": 5, "transcript": "C", "verdict": "correct", "quote": "Three members carry `semanticRole: resultQuality`"},
+    {"claim": 5, "transcript": "D", "verdict": "correct", "quote": "**The quality and status flags.** Countable and groupable"},
+
+    {"claim": 6, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "B", "verdict": "declined"},
+    {"claim": 6, "transcript": "C", "verdict": "correct", "quote": "merely because all four carry the unit `deg`"},
+    {"claim": 6, "transcript": "D", "verdict": "correct", "quote": "differencing degrees does not give a distance"},
+
+    {"claim": 7, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 7, "transcript": "B", "verdict": "declined"},
+    {"claim": 7, "transcript": "C", "verdict": "correct", "quote": "merely because all four carry the unit `deg`"},
+    {"claim": 7, "transcript": "D", "verdict": "correct", "quote": "differencing degrees does not give a distance"},
+
+    {"claim": 8, "transcript": "A", "verdict": "correct", "quote": "Two independent per-fix quality signals are carried:"},
+    {"claim": 8, "transcript": "B", "verdict": "correct", "quote": "These are predicates about a record, not measurements."},
+    {"claim": 8, "transcript": "C", "verdict": "correct", "quote": "Three members carry `semanticRole: resultQuality`"},
+    {"claim": 8, "transcript": "D", "verdict": "correct", "quote": "two-state indicator with a stated 10 m threshold, not an uncertainty"},
+
+    {"claim": 9, "transcript": "A", "verdict": "correct", "quote": "a stated accuracy class and an integrity-monitoring flag"},
+    {"claim": 9, "transcript": "B", "verdict": "correct", "quote": "These are predicates about a record, not measurements."},
+    {"claim": 9, "transcript": "C", "verdict": "correct", "quote": "Three members carry `semanticRole: resultQuality`"},
+    {"claim": 9, "transcript": "D", "verdict": "correct", "quote": "**The quality and status flags.** Countable and groupable"},
+
+    {"claim": 10, "transcript": "A", "verdict": "correct", "quote": "The underlying quantisation is coarse (0.1 kn per the schema)"},
+    {"claim": 10, "transcript": "B", "verdict": "declined"},
+    {"claim": 10, "transcript": "C", "verdict": "correct", "quote": "a ratio-scale quantity in knots"},
+    {"claim": 10, "transcript": "D", "verdict": "correct", "quote": "A magnitude in knots"},
+
+    {"claim": 11, "transcript": "A", "verdict": "correct", "quote": "(degrees true) at the same instant"},
+    {"claim": 11, "transcript": "B", "verdict": "declined"},
+    {"claim": 11, "transcript": "C", "verdict": "correct", "quote": "`Cog` and `TrueHeading` are both in degrees *true*"},
+    {"claim": 11, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 12, "transcript": "A", "verdict": "correct", "quote": "(degrees true) at the same instant"},
+    {"claim": 12, "transcript": "B", "verdict": "declined"},
+    {"claim": 12, "transcript": "C", "verdict": "correct", "quote": "`Cog` and `TrueHeading` are both in degrees *true*"},
+    {"claim": 12, "transcript": "D", "verdict": "unaddressed"}
+  ],
+  "blinding": {"richest": "D", "why": "D cites named annotation roles, an explicit CRS axis-order binding, a declared cadence, and specification-level conformance rules that the other transcripts either paraphrase loosely or never mention."}
+}

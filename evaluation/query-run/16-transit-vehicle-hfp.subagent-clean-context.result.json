@@ -1,0 +1,763 @@
+{
+  "sample": "16-transit-vehicle-hfp",
+  "task": "query",
+  "claims": [
+    {
+      "id": "#::coordinateReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order lat, long. Axis order follows that binding and must not be assumed.",
+      "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+      "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+      "literals": [
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
+    },
+    {
+      "id": "#/properties/tst::semanticRole",
+      "tier": "scoreable",
+      "statement": "`tst` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/tst semanticRole=phenomenonTime",
+      "negative": "Treating `tst` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "tst"
+      ]
+    },
+    {
+      "id": "#/properties/tst::cadence",
+      "tier": "scoreable",
+      "statement": "Successive `tst` values are expected at cadence `fixed` with period \"PT1S\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+      "evidence": "#/properties/tst cadence={\"kind\": \"fixed\", \"period\": \"PT1S\"}",
+      "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+      "literals": [
+        "tst",
+        "PT1S"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::semanticRole",
+      "tier": "scoreable",
+      "statement": "`journey_start` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/journey_start semanticRole=scheduledTime",
+      "negative": "Using `journey_start` as the event time of the observation.",
+      "literals": [
+        "journey_start"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::temporalReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Positions in `journey_start` are expressed in the temporal reference system `#/definitions/OperatingDayClockPosition` (kind `type`), not in an unqualified civil clock.",
+      "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+      "negative": "Reading `journey_start` as ordinary UTC.",
+      "literals": [
+        "journey_start",
+        "type"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::temporalReferenceSystem.civil",
+      "tier": "scoreable",
+      "statement": "`journey_start` is on a clock of its own. Converting it to civil time requires a synchronisation relation that the schema does not supply, so a correct reader declines the conversion or states the external input it would need.",
+      "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+      "negative": "Converting `journey_start` to UTC as though the mapping were given.",
+      "literals": [
+        "journey_start"
+      ]
+    },
+    {
+      "id": "#/properties/lat::unit",
+      "tier": "scoreable",
+      "statement": "`lat` is expressed in `deg`.",
+      "evidence": "#/properties/lat unit=deg",
+      "negative": "Assuming a different or conventional unit for `lat`.",
+      "literals": [
+        "lat",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/long::unit",
+      "tier": "scoreable",
+      "statement": "`long` is expressed in `deg`.",
+      "evidence": "#/properties/long unit=deg",
+      "negative": "Assuming a different or conventional unit for `long`.",
+      "literals": [
+        "long",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/spd::unit",
+      "tier": "scoreable",
+      "statement": "`spd` is expressed in `m/s`.",
+      "evidence": "#/properties/spd unit=m/s",
+      "negative": "Assuming a different or conventional unit for `spd`.",
+      "literals": [
+        "spd",
+        "m/s"
+      ]
+    },
+    {
+      "id": "#/properties/hdg::unit",
+      "tier": "scoreable",
+      "statement": "`hdg` is expressed in `deg`.",
+      "evidence": "#/properties/hdg unit=deg",
+      "negative": "Assuming a different or conventional unit for `hdg`.",
+      "literals": [
+        "hdg",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/acc::derivation",
+      "tier": "scoreable",
+      "statement": "`acc` is calculated rather than measured directly.",
+      "evidence": "#/properties/acc derivation=calculated",
+      "negative": "Treating `acc` as a direct measurement.",
+      "literals": [
+        "acc"
+      ]
+    },
+    {
+      "id": "#/properties/acc::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`acc` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/acc phenomenonTimeRelation=interval",
+      "negative": "Treating `acc` as an instantaneous reading.",
+      "literals": [
+        "acc"
+      ]
+    },
+    {
+      "id": "#/properties/acc::unit",
+      "tier": "scoreable",
+      "statement": "`acc` is expressed in `m/s2`.",
+      "evidence": "#/properties/acc unit=m/s2",
+      "negative": "Assuming a different or conventional unit for `acc`.",
+      "literals": [
+        "acc",
+        "m/s2"
+      ]
+    },
+    {
+      "id": "#/properties/odo::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`odo` is accumulated over the phenomenon-time period, not an instantaneous reading, so it may be summed across adjacent periods but not averaged as a rate without dividing by duration.",
+      "evidence": "#/properties/odo phenomenonTimeRelation=accumulation",
+      "negative": "Treating `odo` as an instantaneous value at a timestamp.",
+      "literals": [
+        "odo"
+      ]
+    },
+    {
+      "id": "#/properties/odo::unit",
+      "tier": "scoreable",
+      "statement": "`odo` is expressed in `m`.",
+      "evidence": "#/properties/odo unit=m",
+      "negative": "Assuming a different or conventional unit for `odo`.",
+      "literals": [
+        "odo",
+        "m"
+      ]
+    },
+    {
+      "id": "#/properties/dl::derivation",
+      "tier": "scoreable",
+      "statement": "`dl` is calculated rather than measured directly.",
+      "evidence": "#/properties/dl derivation=calculated",
+      "negative": "Treating `dl` as a direct measurement.",
+      "literals": [
+        "dl"
+      ]
+    },
+    {
+      "id": "#/properties/dl::unit",
+      "tier": "scoreable",
+      "statement": "`dl` is expressed in `s`.",
+      "evidence": "#/properties/dl unit=s",
+      "negative": "Assuming a different or conventional unit for `dl`.",
+      "literals": [
+        "dl",
+        "s"
+      ]
+    },
+    {
+      "id": "#/properties/ttarr::semanticRole",
+      "tier": "scoreable",
+      "statement": "`ttarr` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/ttarr semanticRole=scheduledTime",
+      "negative": "Using `ttarr` as the event time of the observation.",
+      "literals": [
+        "ttarr"
+      ]
+    },
+    {
+      "id": "#/properties/ttdep::semanticRole",
+      "tier": "scoreable",
+      "statement": "`ttdep` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/ttdep semanticRole=scheduledTime",
+      "negative": "Using `ttdep` as the event time of the observation.",
+      "literals": [
+        "ttdep"
+      ]
+    },
+    {
+      "id": "#/properties/occu::unit",
+      "tier": "scoreable",
+      "statement": "`occu` is expressed in `%`.",
+      "evidence": "#/properties/occu unit=%",
+      "negative": "Assuming a different or conventional unit for `occu`.",
+      "literals": [
+        "occu",
+        "%"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "prose",
+    "B": "annotated",
+    "C": "spec",
+    "D": "bare"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "prose": {
+      "correct": 12,
+      "incorrect": 0,
+      "declined": 1,
+      "unaddressed": 7,
+      "claims": 20,
+      "answered": 12,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.65,
+      "decline_rate": 0.05
+    },
+    "annotated": {
+      "correct": 9,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 11,
+      "claims": 20,
+      "answered": 9,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.45,
+      "decline_rate": 0.0
+    },
+    "spec": {
+      "correct": 11,
+      "incorrect": 0,
+      "declined": 2,
+      "unaddressed": 7,
+      "claims": 20,
+      "answered": 11,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.65,
+      "decline_rate": 0.1
+    },
+    "bare": {
+      "correct": 1,
+      "incorrect": 2,
+      "declined": 3,
+      "unaddressed": 14,
+      "claims": 20,
+      "answered": 3,
+      "accuracy": 0.3333,
+      "hazard": 0.1,
+      "hazard_answered": 0.6667,
+      "coverage": 0.3,
+      "decline_rate": 0.15
+    }
+  },
+  "blinding": {
+    "richest": "B",
+    "why": "B provides the most thorough rationale and states assumptions most clearly."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "tst is the instant the vehicle sampled\n                                   -- the reported state"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Event time is declared once, on `tst`: it is the phenomenonTime the vehicle\n--   itself sampled."
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Event time is `tst`: it is the only member carrying semanticRole\n-- `phenomenonTime`."
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Event time is declared once, here, and is `tst` and nothing else."
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The schema says the ~1 s cadence states what the vehicle is\n  expected to emit next and does not bound the actual spacing"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Expected message count over the covered time is SUM(gap_s) / 1 s"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The specification permits a consumer to use a declared cadence to size a staleness threshold and to make an absent value detectable as a gap — as its own processing decision, not as a claim about the data."
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "journey_start.ordinal is used strictly as an opaque\n-- discriminator: no arithmetic and no comparison against `tst` is done with it,\n-- because it is a position in the operating-day regime and not a civil instant."
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "`journey_start` is a position in the\n--   operating-day regime, explicitly not an RFC 3339 civil instant, so\n--   `journey_start.ordinal` is used here only as an opaque identity token: it\n--   is never parsed, and never compared with `tst`."
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The `OperatingDayClockPosition` meta-type states that a position is not an RFC 3339 civil instant and MUST NOT be compared with one without applying the regime"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "because it is a position in the operating-day regime and not a civil instant."
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "`journey_start` is a position in the\n--   operating-day regime, explicitly not an RFC 3339 civil instant"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The `OperatingDayClockPosition` meta-type states that a position is not an RFC 3339 civil instant and MUST NOT be compared with one without applying the regime"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Degrees clockwise from north"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The schema is explicit that the vehicle does not\n  measure it: it is already a difference of two `spd` samples"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "schema states `acc` is not measured, is derived from two speed samples"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "undefined for the first message\n  of a trip, and no support period is declared."
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "characterises an interval whose opening boundary the record does not carry and whose length varies"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "carries `phenomenonTimeRelation: interval` and declares no `supportPeriod`"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "an `odo` delta is a mean over a\n  variable-length interval"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "within* one trip the counter accumulates monotonically, so its increments are a well-defined distance"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "odo` instead, which is already in metres."
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "computed\n  onboard against `journey_start`"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "computed onboard against the schedule anchored at `journey_start`"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "yielding \"seconds late\"\n  (positive) / \"seconds early\""
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "(-1) * dl                                               AS lateness_s"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "lateness_s,\n        -- Numerator and denominator of the accrual rate"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "are planned times, populated only inside a stop relation"
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "planned, not\n--   observed -- and are not candidates."
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "carry `scheduledTime`,\n-- which the specification forbids reading as a phenomenon time."
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 19,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "are planned times, populated only inside a stop relation"
+    },
+    {
+      "claim": 19,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "planned, not\n--   observed -- and are not candidates."
+    },
+    {
+      "claim": 19,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "carry `scheduledTime`,\n-- which the specification forbids reading as a phenomenon time."
+    },
+    {
+      "claim": 19,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "CAST(DATEDIFF(second, prev_ttdep, prev_tst) AS float)"
+    },
+    {
+      "claim": 20,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "MAX(occu)                          AS peak_occupancy"
+    }
+  ],
+  "quality": {
+    "prose": {
+      "derived": 5,
+      "useful": 5,
+      "executable": 4,
+      "note": "Well-considered, but relies on potentially unsupported PERCENTILE_CONT with GROUP BY."
+    },
+    "annotated": {
+      "derived": 5,
+      "useful": 5,
+      "executable": 4,
+      "note": "Actionable metrics clearly explained, relies on several unverified dialect features."
+    },
+    "spec": {
+      "derived": 5,
+      "useful": 4,
+      "executable": 4,
+      "note": "Clear rationale for omitting certain columns, assumes WITHIN GROUP is supported."
+    },
+    "bare": {
+      "derived": 3,
+      "useful": 3,
+      "executable": 2,
+      "note": "Uses scalar variables poorly, mixes planned and phenomenon times leading to unsound metrics."
+    }
+  }
+}

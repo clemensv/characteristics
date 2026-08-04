@@ -1,0 +1,247 @@
+You are reading a data feed you have never seen before.
+
+The directory you have been given contains exactly two files: a schema and one
+example record that conforms to it. Read only those two files. You have no
+network, no search, no other documents, and no access to any specification.
+
+Produce, in this order:
+
+1. **What this feed is.** What the records describe, in a few sentences.
+2. **Analytics.** The analyses this stream supports that would be worth running,
+   and for each one, why the data supports it.
+3. **Combination rules.** For each quantity, state whether values may be
+   compared, differenced, summed, or averaged across records, and under what
+   condition. Where two values must not be combined, say so and say why.
+4. **Time.** Which member establishes the time axis of the thing described, and
+   how positions on that axis relate to civil time.
+5. **Ambiguities.** Anything the two files leave open. For each, state plainly
+   whether you are declining to decide it or guessing, and mark a guess as a
+   guess.
+
+Two rules govern the whole answer.
+
+Do not invent facts about the domain that the two files do not establish. If
+something is not in the files, either say it is not determined or mark your
+answer as an assumption. Declining to answer where the files do not decide the
+matter is a correct answer, not a failure.
+
+Do not describe the files. Nobody wants an inventory of member names and types.
+State what a person analysing this data would need to know and would get wrong
+without you.
+
+
+---
+
+schema.json
+
+```json
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://example.invalid/schema",
+  "$uses": [
+    "JSONStructureValidation"
+  ],
+  "name": "OrbitMeanElements",
+  "description": "A General Perturbations (GP) orbital element set for one catalogued object, as published by CelesTrak at `NORAD/elements/gp.php`. This is a CCSDS Orbit Mean-Elements Message (OMM, CCSDS 502.0-B-3) fit by the US Space Force 18th Space Defense Squadron to Space Surveillance Network observations for use with the SGP4 propagator. Emitted whenever the bridge observes a new or refreshed element set for the object; GP data updates several times per day at no fixed period. Derived from the celestrak feeder schema published in the xRegistry catalogue.",
+  "type": "object",
+  "properties": {
+    "OBJECT_NAME": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Satellite / object name (TLE Line 0). Up to 24 characters in the legacy TLE format; Unicode-capable in OMM. Mutable and not globally unique -- never use as a key. Null for uncatalogued / analyst objects that have no assigned name. From the CCSDS OMM `OBJECT_NAME` keyword."
+    },
+    "OBJECT_ID": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "pattern": "^[0-9]{4}-[0-9]{3}[A-Z]{0,3}$",
+      "description": "International Designator (COSPAR ID) of the object, format `YYYY-NNNAAA`: four-digit launch year, three-digit launch number of that year, and one-to-three-letter piece designator (letters I and O are excluded). Null for analyst objects with no associated launch. From the CCSDS OMM `OBJECT_ID` keyword."
+    },
+    "NORAD_CAT_ID": {
+      "type": "int32",
+      "minimum": 1,
+      "maximum": 999999999,
+      "description": "NORAD Catalog Number: the globally-recognised unique identifier for a tracked resident space object, assigned by the US Space Force 18th Space Defense Squadron. One to nine digits -- regular objects exhausted the five-digit range (reaching 100000+) on 2026-07-11, and analyst objects use the 7995xxxxx range -- so this MUST be treated as an up-to-9-digit integer, never a fixed-width field. From the CCSDS OMM `NORAD_CAT_ID` keyword. It identifies the resident space object whose orbit this element set describes."
+    },
+    "CLASSIFICATION_TYPE": {
+      "type": {
+        "$ref": "#/definitions/ClassificationTypeEnum"
+      },
+      "description": "Security classification of the element set (always `U` for public CelesTrak data). From the CCSDS OMM `CLASSIFICATION_TYPE` keyword."
+    },
+    "ORIGINATOR": {
+      "type": "string",
+      "description": "Organisation that generated the element set, from the CCSDS OMM header `ORIGINATOR` keyword. Public GP data carries `18 SPCS`, the 18th Space Defense Squadron."
+    },
+    "MEAN_ELEMENT_THEORY": {
+      "type": "string",
+      "description": "Name of the mean-element theory under which the elements below were fitted and must be propagated, from the CCSDS OMM metadata `MEAN_ELEMENT_THEORY` keyword. Public GP data carries `SGP4`. The theory is the procedure that produced this record: the elements are only meaningful when consumed by a propagator implementing it, and the same object fitted under a different theory yields different element values."
+    },
+    "CREATION_DATE": {
+      "type": "datetime",
+      "description": "UTC date and time at which the originator created this OMM, from the CCSDS OMM header `CREATION_DATE` keyword. This is when the fitted element set became available, not the instant it describes; it follows EPOCH because the fit consumes observations taken up to and around the epoch. New element sets are generated whenever fresh tracking data warrants a refit, several times per day for low-Earth-orbit objects and less often for deep-space objects, at no fixed period."
+    },
+    "EPOCH": {
+      "type": "object",
+      "description": "Reference instant to which every mean element below applies and from which an SGP4 propagator integrates. The instant is carried in the native element-set encoding: a four-digit year and a fractional day of that year, where day 1.0 is 00:00 on 1 January. SGP4 consumes this as a uniform count of days and applies no leap-second correction, so the encoding is not an RFC 3339 civil timestamp and cannot be read as one; the TleEpochPosition meta-type declares the regime. The `ordinal` member renders year and fractional day at fixed width, most significant first, so two epochs can be ordered lexically without implementing the regime, and the `utc` member carries the feeder's best-effort normalisation to a UTC-aware RFC 3339 timestamp for consumers that only need approximate civil time. From the CCSDS OMM `EPOCH` keyword.",
+      "properties": {
+        "ordinal": {
+          "type": "string",
+          "description": "Epoch position rendered at fixed width with the most-significant component first so that positions sort correctly under lexical ordering: YYYY/DDD.dddddddd. Example: 2026/211.76644861.",
+          "pattern": "^[0-9]{4}/[0-9]{3}\\.[0-9]{8}$"
+        },
+        "year": {
+          "type": "int32",
+          "minimum": 1957,
+          "description": "Four-digit calendar year of the epoch. The legacy TLE stores a two-digit year with a 1957-2056 pivot; the OMM and this record expand it."
+        },
+        "day_of_year": {
+          "type": "double",
+          "minimum": 1,
+          "description": "Fractional day of the epoch year, counted from day 1.0 at 00:00 on 1 January. The fractional part is the elapsed fraction of a uniform 86400-second day, so the value does not account for leap seconds inserted in that year."
+        },
+        "utc": {
+          "type": "datetime",
+          "description": "Best-effort normalisation of year and day_of_year to a UTC-aware RFC 3339 timestamp, supplied by the feeder for convenience. It is not the authoritative position: a consumer propagating the elements must use ordinal, year and day_of_year under the TleEpochPosition regime."
+        }
+      },
+      "required": [
+        "ordinal",
+        "year",
+        "day_of_year"
+      ],
+      "additionalProperties": false
+    },
+    "MEAN_MOTION": {
+      "type": "double",
+      "minimum": 0,
+      "description": "Mean motion: the number of orbital revolutions the object completes per solar day, a Brouwer mean element consumed directly by the SGP4 propagator. Larger values correspond to lower orbits (~15.5 for the ISS in LEO, ~1.0 for geostationary objects). This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `MEAN_MOTION` keyword."
+    },
+    "ECCENTRICITY": {
+      "type": "double",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Orbital eccentricity, dimensionless: 0 is a circular orbit and values approaching 1 are highly elliptical. In the legacy TLE this is stored as a leading-decimal integer; the OMM JSON gives the true fractional value. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `ECCENTRICITY` keyword."
+    },
+    "INCLINATION": {
+      "type": "double",
+      "minimum": 0,
+      "maximum": 180,
+      "description": "Inclination of the orbital plane to Earth's equatorial plane, in degrees (0-180; > 90 indicates a retrograde orbit). This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `INCLINATION` keyword."
+    },
+    "RA_OF_ASC_NODE": {
+      "type": "double",
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Right Ascension of the Ascending Node (RAAN), in degrees (0-360): the angle from the vernal equinox to the point where the orbit crosses the equatorial plane going north. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `RA_OF_ASC_NODE` keyword."
+    },
+    "ARG_OF_PERICENTER": {
+      "type": "double",
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Argument of pericenter (perigee), in degrees (0-360): the angle from the ascending node to the point of closest approach, measured in the orbital plane. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `ARG_OF_PERICENTER` keyword."
+    },
+    "MEAN_ANOMALY": {
+      "type": "double",
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Mean anomaly at epoch, in degrees (0-360): the fraction of the orbital period elapsed since pericenter passage expressed as an angle, used with the other elements to locate the object at EPOCH. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `MEAN_ANOMALY` keyword."
+    },
+    "BSTAR": {
+      "type": "double",
+      "description": "B* (BSTAR) drag term, in inverse Earth radii, used by SGP4 to model the effect of atmospheric drag. Physically meaningful only for low-Earth-orbit objects; may be zero (deep space) or negative. It is a free parameter of the fit rather than a physical property of the object, so like the elements it is a model output. From the CCSDS OMM `BSTAR` keyword."
+    },
+    "MEAN_MOTION_DOT": {
+      "type": "double",
+      "description": "First time-derivative of the mean motion (one half of dn/dt), in revolutions per day squared -- the classical TLE 'ballistic coefficient' term. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `MEAN_MOTION_DOT` keyword."
+    },
+    "MEAN_MOTION_DDOT": {
+      "type": "double",
+      "description": "Second time-derivative of the mean motion (one sixth of d2n/dt2), in revolutions per day cubed; almost always 0 under the SGP4 theory. This is a fitted mean element produced by the orbit-determination model, not an observed quantity. From the CCSDS OMM `MEAN_MOTION_DDOT` keyword."
+    },
+    "EPHEMERIS_TYPE": {
+      "type": "int32",
+      "minimum": 0,
+      "description": "Ephemeris / orbital-model type. `0` denotes the SGP4 (SGP4/SDP4) mean-element theory, the only value distributed in public GP data. From the CCSDS OMM `EPHEMERIS_TYPE` keyword."
+    },
+    "ELEMENT_SET_NO": {
+      "type": "int32",
+      "minimum": 0,
+      "description": "Element set number: a counter incremented (modulo 1000) each time a new element set is generated for the object; 18 SDS frequently emits the placeholder `999`. From the CCSDS OMM `ELEMENT_SET_NO` keyword."
+    },
+    "REV_AT_EPOCH": {
+      "type": "int32",
+      "minimum": 0,
+      "description": "Revolution number at epoch: the integer count of orbital revolutions the object has completed since launch, as of EPOCH. From the CCSDS OMM `REV_AT_EPOCH` keyword."
+    }
+  },
+  "required": [
+    "NORAD_CAT_ID",
+    "CLASSIFICATION_TYPE",
+    "ORIGINATOR",
+    "MEAN_ELEMENT_THEORY",
+    "CREATION_DATE",
+    "EPOCH",
+    "MEAN_MOTION",
+    "ECCENTRICITY",
+    "INCLINATION",
+    "RA_OF_ASC_NODE",
+    "ARG_OF_PERICENTER",
+    "MEAN_ANOMALY",
+    "BSTAR",
+    "MEAN_MOTION_DOT",
+    "MEAN_MOTION_DDOT",
+    "EPHEMERIS_TYPE",
+    "ELEMENT_SET_NO",
+    "REV_AT_EPOCH"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "ClassificationTypeEnum": {
+      "name": "ClassificationTypeEnum",
+      "type": "string",
+      "enum": [
+        "U",
+        "C",
+        "S"
+      ],
+      "description": "Security classification of the element set. Public CelesTrak and Space-Track GP data is always `U`; supplemental operator data may carry `C`. From the CCSDS OMM `CLASSIFICATION_TYPE` keyword (GP `CLASSIFICATION_TYPE`)."
+    }
+  }
+}
+```
+
+instance.json
+
+```json
+{
+  "OBJECT_NAME": "ISS (ZARYA)",
+  "OBJECT_ID": "1998-067A",
+  "NORAD_CAT_ID": 25544,
+  "CLASSIFICATION_TYPE": "U",
+  "ORIGINATOR": "18 SPCS",
+  "MEAN_ELEMENT_THEORY": "SGP4",
+  "CREATION_DATE": "2026-07-30T20:11:05Z",
+  "EPOCH": {
+    "ordinal": "2026/211.76644861",
+    "year": 2026,
+    "day_of_year": 211.76644861,
+    "utc": "2026-07-30T18:23:41.160Z"
+  },
+  "MEAN_MOTION": 15.50123456,
+  "ECCENTRICITY": 0.0003421,
+  "INCLINATION": 51.6392,
+  "RA_OF_ASC_NODE": 247.8134,
+  "ARG_OF_PERICENTER": 118.4257,
+  "MEAN_ANOMALY": 241.7003,
+  "BSTAR": 0.00021473,
+  "MEAN_MOTION_DOT": 0.00012345,
+  "MEAN_MOTION_DDOT": 0.0,
+  "EPHEMERIS_TYPE": 0,
+  "ELEMENT_SET_NO": 999,
+  "REV_AT_EPOCH": 52871
+}
+```

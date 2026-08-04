@@ -1,0 +1,155 @@
+{
+  "sample": "24-fogra-characterization-patch",
+  "claims": [
+    {
+      "id": "#::colorSpaces[0]",
+      "tier": "scoreable",
+      "statement": "Channel values are in color space `https://registry.color.org/cmyk-registry/fogra51`, carried by the members [\"cyan\", \"magenta\", \"yellow\", \"black\"] in that order. Values must not be treated as linear-light or as sRGB unless that is what is declared.",
+      "evidence": "# colorSpaces[0]",
+      "negative": "Assuming sRGB, assuming values are linear in radiometric quantity, or compositing premultiplied and straight alpha alike.",
+      "literals": [
+        "https://registry.color.org/cmyk-registry/fogra51"
+      ]
+    },
+    {
+      "id": "#::colorSpaces[1]",
+      "tier": "scoreable",
+      "statement": "Channel values are in color space `https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1`, carried by the members [\"l_star\", \"a_star\", \"b_star\"] in that order, where `illuminant` is `D50`; `observer` is `cie-1931-2`. Values must not be treated as linear-light or as sRGB unless that is what is declared.",
+      "evidence": "# colorSpaces[1]",
+      "negative": "Assuming sRGB, assuming values are linear in radiometric quantity, or compositing premultiplied and straight alpha alike.",
+      "literals": [
+        "https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "bare",
+    "B": "prose",
+    "C": "annotated",
+    "D": "spec"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "subagent-supervisor",
+  "scores": {
+    "bare": {
+      "correct": 0,
+      "incorrect": 0,
+      "declined": 1,
+      "unaddressed": 1,
+      "claims": 2,
+      "answered": 0,
+      "accuracy": null,
+      "hazard": 0.0,
+      "hazard_answered": null,
+      "coverage": 0.5,
+      "decline_rate": 0.5
+    },
+    "prose": {
+      "correct": 0,
+      "incorrect": 0,
+      "declined": 2,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 0,
+      "accuracy": null,
+      "hazard": 0.0,
+      "hazard_answered": null,
+      "coverage": 1.0,
+      "decline_rate": 1.0
+    },
+    "annotated": {
+      "correct": 2,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 2,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "spec": {
+      "correct": 2,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 2,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "D",
+    "why": "D cites the declared annotations, registry and observable-property URIs, and specific specification rules by name, indicating it had the fullest source material."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "take the order from the declared channel list — cyan, magenta, yellow, black"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the registry entry declares its channels in the order cyan, magenta, yellow, black"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "the patch sits on the neutral axis *as defined by D50*"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the illuminant (D50) and the standard colorimetric observer (CIE 1931 2°)"
+    }
+  ]
+}

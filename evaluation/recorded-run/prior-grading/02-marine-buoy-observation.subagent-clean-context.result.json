@@ -1,0 +1,1484 @@
+{
+  "sample": "02-marine-buoy-observation",
+  "claims": [
+    {
+      "id": "#::coordinateReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order latitude, longitude. Axis order follows that binding and must not be assumed.",
+      "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+      "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+      "literals": [
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
+    },
+    {
+      "id": "#/properties/latitude::unit",
+      "tier": "scoreable",
+      "statement": "`latitude` is expressed in `deg`.",
+      "evidence": "#/properties/latitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `latitude`.",
+      "literals": [
+        "latitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/longitude::unit",
+      "tier": "scoreable",
+      "statement": "`longitude` is expressed in `deg`.",
+      "evidence": "#/properties/longitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `longitude`.",
+      "literals": [
+        "longitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/timestamp::semanticRole",
+      "tier": "scoreable",
+      "statement": "`timestamp` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/timestamp semanticRole=phenomenonTime",
+      "negative": "Treating `timestamp` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "timestamp"
+      ]
+    },
+    {
+      "id": "#/properties/timestamp::cadence",
+      "tier": "scoreable",
+      "statement": "Successive `timestamp` values are expected at cadence `fixed` with period \"PT5M\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+      "evidence": "#/properties/timestamp cadence={\"kind\": \"fixed\", \"period\": \"PT5M\"}",
+      "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+      "literals": [
+        "timestamp",
+        "PT5M"
+      ]
+    },
+    {
+      "id": "#/properties/wind_direction::statistic",
+      "tier": "scoreable",
+      "statement": "`wind_direction` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+      "evidence": "#/properties/wind_direction statistic=mean",
+      "negative": "Averaging or summing `wind_direction` as though it were a raw sample.",
+      "literals": [
+        "wind_direction",
+        "mean"
+      ]
+    },
+    {
+      "id": "#/properties/wind_direction::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`wind_direction` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/wind_direction phenomenonTimeRelation=interval",
+      "negative": "Treating `wind_direction` as an instantaneous reading.",
+      "literals": [
+        "wind_direction"
+      ]
+    },
+    {
+      "id": "#/properties/wind_direction::unit",
+      "tier": "scoreable",
+      "statement": "`wind_direction` is expressed in `deg`.",
+      "evidence": "#/properties/wind_direction unit=deg",
+      "negative": "Assuming a different or conventional unit for `wind_direction`.",
+      "literals": [
+        "wind_direction",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/wind_speed::statistic",
+      "tier": "scoreable",
+      "statement": "`wind_speed` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+      "evidence": "#/properties/wind_speed statistic=mean",
+      "negative": "Averaging or summing `wind_speed` as though it were a raw sample.",
+      "literals": [
+        "wind_speed",
+        "mean"
+      ]
+    },
+    {
+      "id": "#/properties/wind_speed::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`wind_speed` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/wind_speed phenomenonTimeRelation=interval",
+      "negative": "Treating `wind_speed` as an instantaneous reading.",
+      "literals": [
+        "wind_speed"
+      ]
+    },
+    {
+      "id": "#/properties/wind_speed::unit",
+      "tier": "scoreable",
+      "statement": "`wind_speed` is expressed in `m/s`.",
+      "evidence": "#/properties/wind_speed unit=m/s",
+      "negative": "Assuming a different or conventional unit for `wind_speed`.",
+      "literals": [
+        "wind_speed",
+        "m/s"
+      ]
+    },
+    {
+      "id": "#/properties/gust::statistic",
+      "tier": "scoreable",
+      "statement": "`gust` is already a `maximum` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+      "evidence": "#/properties/gust statistic=maximum",
+      "negative": "Averaging or summing `gust` as though it were a raw sample.",
+      "literals": [
+        "gust",
+        "maximum"
+      ]
+    },
+    {
+      "id": "#/properties/gust::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`gust` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/gust phenomenonTimeRelation=interval",
+      "negative": "Treating `gust` as an instantaneous reading.",
+      "literals": [
+        "gust"
+      ]
+    },
+    {
+      "id": "#/properties/gust::unit",
+      "tier": "scoreable",
+      "statement": "`gust` is expressed in `m/s`.",
+      "evidence": "#/properties/gust unit=m/s",
+      "negative": "Assuming a different or conventional unit for `gust`.",
+      "literals": [
+        "gust",
+        "m/s"
+      ]
+    },
+    {
+      "id": "#/properties/wave_height::statistic",
+      "tier": "scoreable",
+      "statement": "`wave_height` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+      "evidence": "#/properties/wave_height statistic=mean",
+      "negative": "Averaging or summing `wave_height` as though it were a raw sample.",
+      "literals": [
+        "wave_height",
+        "mean"
+      ]
+    },
+    {
+      "id": "#/properties/wave_height::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`wave_height` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/wave_height phenomenonTimeRelation=interval",
+      "negative": "Treating `wave_height` as an instantaneous reading.",
+      "literals": [
+        "wave_height"
+      ]
+    },
+    {
+      "id": "#/properties/wave_height::supportPeriod",
+      "tier": "scoreable",
+      "statement": "`wave_height` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+      "evidence": "#/properties/wave_height supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+      "negative": "Treating `wave_height` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+      "literals": [
+        "wave_height",
+        "PT20M"
+      ]
+    },
+    {
+      "id": "#/properties/wave_height::unit",
+      "tier": "scoreable",
+      "statement": "`wave_height` is expressed in `m`.",
+      "evidence": "#/properties/wave_height unit=m",
+      "negative": "Assuming a different or conventional unit for `wave_height`.",
+      "literals": [
+        "wave_height",
+        "m"
+      ]
+    },
+    {
+      "id": "#/properties/dominant_wave_period::derivation",
+      "tier": "scoreable",
+      "statement": "`dominant_wave_period` is calculated rather than measured directly.",
+      "evidence": "#/properties/dominant_wave_period derivation=calculated",
+      "negative": "Treating `dominant_wave_period` as a direct measurement.",
+      "literals": [
+        "dominant_wave_period"
+      ]
+    },
+    {
+      "id": "#/properties/dominant_wave_period::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`dominant_wave_period` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/dominant_wave_period phenomenonTimeRelation=interval",
+      "negative": "Treating `dominant_wave_period` as an instantaneous reading.",
+      "literals": [
+        "dominant_wave_period"
+      ]
+    },
+    {
+      "id": "#/properties/dominant_wave_period::supportPeriod",
+      "tier": "scoreable",
+      "statement": "`dominant_wave_period` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+      "evidence": "#/properties/dominant_wave_period supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+      "negative": "Treating `dominant_wave_period` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+      "literals": [
+        "dominant_wave_period",
+        "PT20M"
+      ]
+    },
+    {
+      "id": "#/properties/dominant_wave_period::unit",
+      "tier": "scoreable",
+      "statement": "`dominant_wave_period` is expressed in `s`.",
+      "evidence": "#/properties/dominant_wave_period unit=s",
+      "negative": "Assuming a different or conventional unit for `dominant_wave_period`.",
+      "literals": [
+        "dominant_wave_period",
+        "s"
+      ]
+    },
+    {
+      "id": "#/properties/average_wave_period::statistic",
+      "tier": "scoreable",
+      "statement": "`average_wave_period` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+      "evidence": "#/properties/average_wave_period statistic=mean",
+      "negative": "Averaging or summing `average_wave_period` as though it were a raw sample.",
+      "literals": [
+        "average_wave_period",
+        "mean"
+      ]
+    },
+    {
+      "id": "#/properties/average_wave_period::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`average_wave_period` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/average_wave_period phenomenonTimeRelation=interval",
+      "negative": "Treating `average_wave_period` as an instantaneous reading.",
+      "literals": [
+        "average_wave_period"
+      ]
+    },
+    {
+      "id": "#/properties/average_wave_period::supportPeriod",
+      "tier": "scoreable",
+      "statement": "`average_wave_period` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+      "evidence": "#/properties/average_wave_period supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+      "negative": "Treating `average_wave_period` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+      "literals": [
+        "average_wave_period",
+        "PT20M"
+      ]
+    },
+    {
+      "id": "#/properties/average_wave_period::unit",
+      "tier": "scoreable",
+      "statement": "`average_wave_period` is expressed in `s`.",
+      "evidence": "#/properties/average_wave_period unit=s",
+      "negative": "Assuming a different or conventional unit for `average_wave_period`.",
+      "literals": [
+        "average_wave_period",
+        "s"
+      ]
+    },
+    {
+      "id": "#/properties/mean_wave_direction::derivation",
+      "tier": "scoreable",
+      "statement": "`mean_wave_direction` is calculated rather than measured directly.",
+      "evidence": "#/properties/mean_wave_direction derivation=calculated",
+      "negative": "Treating `mean_wave_direction` as a direct measurement.",
+      "literals": [
+        "mean_wave_direction"
+      ]
+    },
+    {
+      "id": "#/properties/mean_wave_direction::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`mean_wave_direction` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/mean_wave_direction phenomenonTimeRelation=interval",
+      "negative": "Treating `mean_wave_direction` as an instantaneous reading.",
+      "literals": [
+        "mean_wave_direction"
+      ]
+    },
+    {
+      "id": "#/properties/mean_wave_direction::supportPeriod",
+      "tier": "scoreable",
+      "statement": "`mean_wave_direction` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+      "evidence": "#/properties/mean_wave_direction supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+      "negative": "Treating `mean_wave_direction` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+      "literals": [
+        "mean_wave_direction",
+        "PT20M"
+      ]
+    },
+    {
+      "id": "#/properties/mean_wave_direction::unit",
+      "tier": "scoreable",
+      "statement": "`mean_wave_direction` is expressed in `deg`.",
+      "evidence": "#/properties/mean_wave_direction unit=deg",
+      "negative": "Assuming a different or conventional unit for `mean_wave_direction`.",
+      "literals": [
+        "mean_wave_direction",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/pressure::derivation",
+      "tier": "scoreable",
+      "statement": "`pressure` is calculated rather than measured directly.",
+      "evidence": "#/properties/pressure derivation=calculated",
+      "negative": "Treating `pressure` as a direct measurement.",
+      "literals": [
+        "pressure"
+      ]
+    },
+    {
+      "id": "#/properties/pressure::unit",
+      "tier": "scoreable",
+      "statement": "`pressure` is expressed in `hPa`.",
+      "evidence": "#/properties/pressure unit=hPa",
+      "negative": "Assuming a different or conventional unit for `pressure`.",
+      "literals": [
+        "pressure",
+        "hPa"
+      ]
+    },
+    {
+      "id": "#/properties/air_temperature::unit",
+      "tier": "scoreable",
+      "statement": "`air_temperature` is expressed in `CEL`.",
+      "evidence": "#/properties/air_temperature unit=CEL",
+      "negative": "Assuming a different or conventional unit for `air_temperature`.",
+      "literals": [
+        "air_temperature",
+        "CEL"
+      ]
+    },
+    {
+      "id": "#/properties/water_temperature::unit",
+      "tier": "scoreable",
+      "statement": "`water_temperature` is expressed in `CEL`.",
+      "evidence": "#/properties/water_temperature unit=CEL",
+      "negative": "Assuming a different or conventional unit for `water_temperature`.",
+      "literals": [
+        "water_temperature",
+        "CEL"
+      ]
+    },
+    {
+      "id": "#/properties/dewpoint::derivation",
+      "tier": "scoreable",
+      "statement": "`dewpoint` is calculated rather than measured directly.",
+      "evidence": "#/properties/dewpoint derivation=calculated",
+      "negative": "Treating `dewpoint` as a direct measurement.",
+      "literals": [
+        "dewpoint"
+      ]
+    },
+    {
+      "id": "#/properties/dewpoint::unit",
+      "tier": "scoreable",
+      "statement": "`dewpoint` is expressed in `CEL`.",
+      "evidence": "#/properties/dewpoint unit=CEL",
+      "negative": "Assuming a different or conventional unit for `dewpoint`.",
+      "literals": [
+        "dewpoint",
+        "CEL"
+      ]
+    },
+    {
+      "id": "#/properties/pressure_tendency::derivation",
+      "tier": "scoreable",
+      "statement": "`pressure_tendency` is calculated rather than measured directly.",
+      "evidence": "#/properties/pressure_tendency derivation=calculated",
+      "negative": "Treating `pressure_tendency` as a direct measurement.",
+      "literals": [
+        "pressure_tendency"
+      ]
+    },
+    {
+      "id": "#/properties/pressure_tendency::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`pressure_tendency` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/pressure_tendency phenomenonTimeRelation=interval",
+      "negative": "Treating `pressure_tendency` as an instantaneous reading.",
+      "literals": [
+        "pressure_tendency"
+      ]
+    },
+    {
+      "id": "#/properties/pressure_tendency::supportPeriod",
+      "tier": "scoreable",
+      "statement": "`pressure_tendency` characterises a phenomenon-time period of length PT3H, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT3H, t)`.",
+      "evidence": "#/properties/pressure_tendency supportPeriod={\"length\": \"PT3H\", \"anchor\": \"end\"}",
+      "negative": "Treating `pressure_tendency` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+      "literals": [
+        "pressure_tendency",
+        "PT3H"
+      ]
+    },
+    {
+      "id": "#/properties/pressure_tendency::unit",
+      "tier": "scoreable",
+      "statement": "`pressure_tendency` is expressed in `hPa`.",
+      "evidence": "#/properties/pressure_tendency unit=hPa",
+      "negative": "Assuming a different or conventional unit for `pressure_tendency`.",
+      "literals": [
+        "pressure_tendency",
+        "hPa"
+      ]
+    },
+    {
+      "id": "#/properties/visibility::unit",
+      "tier": "scoreable",
+      "statement": "`visibility` is expressed in `[nmi_i]`.",
+      "evidence": "#/properties/visibility unit=[nmi_i]",
+      "negative": "Assuming a different or conventional unit for `visibility`.",
+      "literals": [
+        "visibility",
+        "[nmi_i]"
+      ]
+    },
+    {
+      "id": "#/properties/tide::unit",
+      "tier": "scoreable",
+      "statement": "`tide` is expressed in `[ft_i]`.",
+      "evidence": "#/properties/tide unit=[ft_i]",
+      "negative": "Assuming a different or conventional unit for `tide`.",
+      "literals": [
+        "tide",
+        "[ft_i]"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "prose",
+    "B": "spec",
+    "C": "bare",
+    "D": "annotated"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "subagent-supervisor",
+  "scores": {
+    "prose": {
+      "correct": 32,
+      "incorrect": 0,
+      "declined": 4,
+      "unaddressed": 6,
+      "claims": 42,
+      "answered": 32,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.8571,
+      "decline_rate": 0.0952
+    },
+    "spec": {
+      "correct": 32,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 10,
+      "claims": 42,
+      "answered": 32,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.7619,
+      "decline_rate": 0.0
+    },
+    "bare": {
+      "correct": 11,
+      "incorrect": 0,
+      "declined": 27,
+      "unaddressed": 4,
+      "claims": 42,
+      "answered": 11,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.9048,
+      "decline_rate": 0.6429
+    },
+    "annotated": {
+      "correct": 31,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 11,
+      "claims": 42,
+      "answered": 31,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.7381,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "B",
+    "why": "B alone cites machine-level schema facts such as the EPSG:4326 axis binding, the phenomenon-time role, QUDT quantity kinds and explicit half-open interval extents, suggesting it had the most declared material available."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "axes in the order that definition fixes: latitude first, then longitude"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Position accompanies every record in WGS 84 (EPSG:4326)"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Degrees are angles, not distances"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Degrees are angles, not distances"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "It is the end of the observation windows, not their midpoint and not their start."
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "It carries the phenomenon-time role"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "There is no ingest or record-creation time"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The timestamp is the phenomenon time"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "This is an expectation about the producer, not a guarantee about the data"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a record whose spacing departs from it is late"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "it is a producer expectation, not a delivery guarantee"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "A two-minute mean and an eight-minute mean are different statistics of the same wind"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "would be a mean of means over windows of unknown length"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "quantities summarising a short wind-averaging window whose length the record does not carry"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wind fields summarise roughly the last two or eight minutes."
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "it must not be read as meaning the values are instantaneous"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "quantities summarising a short wind-averaging window whose length the record does not carry"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "angular coordinates in degrees true"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a circular quantity in degrees"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Wind direction and mean wave direction are both in degrees true"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Averaging wind speeds across records is valid as a mean-of-means"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Never sum — a mean is not additive"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "`wind_speed` is a *mean* statistic"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "A 2-minute mean and an 8-minute mean are different quantities"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wind fields summarise roughly the last two or eight minutes."
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "it must not be read as meaning the values are instantaneous"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "are all statistics over a sampling window"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "quantities summarising a short wind-averaging window whose length the record does not carry"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Everything is SI except water level, which is in feet"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is a maximum over a window, not a mean"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a maximum over that same unknown window"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "gusts produces a mean-of-maxima, which is not the maximum and not the mean"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Gust is a maximum."
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is a maximum over a window, not a mean"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "it must not be read as meaning the values are instantaneous"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The peak gust and the mean wind speed are drawn from the *same* window"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Everything is SI except water level, which is in feet"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is a mean taken over a restricted subpopulation — the highest one-third of waves"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a mean of the highest third of the waves over twenty minutes"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "a mean of wave heights is not the wave height of the mean sea state"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "This is the mean of the highest third of waves, not the mean wave height"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wave fields summarise the last twenty minutes."
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "a mean of the highest third of the waves over twenty minutes"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "are all statistics over a sampling window"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "all share the same 20-minute window ending at the record timestamp"
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the timestamp is the **end** of every interval-valued quantity in the record"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Everything is SI except water level, which is in feet"
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "in metres, nautical miles, and feet respectively"
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 19,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is read off an energy spectrum as a peak location — a mode, not a mean"
+    },
+    {
+      "claim": 19,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "read off a computed spectrum"
+    },
+    {
+      "claim": 19,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 19,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wave fields summarise the last twenty minutes."
+    },
+    {
+      "claim": 20,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 20,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 20,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "all share the same 20-minute window ending at the record timestamp"
+    },
+    {
+      "claim": 21,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 21,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 21,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 21,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the timestamp is the **end** of every interval-valued quantity in the record"
+    },
+    {
+      "claim": 22,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Everything is SI except water level, which is in feet"
+    },
+    {
+      "claim": 22,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 22,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 22,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 23,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is a mean over all waves in the window"
+    },
+    {
+      "claim": 23,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean of all wave periods over the same twenty minutes"
+    },
+    {
+      "claim": 23,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mean wave period, mean wave direction and wave height"
+    },
+    {
+      "claim": 23,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one describes the top third, the other describes all waves"
+    },
+    {
+      "claim": 24,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wave fields summarise the last twenty minutes."
+    },
+    {
+      "claim": 24,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean of all wave periods over the same twenty minutes"
+    },
+    {
+      "claim": 24,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "are all statistics over a sampling window"
+    },
+    {
+      "claim": 24,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "all share the same 20-minute window ending at the record timestamp"
+    },
+    {
+      "claim": 25,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 25,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 25,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 25,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the timestamp is the **end** of every interval-valued quantity in the record"
+    },
+    {
+      "claim": 26,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Everything is SI except water level, which is in feet"
+    },
+    {
+      "claim": 26,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 26,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 26,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 27,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 27,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "circular, and calculated from the spectrum at the"
+    },
+    {
+      "claim": 27,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 27,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 28,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The wave fields summarise the last twenty minutes."
+    },
+    {
+      "claim": 28,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 28,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "are all statistics over a sampling window"
+    },
+    {
+      "claim": 28,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "all share the same 20-minute window ending at the record timestamp"
+    },
+    {
+      "claim": 29,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 29,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "each interval runs backwards from it, half-open. The wave quartet covers"
+    },
+    {
+      "claim": 29,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 29,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the timestamp is the **end** of every interval-valued quantity in the record"
+    },
+    {
+      "claim": 30,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "angular coordinates in degrees true"
+    },
+    {
+      "claim": 30,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 30,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 30,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Wind direction and mean wave direction are both in degrees true"
+    },
+    {
+      "claim": 31,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is reduced to sea level, which is precisely what makes it cross-station comparable"
+    },
+    {
+      "claim": 31,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "instantaneous, and already reduced to sea level"
+    },
+    {
+      "claim": 31,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 31,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Pressure is reduced to sea level by a standard-atmosphere correction"
+    },
+    {
+      "claim": 32,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 32,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 32,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 32,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 33,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "are on an interval scale in Celsius"
+    },
+    {
+      "claim": 33,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 33,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 33,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "A sum of Celsius temperatures has no meaning"
+    },
+    {
+      "claim": 34,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "are on an interval scale in Celsius"
+    },
+    {
+      "claim": 34,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 34,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 34,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "A sum of Celsius temperatures has no meaning"
+    },
+    {
+      "claim": 35,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "dewpoint is computed from air temperature and humidity"
+    },
+    {
+      "claim": 35,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "instantaneous, calculated. Compare, difference, average over time."
+    },
+    {
+      "claim": 35,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 35,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Dewpoint is computed from air temperature and humidity"
+    },
+    {
+      "claim": 36,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "are on an interval scale in Celsius"
+    },
+    {
+      "claim": 36,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 36,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 36,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "A sum of Celsius temperatures has no meaning"
+    },
+    {
+      "claim": 37,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is *already a difference* over the preceding three hours"
+    },
+    {
+      "claim": 37,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "the tendency was formed by the producer from its own pair"
+    },
+    {
+      "claim": 37,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "is already a difference. It must **never** be added to"
+    },
+    {
+      "claim": 37,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "This is already a difference over the preceding three hours"
+    },
+    {
+      "claim": 38,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The pressure tendency summarises the last three hours."
+    },
+    {
+      "claim": 38,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "already a difference over the three hours ending at the"
+    },
+    {
+      "claim": 38,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "the tendency's window is a second, invisible time axis."
+    },
+    {
+      "claim": 38,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one quantity summarising the preceding three hours"
+    },
+    {
+      "claim": 39,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "the three-hour pressure tendency, whose interval ends at the observation time"
+    },
+    {
+      "claim": 39,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "already a difference over the three hours ending at the"
+    },
+    {
+      "claim": 39,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 39,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "This is already a difference over the preceding three hours"
+    },
+    {
+      "claim": 40,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 40,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 40,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 40,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 41,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "visibility, which is in nautical miles"
+    },
+    {
+      "claim": 41,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "instantaneous, in nautical miles"
+    },
+    {
+      "claim": 41,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 41,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "alongside visibility in nautical miles and everything else metric"
+    },
+    {
+      "claim": 42,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "water level, which is in feet"
+    },
+    {
+      "claim": 42,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "instantaneous, in feet, relative to Mean Lower Low Water"
+    },
+    {
+      "claim": 42,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 42,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "It is also the only quantity in feet"
+    }
+  ]
+}

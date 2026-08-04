@@ -1,0 +1,123 @@
+{
+  "arms": {
+    "bare": {
+      "correct": 6,
+      "incorrect": 45,
+      "declined": 83,
+      "unaddressed": 54,
+      "claims": 188,
+      "answered": 51,
+      "accuracy": 0.1176,
+      "hazard": 0.2394,
+      "hazard_answered": 0.8824,
+      "coverage": 0.7128,
+      "decline_rate": 0.4415
+    },
+    "prose": {
+      "correct": 135,
+      "incorrect": 7,
+      "declined": 14,
+      "unaddressed": 32,
+      "claims": 188,
+      "answered": 142,
+      "accuracy": 0.9507,
+      "hazard": 0.0372,
+      "hazard_answered": 0.0493,
+      "coverage": 0.8298,
+      "decline_rate": 0.0745
+    },
+    "annotated": {
+      "correct": 129,
+      "incorrect": 5,
+      "declined": 7,
+      "unaddressed": 47,
+      "claims": 188,
+      "answered": 134,
+      "accuracy": 0.9627,
+      "hazard": 0.0266,
+      "hazard_answered": 0.0373,
+      "coverage": 0.75,
+      "decline_rate": 0.0372
+    },
+    "spec": {
+      "correct": 150,
+      "incorrect": 7,
+      "declined": 6,
+      "unaddressed": 25,
+      "claims": 188,
+      "answered": 157,
+      "accuracy": 0.9554,
+      "hazard": 0.0372,
+      "hazard_answered": 0.0446,
+      "coverage": 0.867,
+      "decline_rate": 0.0319
+    }
+  },
+  "blinding": {
+    "A": 2,
+    "B": 1,
+    "C": 1,
+    "D": 2,
+    "cannot tell": 0,
+    "correct_guess": 6,
+    "guesses": 6,
+    "guess_accuracy": 1.0
+  },
+  "samples": 6,
+  "task": "query",
+  "layers": [
+    {
+      "layer": "descriptions",
+      "from": "bare",
+      "to": "prose",
+      "coverage": 0.117,
+      "accuracy": 0.8331,
+      "hazard": -0.2022,
+      "hazard_answered": -0.8331
+    },
+    {
+      "layer": "annotations",
+      "from": "prose",
+      "to": "annotated",
+      "coverage": -0.0798,
+      "accuracy": 0.012,
+      "hazard": -0.0106,
+      "hazard_answered": -0.012
+    },
+    {
+      "layer": "specification",
+      "from": "annotated",
+      "to": "spec",
+      "coverage": 0.117,
+      "accuracy": -0.0073,
+      "hazard": 0.0106,
+      "hazard_answered": 0.0073
+    }
+  ],
+  "quality": {
+    "bare": {
+      "derived": 4.33,
+      "useful": 3.0,
+      "executable": 3.67,
+      "rated": 6
+    },
+    "prose": {
+      "derived": 5.0,
+      "useful": 4.5,
+      "executable": 4.33,
+      "rated": 6
+    },
+    "annotated": {
+      "derived": 5.0,
+      "useful": 4.5,
+      "executable": 3.67,
+      "rated": 6
+    },
+    "spec": {
+      "derived": 4.67,
+      "useful": 4.33,
+      "executable": 3.5,
+      "rated": 6
+    }
+  }
+}

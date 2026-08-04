@@ -1,0 +1,375 @@
+You are reading a data feed you have never seen before.
+
+The directory you have been given contains exactly two files: a schema and one
+example record that conforms to it. Read only those two files. You have no
+network, no search, no other documents, and no access to any specification.
+
+Produce, in this order:
+
+1. **What this feed is.** What the records describe, in a few sentences.
+2. **Analytics.** The analyses this stream supports that would be worth running,
+   and for each one, why the data supports it.
+3. **Combination rules.** For each quantity, state whether values may be
+   compared, differenced, summed, or averaged across records, and under what
+   condition. Where two values must not be combined, say so and say why.
+4. **Time.** Which member establishes the time axis of the thing described, and
+   how positions on that axis relate to civil time.
+5. **Ambiguities.** Anything the two files leave open. For each, state plainly
+   whether you are declining to decide it or guessing, and mark a guess as a
+   guess.
+
+Two rules govern the whole answer.
+
+Do not invent facts about the domain that the two files do not establish. If
+something is not in the files, either say it is not determined or mark your
+answer as an assumption. Declining to answer where the files do not decide the
+matter is a correct answer, not a failure.
+
+Do not describe the files. Nobody wants an inventory of member names and types.
+State what a person analysing this data would need to know and would get wrong
+without you.
+
+
+---
+
+schema.json
+
+```json
+{
+  "$schema": "https://json-structure.org/meta/semantic-annotations/v0/#",
+  "$id": "https://example.invalid/schema",
+  "$uses": [
+    "JSONStructureSemanticAnnotations"
+  ],
+  "name": "Metar",
+  "description": "METAR aviation weather observation from the AviationWeather.gov API. Reports surface conditions including temperature, dewpoint, wind, visibility, pressure, clouds, and flight category for an ICAO reporting station. Derived from the aviationweather feeder schema published in the xRegistry catalogue.",
+  "type": "object",
+  "observedProperty": {
+    "reference": "https://catalog.example.org/observable-properties/aerodrome-surface-weather/v1",
+    "kind": "example-catalog"
+  },
+  "coordinateReferenceSystem": {
+    "reference": "http://www.opengis.net/def/crs/EPSG/0/5714",
+    "kind": "ogc-crs",
+    "coordinates": [
+      "elevation"
+    ]
+  },
+  "properties": {
+    "icao_id": {
+      "type": "string",
+      "description": "ICAO station identifier for the reporting station (e.g. 'KJFK'). It identifies the aerodrome whose surface conditions this report describes.",
+      "semanticRole": "featureOfInterest",
+      "concepts": [
+        {
+          "reference": "http://purl.org/dc/terms/identifier",
+          "kind": "dcterms-property"
+        }
+      ]
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Human-readable station name included in the METAR response (e.g. 'New York/JF Kennedy Intl, NY, US').",
+      "concepts": [
+        {
+          "reference": "http://purl.org/dc/terms/title",
+          "kind": "dcterms-property"
+        }
+      ]
+    },
+    "position": {
+      "type": "object",
+      "description": "Horizontal position of the reporting station, grouped into an object so that the latitude/longitude pair can carry its own horizontal CRS binding independently of the vertical CRS binding that the enclosing record carries for elevation. Axis 1 of EPSG:4326 is latitude and axis 2 is longitude, and the coordinates array maps the members accordingly.",
+      "coordinateReferenceSystem": {
+        "reference": "http://www.opengis.net/def/crs/EPSG/0/4326",
+        "kind": "ogc-crs",
+        "coordinates": [
+          "latitude",
+          "longitude"
+        ]
+      },
+      "properties": {
+        "latitude": {
+          "type": "double",
+          "description": "Station latitude in decimal degrees north from the METAR response.",
+          "unit": "deg",
+          "symbol": "°",
+          "concepts": [
+            {
+              "reference": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+              "kind": "rdf-property"
+            }
+          ]
+        },
+        "longitude": {
+          "type": "double",
+          "description": "Station longitude in decimal degrees east from the METAR response.",
+          "unit": "deg",
+          "symbol": "°",
+          "concepts": [
+            {
+              "reference": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+              "kind": "rdf-property"
+            }
+          ]
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "additionalProperties": false
+    },
+    "elevation": {
+      "type": "double",
+      "description": "Station elevation in meters above mean sea level from the METAR response. The datum origin and axis direction are established by the referenced EPSG:5714 mean-sea-level height definition.",
+      "unit": "m",
+      "symbol": "m",
+      "concepts": [
+        {
+          "reference": "http://www.w3.org/2003/01/geo/wgs84_pos#alt",
+          "kind": "rdf-property"
+        }
+      ]
+    },
+    "obs_time": {
+      "type": "datetime",
+      "description": "Observation time taken from the obsTime field in the API response, where it is delivered as a Unix epoch timestamp (seconds since 1970-01-01T00:00:00Z). It is the time at which the surface conditions reported here obtained. A routine METAR cycle produces one report per station per hour, normally near the end of the hour.",
+      "semanticRole": "phenomenonTime",
+      "cadence": {
+        "kind": "fixed",
+        "period": "PT1H"
+      }
+    },
+    "report_time": {
+      "type": [
+        "datetime",
+        "null"
+      ],
+      "description": "Report time as an ISO 8601 UTC string from the reportTime field. This is the time the observation was officially reported, that is, the time the encoded result was issued rather than the time the conditions obtained.",
+      "semanticRole": "resultTime"
+    },
+    "metar_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "METAR report type: 'METAR' for routine, 'SPECI' for special observation. The value states the condition under which this record was issued and therefore reports the state of the observing programme rather than a property of the atmosphere.",
+      "semanticRole": "status"
+    },
+    "temp": {
+      "type": "double",
+      "description": "Air temperature at the station. Unit: degrees Celsius.",
+      "unit": "CEL",
+      "symbol": "°C",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Temperature",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "dewp": {
+      "type": "double",
+      "description": "Dewpoint temperature at the station. Unit: degrees Celsius.",
+      "unit": "CEL",
+      "symbol": "°C",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/DewPointTemperature",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "wdir": {
+      "type": "int32",
+      "description": "Wind direction in degrees true (the direction from which the wind is blowing), averaged over the observation period. Value of 0 indicates variable or calm. The reported value is the mean over the ten-minute window ending at the observation time.",
+      "unit": "deg",
+      "symbol": "°",
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": "mean",
+      "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Angle",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "wspd": {
+      "type": "int32",
+      "description": "Sustained wind speed in knots. The sustained value is the mean anemometer speed over the ten-minute window ending at the observation time, not an instantaneous reading.",
+      "unit": "[kn_i]",
+      "symbol": "kt",
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": "mean",
+      "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Speed",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "wgst": {
+      "type": "int32",
+      "description": "Wind gust speed in knots. Omitted if no gusts were reported. The value is the greatest short-interval wind speed observed within the same ten-minute window that produced wspd.",
+      "unit": "[kn_i]",
+      "symbol": "kt",
+      "semanticRole": "observationValue",
+      "derivation": "statistic",
+      "statistic": "maximum",
+      "phenomenonTimeRelation": "interval",
+      "supportPeriod": {
+        "length": "PT10M",
+        "anchor": "end"
+      },
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Speed",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "visib": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Prevailing visibility as reported. Value is a string because it can contain qualifiers like '10+' (greater than 10 statute miles) or fractional values. Unit: statute miles.",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Length",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "altim": {
+      "type": "double",
+      "description": "Altimeter setting (QNH) in hectopascals. The station pressure reading is reduced to the aerodrome elevation under the ICAO standard atmosphere before publication, so the derivation is 'calculated'.",
+      "unit": "hPa",
+      "symbol": "hPa",
+      "semanticRole": "observationValue",
+      "derivation": "calculated",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Pressure",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "slp": {
+      "type": "double",
+      "description": "Sea level pressure in hectopascals. Omitted if not reported. The station pressure reading is reduced to mean sea level using the station elevation and temperature history, so the derivation is 'calculated'.",
+      "unit": "hPa",
+      "symbol": "hPa",
+      "semanticRole": "observationValue",
+      "derivation": "calculated",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "http://qudt.org/vocab/quantitykind/Pressure",
+        "kind": "qudt-quantity-kind"
+      }
+    },
+    "wx_string": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Present weather string using standard METAR codes (e.g. '-RA' for light rain, 'BR' for mist). The codes record what the present-weather sensors of the station detected at the observation time.",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "https://catalog.example.org/observable-properties/present-weather/v1",
+        "kind": "example-catalog"
+      }
+    },
+    "clouds": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Cloud layers reported by the station, carried as a JSON-encoded array of layer objects, each giving a coverage code and a base height. The layers record what the ceilometer detected at the observation time.",
+      "semanticRole": "observationValue",
+      "derivation": "measured",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "https://catalog.example.org/observable-properties/cloud-layers/v1",
+        "kind": "example-catalog"
+      }
+    },
+    "flt_cat": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Flight category derived from ceiling and visibility: VFR, MVFR, IFR, or LIFR. The value is produced by applying the published category thresholds to the reported ceiling and visibility, so the derivation is 'calculated'.",
+      "semanticRole": "observationValue",
+      "derivation": "calculated",
+      "phenomenonTimeRelation": "instant",
+      "observedProperty": {
+        "reference": "https://catalog.example.org/observable-properties/flight-category/v1",
+        "kind": "example-catalog"
+      }
+    },
+    "qc_field": {
+      "type": [
+        "int32",
+        "null"
+      ],
+      "description": "Quality control flag bitmask from the qcField in the API response. Each bit records the outcome of one automated consistency check applied to the decoded report.",
+      "semanticRole": "resultQuality"
+    },
+    "raw_ob": {
+      "type": "string",
+      "description": "The full raw METAR observation text as received, e.g. 'METAR KJFK 061051Z 32013KT 10SM SCT050 05/M05 A3001'."
+    }
+  },
+  "required": [
+    "icao_id",
+    "obs_time",
+    "raw_ob"
+  ],
+  "additionalProperties": false
+}
+```
+
+instance.json
+
+```json
+{
+  "icao_id": "KJFK",
+  "name": "New York/JF Kennedy Intl, NY, US",
+  "position": {
+    "latitude": 40.6386,
+    "longitude": -73.7622
+  },
+  "elevation": 3.4,
+  "obs_time": "2026-07-30T11:51:00Z",
+  "report_time": "2026-07-30T11:53:00Z",
+  "metar_type": "METAR",
+  "temp": 26.1,
+  "dewp": 22.2,
+  "wdir": 210,
+  "wspd": 12,
+  "wgst": 18,
+  "visib": "10+",
+  "altim": 1015.6,
+  "slp": 1015.4,
+  "wx_string": null,
+  "clouds": "[{\"cover\":\"FEW\",\"base\":4500},{\"cover\":\"SCT\",\"base\":25000}]",
+  "flt_cat": "VFR",
+  "qc_field": 2,
+  "raw_ob": "METAR KJFK 301151Z 21012G18KT 10SM FEW045 SCT250 26/22 A2999 RMK AO2 SLP154 T02610222"
+}
+```

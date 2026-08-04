@@ -1,0 +1,97 @@
+{
+  "verdicts": [
+    { "claim": 1, "transcript": "A", "verdict": "correct", "quote": "The declared bounds make degrees the only sensible reading, but no geodetic datum is stated" },
+    { "claim": 1, "transcript": "B", "verdict": "correct", "quote": "the two coordinates are bound as a single coordinate in a named geodetic reference system" },
+    { "claim": 1, "transcript": "C", "verdict": "correct", "quote": "one geodetic reference frame is declared for the whole feed, with the axis order pinned explicitly" },
+    { "claim": 1, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 2, "transcript": "A", "verdict": "correct", "quote": "the axis it establishes is the axis of the **reception**, not of the aircraft state" },
+    { "claim": 2, "transcript": "B", "verdict": "correct", "quote": "the abscissa is reception time and not the time the position was true" },
+    { "claim": 2, "transcript": "C", "verdict": "correct", "quote": "**the instant at which the reported state was actually true aboard the aircraft is not available in this feed at all**" },
+    { "claim": 2, "transcript": "D", "verdict": "correct", "quote": "a difference of two timestamps is a difference of *decode* instants, not of the instants at which the reported states were true" },
+
+    { "claim": 3, "transcript": "A", "verdict": "declined" },
+    { "claim": 3, "transcript": "B", "verdict": "correct", "quote": "a position is a count of milliseconds since 1970-01-01T00:00:00Z that ignores leap seconds" },
+    { "claim": 3, "transcript": "C", "verdict": "correct", "quote": "The axis is a count of milliseconds since the 1970 epoch that **ignores leap seconds**" },
+    { "claim": 3, "transcript": "D", "verdict": "incorrect", "quote": "expressed as milliseconds since the POSIX epoch, and it therefore lands directly on civil UTC" },
+
+    { "claim": 4, "transcript": "A", "verdict": "correct", "quote": "Placing a value on a civil calendar requires three things none of which is stated" },
+    { "claim": 4, "transcript": "B", "verdict": "incorrect", "quote": "dividing by one thousand and rendering the result as a conventional epoch instant is the correct civil rendering" },
+    { "claim": 4, "transcript": "C", "verdict": "unaddressed" },
+    { "claim": 4, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 5, "transcript": "A", "verdict": "declined" },
+    { "claim": 5, "transcript": "B", "verdict": "correct", "quote": "The member does carry an explicit millisecond unit" },
+    { "claim": 5, "transcript": "C", "verdict": "unaddressed" },
+    { "claim": 5, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 6, "transcript": "A", "verdict": "declined" },
+    { "claim": 6, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 6, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 6, "transcript": "D", "verdict": "correct", "quote": "Altitude is a pressure-derived quantity, not a height. Nothing here is a raw measurement" },
+
+    { "claim": 7, "transcript": "A", "verdict": "declined" },
+    { "claim": 7, "transcript": "B", "verdict": "unaddressed" },
+    { "claim": 7, "transcript": "C", "verdict": "unaddressed" },
+    { "claim": 7, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 8, "transcript": "A", "verdict": "unaddressed" },
+    { "claim": 8, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 8, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 8, "transcript": "D", "verdict": "correct", "quote": "Position is a solution to an ambiguous encoding." },
+
+    { "claim": 9, "transcript": "A", "verdict": "declined" },
+    { "claim": 9, "transcript": "B", "verdict": "correct", "quote": "degree differences are not distances, and this specification supplies no transformation" },
+    { "claim": 9, "transcript": "C", "verdict": "correct", "quote": "Arithmetic means of degrees are only approximately a centroid" },
+    { "claim": 9, "transcript": "D", "verdict": "correct", "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian" },
+
+    { "claim": 10, "transcript": "A", "verdict": "unaddressed" },
+    { "claim": 10, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 10, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 10, "transcript": "D", "verdict": "correct", "quote": "Position is a solution to an ambiguous encoding." },
+
+    { "claim": 11, "transcript": "A", "verdict": "declined" },
+    { "claim": 11, "transcript": "B", "verdict": "correct", "quote": "degree differences are not distances, and this specification supplies no transformation" },
+    { "claim": 11, "transcript": "C", "verdict": "correct", "quote": "Arithmetic means of degrees are only approximately a centroid" },
+    { "claim": 11, "transcript": "D", "verdict": "correct", "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian" },
+
+    { "claim": 12, "transcript": "A", "verdict": "declined" },
+    { "claim": 12, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 12, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 12, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 13, "transcript": "A", "verdict": "declined" },
+    { "claim": 13, "transcript": "B", "verdict": "unaddressed" },
+    { "claim": 13, "transcript": "C", "verdict": "unaddressed" },
+    { "claim": 13, "transcript": "D", "verdict": "correct", "quote": "Knots — but the schema states the subtype bit" },
+
+    { "claim": 14, "transcript": "A", "verdict": "declined" },
+    { "claim": 14, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 14, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 14, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 15, "transcript": "A", "verdict": "declined" },
+    { "claim": 15, "transcript": "B", "verdict": "unaddressed" },
+    { "claim": 15, "transcript": "C", "verdict": "correct", "quote": "the arithmetic mean of degrees is wrong across the 0/360 wrap" },
+    { "claim": 15, "transcript": "D", "verdict": "correct", "quote": "the arithmetic mean of degrees is wrong across the 0/360 wrap" },
+
+    { "claim": 16, "transcript": "A", "verdict": "declined" },
+    { "claim": 16, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`" },
+    { "claim": 16, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`" },
+    { "claim": 16, "transcript": "D", "verdict": "unaddressed" },
+
+    { "claim": 17, "transcript": "A", "verdict": "declined" },
+    { "claim": 17, "transcript": "B", "verdict": "correct", "quote": "pool a horizontal speed in knots with a vertical rate in feet per minute" },
+    { "claim": 17, "transcript": "C", "verdict": "unaddressed" },
+    { "claim": 17, "transcript": "D", "verdict": "correct", "quote": "Feet per minute, positive upward" },
+
+    { "claim": 18, "transcript": "A", "verdict": "correct", "quote": "This is a property of the reception, not of the transmitter, so any per-aircraft aggregate of it is really measuring the receiver" },
+    { "claim": 18, "transcript": "B", "verdict": "correct", "quote": "It is the record's single result-quality value" },
+    { "claim": 18, "transcript": "C", "verdict": "correct", "quote": "classified as *result quality*, not as an observation of the aircraft" },
+    { "claim": 18, "transcript": "D", "verdict": "unaddressed" }
+  ],
+  "blinding": {
+    "richest": "B",
+    "why": "Transcript B references specific specification rules and schemas explicitly as opposed to the other transcripts."
+  }
+}

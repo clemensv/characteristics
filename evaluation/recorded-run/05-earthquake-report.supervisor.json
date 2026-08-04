@@ -1,0 +1,375 @@
+{
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "all records declare one CRS (EPSG:4326) with one axis order. The axis order is latitude first, longitude second"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The time axis of the thing described is origin_datetime."
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The time axis of the thing described is the origin time — the instant at which rupture began."
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "origin_datetime is the time axis of the thing described."
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The time axis of the thing described is the origin time"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "it is not a completeness assertion, it does not assert that every position has a record, and no instance is invalid for departing from it"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "there is no expected spacing, so nothing may be resampled, interpolated or gap-filled as though it were a regular series"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "this is a point process, not a time series. Do not resample it onto a regular grid, do not interpolate between events"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "report_datetime and control_datetime are on the record's axis, not the phenomenon's."
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "Binning by report time or control time and calling the result seismicity is wrong"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "report_datetime and control_datetime are the time axis of the bulletin"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "Plotting seismicity against either of these gives you the behaviour of the agency's pipeline"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "report_datetime and control_datetime are on the record's axis, not the phenomenon's."
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "Binning by report time or control time and calling the result seismicity is wrong"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "report_datetime and control_datetime are the time axis of the bulletin"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "Plotting seismicity against either of these gives you the behaviour of the agency's pipeline"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Every scientific quantity in the record is declared as derived, never as measured"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The hypocentre coordinates, the depth and the magnitude are all marked as calculated"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The hypocentre (latitude, longitude, depth) is obtained by inverting arrival times"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Coordinates are stated to be WGS84 decimal degrees"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Every scientific quantity in the record is declared as derived, never as measured"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The hypocentre coordinates, the depth and the magnitude are all marked as calculated"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The hypocentre (latitude, longitude, depth) is obtained by inverting arrival times"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Coordinates are stated to be WGS84 decimal degrees"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Every scientific quantity in the record is declared as derived, never as measured"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The hypocentre coordinates, the depth and the magnitude are all marked as calculated"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The hypocentre (latitude, longitude, depth) is obtained by inverting arrival times"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Kilometres, ratio scale."
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "A length in kilometres, bounded 0–700"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Coordinates are stated to be WGS84 decimal degrees with depth in kilometres"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Every scientific quantity in the record is declared as derived, never as measured"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The hypocentre coordinates, the depth and the magnitude are all marked as calculated"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The magnitude is obtained by applying a published formula to displacement amplitudes"
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "Critically, do not recompute the report-level maximum from the prefecture array. The specification states plainly that a processor must not recompute a result from a statistic declaration"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "maximum is available and composes correctly — the maximum over a set of prefecture maxima is a valid maximum"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "incorrect",
+      "quote": "The maximum of a set of grades is well defined, because a maximum only needs an ordering. So max-of-max across prefectures is legitimate"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "maxima and minima are meaningful — the feed itself is built on taking maxima over stations, which presupposes a total order"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "It is a quality qualifier, and because a record here carries more than one result, it qualifies all of them"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "the bulletin product code carries the role of result quality. It is not a category for faceting a chart"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The product code is described as the scale on which the maturity of the solution is expressed — it qualifies the results rather than being a result."
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "It is declared estimated, which the specification defines as inferred from incomplete, indirect, or uncertain evidence"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "The tsunami flag is marked as estimated, and its description is explicit that it was inferred from free-text commentary"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Because the value is an inference over free text rather than a published coded field, it may be counted and cross-tabulated with the appropriate caveat, but must never be treated as authoritative"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "Critically, do not recompute the report-level maximum from the prefecture array. The specification states plainly that a processor must not recompute a result from a statistic declaration"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "maximum is available and composes correctly — the maximum over a set of prefecture maxima is a valid maximum"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "incorrect",
+      "quote": "The maximum of a set of grades is well defined, because a maximum only needs an ordering. So max-of-max across prefectures is legitimate"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "maxima and minima are meaningful — the feed itself is built on taking maxima over stations, which presupposes a total order"
+    }
+  ],
+  "blinding": {
+    "richest": "A",
+    "why": "Transcript A is the only one to mention the specific CRS (EPSG:4326), the axis order binding, and detail the `dcmitype:Event` class binding and phenomenon vs result vs ingestion time semantics from the underlying schema/specification."
+  }
+}

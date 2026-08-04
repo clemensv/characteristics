@@ -1,0 +1,90 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "correct", "quote": "`coordinateReferenceSystem` declares `coordinates: [\"latitude\", \"longitude\"]` only."},
+    {"claim": 1, "transcript": "B", "verdict": "correct", "quote": "The schema declares EPSG:4326 over `latitude` and `longitude`"},
+    {"claim": 1, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 1, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 2, "transcript": "A", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY report_datetime"},
+    {"claim": 2, "transcript": "B", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY control_datetime"},
+    {"claim": 2, "transcript": "C", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY control_datetime"},
+    {"claim": 2, "transcript": "D", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY report_datetime"},
+
+    {"claim": 3, "transcript": "A", "verdict": "correct", "quote": "There is therefore no expected interval against which an absence is a gap."},
+    {"claim": 3, "transcript": "B", "verdict": "correct", "quote": "A gap in this stream is therefore indistinguishable from a quiet period"},
+    {"claim": 3, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 3, "transcript": "D", "verdict": "correct", "quote": "successive origin times carry no period"},
+
+    {"claim": 4, "transcript": "A", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY report_datetime"},
+    {"claim": 4, "transcript": "B", "verdict": "correct", "quote": "the interval between the member declared `phenomenonTime` and the member declared `resultTime`"},
+    {"claim": 4, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 4, "transcript": "D", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY report_datetime"},
+
+    {"claim": 5, "transcript": "A", "verdict": "correct", "quote": "so it is measured, not used as the clock"},
+    {"claim": 5, "transcript": "B", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY control_datetime"},
+    {"claim": 5, "transcript": "C", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY control_datetime"},
+    {"claim": 5, "transcript": "D", "verdict": "correct", "quote": "control_datetime is a distribution-channel artefact"},
+
+    {"claim": 6, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 7, "transcript": "A", "verdict": "correct", "quote": "EPSG:4326 is angular: converting a degree separation of `latitude`/`longitude` into"},
+    {"claim": 7, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 7, "transcript": "C", "verdict": "correct", "quote": "A delta in degrees is not a distance (a degree of longitude shrinks with latitude)"},
+    {"claim": 7, "transcript": "D", "verdict": "correct", "quote": "converting a degree difference to a distance needs either trigonometry"},
+
+    {"claim": 8, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 8, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 8, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 8, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 9, "transcript": "A", "verdict": "correct", "quote": "EPSG:4326 is angular: converting a degree separation of `latitude`/`longitude` into"},
+    {"claim": 9, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 9, "transcript": "C", "verdict": "correct", "quote": "A delta in degrees is not a distance (a degree of longitude shrinks with latitude)"},
+    {"claim": 9, "transcript": "D", "verdict": "correct", "quote": "converting a degree difference to a distance needs either trigonometry"},
+
+    {"claim": 10, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 11, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 11, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 11, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 11, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 12, "transcript": "A", "verdict": "correct", "quote": "`derivation: calculated` — a solution that is recomputed as more stations report."},
+    {"claim": 12, "transcript": "B", "verdict": "correct", "quote": "computed from displacement amplitudes by a published formula"},
+    {"claim": 12, "transcript": "C", "verdict": "correct", "quote": "it measures how much the solution moves after first publication"},
+    {"claim": 12, "transcript": "D", "verdict": "correct", "quote": "`magnitude` is a computed solution, so revision is expected"},
+
+    {"claim": 13, "transcript": "A", "verdict": "correct", "quote": "Both carry `derivation: statistic` with `statistic: maximum`."},
+    {"claim": 13, "transcript": "B", "verdict": "declined"},
+    {"claim": 13, "transcript": "C", "verdict": "declined"},
+    {"claim": 13, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 14, "transcript": "A", "verdict": "correct", "quote": "annotated `semanticRole: resultQuality`"},
+    {"claim": 14, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 14, "transcript": "C", "verdict": "declined"},
+    {"claim": 14, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 15, "transcript": "A", "verdict": "correct", "quote": "It is `derivation: estimated`"},
+    {"claim": 15, "transcript": "B", "verdict": "correct", "quote": "It is marked `derivation: estimated`"},
+    {"claim": 15, "transcript": "C", "verdict": "declined"},
+    {"claim": 15, "transcript": "D", "verdict": "correct", "quote": "Aggregating it would turn an inference into a measurement."},
+
+    {"claim": 16, "transcript": "A", "verdict": "correct", "quote": "Both carry `derivation: statistic` with `statistic: maximum`."},
+    {"claim": 16, "transcript": "B", "verdict": "declined"},
+    {"claim": 16, "transcript": "C", "verdict": "declined"},
+    {"claim": 16, "transcript": "D", "verdict": "declined"}
+  ],
+  "quality": {
+    "A": {"derived": 5, "useful": 4, "executable": 2, "note": "Strongest is the disciplined refusal list that names exactly why each rejected metric is unsound; weakest is a query that leans on PERCENTILE_CONT WITHIN GROUP, COUNT(DISTINCT) in a windowed GROUP BY and INTO on a UNION branch, all of which it admits it cannot verify."},
+    "B": {"derived": 5, "useful": 5, "executable": 4, "note": "Strongest is the metric selection, which pairs latency, revision, intensity escalation and distinct-event rate into one coherent regional view; weakest is the reliance on COUNT(DISTINCT) inside a windowed GROUP BY, which it flags as unverified."},
+    "C": {"derived": 5, "useful": 3, "executable": 5, "note": "Strongest is the deliberately conservative syntax that avoids every construct it could not confirm, making it the most likely to run as written; weakest is grouping every metric by event_id in a ten-minute window, which leaves no cross-event or regional signal and gives most windows only one or two bulletins."},
+    "D": {"derived": 5, "useful": 4, "executable": 3, "note": "Strongest is the explicit reasoning for keeping event_id in the LAG partition but out of the window GROUP BY, which keeps the cross-event counts meaningful; weakest is the PERCENTILE_CONT OVER clause placed among aggregates in a tumbling GROUP BY, which it concedes may not compose."}
+  },
+  "blinding": {"richest": "A", "why": "A quotes specification prose verbatim alongside annotation keywords such as derivation, statistic, semanticRole and cadence kind, and cites the coordinateReferenceSystem coordinates binding, which suggests it had the fullest annotation material available."}
+}

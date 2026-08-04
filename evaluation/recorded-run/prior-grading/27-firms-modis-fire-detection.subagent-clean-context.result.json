@@ -1,0 +1,320 @@
+{
+  "sample": "27-firms-modis-fire-detection",
+  "claims": [
+    {
+      "id": "#::spectralBands[0]",
+      "tier": "scoreable",
+      "statement": "Band values follow the band set `https://modis.gsfc.nasa.gov/about/specifications.php#thermal-anomaly-bands`, carried by the members [\"brightness\", \"bright_t31\"] in that order and are calibrated as `brightnessTemperature`.",
+      "evidence": "# spectralBands[0].calibration=brightnessTemperature",
+      "negative": "Treating raw band values as a physical quantity, or assuming which sensor band each member holds.",
+      "literals": [
+        "https://modis.gsfc.nasa.gov/about/specifications.php#thermal-anomaly-bands",
+        "brightnessTemperature"
+      ]
+    },
+    {
+      "id": "#/properties/latitude::unit",
+      "tier": "scoreable",
+      "statement": "`latitude` is expressed in `deg`.",
+      "evidence": "#/properties/latitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `latitude`.",
+      "literals": [
+        "latitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/longitude::unit",
+      "tier": "scoreable",
+      "statement": "`longitude` is expressed in `deg`.",
+      "evidence": "#/properties/longitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `longitude`.",
+      "literals": [
+        "longitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/brightness::unit",
+      "tier": "scoreable",
+      "statement": "`brightness` is expressed in `K`.",
+      "evidence": "#/properties/brightness unit=K",
+      "negative": "Assuming a different or conventional unit for `brightness`.",
+      "literals": [
+        "brightness",
+        "K"
+      ]
+    },
+    {
+      "id": "#/properties/bright_t31::unit",
+      "tier": "scoreable",
+      "statement": "`bright_t31` is expressed in `K`.",
+      "evidence": "#/properties/bright_t31 unit=K",
+      "negative": "Assuming a different or conventional unit for `bright_t31`.",
+      "literals": [
+        "bright_t31",
+        "K"
+      ]
+    },
+    {
+      "id": "#/properties/frp::unit",
+      "tier": "scoreable",
+      "statement": "`frp` is expressed in `MW`.",
+      "evidence": "#/properties/frp unit=MW",
+      "negative": "Assuming a different or conventional unit for `frp`.",
+      "literals": [
+        "frp",
+        "MW"
+      ]
+    },
+    {
+      "id": "#/properties/acq_datetime::semanticRole",
+      "tier": "scoreable",
+      "statement": "`acq_datetime` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/acq_datetime semanticRole=phenomenonTime",
+      "negative": "Treating `acq_datetime` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "acq_datetime"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "spec",
+    "B": "bare",
+    "C": "prose",
+    "D": "annotated"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "subagent-supervisor",
+  "scores": {
+    "spec": {
+      "correct": 7,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 7,
+      "answered": 7,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "bare": {
+      "correct": 0,
+      "incorrect": 1,
+      "declined": 6,
+      "unaddressed": 0,
+      "claims": 7,
+      "answered": 1,
+      "accuracy": 0.0,
+      "hazard": 0.1429,
+      "hazard_answered": 1.0,
+      "coverage": 1.0,
+      "decline_rate": 0.8571
+    },
+    "prose": {
+      "correct": 3,
+      "incorrect": 0,
+      "declined": 3,
+      "unaddressed": 1,
+      "claims": 7,
+      "answered": 3,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.8571,
+      "decline_rate": 0.4286
+    },
+    "annotated": {
+      "correct": 2,
+      "incorrect": 0,
+      "declined": 5,
+      "unaddressed": 0,
+      "claims": 7,
+      "answered": 2,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.7143
+    }
+  },
+  "blinding": {
+    "richest": "A",
+    "why": "A cites declared annotations (band set, calibration, semanticRole, units) and specification text verbatim, indicating it had the full schema and spec available where others inferred from names and samples."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "the two bands of one declared band set, with a stated calibration of brightness temperature"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "No calibration statement exists in the files"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "declares both temperature members as sensor bands under a single brightness-temperature calibration"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "`latitude` and `longitude` (degrees)"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "`latitude` and `longitude` (degrees)"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "local solar time is derivable arithmetically (UTC hour plus longitude ÷ 15)"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "`brightness` and `bright_t31` (kelvin, two bands of one declared set)"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "`brightness` and `bright_t31` (kelvin, two bands of one declared set)"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "`frp` is a power in megawatts"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "a fire radiative power in megawatts"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "the schema declares `semanticRole: phenomenonTime`"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "There is no ingest, receipt, or publication timestamp"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "marked as the time of the phenomenon"
+    }
+  ]
+}

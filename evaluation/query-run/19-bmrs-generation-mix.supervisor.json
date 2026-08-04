@@ -1,0 +1,1652 @@
+{
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "TIMESTAMP BY start_time"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Event time is start_time"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "TIMESTAMP BY start_time"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "TIMESTAMP BY start_time"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "survives up to three consecutive dropped periods"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "consecutive start_time values are 30 minutes apart"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "produces NULL instead of a fabricated rate"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "cadence is an expectation, not a constraint"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 19,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 20,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 21,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 22,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 19,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 20,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 21,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 22,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 19,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 21,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 22,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 19,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 20,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 21,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 22,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 23,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 24,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 25,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 26,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 23,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "STDEV(wind_mw)"
+    },
+    {
+      "claim": 24,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 25,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 26,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 23,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 24,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 25,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 26,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 23,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 24,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 25,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 26,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 27,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 28,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 29,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 30,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 27,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 28,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 29,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 30,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 27,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 28,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 29,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 30,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 27,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 28,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 29,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 30,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 31,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 32,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 33,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 34,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 31,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 32,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 33,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 34,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 31,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 32,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 33,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 34,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 31,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 32,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 33,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 34,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 35,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 36,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 37,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 38,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 35,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 36,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 37,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 38,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 35,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 36,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 37,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 38,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 35,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 36,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 37,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 38,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 39,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 40,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 41,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 42,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 39,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 40,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 41,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "/ DATEDIFF(minute, "
+    },
+    {
+      "claim": 42,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 39,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 40,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 41,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 42,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 39,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 40,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 41,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "3600.0 / seconds_since_previous_period"
+    },
+    {
+      "claim": 42,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 43,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 44,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 45,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 46,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 43,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 44,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 45,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 46,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 43,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 44,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 45,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 46,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 43,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 44,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 45,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 46,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 47,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 48,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 49,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 50,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 47,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 48,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 49,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 50,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 47,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 48,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 49,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 50,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 47,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 48,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 49,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 50,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 51,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 52,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 53,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 54,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 51,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 52,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 53,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 54,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 51,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 52,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 53,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 54,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 51,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 52,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 53,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 54,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 55,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 56,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 57,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 58,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 55,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 56,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 57,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 58,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 55,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 56,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 57,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 58,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 55,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 56,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 57,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 58,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 59,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 60,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 61,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 62,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 59,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 60,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 61,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 62,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 59,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 60,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 61,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 62,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 59,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 60,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 61,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 62,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 63,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 64,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 65,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 66,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 63,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 64,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 65,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 66,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 63,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 64,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 65,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 66,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 63,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 64,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 65,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 66,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    },
+    {
+      "claim": 67,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "AVG(total_mw)"
+    },
+    {
+      "claim": 68,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "aligned on interval starts"
+    },
+    {
+      "claim": 69,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "60.0 / gap_seconds"
+    },
+    {
+      "claim": 70,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "_mw suffix means megawatts"
+    },
+    {
+      "claim": 67,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "stream of period means"
+    },
+    {
+      "claim": 68,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 69,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 70,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "mean MW over a half-hour period"
+    },
+    {
+      "claim": 67,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 68,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "nor treat any mean as an instantaneous value"
+    },
+    {
+      "claim": 69,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 70,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "mw * 0.5 MWh"
+    },
+    {
+      "claim": 67,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "MUST NOT recompute a result from it"
+    },
+    {
+      "claim": 68,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 69,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 70,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "one unit (MW)"
+    }
+  ],
+  "quality": {
+    "A": {
+      "derived": 4,
+      "useful": 2,
+      "executable": 5,
+      "note": "Contains valid syntax but misinterprets the physical meaning by averaging means."
+    },
+    "B": {
+      "derived": 4,
+      "useful": 3,
+      "executable": 5,
+      "note": "MWh integration is correct but generation ramp misjudges intervals."
+    },
+    "C": {
+      "derived": 4,
+      "useful": 5,
+      "executable": 4,
+      "note": "Outstanding selection adhering to physical constraints."
+    },
+    "D": {
+      "derived": 3,
+      "useful": 4,
+      "executable": 5,
+      "note": "Excellent constraints awareness but invalid temporal rate calculation."
+    }
+  },
+  "blinding": {
+    "richest": "D",
+    "why": "Has access to full formal schema annotations."
+  }
+}

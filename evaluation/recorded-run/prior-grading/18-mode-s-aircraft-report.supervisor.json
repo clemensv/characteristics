@@ -1,0 +1,94 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "declined"},
+    {"claim": 1, "transcript": "B", "verdict": "correct", "quote": "the two coordinates are bound as a single coordinate in a named geodetic reference system"},
+    {"claim": 1, "transcript": "C", "verdict": "correct", "quote": "one geodetic reference frame is declared for the whole feed, with the axis order pinned explicitly"},
+    {"claim": 1, "transcript": "D", "verdict": "correct", "quote": "properties of the coordinate system the schema names, not domain facts imported from elsewhere"},
+
+    {"claim": 2, "transcript": "A", "verdict": "declined"},
+    {"claim": 2, "transcript": "B", "verdict": "correct", "quote": "No member establishes the time axis of the thing described."},
+    {"claim": 2, "transcript": "C", "verdict": "correct", "quote": "The reception timestamp carries the *result time* role"},
+    {"claim": 2, "transcript": "D", "verdict": "correct", "quote": "The single timestamp member is the time axis of **the observation**"},
+
+    {"claim": 3, "transcript": "A", "verdict": "declined"},
+    {"claim": 3, "transcript": "B", "verdict": "correct", "quote": "The reception member is bound to a temporal reference system defined inside the schema itself"},
+    {"claim": 3, "transcript": "C", "verdict": "correct", "quote": "this makes it a scaled POSIX time and *not* a UTC instant"},
+    {"claim": 3, "transcript": "D", "verdict": "incorrect", "quote": "it therefore lands directly on civil UTC"},
+
+    {"claim": 4, "transcript": "A", "verdict": "correct", "quote": "The relation to civil time is not determined by the files."},
+    {"claim": 4, "transcript": "B", "verdict": "incorrect", "quote": "rendering the result as a conventional epoch instant is the correct civil rendering"},
+    {"claim": 4, "transcript": "C", "verdict": "correct", "quote": "this makes it a scaled POSIX time and *not* a UTC instant"},
+    {"claim": 4, "transcript": "D", "verdict": "incorrect", "quote": "The example record's value corresponds to"},
+
+    {"claim": 5, "transcript": "A", "verdict": "declined"},
+    {"claim": 5, "transcript": "B", "verdict": "correct", "quote": "The member does carry an explicit millisecond unit"},
+    {"claim": 5, "transcript": "C", "verdict": "correct", "quote": "the value is a bare integer in milliseconds"},
+    {"claim": 5, "transcript": "D", "verdict": "correct", "quote": "expressed as milliseconds since the POSIX epoch"},
+
+    {"claim": 6, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 6, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 6, "transcript": "D", "verdict": "correct", "quote": "Nothing here is a raw measurement of the world."},
+
+    {"claim": 7, "transcript": "A", "verdict": "declined"},
+    {"claim": 7, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 7, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 7, "transcript": "D", "verdict": "unaddressed"},
+
+    {"claim": 8, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 8, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 8, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 8, "transcript": "D", "verdict": "correct", "quote": "Position is a solution to an ambiguous encoding."},
+
+    {"claim": 9, "transcript": "A", "verdict": "declined"},
+    {"claim": 9, "transcript": "B", "verdict": "correct", "quote": "degree differences are not distances"},
+    {"claim": 9, "transcript": "C", "verdict": "correct", "quote": "Arithmetic means of degrees are only approximately a centroid"},
+    {"claim": 9, "transcript": "D", "verdict": "correct", "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian"},
+
+    {"claim": 10, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 10, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 10, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 10, "transcript": "D", "verdict": "correct", "quote": "Position is a solution to an ambiguous encoding."},
+
+    {"claim": 11, "transcript": "A", "verdict": "declined"},
+    {"claim": 11, "transcript": "B", "verdict": "correct", "quote": "degree differences are not distances"},
+    {"claim": 11, "transcript": "C", "verdict": "correct", "quote": "Arithmetic means of degrees are only approximately a centroid"},
+    {"claim": 11, "transcript": "D", "verdict": "correct", "quote": "averaging raw degrees to obtain a centroid is invalid across the antimeridian"},
+
+    {"claim": 12, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 12, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 12, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 12, "transcript": "D", "verdict": "correct", "quote": "Nothing here is a raw measurement of the world."},
+
+    {"claim": 13, "transcript": "A", "verdict": "declined"},
+    {"claim": 13, "transcript": "B", "verdict": "correct", "quote": "pool a horizontal speed in knots with a vertical rate in feet per minute"},
+    {"claim": 13, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 13, "transcript": "D", "verdict": "correct", "quote": "Knots — but the schema states the subtype bit"},
+
+    {"claim": 14, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 14, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 14, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 14, "transcript": "D", "verdict": "correct", "quote": "Nothing here is a raw measurement of the world."},
+
+    {"claim": 15, "transcript": "A", "verdict": "correct", "quote": "359 and 1 differ by 2, not 358"},
+    {"claim": 15, "transcript": "B", "verdict": "correct", "quote": "the schema admits both 0 and 360, so equality testing fails on identical directions"},
+    {"claim": 15, "transcript": "C", "verdict": "correct", "quote": "the mean of 350 and 10 is not 180"},
+    {"claim": 15, "transcript": "D", "verdict": "correct", "quote": "the arithmetic mean of degrees is wrong across the 0/360 wrap"},
+
+    {"claim": 16, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 16, "transcript": "B", "verdict": "correct", "quote": "Every state-bearing member declares `phenomenonTimeRelation: instant` and `derivation: calculated`"},
+    {"claim": 16, "transcript": "C", "verdict": "correct", "quote": "Position, altitude, speed, angle and vertical rate all carry `derivation: calculated`"},
+    {"claim": 16, "transcript": "D", "verdict": "correct", "quote": "Nothing here is a raw measurement of the world."},
+
+    {"claim": 17, "transcript": "A", "verdict": "declined"},
+    {"claim": 17, "transcript": "B", "verdict": "correct", "quote": "a vertical rate in feet per minute"},
+    {"claim": 17, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 17, "transcript": "D", "verdict": "correct", "quote": "Feet per minute, positive upward"},
+
+    {"claim": 18, "transcript": "A", "verdict": "correct", "quote": "This is a property of the reception, not of the transmitter"},
+    {"claim": 18, "transcript": "B", "verdict": "correct", "quote": "It is the record's single result-quality value"},
+    {"claim": 18, "transcript": "C", "verdict": "correct", "quote": "it is classified as *result quality*, not as an observation of the aircraft"},
+    {"claim": 18, "transcript": "D", "verdict": "correct", "quote": "are the right tool for identifying marginal decodes"}
+  ],
+  "blinding": {"richest": "B", "why": "B alone cites the annotation keywords, the schema-held temporal reference definition, and the governing specification's processing prohibitions, implying it had schema, annotations, and spec text available."}
+}

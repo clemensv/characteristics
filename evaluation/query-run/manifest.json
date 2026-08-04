@@ -1,0 +1,2170 @@
+{
+  "task": "query",
+  "samples": {
+    "01-ais-vessel-position": {
+      "labels": {
+        "A": "annotated",
+        "B": "spec",
+        "C": "prose",
+        "D": "bare"
+      },
+      "claims": [
+        {
+          "id": "#::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order Latitude, Longitude. Axis order follows that binding and must not be assumed.",
+          "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/4326"
+          ]
+        },
+        {
+          "id": "#/properties/TimeReceived::semanticRole",
+          "tier": "scoreable",
+          "statement": "`TimeReceived` is an operational instant (`ingestionTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/TimeReceived semanticRole=ingestionTime",
+          "negative": "Using `TimeReceived` as the event time of the observation.",
+          "literals": [
+            "TimeReceived"
+          ]
+        },
+        {
+          "id": "#/properties/Timestamp::semanticRole",
+          "tier": "scoreable",
+          "statement": "`Timestamp` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/Timestamp semanticRole=phenomenonTime",
+          "negative": "Treating `Timestamp` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "Timestamp"
+          ]
+        },
+        {
+          "id": "#/properties/Timestamp::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `Timestamp` values are expected at cadence `irregular`. A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/Timestamp cadence={\"kind\": \"irregular\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "Timestamp"
+          ]
+        },
+        {
+          "id": "#/properties/Valid::semanticRole",
+          "tier": "scoreable",
+          "statement": "`Valid` qualifies the result; it is not itself a result value and must not be analysed as one.",
+          "evidence": "#/properties/Valid semanticRole=resultQuality",
+          "negative": "Treating `Valid` as an observed quantity.",
+          "literals": [
+            "Valid"
+          ]
+        },
+        {
+          "id": "#/properties/Latitude::unit",
+          "tier": "scoreable",
+          "statement": "`Latitude` is expressed in `deg`.",
+          "evidence": "#/properties/Latitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `Latitude`.",
+          "literals": [
+            "Latitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/Longitude::unit",
+          "tier": "scoreable",
+          "statement": "`Longitude` is expressed in `deg`.",
+          "evidence": "#/properties/Longitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `Longitude`.",
+          "literals": [
+            "Longitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/PositionAccuracy::semanticRole",
+          "tier": "scoreable",
+          "statement": "`PositionAccuracy` qualifies the result; it is not itself a result value and must not be analysed as one.",
+          "evidence": "#/properties/PositionAccuracy semanticRole=resultQuality",
+          "negative": "Treating `PositionAccuracy` as an observed quantity.",
+          "literals": [
+            "PositionAccuracy"
+          ]
+        },
+        {
+          "id": "#/properties/Raim::semanticRole",
+          "tier": "scoreable",
+          "statement": "`Raim` qualifies the result; it is not itself a result value and must not be analysed as one.",
+          "evidence": "#/properties/Raim semanticRole=resultQuality",
+          "negative": "Treating `Raim` as an observed quantity.",
+          "literals": [
+            "Raim"
+          ]
+        },
+        {
+          "id": "#/properties/Sog::unit",
+          "tier": "scoreable",
+          "statement": "`Sog` is expressed in `[kn_i]`.",
+          "evidence": "#/properties/Sog unit=[kn_i]",
+          "negative": "Assuming a different or conventional unit for `Sog`.",
+          "literals": [
+            "Sog",
+            "[kn_i]"
+          ]
+        },
+        {
+          "id": "#/properties/Cog::unit",
+          "tier": "scoreable",
+          "statement": "`Cog` is expressed in `deg`.",
+          "evidence": "#/properties/Cog unit=deg",
+          "negative": "Assuming a different or conventional unit for `Cog`.",
+          "literals": [
+            "Cog",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/TrueHeading::unit",
+          "tier": "scoreable",
+          "statement": "`TrueHeading` is expressed in `deg`.",
+          "evidence": "#/properties/TrueHeading unit=deg",
+          "negative": "Assuming a different or conventional unit for `TrueHeading`.",
+          "literals": [
+            "TrueHeading",
+            "deg"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    },
+    "02-marine-buoy-observation": {
+      "labels": {
+        "A": "prose",
+        "B": "annotated",
+        "C": "bare",
+        "D": "spec"
+      },
+      "claims": [
+        {
+          "id": "#::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order latitude, longitude. Axis order follows that binding and must not be assumed.",
+          "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/4326"
+          ]
+        },
+        {
+          "id": "#/properties/latitude::unit",
+          "tier": "scoreable",
+          "statement": "`latitude` is expressed in `deg`.",
+          "evidence": "#/properties/latitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `latitude`.",
+          "literals": [
+            "latitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/longitude::unit",
+          "tier": "scoreable",
+          "statement": "`longitude` is expressed in `deg`.",
+          "evidence": "#/properties/longitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `longitude`.",
+          "literals": [
+            "longitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/timestamp::semanticRole",
+          "tier": "scoreable",
+          "statement": "`timestamp` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/timestamp semanticRole=phenomenonTime",
+          "negative": "Treating `timestamp` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "timestamp"
+          ]
+        },
+        {
+          "id": "#/properties/timestamp::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `timestamp` values are expected at cadence `fixed` with period \"PT5M\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/timestamp cadence={\"kind\": \"fixed\", \"period\": \"PT5M\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "timestamp",
+            "PT5M"
+          ]
+        },
+        {
+          "id": "#/properties/wind_direction::statistic",
+          "tier": "scoreable",
+          "statement": "`wind_direction` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wind_direction statistic=mean",
+          "negative": "Averaging or summing `wind_direction` as though it were a raw sample.",
+          "literals": [
+            "wind_direction",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wind_direction::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wind_direction` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wind_direction phenomenonTimeRelation=interval",
+          "negative": "Treating `wind_direction` as an instantaneous reading.",
+          "literals": [
+            "wind_direction"
+          ]
+        },
+        {
+          "id": "#/properties/wind_direction::unit",
+          "tier": "scoreable",
+          "statement": "`wind_direction` is expressed in `deg`.",
+          "evidence": "#/properties/wind_direction unit=deg",
+          "negative": "Assuming a different or conventional unit for `wind_direction`.",
+          "literals": [
+            "wind_direction",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/wind_speed::statistic",
+          "tier": "scoreable",
+          "statement": "`wind_speed` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wind_speed statistic=mean",
+          "negative": "Averaging or summing `wind_speed` as though it were a raw sample.",
+          "literals": [
+            "wind_speed",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wind_speed::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wind_speed` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wind_speed phenomenonTimeRelation=interval",
+          "negative": "Treating `wind_speed` as an instantaneous reading.",
+          "literals": [
+            "wind_speed"
+          ]
+        },
+        {
+          "id": "#/properties/wind_speed::unit",
+          "tier": "scoreable",
+          "statement": "`wind_speed` is expressed in `m/s`.",
+          "evidence": "#/properties/wind_speed unit=m/s",
+          "negative": "Assuming a different or conventional unit for `wind_speed`.",
+          "literals": [
+            "wind_speed",
+            "m/s"
+          ]
+        },
+        {
+          "id": "#/properties/gust::statistic",
+          "tier": "scoreable",
+          "statement": "`gust` is already a `maximum` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/gust statistic=maximum",
+          "negative": "Averaging or summing `gust` as though it were a raw sample.",
+          "literals": [
+            "gust",
+            "maximum"
+          ]
+        },
+        {
+          "id": "#/properties/gust::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`gust` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/gust phenomenonTimeRelation=interval",
+          "negative": "Treating `gust` as an instantaneous reading.",
+          "literals": [
+            "gust"
+          ]
+        },
+        {
+          "id": "#/properties/gust::unit",
+          "tier": "scoreable",
+          "statement": "`gust` is expressed in `m/s`.",
+          "evidence": "#/properties/gust unit=m/s",
+          "negative": "Assuming a different or conventional unit for `gust`.",
+          "literals": [
+            "gust",
+            "m/s"
+          ]
+        },
+        {
+          "id": "#/properties/wave_height::statistic",
+          "tier": "scoreable",
+          "statement": "`wave_height` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wave_height statistic=mean",
+          "negative": "Averaging or summing `wave_height` as though it were a raw sample.",
+          "literals": [
+            "wave_height",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wave_height::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wave_height` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wave_height phenomenonTimeRelation=interval",
+          "negative": "Treating `wave_height` as an instantaneous reading.",
+          "literals": [
+            "wave_height"
+          ]
+        },
+        {
+          "id": "#/properties/wave_height::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`wave_height` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+          "evidence": "#/properties/wave_height supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+          "negative": "Treating `wave_height` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "wave_height",
+            "PT20M"
+          ]
+        },
+        {
+          "id": "#/properties/wave_height::unit",
+          "tier": "scoreable",
+          "statement": "`wave_height` is expressed in `m`.",
+          "evidence": "#/properties/wave_height unit=m",
+          "negative": "Assuming a different or conventional unit for `wave_height`.",
+          "literals": [
+            "wave_height",
+            "m"
+          ]
+        },
+        {
+          "id": "#/properties/dominant_wave_period::derivation",
+          "tier": "scoreable",
+          "statement": "`dominant_wave_period` is calculated rather than measured directly.",
+          "evidence": "#/properties/dominant_wave_period derivation=calculated",
+          "negative": "Treating `dominant_wave_period` as a direct measurement.",
+          "literals": [
+            "dominant_wave_period"
+          ]
+        },
+        {
+          "id": "#/properties/dominant_wave_period::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`dominant_wave_period` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/dominant_wave_period phenomenonTimeRelation=interval",
+          "negative": "Treating `dominant_wave_period` as an instantaneous reading.",
+          "literals": [
+            "dominant_wave_period"
+          ]
+        },
+        {
+          "id": "#/properties/dominant_wave_period::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`dominant_wave_period` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+          "evidence": "#/properties/dominant_wave_period supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+          "negative": "Treating `dominant_wave_period` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "dominant_wave_period",
+            "PT20M"
+          ]
+        },
+        {
+          "id": "#/properties/dominant_wave_period::unit",
+          "tier": "scoreable",
+          "statement": "`dominant_wave_period` is expressed in `s`.",
+          "evidence": "#/properties/dominant_wave_period unit=s",
+          "negative": "Assuming a different or conventional unit for `dominant_wave_period`.",
+          "literals": [
+            "dominant_wave_period",
+            "s"
+          ]
+        },
+        {
+          "id": "#/properties/average_wave_period::statistic",
+          "tier": "scoreable",
+          "statement": "`average_wave_period` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/average_wave_period statistic=mean",
+          "negative": "Averaging or summing `average_wave_period` as though it were a raw sample.",
+          "literals": [
+            "average_wave_period",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/average_wave_period::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`average_wave_period` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/average_wave_period phenomenonTimeRelation=interval",
+          "negative": "Treating `average_wave_period` as an instantaneous reading.",
+          "literals": [
+            "average_wave_period"
+          ]
+        },
+        {
+          "id": "#/properties/average_wave_period::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`average_wave_period` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+          "evidence": "#/properties/average_wave_period supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+          "negative": "Treating `average_wave_period` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "average_wave_period",
+            "PT20M"
+          ]
+        },
+        {
+          "id": "#/properties/average_wave_period::unit",
+          "tier": "scoreable",
+          "statement": "`average_wave_period` is expressed in `s`.",
+          "evidence": "#/properties/average_wave_period unit=s",
+          "negative": "Assuming a different or conventional unit for `average_wave_period`.",
+          "literals": [
+            "average_wave_period",
+            "s"
+          ]
+        },
+        {
+          "id": "#/properties/mean_wave_direction::derivation",
+          "tier": "scoreable",
+          "statement": "`mean_wave_direction` is calculated rather than measured directly.",
+          "evidence": "#/properties/mean_wave_direction derivation=calculated",
+          "negative": "Treating `mean_wave_direction` as a direct measurement.",
+          "literals": [
+            "mean_wave_direction"
+          ]
+        },
+        {
+          "id": "#/properties/mean_wave_direction::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`mean_wave_direction` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/mean_wave_direction phenomenonTimeRelation=interval",
+          "negative": "Treating `mean_wave_direction` as an instantaneous reading.",
+          "literals": [
+            "mean_wave_direction"
+          ]
+        },
+        {
+          "id": "#/properties/mean_wave_direction::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`mean_wave_direction` characterises a phenomenon-time period of length PT20M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT20M, t)`.",
+          "evidence": "#/properties/mean_wave_direction supportPeriod={\"length\": \"PT20M\", \"anchor\": \"end\"}",
+          "negative": "Treating `mean_wave_direction` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "mean_wave_direction",
+            "PT20M"
+          ]
+        },
+        {
+          "id": "#/properties/mean_wave_direction::unit",
+          "tier": "scoreable",
+          "statement": "`mean_wave_direction` is expressed in `deg`.",
+          "evidence": "#/properties/mean_wave_direction unit=deg",
+          "negative": "Assuming a different or conventional unit for `mean_wave_direction`.",
+          "literals": [
+            "mean_wave_direction",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/pressure::derivation",
+          "tier": "scoreable",
+          "statement": "`pressure` is calculated rather than measured directly.",
+          "evidence": "#/properties/pressure derivation=calculated",
+          "negative": "Treating `pressure` as a direct measurement.",
+          "literals": [
+            "pressure"
+          ]
+        },
+        {
+          "id": "#/properties/pressure::unit",
+          "tier": "scoreable",
+          "statement": "`pressure` is expressed in `hPa`.",
+          "evidence": "#/properties/pressure unit=hPa",
+          "negative": "Assuming a different or conventional unit for `pressure`.",
+          "literals": [
+            "pressure",
+            "hPa"
+          ]
+        },
+        {
+          "id": "#/properties/air_temperature::unit",
+          "tier": "scoreable",
+          "statement": "`air_temperature` is expressed in `CEL`.",
+          "evidence": "#/properties/air_temperature unit=CEL",
+          "negative": "Assuming a different or conventional unit for `air_temperature`.",
+          "literals": [
+            "air_temperature",
+            "CEL"
+          ]
+        },
+        {
+          "id": "#/properties/water_temperature::unit",
+          "tier": "scoreable",
+          "statement": "`water_temperature` is expressed in `CEL`.",
+          "evidence": "#/properties/water_temperature unit=CEL",
+          "negative": "Assuming a different or conventional unit for `water_temperature`.",
+          "literals": [
+            "water_temperature",
+            "CEL"
+          ]
+        },
+        {
+          "id": "#/properties/dewpoint::derivation",
+          "tier": "scoreable",
+          "statement": "`dewpoint` is calculated rather than measured directly.",
+          "evidence": "#/properties/dewpoint derivation=calculated",
+          "negative": "Treating `dewpoint` as a direct measurement.",
+          "literals": [
+            "dewpoint"
+          ]
+        },
+        {
+          "id": "#/properties/dewpoint::unit",
+          "tier": "scoreable",
+          "statement": "`dewpoint` is expressed in `CEL`.",
+          "evidence": "#/properties/dewpoint unit=CEL",
+          "negative": "Assuming a different or conventional unit for `dewpoint`.",
+          "literals": [
+            "dewpoint",
+            "CEL"
+          ]
+        },
+        {
+          "id": "#/properties/pressure_tendency::derivation",
+          "tier": "scoreable",
+          "statement": "`pressure_tendency` is calculated rather than measured directly.",
+          "evidence": "#/properties/pressure_tendency derivation=calculated",
+          "negative": "Treating `pressure_tendency` as a direct measurement.",
+          "literals": [
+            "pressure_tendency"
+          ]
+        },
+        {
+          "id": "#/properties/pressure_tendency::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`pressure_tendency` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/pressure_tendency phenomenonTimeRelation=interval",
+          "negative": "Treating `pressure_tendency` as an instantaneous reading.",
+          "literals": [
+            "pressure_tendency"
+          ]
+        },
+        {
+          "id": "#/properties/pressure_tendency::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`pressure_tendency` characterises a phenomenon-time period of length PT3H, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT3H, t)`.",
+          "evidence": "#/properties/pressure_tendency supportPeriod={\"length\": \"PT3H\", \"anchor\": \"end\"}",
+          "negative": "Treating `pressure_tendency` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "pressure_tendency",
+            "PT3H"
+          ]
+        },
+        {
+          "id": "#/properties/pressure_tendency::unit",
+          "tier": "scoreable",
+          "statement": "`pressure_tendency` is expressed in `hPa`.",
+          "evidence": "#/properties/pressure_tendency unit=hPa",
+          "negative": "Assuming a different or conventional unit for `pressure_tendency`.",
+          "literals": [
+            "pressure_tendency",
+            "hPa"
+          ]
+        },
+        {
+          "id": "#/properties/visibility::unit",
+          "tier": "scoreable",
+          "statement": "`visibility` is expressed in `[nmi_i]`.",
+          "evidence": "#/properties/visibility unit=[nmi_i]",
+          "negative": "Assuming a different or conventional unit for `visibility`.",
+          "literals": [
+            "visibility",
+            "[nmi_i]"
+          ]
+        },
+        {
+          "id": "#/properties/tide::unit",
+          "tier": "scoreable",
+          "statement": "`tide` is expressed in `[ft_i]`.",
+          "evidence": "#/properties/tide unit=[ft_i]",
+          "negative": "Assuming a different or conventional unit for `tide`.",
+          "literals": [
+            "tide",
+            "[ft_i]"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    },
+    "03-aerodrome-metar": {
+      "labels": {
+        "A": "spec",
+        "B": "annotated",
+        "C": "bare",
+        "D": "prose"
+      },
+      "claims": [
+        {
+          "id": "#::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/5714`, with axes bound in the order elevation. Axis order follows that binding and must not be assumed.",
+          "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/5714",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/5714"
+          ]
+        },
+        {
+          "id": "#/properties/position::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `position` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order latitude, longitude. Axis order follows that binding and must not be assumed.",
+          "evidence": "#/properties/position coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/4326"
+          ]
+        },
+        {
+          "id": "#/properties/position/properties/latitude::unit",
+          "tier": "scoreable",
+          "statement": "`latitude` is expressed in `deg`.",
+          "evidence": "#/properties/position/properties/latitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `latitude`.",
+          "literals": [
+            "latitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/position/properties/longitude::unit",
+          "tier": "scoreable",
+          "statement": "`longitude` is expressed in `deg`.",
+          "evidence": "#/properties/position/properties/longitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `longitude`.",
+          "literals": [
+            "longitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/elevation::unit",
+          "tier": "scoreable",
+          "statement": "`elevation` is expressed in `m`.",
+          "evidence": "#/properties/elevation unit=m",
+          "negative": "Assuming a different or conventional unit for `elevation`.",
+          "literals": [
+            "elevation",
+            "m"
+          ]
+        },
+        {
+          "id": "#/properties/obs_time::semanticRole",
+          "tier": "scoreable",
+          "statement": "`obs_time` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/obs_time semanticRole=phenomenonTime",
+          "negative": "Treating `obs_time` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "obs_time"
+          ]
+        },
+        {
+          "id": "#/properties/obs_time::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `obs_time` values are expected at cadence `fixed` with period \"PT1H\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/obs_time cadence={\"kind\": \"fixed\", \"period\": \"PT1H\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "obs_time",
+            "PT1H"
+          ]
+        },
+        {
+          "id": "#/properties/report_time::semanticRole",
+          "tier": "scoreable",
+          "statement": "`report_time` is an operational instant (`resultTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/report_time semanticRole=resultTime",
+          "negative": "Using `report_time` as the event time of the observation.",
+          "literals": [
+            "report_time"
+          ]
+        },
+        {
+          "id": "#/properties/temp::unit",
+          "tier": "scoreable",
+          "statement": "`temp` is expressed in `CEL`.",
+          "evidence": "#/properties/temp unit=CEL",
+          "negative": "Assuming a different or conventional unit for `temp`.",
+          "literals": [
+            "temp",
+            "CEL"
+          ]
+        },
+        {
+          "id": "#/properties/dewp::unit",
+          "tier": "scoreable",
+          "statement": "`dewp` is expressed in `CEL`.",
+          "evidence": "#/properties/dewp unit=CEL",
+          "negative": "Assuming a different or conventional unit for `dewp`.",
+          "literals": [
+            "dewp",
+            "CEL"
+          ]
+        },
+        {
+          "id": "#/properties/wdir::statistic",
+          "tier": "scoreable",
+          "statement": "`wdir` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wdir statistic=mean",
+          "negative": "Averaging or summing `wdir` as though it were a raw sample.",
+          "literals": [
+            "wdir",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wdir::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wdir` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wdir phenomenonTimeRelation=interval",
+          "negative": "Treating `wdir` as an instantaneous reading.",
+          "literals": [
+            "wdir"
+          ]
+        },
+        {
+          "id": "#/properties/wdir::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`wdir` characterises a phenomenon-time period of length PT10M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT10M, t)`.",
+          "evidence": "#/properties/wdir supportPeriod={\"length\": \"PT10M\", \"anchor\": \"end\"}",
+          "negative": "Treating `wdir` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "wdir",
+            "PT10M"
+          ]
+        },
+        {
+          "id": "#/properties/wdir::unit",
+          "tier": "scoreable",
+          "statement": "`wdir` is expressed in `deg`.",
+          "evidence": "#/properties/wdir unit=deg",
+          "negative": "Assuming a different or conventional unit for `wdir`.",
+          "literals": [
+            "wdir",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/wspd::statistic",
+          "tier": "scoreable",
+          "statement": "`wspd` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wspd statistic=mean",
+          "negative": "Averaging or summing `wspd` as though it were a raw sample.",
+          "literals": [
+            "wspd",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wspd::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wspd` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wspd phenomenonTimeRelation=interval",
+          "negative": "Treating `wspd` as an instantaneous reading.",
+          "literals": [
+            "wspd"
+          ]
+        },
+        {
+          "id": "#/properties/wspd::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`wspd` characterises a phenomenon-time period of length PT10M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT10M, t)`.",
+          "evidence": "#/properties/wspd supportPeriod={\"length\": \"PT10M\", \"anchor\": \"end\"}",
+          "negative": "Treating `wspd` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "wspd",
+            "PT10M"
+          ]
+        },
+        {
+          "id": "#/properties/wspd::unit",
+          "tier": "scoreable",
+          "statement": "`wspd` is expressed in `[kn_i]`.",
+          "evidence": "#/properties/wspd unit=[kn_i]",
+          "negative": "Assuming a different or conventional unit for `wspd`.",
+          "literals": [
+            "wspd",
+            "[kn_i]"
+          ]
+        },
+        {
+          "id": "#/properties/wgst::statistic",
+          "tier": "scoreable",
+          "statement": "`wgst` is already a `maximum` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wgst statistic=maximum",
+          "negative": "Averaging or summing `wgst` as though it were a raw sample.",
+          "literals": [
+            "wgst",
+            "maximum"
+          ]
+        },
+        {
+          "id": "#/properties/wgst::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wgst` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wgst phenomenonTimeRelation=interval",
+          "negative": "Treating `wgst` as an instantaneous reading.",
+          "literals": [
+            "wgst"
+          ]
+        },
+        {
+          "id": "#/properties/wgst::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`wgst` characterises a phenomenon-time period of length PT10M, stated by the schema rather than carried in the record. The period closes at the anchoring position and runs back to it. The anchoring position is the sibling annotated `phenomenonTimeEnd`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t - PT10M, t)`.",
+          "evidence": "#/properties/wgst supportPeriod={\"length\": \"PT10M\", \"anchor\": \"end\"}",
+          "negative": "Treating `wgst` as an instantaneous reading at the record timestamp, running its period forward from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "wgst",
+            "PT10M"
+          ]
+        },
+        {
+          "id": "#/properties/wgst::unit",
+          "tier": "scoreable",
+          "statement": "`wgst` is expressed in `[kn_i]`.",
+          "evidence": "#/properties/wgst unit=[kn_i]",
+          "negative": "Assuming a different or conventional unit for `wgst`.",
+          "literals": [
+            "wgst",
+            "[kn_i]"
+          ]
+        },
+        {
+          "id": "#/properties/altim::derivation",
+          "tier": "scoreable",
+          "statement": "`altim` is calculated rather than measured directly.",
+          "evidence": "#/properties/altim derivation=calculated",
+          "negative": "Treating `altim` as a direct measurement.",
+          "literals": [
+            "altim"
+          ]
+        },
+        {
+          "id": "#/properties/altim::unit",
+          "tier": "scoreable",
+          "statement": "`altim` is expressed in `hPa`.",
+          "evidence": "#/properties/altim unit=hPa",
+          "negative": "Assuming a different or conventional unit for `altim`.",
+          "literals": [
+            "altim",
+            "hPa"
+          ]
+        },
+        {
+          "id": "#/properties/slp::derivation",
+          "tier": "scoreable",
+          "statement": "`slp` is calculated rather than measured directly.",
+          "evidence": "#/properties/slp derivation=calculated",
+          "negative": "Treating `slp` as a direct measurement.",
+          "literals": [
+            "slp"
+          ]
+        },
+        {
+          "id": "#/properties/slp::unit",
+          "tier": "scoreable",
+          "statement": "`slp` is expressed in `hPa`.",
+          "evidence": "#/properties/slp unit=hPa",
+          "negative": "Assuming a different or conventional unit for `slp`.",
+          "literals": [
+            "slp",
+            "hPa"
+          ]
+        },
+        {
+          "id": "#/properties/flt_cat::derivation",
+          "tier": "scoreable",
+          "statement": "`flt_cat` is calculated rather than measured directly.",
+          "evidence": "#/properties/flt_cat derivation=calculated",
+          "negative": "Treating `flt_cat` as a direct measurement.",
+          "literals": [
+            "flt_cat"
+          ]
+        },
+        {
+          "id": "#/properties/qc_field::semanticRole",
+          "tier": "scoreable",
+          "statement": "`qc_field` qualifies the result; it is not itself a result value and must not be analysed as one.",
+          "evidence": "#/properties/qc_field semanticRole=resultQuality",
+          "negative": "Treating `qc_field` as an observed quantity.",
+          "literals": [
+            "qc_field"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    },
+    "05-earthquake-report": {
+      "labels": {
+        "A": "spec",
+        "B": "annotated",
+        "C": "bare",
+        "D": "prose"
+      },
+      "claims": [
+        {
+          "id": "#::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order latitude, longitude. Axis order follows that binding and must not be assumed.",
+          "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/4326"
+          ]
+        },
+        {
+          "id": "#/properties/origin_datetime::semanticRole",
+          "tier": "scoreable",
+          "statement": "`origin_datetime` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/origin_datetime semanticRole=phenomenonTime",
+          "negative": "Treating `origin_datetime` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "origin_datetime"
+          ]
+        },
+        {
+          "id": "#/properties/origin_datetime::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `origin_datetime` values are expected at cadence `irregular`. A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/origin_datetime cadence={\"kind\": \"irregular\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "origin_datetime"
+          ]
+        },
+        {
+          "id": "#/properties/report_datetime::semanticRole",
+          "tier": "scoreable",
+          "statement": "`report_datetime` is an operational instant (`resultTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/report_datetime semanticRole=resultTime",
+          "negative": "Using `report_datetime` as the event time of the observation.",
+          "literals": [
+            "report_datetime"
+          ]
+        },
+        {
+          "id": "#/properties/control_datetime::semanticRole",
+          "tier": "scoreable",
+          "statement": "`control_datetime` is an operational instant (`ingestionTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/control_datetime semanticRole=ingestionTime",
+          "negative": "Using `control_datetime` as the event time of the observation.",
+          "literals": [
+            "control_datetime"
+          ]
+        },
+        {
+          "id": "#/properties/latitude::derivation",
+          "tier": "scoreable",
+          "statement": "`latitude` is calculated rather than measured directly.",
+          "evidence": "#/properties/latitude derivation=calculated",
+          "negative": "Treating `latitude` as a direct measurement.",
+          "literals": [
+            "latitude"
+          ]
+        },
+        {
+          "id": "#/properties/latitude::unit",
+          "tier": "scoreable",
+          "statement": "`latitude` is expressed in `deg`.",
+          "evidence": "#/properties/latitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `latitude`.",
+          "literals": [
+            "latitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/longitude::derivation",
+          "tier": "scoreable",
+          "statement": "`longitude` is calculated rather than measured directly.",
+          "evidence": "#/properties/longitude derivation=calculated",
+          "negative": "Treating `longitude` as a direct measurement.",
+          "literals": [
+            "longitude"
+          ]
+        },
+        {
+          "id": "#/properties/longitude::unit",
+          "tier": "scoreable",
+          "statement": "`longitude` is expressed in `deg`.",
+          "evidence": "#/properties/longitude unit=deg",
+          "negative": "Assuming a different or conventional unit for `longitude`.",
+          "literals": [
+            "longitude",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/depth_km::derivation",
+          "tier": "scoreable",
+          "statement": "`depth_km` is calculated rather than measured directly.",
+          "evidence": "#/properties/depth_km derivation=calculated",
+          "negative": "Treating `depth_km` as a direct measurement.",
+          "literals": [
+            "depth_km"
+          ]
+        },
+        {
+          "id": "#/properties/depth_km::unit",
+          "tier": "scoreable",
+          "statement": "`depth_km` is expressed in `km`.",
+          "evidence": "#/properties/depth_km unit=km",
+          "negative": "Assuming a different or conventional unit for `depth_km`.",
+          "literals": [
+            "depth_km",
+            "km"
+          ]
+        },
+        {
+          "id": "#/properties/magnitude::derivation",
+          "tier": "scoreable",
+          "statement": "`magnitude` is calculated rather than measured directly.",
+          "evidence": "#/properties/magnitude derivation=calculated",
+          "negative": "Treating `magnitude` as a direct measurement.",
+          "literals": [
+            "magnitude"
+          ]
+        },
+        {
+          "id": "#/properties/max_intensity::statistic",
+          "tier": "scoreable",
+          "statement": "`max_intensity` is already a `maximum` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/max_intensity statistic=maximum",
+          "negative": "Averaging or summing `max_intensity` as though it were a raw sample.",
+          "literals": [
+            "max_intensity",
+            "maximum"
+          ]
+        },
+        {
+          "id": "#/properties/bulletin_type::semanticRole",
+          "tier": "scoreable",
+          "statement": "`bulletin_type` qualifies the result; it is not itself a result value and must not be analysed as one.",
+          "evidence": "#/properties/bulletin_type semanticRole=resultQuality",
+          "negative": "Treating `bulletin_type` as an observed quantity.",
+          "literals": [
+            "bulletin_type"
+          ]
+        },
+        {
+          "id": "#/properties/tsunami_possible::derivation",
+          "tier": "scoreable",
+          "statement": "`tsunami_possible` is `estimated` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+          "evidence": "#/properties/tsunami_possible derivation=estimated",
+          "negative": "Treating `tsunami_possible` as a measured observation.",
+          "literals": [
+            "tsunami_possible",
+            "estimated"
+          ]
+        },
+        {
+          "id": "#/definitions/AffectedPrefecture/properties/max_intensity::statistic",
+          "tier": "scoreable",
+          "statement": "`max_intensity` is already a `maximum` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/definitions/AffectedPrefecture/properties/max_intensity statistic=maximum",
+          "negative": "Averaging or summing `max_intensity` as though it were a raw sample.",
+          "literals": [
+            "max_intensity",
+            "maximum"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    },
+    "16-transit-vehicle-hfp": {
+      "labels": {
+        "A": "prose",
+        "B": "annotated",
+        "C": "spec",
+        "D": "bare"
+      },
+      "claims": [
+        {
+          "id": "#::coordinateReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order lat, long. Axis order follows that binding and must not be assumed.",
+          "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+          "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+          "literals": [
+            "http://www.opengis.net/def/crs/EPSG/0/4326"
+          ]
+        },
+        {
+          "id": "#/properties/tst::semanticRole",
+          "tier": "scoreable",
+          "statement": "`tst` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/tst semanticRole=phenomenonTime",
+          "negative": "Treating `tst` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "tst"
+          ]
+        },
+        {
+          "id": "#/properties/tst::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `tst` values are expected at cadence `fixed` with period \"PT1S\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/tst cadence={\"kind\": \"fixed\", \"period\": \"PT1S\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "tst",
+            "PT1S"
+          ]
+        },
+        {
+          "id": "#/properties/journey_start::semanticRole",
+          "tier": "scoreable",
+          "statement": "`journey_start` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/journey_start semanticRole=scheduledTime",
+          "negative": "Using `journey_start` as the event time of the observation.",
+          "literals": [
+            "journey_start"
+          ]
+        },
+        {
+          "id": "#/properties/journey_start::temporalReferenceSystem",
+          "tier": "scoreable",
+          "statement": "Positions in `journey_start` are expressed in the temporal reference system `#/definitions/OperatingDayClockPosition` (kind `type`), not in an unqualified civil clock.",
+          "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+          "negative": "Reading `journey_start` as ordinary UTC.",
+          "literals": [
+            "journey_start",
+            "type"
+          ]
+        },
+        {
+          "id": "#/properties/journey_start::temporalReferenceSystem.civil",
+          "tier": "scoreable",
+          "statement": "`journey_start` is on a clock of its own. Converting it to civil time requires a synchronisation relation that the schema does not supply, so a correct reader declines the conversion or states the external input it would need.",
+          "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+          "negative": "Converting `journey_start` to UTC as though the mapping were given.",
+          "literals": [
+            "journey_start"
+          ]
+        },
+        {
+          "id": "#/properties/lat::unit",
+          "tier": "scoreable",
+          "statement": "`lat` is expressed in `deg`.",
+          "evidence": "#/properties/lat unit=deg",
+          "negative": "Assuming a different or conventional unit for `lat`.",
+          "literals": [
+            "lat",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/long::unit",
+          "tier": "scoreable",
+          "statement": "`long` is expressed in `deg`.",
+          "evidence": "#/properties/long unit=deg",
+          "negative": "Assuming a different or conventional unit for `long`.",
+          "literals": [
+            "long",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/spd::unit",
+          "tier": "scoreable",
+          "statement": "`spd` is expressed in `m/s`.",
+          "evidence": "#/properties/spd unit=m/s",
+          "negative": "Assuming a different or conventional unit for `spd`.",
+          "literals": [
+            "spd",
+            "m/s"
+          ]
+        },
+        {
+          "id": "#/properties/hdg::unit",
+          "tier": "scoreable",
+          "statement": "`hdg` is expressed in `deg`.",
+          "evidence": "#/properties/hdg unit=deg",
+          "negative": "Assuming a different or conventional unit for `hdg`.",
+          "literals": [
+            "hdg",
+            "deg"
+          ]
+        },
+        {
+          "id": "#/properties/acc::derivation",
+          "tier": "scoreable",
+          "statement": "`acc` is calculated rather than measured directly.",
+          "evidence": "#/properties/acc derivation=calculated",
+          "negative": "Treating `acc` as a direct measurement.",
+          "literals": [
+            "acc"
+          ]
+        },
+        {
+          "id": "#/properties/acc::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`acc` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/acc phenomenonTimeRelation=interval",
+          "negative": "Treating `acc` as an instantaneous reading.",
+          "literals": [
+            "acc"
+          ]
+        },
+        {
+          "id": "#/properties/acc::unit",
+          "tier": "scoreable",
+          "statement": "`acc` is expressed in `m/s2`.",
+          "evidence": "#/properties/acc unit=m/s2",
+          "negative": "Assuming a different or conventional unit for `acc`.",
+          "literals": [
+            "acc",
+            "m/s2"
+          ]
+        },
+        {
+          "id": "#/properties/odo::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`odo` is accumulated over the phenomenon-time period, not an instantaneous reading, so it may be summed across adjacent periods but not averaged as a rate without dividing by duration.",
+          "evidence": "#/properties/odo phenomenonTimeRelation=accumulation",
+          "negative": "Treating `odo` as an instantaneous value at a timestamp.",
+          "literals": [
+            "odo"
+          ]
+        },
+        {
+          "id": "#/properties/odo::unit",
+          "tier": "scoreable",
+          "statement": "`odo` is expressed in `m`.",
+          "evidence": "#/properties/odo unit=m",
+          "negative": "Assuming a different or conventional unit for `odo`.",
+          "literals": [
+            "odo",
+            "m"
+          ]
+        },
+        {
+          "id": "#/properties/dl::derivation",
+          "tier": "scoreable",
+          "statement": "`dl` is calculated rather than measured directly.",
+          "evidence": "#/properties/dl derivation=calculated",
+          "negative": "Treating `dl` as a direct measurement.",
+          "literals": [
+            "dl"
+          ]
+        },
+        {
+          "id": "#/properties/dl::unit",
+          "tier": "scoreable",
+          "statement": "`dl` is expressed in `s`.",
+          "evidence": "#/properties/dl unit=s",
+          "negative": "Assuming a different or conventional unit for `dl`.",
+          "literals": [
+            "dl",
+            "s"
+          ]
+        },
+        {
+          "id": "#/properties/ttarr::semanticRole",
+          "tier": "scoreable",
+          "statement": "`ttarr` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/ttarr semanticRole=scheduledTime",
+          "negative": "Using `ttarr` as the event time of the observation.",
+          "literals": [
+            "ttarr"
+          ]
+        },
+        {
+          "id": "#/properties/ttdep::semanticRole",
+          "tier": "scoreable",
+          "statement": "`ttdep` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+          "evidence": "#/properties/ttdep semanticRole=scheduledTime",
+          "negative": "Using `ttdep` as the event time of the observation.",
+          "literals": [
+            "ttdep"
+          ]
+        },
+        {
+          "id": "#/properties/occu::unit",
+          "tier": "scoreable",
+          "statement": "`occu` is expressed in `%`.",
+          "evidence": "#/properties/occu unit=%",
+          "negative": "Assuming a different or conventional unit for `occu`.",
+          "literals": [
+            "occu",
+            "%"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    },
+    "19-bmrs-generation-mix": {
+      "labels": {
+        "A": "bare",
+        "B": "prose",
+        "C": "annotated",
+        "D": "spec"
+      },
+      "claims": [
+        {
+          "id": "#/properties/start_time::semanticRole",
+          "tier": "scoreable",
+          "statement": "`start_time` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+          "evidence": "#/properties/start_time semanticRole=phenomenonTimeStart",
+          "negative": "Treating `start_time` as the time the record was produced, received, or published, or using a different member for event time.",
+          "literals": [
+            "start_time"
+          ]
+        },
+        {
+          "id": "#/properties/start_time::cadence",
+          "tier": "scoreable",
+          "statement": "Successive `start_time` values are expected at cadence `fixed` with period \"PT30M\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+          "evidence": "#/properties/start_time cadence={\"kind\": \"fixed\", \"period\": \"PT30M\"}",
+          "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+          "literals": [
+            "start_time",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/ccgt_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`ccgt_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/ccgt_mw statistic=mean",
+          "negative": "Averaging or summing `ccgt_mw` as though it were a raw sample.",
+          "literals": [
+            "ccgt_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/ccgt_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`ccgt_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/ccgt_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `ccgt_mw` as an instantaneous reading.",
+          "literals": [
+            "ccgt_mw"
+          ]
+        },
+        {
+          "id": "#/properties/ccgt_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`ccgt_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/ccgt_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `ccgt_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "ccgt_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/ccgt_mw::unit",
+          "tier": "scoreable",
+          "statement": "`ccgt_mw` is expressed in `MW`.",
+          "evidence": "#/properties/ccgt_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `ccgt_mw`.",
+          "literals": [
+            "ccgt_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/ocgt_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`ocgt_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/ocgt_mw statistic=mean",
+          "negative": "Averaging or summing `ocgt_mw` as though it were a raw sample.",
+          "literals": [
+            "ocgt_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/ocgt_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`ocgt_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/ocgt_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `ocgt_mw` as an instantaneous reading.",
+          "literals": [
+            "ocgt_mw"
+          ]
+        },
+        {
+          "id": "#/properties/ocgt_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`ocgt_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/ocgt_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `ocgt_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "ocgt_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/ocgt_mw::unit",
+          "tier": "scoreable",
+          "statement": "`ocgt_mw` is expressed in `MW`.",
+          "evidence": "#/properties/ocgt_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `ocgt_mw`.",
+          "literals": [
+            "ocgt_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/coal_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`coal_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/coal_mw statistic=mean",
+          "negative": "Averaging or summing `coal_mw` as though it were a raw sample.",
+          "literals": [
+            "coal_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/coal_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`coal_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/coal_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `coal_mw` as an instantaneous reading.",
+          "literals": [
+            "coal_mw"
+          ]
+        },
+        {
+          "id": "#/properties/coal_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`coal_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/coal_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `coal_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "coal_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/coal_mw::unit",
+          "tier": "scoreable",
+          "statement": "`coal_mw` is expressed in `MW`.",
+          "evidence": "#/properties/coal_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `coal_mw`.",
+          "literals": [
+            "coal_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/oil_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`oil_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/oil_mw statistic=mean",
+          "negative": "Averaging or summing `oil_mw` as though it were a raw sample.",
+          "literals": [
+            "oil_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/oil_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`oil_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/oil_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `oil_mw` as an instantaneous reading.",
+          "literals": [
+            "oil_mw"
+          ]
+        },
+        {
+          "id": "#/properties/oil_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`oil_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/oil_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `oil_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "oil_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/oil_mw::unit",
+          "tier": "scoreable",
+          "statement": "`oil_mw` is expressed in `MW`.",
+          "evidence": "#/properties/oil_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `oil_mw`.",
+          "literals": [
+            "oil_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/nuclear_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`nuclear_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/nuclear_mw statistic=mean",
+          "negative": "Averaging or summing `nuclear_mw` as though it were a raw sample.",
+          "literals": [
+            "nuclear_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/nuclear_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`nuclear_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/nuclear_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `nuclear_mw` as an instantaneous reading.",
+          "literals": [
+            "nuclear_mw"
+          ]
+        },
+        {
+          "id": "#/properties/nuclear_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`nuclear_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/nuclear_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `nuclear_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "nuclear_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/nuclear_mw::unit",
+          "tier": "scoreable",
+          "statement": "`nuclear_mw` is expressed in `MW`.",
+          "evidence": "#/properties/nuclear_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `nuclear_mw`.",
+          "literals": [
+            "nuclear_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/wind_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`wind_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/wind_mw statistic=mean",
+          "negative": "Averaging or summing `wind_mw` as though it were a raw sample.",
+          "literals": [
+            "wind_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/wind_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`wind_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/wind_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `wind_mw` as an instantaneous reading.",
+          "literals": [
+            "wind_mw"
+          ]
+        },
+        {
+          "id": "#/properties/wind_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`wind_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/wind_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `wind_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "wind_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/wind_mw::unit",
+          "tier": "scoreable",
+          "statement": "`wind_mw` is expressed in `MW`.",
+          "evidence": "#/properties/wind_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `wind_mw`.",
+          "literals": [
+            "wind_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/biomass_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`biomass_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/biomass_mw statistic=mean",
+          "negative": "Averaging or summing `biomass_mw` as though it were a raw sample.",
+          "literals": [
+            "biomass_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/biomass_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`biomass_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/biomass_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `biomass_mw` as an instantaneous reading.",
+          "literals": [
+            "biomass_mw"
+          ]
+        },
+        {
+          "id": "#/properties/biomass_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`biomass_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/biomass_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `biomass_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "biomass_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/biomass_mw::unit",
+          "tier": "scoreable",
+          "statement": "`biomass_mw` is expressed in `MW`.",
+          "evidence": "#/properties/biomass_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `biomass_mw`.",
+          "literals": [
+            "biomass_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/npshyd_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`npshyd_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/npshyd_mw statistic=mean",
+          "negative": "Averaging or summing `npshyd_mw` as though it were a raw sample.",
+          "literals": [
+            "npshyd_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/npshyd_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`npshyd_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/npshyd_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `npshyd_mw` as an instantaneous reading.",
+          "literals": [
+            "npshyd_mw"
+          ]
+        },
+        {
+          "id": "#/properties/npshyd_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`npshyd_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/npshyd_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `npshyd_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "npshyd_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/npshyd_mw::unit",
+          "tier": "scoreable",
+          "statement": "`npshyd_mw` is expressed in `MW`.",
+          "evidence": "#/properties/npshyd_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `npshyd_mw`.",
+          "literals": [
+            "npshyd_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/ps_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`ps_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/ps_mw statistic=mean",
+          "negative": "Averaging or summing `ps_mw` as though it were a raw sample.",
+          "literals": [
+            "ps_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/ps_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`ps_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/ps_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `ps_mw` as an instantaneous reading.",
+          "literals": [
+            "ps_mw"
+          ]
+        },
+        {
+          "id": "#/properties/ps_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`ps_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/ps_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `ps_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "ps_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/ps_mw::unit",
+          "tier": "scoreable",
+          "statement": "`ps_mw` is expressed in `MW`.",
+          "evidence": "#/properties/ps_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `ps_mw`.",
+          "literals": [
+            "ps_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/other_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`other_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/other_mw statistic=mean",
+          "negative": "Averaging or summing `other_mw` as though it were a raw sample.",
+          "literals": [
+            "other_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/other_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`other_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/other_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `other_mw` as an instantaneous reading.",
+          "literals": [
+            "other_mw"
+          ]
+        },
+        {
+          "id": "#/properties/other_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`other_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/other_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `other_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "other_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/other_mw::unit",
+          "tier": "scoreable",
+          "statement": "`other_mw` is expressed in `MW`.",
+          "evidence": "#/properties/other_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `other_mw`.",
+          "literals": [
+            "other_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intfr_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intfr_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intfr_mw statistic=mean",
+          "negative": "Averaging or summing `intfr_mw` as though it were a raw sample.",
+          "literals": [
+            "intfr_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intfr_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intfr_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intfr_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intfr_mw` as an instantaneous reading.",
+          "literals": [
+            "intfr_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intfr_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intfr_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intfr_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intfr_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intfr_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intfr_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intfr_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intfr_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intfr_mw`.",
+          "literals": [
+            "intfr_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intifa2_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intifa2_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intifa2_mw statistic=mean",
+          "negative": "Averaging or summing `intifa2_mw` as though it were a raw sample.",
+          "literals": [
+            "intifa2_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intifa2_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intifa2_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intifa2_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intifa2_mw` as an instantaneous reading.",
+          "literals": [
+            "intifa2_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intifa2_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intifa2_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intifa2_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intifa2_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intifa2_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intifa2_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intifa2_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intifa2_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intifa2_mw`.",
+          "literals": [
+            "intifa2_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intned_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intned_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intned_mw statistic=mean",
+          "negative": "Averaging or summing `intned_mw` as though it were a raw sample.",
+          "literals": [
+            "intned_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intned_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intned_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intned_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intned_mw` as an instantaneous reading.",
+          "literals": [
+            "intned_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intned_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intned_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intned_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intned_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intned_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intned_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intned_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intned_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intned_mw`.",
+          "literals": [
+            "intned_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intnem_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intnem_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intnem_mw statistic=mean",
+          "negative": "Averaging or summing `intnem_mw` as though it were a raw sample.",
+          "literals": [
+            "intnem_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intnem_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intnem_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intnem_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intnem_mw` as an instantaneous reading.",
+          "literals": [
+            "intnem_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intnem_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intnem_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intnem_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intnem_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intnem_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intnem_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intnem_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intnem_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intnem_mw`.",
+          "literals": [
+            "intnem_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intelec_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intelec_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intelec_mw statistic=mean",
+          "negative": "Averaging or summing `intelec_mw` as though it were a raw sample.",
+          "literals": [
+            "intelec_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intelec_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intelec_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intelec_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intelec_mw` as an instantaneous reading.",
+          "literals": [
+            "intelec_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intelec_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intelec_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intelec_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intelec_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intelec_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intelec_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intelec_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intelec_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intelec_mw`.",
+          "literals": [
+            "intelec_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intnsl_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intnsl_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intnsl_mw statistic=mean",
+          "negative": "Averaging or summing `intnsl_mw` as though it were a raw sample.",
+          "literals": [
+            "intnsl_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intnsl_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intnsl_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intnsl_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intnsl_mw` as an instantaneous reading.",
+          "literals": [
+            "intnsl_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intnsl_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intnsl_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intnsl_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intnsl_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intnsl_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intnsl_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intnsl_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intnsl_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intnsl_mw`.",
+          "literals": [
+            "intnsl_mw",
+            "MW"
+          ]
+        },
+        {
+          "id": "#/properties/intvkl_mw::statistic",
+          "tier": "scoreable",
+          "statement": "`intvkl_mw` is already a `mean` over a set of values. Re-applying an aggregate to it does not yield that aggregate of the underlying data -- a mean of means is not a mean, and an extremum of extrema is only valid for the same function.",
+          "evidence": "#/properties/intvkl_mw statistic=mean",
+          "negative": "Averaging or summing `intvkl_mw` as though it were a raw sample.",
+          "literals": [
+            "intvkl_mw",
+            "mean"
+          ]
+        },
+        {
+          "id": "#/properties/intvkl_mw::phenomenonTimeRelation",
+          "tier": "scoreable",
+          "statement": "`intvkl_mw` characterises a half-open period given by sibling boundary members, not a single instant.",
+          "evidence": "#/properties/intvkl_mw phenomenonTimeRelation=interval",
+          "negative": "Treating `intvkl_mw` as an instantaneous reading.",
+          "literals": [
+            "intvkl_mw"
+          ]
+        },
+        {
+          "id": "#/properties/intvkl_mw::supportPeriod",
+          "tier": "scoreable",
+          "statement": "`intvkl_mw` characterises a phenomenon-time period of length PT30M, stated by the schema rather than carried in the record. The period opens at the anchoring position and runs forward from it. The anchoring position is the sibling annotated `phenomenonTimeStart`, or `phenomenonTime` where the record carries no member in that role. For an anchoring position `t`, the period is `[t, t + PT30M)`.",
+          "evidence": "#/properties/intvkl_mw supportPeriod={\"length\": \"PT30M\", \"anchor\": \"start\"}",
+          "negative": "Treating `intvkl_mw` as an instantaneous reading at the record timestamp, running its period back from the anchoring position, or deriving its length from the cadence or from the spacing of successive records.",
+          "literals": [
+            "intvkl_mw",
+            "PT30M"
+          ]
+        },
+        {
+          "id": "#/properties/intvkl_mw::unit",
+          "tier": "scoreable",
+          "statement": "`intvkl_mw` is expressed in `MW`.",
+          "evidence": "#/properties/intvkl_mw unit=MW",
+          "negative": "Assuming a different or conventional unit for `intvkl_mw`.",
+          "literals": [
+            "intvkl_mw",
+            "MW"
+          ]
+        }
+      ],
+      "expert_claims": [
+        {
+          "id": "#::domain-fitness",
+          "tier": "expert",
+          "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        },
+        {
+          "id": "#::domain-omission",
+          "tier": "expert",
+          "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+          "evidence": "not entailed by the schema; requires a domain expert",
+          "negative": null,
+          "literals": []
+        }
+      ]
+    }
+  }
+}

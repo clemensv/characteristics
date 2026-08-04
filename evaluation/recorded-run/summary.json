@@ -1,0 +1,97 @@
+{
+  "arms": {
+    "bare": {
+      "correct": 49,
+      "incorrect": 28,
+      "declined": 123,
+      "unaddressed": 85,
+      "claims": 285,
+      "answered": 77,
+      "accuracy": 0.6364,
+      "hazard": 0.0982,
+      "hazard_answered": 0.3636,
+      "coverage": 0.7018,
+      "decline_rate": 0.4316
+    },
+    "prose": {
+      "correct": 177,
+      "incorrect": 9,
+      "declined": 11,
+      "unaddressed": 88,
+      "claims": 285,
+      "answered": 186,
+      "accuracy": 0.9516,
+      "hazard": 0.0316,
+      "hazard_answered": 0.0484,
+      "coverage": 0.6912,
+      "decline_rate": 0.0386
+    },
+    "annotated": {
+      "correct": 190,
+      "incorrect": 5,
+      "declined": 6,
+      "unaddressed": 84,
+      "claims": 285,
+      "answered": 195,
+      "accuracy": 0.9744,
+      "hazard": 0.0175,
+      "hazard_answered": 0.0256,
+      "coverage": 0.7053,
+      "decline_rate": 0.0211
+    },
+    "spec": {
+      "correct": 202,
+      "incorrect": 6,
+      "declined": 4,
+      "unaddressed": 73,
+      "claims": 285,
+      "answered": 208,
+      "accuracy": 0.9712,
+      "hazard": 0.0211,
+      "hazard_answered": 0.0288,
+      "coverage": 0.7439,
+      "decline_rate": 0.014
+    }
+  },
+  "blinding": {
+    "A": 4,
+    "B": 4,
+    "C": 1,
+    "D": 1,
+    "cannot tell": 3,
+    "correct_guess": 9,
+    "guesses": 10,
+    "guess_accuracy": 0.9
+  },
+  "samples": 13,
+  "task": "comprehension",
+  "layers": [
+    {
+      "layer": "descriptions",
+      "from": "bare",
+      "to": "prose",
+      "coverage": -0.0106,
+      "accuracy": 0.3152,
+      "hazard": -0.0666,
+      "hazard_answered": -0.3152
+    },
+    {
+      "layer": "annotations",
+      "from": "prose",
+      "to": "annotated",
+      "coverage": 0.0141,
+      "accuracy": 0.0228,
+      "hazard": -0.0141,
+      "hazard_answered": -0.0228
+    },
+    {
+      "layer": "specification",
+      "from": "annotated",
+      "to": "spec",
+      "coverage": 0.0386,
+      "accuracy": -0.0032,
+      "hazard": 0.0036,
+      "hazard_answered": 0.0032
+    }
+  ]
+}

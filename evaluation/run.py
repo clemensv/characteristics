@@ -69,6 +69,22 @@ ARMS = (ARM_BARE, ARM_PROSE, ARM_ANNOTATED, ARM_SPEC)
 LABELS = ("A", "B", "C", "D")
 VERDICTS = ("correct", "incorrect", "declined", "unaddressed")
 
+# Two tasks, graded against the same mechanically derived claims.
+#
+#   comprehension   the subject explains the feed in prose, and the claims are
+#                   scored against what it said.
+#   query           the subject writes one Stream Analytics query computing the
+#                   five derived metrics it judges most valuable, and the claims
+#                   are scored against what the query does. This asks whether a
+#                   reader acts on the annotations, not merely whether it can
+#                   restate them, and a violation is committed in SQL rather
+#                   than conceded in prose.
+TASKS = {
+    "comprehension": ("subject.md", "supervisor.md"),
+    "query": ("subject-query.md", "supervisor-query.md"),
+}
+QUALITY_SCALES = ("derived", "useful", "executable")
+
 
 # --- control arm ------------------------------------------------------------
 
@@ -265,6 +281,9 @@ def summarise(records: list[dict]) -> dict:
                 blinding["correct_guess"] += 1
 
     summary = {"arms": {}, "blinding": blinding, "samples": len(records)}
+    tasks = {r.get("task", "comprehension") for r in records}
+    if len(tasks) == 1:
+        summary["task"] = tasks.pop()
     for arm, counts in totals.items():
         answered = counts["correct"] + counts["incorrect"]
         total = counts["claims"]
@@ -295,6 +314,21 @@ def summarise(records: list[dict]) -> dict:
     if blinding["guesses"]:
         summary["blinding"]["guess_accuracy"] = round(
             blinding["correct_guess"] / blinding["guesses"], 4)
+
+    # Quality, where the task produced any: the mean of the supervisor's three
+    # 0-5 scales per arm. Kept apart from the claim scores on purpose. This is
+    # opinion, and one model's opinion at that.
+    graded = [r for r in records if r.get("quality")]
+    if graded:
+        summary["quality"] = {}
+        for arm in ARMS:
+            rated = [r["quality"][arm] for r in graded if arm in r["quality"]]
+            if not rated:
+                continue
+            summary["quality"][arm] = {
+                scale: round(sum(x.get(scale) or 0 for x in rated) / len(rated), 2)
+                for scale in QUALITY_SCALES
+            } | {"rated": len(rated)}
     return summary
 
 
@@ -324,6 +358,20 @@ def render(summary: dict) -> str:
             f"haz/ans {str(step.get('hazard_answered')):>8}"
         )
     blinding = summary["blinding"]
+    if "quality" in summary:
+        lines += [
+            "",
+            "quality of the five metrics each arm chose, 0 to 5, supervisor's opinion:",
+            "",
+            f"  {'arm':<12}{'derived':>9}{'useful':>9}{'executable':>12}{'samples':>9}",
+        ]
+        for arm in ARMS:
+            q = summary["quality"].get(arm)
+            if q:
+                lines.append(
+                    f"  {arm:<12}{q['derived']:>9}{q['useful']:>9}"
+                    f"{q['executable']:>12}{q['rated']:>9}")
+        lines.append("  this is a judgement, not a measurement; it is not in the figures above.")
     lines += [
         "",
         f"blinding: supervisor named an arm {blinding['guesses']} times, "
@@ -350,7 +398,7 @@ def render(summary: dict) -> str:
 
 def run_sample(sample: Sample, stripper, subject: models.Client,
                supervisor: models.Client, rng: random.Random,
-               out: pathlib.Path) -> dict:
+               out: pathlib.Path, task: str = "comprehension") -> dict:
     document = json.loads(sample.schema.read_text(encoding="utf-8"))
     instance_text = sample.instance.read_text(encoding="utf-8")
     claims = [c for c in rubric.build(document) if c.tier == rubric.SCOREABLE]
@@ -359,7 +407,7 @@ def run_sample(sample: Sample, stripper, subject: models.Client,
     schemas = {arm: json.dumps(schema, indent=2, ensure_ascii=False)
                for arm, schema in build_arms(document, stripper).items()}
 
-    subject_system = (PROMPTS / "subject.md").read_text(encoding="utf-8")
+    subject_system = (PROMPTS / TASKS[task][0]).read_text(encoding="utf-8")
     spec_text = SPEC_SOURCE.read_text(encoding="utf-8")
     transcripts = {}
     for arm, schema_text in schemas.items():
@@ -381,7 +429,7 @@ def run_sample(sample: Sample, stripper, subject: models.Client,
     rng.shuffle(arms)
     labels = dict(zip(LABELS, arms))
 
-    supervisor_system = (PROMPTS / "supervisor.md").read_text(encoding="utf-8")
+    supervisor_system = (PROMPTS / TASKS[task][1]).read_text(encoding="utf-8")
     graded = supervisor.complete(
         supervisor_system,
         supervisor_input(claims, {label: transcripts[arm]
@@ -391,6 +439,7 @@ def run_sample(sample: Sample, stripper, subject: models.Client,
 
     record = {
         "sample": sample.name,
+        "task": task,
         "claims": [dataclasses.asdict(c) for c in claims],
         "expert_claims": [dataclasses.asdict(c) for c in expert],
         "labels": labels,
@@ -406,6 +455,10 @@ def run_sample(sample: Sample, stripper, subject: models.Client,
     parsed = parse_verdicts(graded.text)
     record["verdicts"] = parsed.get("verdicts", [])
     record["blinding"] = parsed.get("blinding", {})
+    quality = parsed.get("quality") or {}
+    if quality:
+        record["quality"] = {arm: quality[label]
+                             for label, arm in labels.items() if label in quality}
     for label, arm in labels.items():
         record["scores"][arm] = tally(record["verdicts"], label, len(claims))
     return record
@@ -434,9 +487,9 @@ your answer.
 
 
 def emit(samples: list[Sample], stripper, rng: random.Random,
-         out: pathlib.Path) -> dict:
-    subject_system = (PROMPTS / "subject.md").read_text(encoding="utf-8")
-    manifest: dict = {"samples": {}}
+         out: pathlib.Path, task: str = "comprehension") -> dict:
+    subject_system = (PROMPTS / TASKS[task][0]).read_text(encoding="utf-8")
+    manifest: dict = {"task": task, "samples": {}}
     needs_spec = False
     for sample in samples:
         document = json.loads(sample.schema.read_text(encoding="utf-8"))
@@ -477,7 +530,8 @@ def emit(samples: list[Sample], stripper, rng: random.Random,
 
 def ingest(out: pathlib.Path, subject_model: str, supervisor_model: str) -> tuple[int, int]:
     manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
-    supervisor_system = (PROMPTS / "supervisor.md").read_text(encoding="utf-8")
+    task = manifest.get("task", "comprehension")
+    supervisor_system = (PROMPTS / TASKS[task][1]).read_text(encoding="utf-8")
     built = scored = 0
     for name, entry in sorted(manifest["samples"].items()):
         labels = entry["labels"]
@@ -498,6 +552,7 @@ def ingest(out: pathlib.Path, subject_model: str, supervisor_model: str) -> tupl
         parsed = parse_verdicts(verdicts.read_text(encoding="utf-8"))
         record = {
             "sample": name,
+            "task": task,
             "claims": entry["claims"],
             "expert_claims": entry["expert_claims"],
             "labels": labels,
@@ -507,6 +562,14 @@ def ingest(out: pathlib.Path, subject_model: str, supervisor_model: str) -> tupl
             "blinding": parsed.get("blinding", {}),
             "verdicts": parsed.get("verdicts", []),
         }
+        # The quality block is the supervisor's judgement of the five metrics
+        # each answer chose. It is keyed by label on the way in and by arm on
+        # the way out, and it is never folded into the claim scores.
+        quality = parsed.get("quality") or {}
+        if quality:
+            record["quality"] = {arm: quality[label]
+                                 for label, arm in labels.items()
+                                 if label in quality}
         for label, arm in labels.items():
             record["scores"][arm] = tally(record["verdicts"], label, len(claims))
         (out / f"{name}.{subject_model}.result.json").write_text(
@@ -519,6 +582,11 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--transport", default="none", choices=("none", "openai"))
+    parser.add_argument("--task", default="comprehension", choices=tuple(TASKS),
+                        help="comprehension: explain the feed in prose. "
+                             "query: write one Stream Analytics query computing "
+                             "the five most valuable derived metrics. Both are "
+                             "scored against the same claims.")
     parser.add_argument("--subject-model", action="append", default=[],
                         help="repeatable; every subject model is run over every sample")
     parser.add_argument("--supervisor-model", default="none")
@@ -584,10 +652,12 @@ def main(argv: list[str]) -> int:
     stripper = _load_stripper()
 
     if args.emit:
-        manifest = emit(samples, stripper, random.Random(seed), out)
-        (out / "seed.json").write_text(json.dumps({"seed": seed}), encoding="utf-8")
+        manifest = emit(samples, stripper, random.Random(seed), out, args.task)
+        (out / "seed.json").write_text(
+            json.dumps({"seed": seed, "task": args.task}), encoding="utf-8")
         claims = sum(len(e["claims"]) for e in manifest["samples"].values())
-        print(f"emitted {len(samples)} samples, {claims} scoreable claims, to {out}")
+        print(f"emitted {len(samples)} samples, {claims} scoreable claims, "
+              f"task {args.task}, to {out}")
         print("answer each *.prompt.md and save the answer beside it as "
               "*.transcript.md, then re-run with --ingest")
         return 0
@@ -599,7 +669,8 @@ def main(argv: list[str]) -> int:
         subject = models.build(args.transport, subject_name)
         rng = random.Random(f"{seed}:{subject_name}")
         for sample in samples:
-            record = run_sample(sample, stripper, subject, supervisor, rng, out)
+            record = run_sample(sample, stripper, subject, supervisor, rng, out,
+                                args.task)
             record["seed"] = seed
             path = out / f"{sample.name}.{subject_name}.result.json"
             path.write_text(json.dumps(record, indent=2, ensure_ascii=False),

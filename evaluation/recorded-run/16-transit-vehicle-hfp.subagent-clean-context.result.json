@@ -1,0 +1,756 @@
+{
+  "sample": "16-transit-vehicle-hfp",
+  "task": "comprehension",
+  "claims": [
+    {
+      "id": "#::coordinateReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order lat, long. Axis order follows that binding and must not be assumed.",
+      "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+      "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+      "literals": [
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
+    },
+    {
+      "id": "#/properties/tst::semanticRole",
+      "tier": "scoreable",
+      "statement": "`tst` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/tst semanticRole=phenomenonTime",
+      "negative": "Treating `tst` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "tst"
+      ]
+    },
+    {
+      "id": "#/properties/tst::cadence",
+      "tier": "scoreable",
+      "statement": "Successive `tst` values are expected at cadence `fixed` with period \"PT1S\". A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+      "evidence": "#/properties/tst cadence={\"kind\": \"fixed\", \"period\": \"PT1S\"}",
+      "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+      "literals": [
+        "tst",
+        "PT1S"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::semanticRole",
+      "tier": "scoreable",
+      "statement": "`journey_start` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/journey_start semanticRole=scheduledTime",
+      "negative": "Using `journey_start` as the event time of the observation.",
+      "literals": [
+        "journey_start"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::temporalReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Positions in `journey_start` are expressed in the temporal reference system `#/definitions/OperatingDayClockPosition` (kind `type`), not in an unqualified civil clock.",
+      "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+      "negative": "Reading `journey_start` as ordinary UTC.",
+      "literals": [
+        "journey_start",
+        "type"
+      ]
+    },
+    {
+      "id": "#/properties/journey_start::temporalReferenceSystem.civil",
+      "tier": "scoreable",
+      "statement": "`journey_start` is on a clock of its own. Converting it to civil time requires a synchronisation relation that the schema does not supply, so a correct reader declines the conversion or states the external input it would need.",
+      "evidence": "#/properties/journey_start temporalReferenceSystem.kind=type",
+      "negative": "Converting `journey_start` to UTC as though the mapping were given.",
+      "literals": [
+        "journey_start"
+      ]
+    },
+    {
+      "id": "#/properties/lat::unit",
+      "tier": "scoreable",
+      "statement": "`lat` is expressed in `deg`.",
+      "evidence": "#/properties/lat unit=deg",
+      "negative": "Assuming a different or conventional unit for `lat`.",
+      "literals": [
+        "lat",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/long::unit",
+      "tier": "scoreable",
+      "statement": "`long` is expressed in `deg`.",
+      "evidence": "#/properties/long unit=deg",
+      "negative": "Assuming a different or conventional unit for `long`.",
+      "literals": [
+        "long",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/spd::unit",
+      "tier": "scoreable",
+      "statement": "`spd` is expressed in `m/s`.",
+      "evidence": "#/properties/spd unit=m/s",
+      "negative": "Assuming a different or conventional unit for `spd`.",
+      "literals": [
+        "spd",
+        "m/s"
+      ]
+    },
+    {
+      "id": "#/properties/hdg::unit",
+      "tier": "scoreable",
+      "statement": "`hdg` is expressed in `deg`.",
+      "evidence": "#/properties/hdg unit=deg",
+      "negative": "Assuming a different or conventional unit for `hdg`.",
+      "literals": [
+        "hdg",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/acc::derivation",
+      "tier": "scoreable",
+      "statement": "`acc` is calculated rather than measured directly.",
+      "evidence": "#/properties/acc derivation=calculated",
+      "negative": "Treating `acc` as a direct measurement.",
+      "literals": [
+        "acc"
+      ]
+    },
+    {
+      "id": "#/properties/acc::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`acc` characterises a half-open period given by sibling boundary members, not a single instant.",
+      "evidence": "#/properties/acc phenomenonTimeRelation=interval",
+      "negative": "Treating `acc` as an instantaneous reading.",
+      "literals": [
+        "acc"
+      ]
+    },
+    {
+      "id": "#/properties/acc::unit",
+      "tier": "scoreable",
+      "statement": "`acc` is expressed in `m/s2`.",
+      "evidence": "#/properties/acc unit=m/s2",
+      "negative": "Assuming a different or conventional unit for `acc`.",
+      "literals": [
+        "acc",
+        "m/s2"
+      ]
+    },
+    {
+      "id": "#/properties/odo::phenomenonTimeRelation",
+      "tier": "scoreable",
+      "statement": "`odo` is accumulated over the phenomenon-time period, not an instantaneous reading, so it may be summed across adjacent periods but not averaged as a rate without dividing by duration.",
+      "evidence": "#/properties/odo phenomenonTimeRelation=accumulation",
+      "negative": "Treating `odo` as an instantaneous value at a timestamp.",
+      "literals": [
+        "odo"
+      ]
+    },
+    {
+      "id": "#/properties/odo::unit",
+      "tier": "scoreable",
+      "statement": "`odo` is expressed in `m`.",
+      "evidence": "#/properties/odo unit=m",
+      "negative": "Assuming a different or conventional unit for `odo`.",
+      "literals": [
+        "odo",
+        "m"
+      ]
+    },
+    {
+      "id": "#/properties/dl::derivation",
+      "tier": "scoreable",
+      "statement": "`dl` is calculated rather than measured directly.",
+      "evidence": "#/properties/dl derivation=calculated",
+      "negative": "Treating `dl` as a direct measurement.",
+      "literals": [
+        "dl"
+      ]
+    },
+    {
+      "id": "#/properties/dl::unit",
+      "tier": "scoreable",
+      "statement": "`dl` is expressed in `s`.",
+      "evidence": "#/properties/dl unit=s",
+      "negative": "Assuming a different or conventional unit for `dl`.",
+      "literals": [
+        "dl",
+        "s"
+      ]
+    },
+    {
+      "id": "#/properties/ttarr::semanticRole",
+      "tier": "scoreable",
+      "statement": "`ttarr` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/ttarr semanticRole=scheduledTime",
+      "negative": "Using `ttarr` as the event time of the observation.",
+      "literals": [
+        "ttarr"
+      ]
+    },
+    {
+      "id": "#/properties/ttdep::semanticRole",
+      "tier": "scoreable",
+      "statement": "`ttdep` is an operational instant (`scheduledTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/ttdep semanticRole=scheduledTime",
+      "negative": "Using `ttdep` as the event time of the observation.",
+      "literals": [
+        "ttdep"
+      ]
+    },
+    {
+      "id": "#/properties/occu::unit",
+      "tier": "scoreable",
+      "statement": "`occu` is expressed in `%`.",
+      "evidence": "#/properties/occu unit=%",
+      "negative": "Assuming a different or conventional unit for `occu`.",
+      "literals": [
+        "occu",
+        "%"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "spec",
+    "B": "bare",
+    "C": "prose",
+    "D": "annotated"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "spec": {
+      "correct": 18,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 2,
+      "claims": 20,
+      "answered": 18,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.9,
+      "decline_rate": 0.0
+    },
+    "bare": {
+      "correct": 5,
+      "incorrect": 0,
+      "declined": 7,
+      "unaddressed": 8,
+      "claims": 20,
+      "answered": 5,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.6,
+      "decline_rate": 0.35
+    },
+    "prose": {
+      "correct": 13,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 7,
+      "claims": 20,
+      "answered": 13,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.65,
+      "decline_rate": 0.0
+    },
+    "annotated": {
+      "correct": 18,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 2,
+      "claims": 20,
+      "answered": 18,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.9,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "cannot tell",
+    "why": "All four transcripts appear to have had access to the exact same example record and schema fields."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Read them in the declared axis order"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "declared the phenomenon time"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "observation timestamp is the axis of the thing described"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "established by the sample timestamp"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "tst is the phenomenon-time axis of the observations"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "is an expectation about the producer, not a guarantee"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "a statement about what the vehicle is expected to emit next"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "a statement about what the vehicle is expected to emit next"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "trip anchor lies on a different axis, not on this one"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "A clock position on the operating-day clock, not an instant"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "scheduled departure sits on a different axis entirely"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "journey_start is a position on a different, non-civil axis"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "planned position in an operating-day regime"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "not an instant and not a time of day"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "operating-day clock position, not a civil instant"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the operating-day regime"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Nothing in the two files supplies a conversion"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "requires a timezone the files do not name"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "requires an offset the files never give"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "requires information not in these files"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "an arithmetic mean of degrees is not a meaningful location"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "degree of longitude is roughly half the ground distance"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "lat / long — degrees in EPSG:4326"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "an arithmetic mean of degrees is not a meaningful location"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "degree of longitude is roughly half the ground distance"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "lat / long — degrees in EPSG:4326"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "instantaneous quantity in m/s"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "instantaneous, m/s, ratio-scaled"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Degrees clockwise from geographic north"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "359° and 1° are two degrees apart"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "calculated difference between the current speed sample and the preceding one"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "It is not measured; it is a difference quotient"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "calculated over an interval that closes at tst"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "closes at the observation instant and opens at a timestamp"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "over the interval between this sample and the previous one"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "characterises an interval closing at tst and opening at the previous"
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "An accumulator with a per-trip origin at the actual start"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "A cumulative counter"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "accumulates from the actual start of the trip"
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "an accumulation from a reset at the vehicle's actual trip start"
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "valid distances in metres"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "double-counts every metre once per message"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "computed onboard against the trip's schedule anchor"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "producer-computed figure, not something these records let you recompute"
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "computed onboard against the same schedule the trip is running"
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "declared quantity in seconds"
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "this many seconds off its timetable"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Planned times, not observed ones"
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "planned instants, not observations"
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "planned UTC instants ... must not be used as evidence"
+    },
+    {
+      "claim": 19,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Planned times, not observed ones"
+    },
+    {
+      "claim": 19,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 19,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "planned instants, not observations"
+    },
+    {
+      "claim": 19,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "planned UTC instants ... must not be used as evidence"
+    },
+    {
+      "claim": 20,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 20,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 20,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "declared as a percentage"
+    }
+  ]
+}

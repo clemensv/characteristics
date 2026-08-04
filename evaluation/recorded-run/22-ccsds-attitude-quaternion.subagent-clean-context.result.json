@@ -1,0 +1,196 @@
+{
+  "sample": "22-ccsds-attitude-quaternion",
+  "task": "comprehension",
+  "claims": [
+    {
+      "id": "#::frameTransforms[0]",
+      "tier": "scoreable",
+      "statement": "The transform is encoded as `quaternion` and carries coordinates out of `#/definitions/SpacecraftBodyFrame` into `#/definitions/TerrestrialFrame`, with components in the order [\"qc\", \"q1\", \"q2\", \"q3\"]. The direction and the component order are fixed by the annotation and are not conventions to be guessed.",
+      "evidence": "# frameTransforms[0].encoding=quaternion",
+      "negative": "Assuming a component order or rotation sense from convention, or applying the transform in the opposite direction.",
+      "literals": [
+        "quaternion",
+        "#/definitions/SpacecraftBodyFrame",
+        "#/definitions/TerrestrialFrame"
+      ]
+    },
+    {
+      "id": "#/properties/creation_date::semanticRole",
+      "tier": "scoreable",
+      "statement": "`creation_date` is an operational instant (`resultTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/creation_date semanticRole=resultTime",
+      "negative": "Using `creation_date` as the event time of the observation.",
+      "literals": [
+        "creation_date"
+      ]
+    },
+    {
+      "id": "#/properties/epoch::semanticRole",
+      "tier": "scoreable",
+      "statement": "`epoch` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/epoch semanticRole=phenomenonTime",
+      "negative": "Treating `epoch` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "epoch"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "prose",
+    "B": "annotated",
+    "C": "spec",
+    "D": "bare"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "prose": {
+      "correct": 2,
+      "incorrect": 1,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 3,
+      "answered": 3,
+      "accuracy": 0.6667,
+      "hazard": 0.3333,
+      "hazard_answered": 0.3333,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "annotated": {
+      "correct": 3,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 3,
+      "answered": 3,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "spec": {
+      "correct": 2,
+      "incorrect": 1,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 3,
+      "answered": 3,
+      "accuracy": 0.6667,
+      "hazard": 0.3333,
+      "hazard_answered": 0.3333,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "bare": {
+      "correct": 2,
+      "incorrect": 1,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 3,
+      "answered": 3,
+      "accuracy": 0.6667,
+      "hazard": 0.3333,
+      "hazard_answered": 0.3333,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "B",
+    "why": "B appears to have the schema and annotation, specifically citing SC_BODY_1 and ITRF1997."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "incorrect",
+      "quote": "the scalar (0.25678) is *not* the largest component (0.87543 is)"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "lists the components scalar-first (`qc, q1, q2, q3`); the record stores them scalar-last"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "incorrect",
+      "quote": "the scalar is named first by the annotation and stored last in the record"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "incorrect",
+      "quote": "Which component is the scalar part is inferential, not established"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The message creation time is a second, unrelated axis"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "`creation_date` is not a property of the attitude"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The message-creation time is the result time; it belongs to the message"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "`creation_date` positions the *record* in time and belongs to a provenance axis"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The epoch establishes the time axis of the attitude. It is the instant the orientation holds at"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "`epoch` is the time axis of the thing described. It is the instant the attitude holds at"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The time axis of the thing described is the **attitude epoch**, the member carrying the phenomenon-time role"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "**The time axis of the thing described is `epoch`** — the instant at which the stated orientation held"
+    }
+  ]
+}

@@ -1,0 +1,491 @@
+{
+  "sample": "01-ais-vessel-position",
+  "claims": [
+    {
+      "id": "#::coordinateReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Coordinates at `#` are expressed in `http://www.opengis.net/def/crs/EPSG/0/4326`, with axes bound in the order Latitude, Longitude. Axis order follows that binding and must not be assumed.",
+      "evidence": "# coordinateReferenceSystem.reference=http://www.opengis.net/def/crs/EPSG/0/4326",
+      "negative": "Assuming latitude/longitude order, or assuming WGS 84, without reading the binding.",
+      "literals": [
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
+    },
+    {
+      "id": "#/properties/TimeReceived::semanticRole",
+      "tier": "scoreable",
+      "statement": "`TimeReceived` is an operational instant (`ingestionTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/TimeReceived semanticRole=ingestionTime",
+      "negative": "Using `TimeReceived` as the event time of the observation.",
+      "literals": [
+        "TimeReceived"
+      ]
+    },
+    {
+      "id": "#/properties/Timestamp::semanticRole",
+      "tier": "scoreable",
+      "statement": "`Timestamp` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/Timestamp semanticRole=phenomenonTime",
+      "negative": "Treating `Timestamp` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "Timestamp"
+      ]
+    },
+    {
+      "id": "#/properties/Timestamp::cadence",
+      "tier": "scoreable",
+      "statement": "Successive `Timestamp` values are expected at cadence `irregular`. A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+      "evidence": "#/properties/Timestamp cadence={\"kind\": \"irregular\"}",
+      "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+      "literals": [
+        "Timestamp"
+      ]
+    },
+    {
+      "id": "#/properties/Valid::semanticRole",
+      "tier": "scoreable",
+      "statement": "`Valid` qualifies the result; it is not itself a result value and must not be analysed as one.",
+      "evidence": "#/properties/Valid semanticRole=resultQuality",
+      "negative": "Treating `Valid` as an observed quantity.",
+      "literals": [
+        "Valid"
+      ]
+    },
+    {
+      "id": "#/properties/Latitude::unit",
+      "tier": "scoreable",
+      "statement": "`Latitude` is expressed in `deg`.",
+      "evidence": "#/properties/Latitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `Latitude`.",
+      "literals": [
+        "Latitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/Longitude::unit",
+      "tier": "scoreable",
+      "statement": "`Longitude` is expressed in `deg`.",
+      "evidence": "#/properties/Longitude unit=deg",
+      "negative": "Assuming a different or conventional unit for `Longitude`.",
+      "literals": [
+        "Longitude",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/PositionAccuracy::semanticRole",
+      "tier": "scoreable",
+      "statement": "`PositionAccuracy` qualifies the result; it is not itself a result value and must not be analysed as one.",
+      "evidence": "#/properties/PositionAccuracy semanticRole=resultQuality",
+      "negative": "Treating `PositionAccuracy` as an observed quantity.",
+      "literals": [
+        "PositionAccuracy"
+      ]
+    },
+    {
+      "id": "#/properties/Raim::semanticRole",
+      "tier": "scoreable",
+      "statement": "`Raim` qualifies the result; it is not itself a result value and must not be analysed as one.",
+      "evidence": "#/properties/Raim semanticRole=resultQuality",
+      "negative": "Treating `Raim` as an observed quantity.",
+      "literals": [
+        "Raim"
+      ]
+    },
+    {
+      "id": "#/properties/Sog::unit",
+      "tier": "scoreable",
+      "statement": "`Sog` is expressed in `[kn_i]`.",
+      "evidence": "#/properties/Sog unit=[kn_i]",
+      "negative": "Assuming a different or conventional unit for `Sog`.",
+      "literals": [
+        "Sog",
+        "[kn_i]"
+      ]
+    },
+    {
+      "id": "#/properties/Cog::unit",
+      "tier": "scoreable",
+      "statement": "`Cog` is expressed in `deg`.",
+      "evidence": "#/properties/Cog unit=deg",
+      "negative": "Assuming a different or conventional unit for `Cog`.",
+      "literals": [
+        "Cog",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/TrueHeading::unit",
+      "tier": "scoreable",
+      "statement": "`TrueHeading` is expressed in `deg`.",
+      "evidence": "#/properties/TrueHeading unit=deg",
+      "negative": "Assuming a different or conventional unit for `TrueHeading`.",
+      "literals": [
+        "TrueHeading",
+        "deg"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "prose",
+    "B": "bare",
+    "C": "annotated",
+    "D": "spec"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "subagent-supervisor",
+  "scores": {
+    "prose": {
+      "correct": 8,
+      "incorrect": 0,
+      "declined": 1,
+      "unaddressed": 3,
+      "claims": 12,
+      "answered": 8,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.75,
+      "decline_rate": 0.0833
+    },
+    "bare": {
+      "correct": 4,
+      "incorrect": 1,
+      "declined": 7,
+      "unaddressed": 0,
+      "claims": 12,
+      "answered": 5,
+      "accuracy": 0.8,
+      "hazard": 0.0833,
+      "hazard_answered": 0.2,
+      "coverage": 1.0,
+      "decline_rate": 0.5833
+    },
+    "annotated": {
+      "correct": 12,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 0,
+      "claims": 12,
+      "answered": 12,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.0
+    },
+    "spec": {
+      "correct": 10,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 2,
+      "claims": 12,
+      "answered": 10,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.8333,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "D",
+    "why": "D cites named annotation roles, an explicit CRS axis-order binding, a declared cadence, and specification-level conformance rules that the other transcripts either paraphrase loosely or never mention."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "angular coordinates in EPSG:4326, with axis order"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "whose axis order is latitude first, longitude second"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "the receipt instant is **not** when the reported thing happened"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "this axis is a reception axis, not an observation axis"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "`ingestionTime` and belongs to the pipeline, not to the vessel"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "forbids reading such a value as the time the phenomenon occurred"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The time axis of the described thing is set by the originator's fix second"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "incorrect",
+      "quote": "`Timestamp` does not establish a time axis"
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The time axis of the *thing described* is established by `Timestamp`"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "That is the member declared as phenomenon time"
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "the cadence is declared irregular"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "declared to recur irregularly, so gaps are not anomalies"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The decode-validity flag is a **gate, not a covariate**"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "These are predicates about a record, not measurements."
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Three members carry `semanticRole: resultQuality`"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "**The quality and status flags.** Countable and groupable"
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "merely because all four carry the unit `deg`"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "differencing degrees does not give a distance"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "merely because all four carry the unit `deg`"
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "differencing degrees does not give a distance"
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Two independent per-fix quality signals are carried:"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "These are predicates about a record, not measurements."
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Three members carry `semanticRole: resultQuality`"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "two-state indicator with a stated 10 m threshold, not an uncertainty"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "a stated accuracy class and an integrity-monitoring flag"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "These are predicates about a record, not measurements."
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Three members carry `semanticRole: resultQuality`"
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "**The quality and status flags.** Countable and groupable"
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The underlying quantisation is coarse (0.1 kn per the schema)"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "a ratio-scale quantity in knots"
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "A magnitude in knots"
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "(degrees true) at the same instant"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "`Cog` and `TrueHeading` are both in degrees *true*"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "(degrees true) at the same instant"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "`Cog` and `TrueHeading` are both in degrees *true*"
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "correct", "quote": "(EPSG:4326 over `Latitude`, `Longitude`) but no ellipsoid parameters"},
+    {"claim": 1, "transcript": "B", "verdict": "correct", "quote": "`coordinateReferenceSystem` annotation identifies EPSG:4326 and binds"},
+    {"claim": 1, "transcript": "C", "verdict": "incorrect", "quote": "names WGS-84 decimal degrees and nothing else"},
+    {"claim": 1, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 2, "transcript": "A", "verdict": "incorrect", "quote": "TIMESTAMP BY TimeReceived"},
+    {"claim": 2, "transcript": "B", "verdict": "incorrect", "quote": "TIMESTAMP BY TimeReceived"},
+    {"claim": 2, "transcript": "C", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY TimeReceived"},
+    {"claim": 2, "transcript": "D", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY TimeReceived"},
+
+    {"claim": 3, "transcript": "A", "verdict": "incorrect", "quote": "Event time: `TIMESTAMP BY TimeReceived`, and no other member."},
+    {"claim": 3, "transcript": "B", "verdict": "incorrect", "quote": "`TimeReceived` is therefore the only member `TIMESTAMP BY` can take."},
+    {"claim": 3, "transcript": "C", "verdict": "incorrect", "quote": "FROM input TIMESTAMP BY TimeReceived"},
+    {"claim": 3, "transcript": "D", "verdict": "incorrect", "quote": "I therefore do not use `Timestamp` at all"},
+
+    {"claim": 4, "transcript": "A", "verdict": "correct", "quote": "The schema declares the cadence `irregular`,"},
+    {"claim": 4, "transcript": "B", "verdict": "correct", "quote": "no threshold I may set and no gap I may count"},
+    {"claim": 4, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 4, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 5, "transcript": "A", "verdict": "correct", "quote": "usable position fix: `Valid = false` (decoder failure)"},
+    {"claim": 5, "transcript": "B", "verdict": "correct", "quote": "Metric 1 uses `Valid` for a usability gate only"},
+    {"claim": 5, "transcript": "C", "verdict": "correct", "quote": "CASE WHEN Valid = 1 AND [Timestamp] <= 59"},
+    {"claim": 5, "transcript": "D", "verdict": "incorrect", "quote": "AVG(CASE WHEN Valid = 1 THEN 1.0 ELSE 0.0 END)"},
+
+    {"claim": 6, "transcript": "A", "verdict": "correct", "quote": "AND Latitude  BETWEEN  -90.0 AND  90.0"},
+    {"claim": 6, "transcript": "B", "verdict": "correct", "quote": "CASE WHEN Latitude  BETWEEN  -90 AND  90"},
+    {"claim": 6, "transcript": "C", "verdict": "correct", "quote": "names WGS-84 decimal degrees and nothing else"},
+    {"claim": 6, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 7, "transcript": "A", "verdict": "correct", "quote": "AND Longitude BETWEEN -180.0 AND 180.0"},
+    {"claim": 7, "transcript": "B", "verdict": "correct", "quote": "Longitude BETWEEN -180 AND 180"},
+    {"claim": 7, "transcript": "C", "verdict": "correct", "quote": "names WGS-84 decimal degrees and nothing else"},
+    {"claim": 7, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 8, "transcript": "A", "verdict": "correct", "quote": "`resultQuality`, but they state an accuracy tier (better or worse than 10 m)"},
+    {"claim": 8, "transcript": "B", "verdict": "incorrect", "quote": "SUM(HighAccuracy) * 1.0 / COUNT(*) AS HighAccuracyFraction"},
+    {"claim": 8, "transcript": "C", "verdict": "correct", "quote": "schema presents as a property of the equipment rather than of the moment"},
+    {"claim": 8, "transcript": "D", "verdict": "incorrect", "quote": "AVG(CASE WHEN PositionAccuracy IS NULL THEN NULL"},
+
+    {"claim": 9, "transcript": "A", "verdict": "correct", "quote": "and whether integrity monitoring is switched on"},
+    {"claim": 9, "transcript": "B", "verdict": "incorrect", "quote": "* 1.0 / COUNT(*) AS RaimInUseFraction"},
+    {"claim": 9, "transcript": "C", "verdict": "correct", "quote": "`PositionAccuracy` and `Raim` mix (fraction high-accuracy, fraction RAIM in use)."},
+    {"claim": 9, "transcript": "D", "verdict": "incorrect", "quote": "AVG(CASE WHEN Raim IS NULL THEN NULL"},
+
+    {"claim": 10, "transcript": "A", "verdict": "correct", "quote": "AS SogKn"},
+    {"claim": 10, "transcript": "B", "verdict": "correct", "quote": "a step in knots is a fact"},
+    {"claim": 10, "transcript": "C", "verdict": "correct", "quote": "Speed-over-ground acceleration in knots per minute, per MMSI."},
+    {"claim": 10, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 11, "transcript": "A", "verdict": "correct", "quote": "Both members are declared in degrees true"},
+    {"claim": 11, "transcript": "B", "verdict": "correct", "quote": "Cog is documented as 0-359.9, so it wraps"},
+    {"claim": 11, "transcript": "C", "verdict": "correct", "quote": "Course-over-ground versus true-heading residual in degrees, per MMSI."},
+    {"claim": 11, "transcript": "D", "verdict": "declined"},
+
+    {"claim": 12, "transcript": "A", "verdict": "correct", "quote": "Both members are declared in degrees true"},
+    {"claim": 12, "transcript": "B", "verdict": "declined"},
+    {"claim": 12, "transcript": "C", "verdict": "correct", "quote": "CASE WHEN Valid = 1 AND TrueHeading <= 359"},
+    {"claim": 12, "transcript": "D", "verdict": "declined"}
+  ],
+  "quality": {
+    "A": {"derived": 5, "useful": 5, "executable": 3, "note": "Strongest is the fix-to-receipt lag residual, a genuinely non-obvious derivation from two differently-roled time members; weakest is the unbracketed `Timestamp` identifier, which is likely to fail to parse in this dialect."},
+    "B": {"derived": 4, "useful": 4, "executable": 2, "note": "Strongest is the disciplined refusal to divide phenomenon-value deltas by ingest-time intervals, which keeps every metric a step rather than a fake rate; weakest is `PERCENTILE_CONT ... OVER (PARTITION BY ...)` mixed with `GROUP BY`, which will not compile as written."},
+    "C": {"derived": 5, "useful": 5, "executable": 5, "note": "Strongest is a clean, bracket-safe single statement whose five metrics are all real derivations spanning continuity, quality, latency and kinematics; weakest is grounding the coordinate reasoning in an assumed WGS-84 earth model rather than the declared binding."},
+    "D": {"derived": 4, "useful": 3, "executable": 4, "note": "Strongest is a plain, well-guarded query that would most likely run as written; weakest is abandoning `Timestamp`, `Latitude` and `Longitude` entirely and spending a metric slot on raw boolean flag shares."}
+  },
+  "blinding": {"richest": "B", "why": "B cites semantic-role, cadence-kind and coordinateReferenceSystem annotations together with normative specification sentences that the other three never quote."}
+}

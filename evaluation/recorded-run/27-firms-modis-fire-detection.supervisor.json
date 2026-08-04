@@ -1,0 +1,36 @@
+{
+  "verdicts": [
+    {"claim": 1, "transcript": "A", "verdict": "correct", "quote": "The schema binds `brightness` and `bright_t31` as the two bands of one declared band set, with a stated calibration of brightness temperature"},
+    {"claim": 1, "transcript": "B", "verdict": "incorrect", "quote": "the files declare no units, no measurement scales, and no calibration relationship between strata."},
+    {"claim": 1, "transcript": "C", "verdict": "declined"},
+    {"claim": 1, "transcript": "D", "verdict": "correct", "quote": "The schema declares both temperature members as sensor bands under a single brightness-temperature calibration"},
+    {"claim": 2, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 2, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 2, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 2, "transcript": "D", "verdict": "unaddressed"},
+    {"claim": 3, "transcript": "A", "verdict": "unaddressed"},
+    {"claim": 3, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 3, "transcript": "C", "verdict": "unaddressed"},
+    {"claim": 3, "transcript": "D", "verdict": "unaddressed"},
+    {"claim": 4, "transcript": "A", "verdict": "correct", "quote": "`brightness` and `bright_t31` (kelvin, two bands of one declared set)."},
+    {"claim": 4, "transcript": "B", "verdict": "declined"},
+    {"claim": 4, "transcript": "C", "verdict": "declined"},
+    {"claim": 4, "transcript": "D", "verdict": "declined"},
+    {"claim": 5, "transcript": "A", "verdict": "correct", "quote": "`brightness` and `bright_t31` (kelvin, two bands of one declared set)."},
+    {"claim": 5, "transcript": "B", "verdict": "declined"},
+    {"claim": 5, "transcript": "C", "verdict": "declined"},
+    {"claim": 5, "transcript": "D", "verdict": "declined"},
+    {"claim": 6, "transcript": "A", "verdict": "correct", "quote": "`frp` is a power in megawatts"},
+    {"claim": 6, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 6, "transcript": "C", "verdict": "correct", "quote": "a fire radiative power in megawatts"},
+    {"claim": 6, "transcript": "D", "verdict": "declined"},
+    {"claim": 7, "transcript": "A", "verdict": "correct", "quote": "the schema declares `semanticRole: phenomenonTime`, which the specification defines as the \"time during which the result applies to the observed property.\""},
+    {"claim": 7, "transcript": "B", "verdict": "unaddressed"},
+    {"claim": 7, "transcript": "C", "verdict": "correct", "quote": "acquisition instant of the overpass — that is, the moment the instrument observed"},
+    {"claim": 7, "transcript": "D", "verdict": "correct", "quote": "marked as the time of the phenomenon — that is, the time the world was in the reported state, not the time a record was written, ingested, or published."}
+  ],
+  "blinding": {
+    "richest": "A",
+    "why": "Transcript A cited the schema's specific annotations like `$id`, `semanticRole`, and `additionalProperties` directly to support its deductions."
+  }
+}

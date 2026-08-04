@@ -1,0 +1,153 @@
+{
+  "sample": "24-fogra-characterization-patch",
+  "task": "comprehension",
+  "claims": [
+    {
+      "id": "#::colorSpaces[0]",
+      "tier": "scoreable",
+      "statement": "Channel values are in color space `https://registry.color.org/cmyk-registry/fogra51`, carried by the members [\"cyan\", \"magenta\", \"yellow\", \"black\"] in that order. Values must not be treated as linear-light or as sRGB unless that is what is declared.",
+      "evidence": "# colorSpaces[0]",
+      "negative": "Assuming sRGB, assuming values are linear in radiometric quantity, or compositing premultiplied and straight alpha alike.",
+      "literals": [
+        "https://registry.color.org/cmyk-registry/fogra51"
+      ]
+    },
+    {
+      "id": "#::colorSpaces[1]",
+      "tier": "scoreable",
+      "statement": "Channel values are in color space `https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1`, carried by the members [\"l_star\", \"a_star\", \"b_star\"] in that order, where `illuminant` is `D50`; `observer` is `cie-1931-2`. Values must not be treated as linear-light or as sRGB unless that is what is declared.",
+      "evidence": "# colorSpaces[1]",
+      "negative": "Assuming sRGB, assuming values are linear in radiometric quantity, or compositing premultiplied and straight alpha alike.",
+      "literals": [
+        "https://cie.co.at/publications/colorimetry-part-4-cie-1976-lab-colour-space-1"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "bare",
+    "B": "prose",
+    "C": "annotated",
+    "D": "spec"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "bare": {
+      "correct": 0,
+      "incorrect": 0,
+      "declined": 2,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 0,
+      "accuracy": null,
+      "hazard": 0.0,
+      "hazard_answered": null,
+      "coverage": 1.0,
+      "decline_rate": 1.0
+    },
+    "prose": {
+      "correct": 0,
+      "incorrect": 0,
+      "declined": 2,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 0,
+      "accuracy": null,
+      "hazard": 0.0,
+      "hazard_answered": null,
+      "coverage": 1.0,
+      "decline_rate": 1.0
+    },
+    "annotated": {
+      "correct": 0,
+      "incorrect": 0,
+      "declined": 2,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 0,
+      "accuracy": null,
+      "hazard": 0.0,
+      "hazard_answered": null,
+      "coverage": 1.0,
+      "decline_rate": 1.0
+    },
+    "spec": {
+      "correct": 1,
+      "incorrect": 0,
+      "declined": 1,
+      "unaddressed": 0,
+      "claims": 2,
+      "answered": 1,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 1.0,
+      "decline_rate": 0.5
+    }
+  },
+  "blinding": {
+    "richest": "D",
+    "why": "Transcript D is the only one that relies on explicit schema annotations for the color space parameters, indicating it had access to a machine-readable schema definition the others did not."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "declined"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "schema declares the space, the illuminant\n(D50) and the standard colorimetric observer (CIE 1931 2°)"
+    }
+  ]
+}

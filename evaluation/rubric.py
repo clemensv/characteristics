@@ -232,6 +232,45 @@ def _phenomenon_time_relation(pointer, node):
     return []
 
 
+def _support_period(pointer, node):
+    value = node.get("supportPeriod")
+    if not isinstance(value, dict):
+        return []
+    member = _name(pointer)
+    length = value.get("length")
+    anchor = value.get("anchor")
+    shown = length if isinstance(length, str) else json.dumps(length)
+    if anchor == "end":
+        span = f"the period is `[t - {shown}, t)`"
+        sits = "The period closes at the anchoring position and runs back to it"
+        role = "`phenomenonTimeEnd`"
+        wrong_direction = "forward from"
+    else:
+        span = f"the period is `[t, t + {shown})`"
+        sits = "The period opens at the anchoring position and runs forward from it"
+        role = "`phenomenonTimeStart`"
+        wrong_direction = "back from"
+    return [Claim(
+        id=f"{pointer}::supportPeriod",
+        tier=SCOREABLE,
+        statement=(
+            f"`{member}` characterises a phenomenon-time period of length "
+            f"{shown}, stated by the schema rather than carried in the record. "
+            f"{sits}. The anchoring position is the sibling annotated "
+            f"{role}, or `phenomenonTime` where the record carries no member in "
+            f"that role. For an anchoring position `t`, {span}."
+        ),
+        negative=(
+            f"Treating `{member}` as an instantaneous reading at the record "
+            f"timestamp, running its period {wrong_direction} the anchoring "
+            f"position, or deriving its length from the cadence or from the "
+            f"spacing of successive records."
+        ),
+        evidence=f"{pointer} supportPeriod={json.dumps(value)}",
+        literals=[member] + ([shown] if isinstance(length, str) else []),
+    )]
+
+
 def _cadence(pointer, node):
     value = node.get("cadence")
     if not isinstance(value, dict):
@@ -628,6 +667,7 @@ GENERATORS = (
     _derivation,
     _statistic,
     _phenomenon_time_relation,
+    _support_period,
     _cadence,
     _temporal_reference_system,
     _coordinate_reference_system,

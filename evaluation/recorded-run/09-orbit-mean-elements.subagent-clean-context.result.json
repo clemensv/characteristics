@@ -1,0 +1,899 @@
+{
+  "sample": "09-orbit-mean-elements",
+  "task": "comprehension",
+  "claims": [
+    {
+      "id": "#/properties/CREATION_DATE::semanticRole",
+      "tier": "scoreable",
+      "statement": "`CREATION_DATE` is an operational instant (`resultTime`), not the time the observed phenomenon occurred, and must not be used as the time axis of the phenomenon.",
+      "evidence": "#/properties/CREATION_DATE semanticRole=resultTime",
+      "negative": "Using `CREATION_DATE` as the event time of the observation.",
+      "literals": [
+        "CREATION_DATE"
+      ]
+    },
+    {
+      "id": "#/properties/CREATION_DATE::cadence",
+      "tier": "scoreable",
+      "statement": "Successive `CREATION_DATE` values are expected at cadence `irregular`. A cadence is an expectation and not a constraint: a record that departs from it is late, not invalid, and a missing value must not be filled in because the cadence says one was due.",
+      "evidence": "#/properties/CREATION_DATE cadence={\"kind\": \"irregular\"}",
+      "negative": "Treating the cadence as a guarantee of completeness or as a validation rule, or interpolating absent values from it.",
+      "literals": [
+        "CREATION_DATE"
+      ]
+    },
+    {
+      "id": "#/properties/EPOCH::semanticRole",
+      "tier": "scoreable",
+      "statement": "`EPOCH` carries phenomenon time -- when the thing being described happened. Time series, windowing, and joins to other feeds are built on it.",
+      "evidence": "#/properties/EPOCH semanticRole=phenomenonTime",
+      "negative": "Treating `EPOCH` as the time the record was produced, received, or published, or using a different member for event time.",
+      "literals": [
+        "EPOCH"
+      ]
+    },
+    {
+      "id": "#/properties/EPOCH::temporalReferenceSystem",
+      "tier": "scoreable",
+      "statement": "Positions in `EPOCH` are expressed in the temporal reference system `#/definitions/TleEpochPosition` (kind `type`), not in an unqualified civil clock.",
+      "evidence": "#/properties/EPOCH temporalReferenceSystem.kind=type",
+      "negative": "Reading `EPOCH` as ordinary UTC.",
+      "literals": [
+        "EPOCH",
+        "type"
+      ]
+    },
+    {
+      "id": "#/properties/EPOCH::temporalReferenceSystem.civil",
+      "tier": "scoreable",
+      "statement": "`EPOCH` is on a clock of its own. Converting it to civil time requires a synchronisation relation that the schema does not supply, so a correct reader declines the conversion or states the external input it would need.",
+      "evidence": "#/properties/EPOCH temporalReferenceSystem.kind=type",
+      "negative": "Converting `EPOCH` to UTC as though the mapping were given.",
+      "literals": [
+        "EPOCH"
+      ]
+    },
+    {
+      "id": "#/properties/EPOCH/properties/day_of_year::unit",
+      "tier": "scoreable",
+      "statement": "`day_of_year` is expressed in `d`.",
+      "evidence": "#/properties/EPOCH/properties/day_of_year unit=d",
+      "negative": "Assuming a different or conventional unit for `day_of_year`.",
+      "literals": [
+        "day_of_year",
+        "d"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION::derivation",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/MEAN_MOTION derivation=modeled",
+      "negative": "Treating `MEAN_MOTION` as a measured observation.",
+      "literals": [
+        "MEAN_MOTION",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION::unit",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION` is expressed in `rev/day`.",
+      "evidence": "#/properties/MEAN_MOTION unit=rev/day",
+      "negative": "Assuming a different or conventional unit for `MEAN_MOTION`.",
+      "literals": [
+        "MEAN_MOTION",
+        "rev/day"
+      ]
+    },
+    {
+      "id": "#/properties/ECCENTRICITY::derivation",
+      "tier": "scoreable",
+      "statement": "`ECCENTRICITY` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/ECCENTRICITY derivation=modeled",
+      "negative": "Treating `ECCENTRICITY` as a measured observation.",
+      "literals": [
+        "ECCENTRICITY",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/INCLINATION::derivation",
+      "tier": "scoreable",
+      "statement": "`INCLINATION` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/INCLINATION derivation=modeled",
+      "negative": "Treating `INCLINATION` as a measured observation.",
+      "literals": [
+        "INCLINATION",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/INCLINATION::unit",
+      "tier": "scoreable",
+      "statement": "`INCLINATION` is expressed in `deg`.",
+      "evidence": "#/properties/INCLINATION unit=deg",
+      "negative": "Assuming a different or conventional unit for `INCLINATION`.",
+      "literals": [
+        "INCLINATION",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/RA_OF_ASC_NODE::derivation",
+      "tier": "scoreable",
+      "statement": "`RA_OF_ASC_NODE` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/RA_OF_ASC_NODE derivation=modeled",
+      "negative": "Treating `RA_OF_ASC_NODE` as a measured observation.",
+      "literals": [
+        "RA_OF_ASC_NODE",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/RA_OF_ASC_NODE::unit",
+      "tier": "scoreable",
+      "statement": "`RA_OF_ASC_NODE` is expressed in `deg`.",
+      "evidence": "#/properties/RA_OF_ASC_NODE unit=deg",
+      "negative": "Assuming a different or conventional unit for `RA_OF_ASC_NODE`.",
+      "literals": [
+        "RA_OF_ASC_NODE",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/ARG_OF_PERICENTER::derivation",
+      "tier": "scoreable",
+      "statement": "`ARG_OF_PERICENTER` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/ARG_OF_PERICENTER derivation=modeled",
+      "negative": "Treating `ARG_OF_PERICENTER` as a measured observation.",
+      "literals": [
+        "ARG_OF_PERICENTER",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/ARG_OF_PERICENTER::unit",
+      "tier": "scoreable",
+      "statement": "`ARG_OF_PERICENTER` is expressed in `deg`.",
+      "evidence": "#/properties/ARG_OF_PERICENTER unit=deg",
+      "negative": "Assuming a different or conventional unit for `ARG_OF_PERICENTER`.",
+      "literals": [
+        "ARG_OF_PERICENTER",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_ANOMALY::derivation",
+      "tier": "scoreable",
+      "statement": "`MEAN_ANOMALY` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/MEAN_ANOMALY derivation=modeled",
+      "negative": "Treating `MEAN_ANOMALY` as a measured observation.",
+      "literals": [
+        "MEAN_ANOMALY",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_ANOMALY::unit",
+      "tier": "scoreable",
+      "statement": "`MEAN_ANOMALY` is expressed in `deg`.",
+      "evidence": "#/properties/MEAN_ANOMALY unit=deg",
+      "negative": "Assuming a different or conventional unit for `MEAN_ANOMALY`.",
+      "literals": [
+        "MEAN_ANOMALY",
+        "deg"
+      ]
+    },
+    {
+      "id": "#/properties/BSTAR::derivation",
+      "tier": "scoreable",
+      "statement": "`BSTAR` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/BSTAR derivation=modeled",
+      "negative": "Treating `BSTAR` as a measured observation.",
+      "literals": [
+        "BSTAR",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/BSTAR::unit",
+      "tier": "scoreable",
+      "statement": "`BSTAR` is expressed in `1/ER`.",
+      "evidence": "#/properties/BSTAR unit=1/ER",
+      "negative": "Assuming a different or conventional unit for `BSTAR`.",
+      "literals": [
+        "BSTAR",
+        "1/ER"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION_DOT::derivation",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION_DOT` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/MEAN_MOTION_DOT derivation=modeled",
+      "negative": "Treating `MEAN_MOTION_DOT` as a measured observation.",
+      "literals": [
+        "MEAN_MOTION_DOT",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION_DOT::unit",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION_DOT` is expressed in `rev/day^2`.",
+      "evidence": "#/properties/MEAN_MOTION_DOT unit=rev/day^2",
+      "negative": "Assuming a different or conventional unit for `MEAN_MOTION_DOT`.",
+      "literals": [
+        "MEAN_MOTION_DOT",
+        "rev/day^2"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION_DDOT::derivation",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION_DDOT` is `modeled` and is not a measurement. It must not be presented as observed fact or used as ground truth against which measurements are validated.",
+      "evidence": "#/properties/MEAN_MOTION_DDOT derivation=modeled",
+      "negative": "Treating `MEAN_MOTION_DDOT` as a measured observation.",
+      "literals": [
+        "MEAN_MOTION_DDOT",
+        "modeled"
+      ]
+    },
+    {
+      "id": "#/properties/MEAN_MOTION_DDOT::unit",
+      "tier": "scoreable",
+      "statement": "`MEAN_MOTION_DDOT` is expressed in `rev/day^3`.",
+      "evidence": "#/properties/MEAN_MOTION_DDOT unit=rev/day^3",
+      "negative": "Assuming a different or conventional unit for `MEAN_MOTION_DDOT`.",
+      "literals": [
+        "MEAN_MOTION_DDOT",
+        "rev/day^3"
+      ]
+    },
+    {
+      "id": "#/definitions/TleEpochPosition/properties/epochDayOfYear::unit",
+      "tier": "scoreable",
+      "statement": "`epochDayOfYear` is expressed in `d`.",
+      "evidence": "#/definitions/TleEpochPosition/properties/epochDayOfYear unit=d",
+      "negative": "Assuming a different or conventional unit for `epochDayOfYear`.",
+      "literals": [
+        "epochDayOfYear",
+        "d"
+      ]
+    }
+  ],
+  "expert_claims": [
+    {
+      "id": "#::domain-fitness",
+      "tier": "expert",
+      "statement": "The analyses the transcript proposes are ones a practitioner in this domain would recognise as useful and would actually run.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    },
+    {
+      "id": "#::domain-omission",
+      "tier": "expert",
+      "statement": "The transcript omits no analysis that a practitioner would consider obvious for this feed.",
+      "evidence": "not entailed by the schema; requires a domain expert",
+      "negative": null,
+      "literals": []
+    }
+  ],
+  "labels": {
+    "A": "spec",
+    "B": "bare",
+    "C": "annotated",
+    "D": "prose"
+  },
+  "subject_model": "subagent-clean-context",
+  "supervisor_model": "gemini-3.1-pro-adversarial",
+  "scores": {
+    "spec": {
+      "correct": 15,
+      "incorrect": 0,
+      "declined": 1,
+      "unaddressed": 8,
+      "claims": 24,
+      "answered": 15,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.6667,
+      "decline_rate": 0.0417
+    },
+    "bare": {
+      "correct": 11,
+      "incorrect": 0,
+      "declined": 8,
+      "unaddressed": 5,
+      "claims": 24,
+      "answered": 11,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.7917,
+      "decline_rate": 0.3333
+    },
+    "annotated": {
+      "correct": 19,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 5,
+      "claims": 24,
+      "answered": 19,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.7917,
+      "decline_rate": 0.0
+    },
+    "prose": {
+      "correct": 22,
+      "incorrect": 0,
+      "declined": 0,
+      "unaddressed": 2,
+      "claims": 24,
+      "answered": 22,
+      "accuracy": 1.0,
+      "hazard": 0.0,
+      "hazard_answered": 0.0,
+      "coverage": 0.9167,
+      "decline_rate": 0.0
+    }
+  },
+  "blinding": {
+    "richest": "cannot tell",
+    "why": "All transcripts seem to have access to the same JSON schema and related documentation for the OMM format."
+  },
+  "verdicts": [
+    {
+      "claim": 1,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The record declares a publication instant distinct from the instant the elements describe"
+    },
+    {
+      "claim": 1,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "Two records with identical `EPOCH` and different `CREATION_DATE` describe the same instant and are competing solutions for it, not two points in a series. Plotting elements against `CREATION_DATE`, or joining two feeds on it, is the single most damaging mistake available here."
+    },
+    {
+      "claim": 1,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Comparing it against `EPOCH` crosses time regimes; see §4."
+    },
+    {
+      "claim": 1,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "`CREATION_DATE` is the time axis **of the record**, not of the state. It answers \"when did this become available\""
+    },
+    {
+      "claim": 2,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 2,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 3,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "**The epoch is the time axis of the thing described.** It is the record's phenomenon time"
+    },
+    {
+      "claim": 3,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "**`EPOCH` establishes the time axis of the thing described.** It is the instant the elements are valid for."
+    },
+    {
+      "claim": 3,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**`EPOCH` is the time axis of the thing described.** It carries the phenomenon time"
+    },
+    {
+      "claim": 3,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The time axis **of the thing described** — the orbit state — is `EPOCH`."
+    },
+    {
+      "claim": 4,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "It is expressed in a declared regime that locates a position by calendar year and fractional day of that year"
+    },
+    {
+      "claim": 4,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 4,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**The epoch axis is not civil time.** It is a year plus a fractional day of that year"
+    },
+    {
+      "claim": 4,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Its authoritative representation is the `(year, day_of_year)` pair"
+    },
+    {
+      "claim": 5,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "The regime's definition states, in terms, that a position in it is not an RFC 3339 civil instant and **must not** be compared with one without an authoritative conversion"
+    },
+    {
+      "claim": 5,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 5,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "The schema states outright that a position on this axis is not an RFC 3339 civil instant and must not be compared with one without an authoritative conversion"
+    },
+    {
+      "claim": 5,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The epoch regime counts uniform days and applies no leap-second correction, so it is not an RFC 3339 civil timestamp and must not be read as one."
+    },
+    {
+      "claim": 6,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 6,
+      "transcript": "D",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 7,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 7,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters whose only defined meaning is \"the numbers you feed to that particular propagator to reproduce the object's motion.\""
+    },
+    {
+      "claim": 7,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 7,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 8,
+      "transcript": "A",
+      "verdict": "declined"
+    },
+    {
+      "claim": 8,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 8,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "`MEAN_MOTION` is defined per *solar* day"
+    },
+    {
+      "claim": 8,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "`MEAN_MOTION` is revolutions per solar day"
+    },
+    {
+      "claim": 9,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 9,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters"
+    },
+    {
+      "claim": 9,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 9,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 10,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 10,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters"
+    },
+    {
+      "claim": 10,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 10,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 11,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 11,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 11,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "0–180° against Earth's equatorial plane"
+    },
+    {
+      "claim": 11,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "bounded on 0–180°"
+    },
+    {
+      "claim": 12,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 12,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters"
+    },
+    {
+      "claim": 12,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 12,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 13,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 13,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 13,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**cyclic on 0–360°**"
+    },
+    {
+      "claim": 13,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "cyclic on 0–360°"
+    },
+    {
+      "claim": 14,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 14,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters"
+    },
+    {
+      "claim": 14,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 14,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 15,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 15,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 15,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**cyclic on 0–360°**"
+    },
+    {
+      "claim": 15,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "cyclic on 0–360°"
+    },
+    {
+      "claim": 16,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 16,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "They are fitted parameters"
+    },
+    {
+      "claim": 16,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 16,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 17,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 17,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 17,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "**cyclic on 0–360°**"
+    },
+    {
+      "claim": 17,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "cyclic on 0–360°"
+    },
+    {
+      "claim": 18,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "Declaryed a free parameter of the fit, not a property of the object"
+    },
+    {
+      "claim": 18,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "per-record fitted quantities"
+    },
+    {
+      "claim": 18,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "the schema calls it a free parameter of the fit rather than a physical property"
+    },
+    {
+      "claim": 18,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "explicitly disclaimed as a fit parameter rather than a physical property"
+    },
+    {
+      "claim": 19,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "inverse Earth radii"
+    },
+    {
+      "claim": 19,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 19,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 19,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "inverse Earth radii"
+    },
+    {
+      "claim": 20,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 20,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "per-record fitted quantities"
+    },
+    {
+      "claim": 20,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 20,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 21,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 21,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 21,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 21,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Units are rev/day² and rev/day³."
+    },
+    {
+      "claim": 22,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "every element carries `derivation: modeled`"
+    },
+    {
+      "claim": 22,
+      "transcript": "B",
+      "verdict": "correct",
+      "quote": "per-record fitted quantities"
+    },
+    {
+      "claim": 22,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "Every element carries `derivation: modeled`."
+    },
+    {
+      "claim": 22,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "The numbers are model parameters, not observations."
+    },
+    {
+      "claim": 23,
+      "transcript": "A",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 23,
+      "transcript": "B",
+      "verdict": "declined"
+    },
+    {
+      "claim": 23,
+      "transcript": "C",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 23,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "Units are rev/day² and rev/day³."
+    },
+    {
+      "claim": 24,
+      "transcript": "A",
+      "verdict": "correct",
+      "quote": "counting uniform 86400-second days"
+    },
+    {
+      "claim": 24,
+      "transcript": "B",
+      "verdict": "unaddressed"
+    },
+    {
+      "claim": 24,
+      "transcript": "C",
+      "verdict": "correct",
+      "quote": "where the fractional part measures a uniform 86400-second day."
+    },
+    {
+      "claim": 24,
+      "transcript": "D",
+      "verdict": "correct",
+      "quote": "the fractional part is the elapsed fraction of a uniform 86400-second day."
+    }
+  ]
+}
