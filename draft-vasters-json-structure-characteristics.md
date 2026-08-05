@@ -983,6 +983,17 @@ external vocabularies are carried by `concepts` instead.
 `semanticRole` is scalar; therefore each annotated schema element can carry one
 `semanticRole` value.
 
+One containing type MUST NOT declare two direct members with the same value for
+any of `phenomenonTime`, `resultTime`, `effectiveTime`, `phenomenonTimeStart`,
+`phenomenonTimeEnd`, `effectiveTimeStart`, `effectiveTimeEnd`, `ingestionTime`,
+`scheduledTime`, `actualTime`, or `forecastIssueTime`. Each of these roles
+identifies one position, and every rule in this document that resolves such a
+role to a member presumes one. A type declaring two leaves those rules
+unresolvable rather than ambiguous.
+
+The observation-result and feature roles carry no such restriction. Repetition
+is meaningful for them, and the sections defining them state what it projects.
+
 ### Observation Result Concern
 
 A record using the roles of this concern, together with the feature and
@@ -4744,6 +4755,8 @@ Every annotation that is present:
 * MUST occur at an attachment point permitted by this document;
 * MUST have the defined value shape and use an allowed `kind`, `semanticRole`,
   or `referenceRole` value;
+* MUST NOT repeat, within one containing type, a `semanticRole` that
+  {{semantic-role}} states identifies one position;
 * MUST be compatible with the Core type of the annotated schema; and
 * MUST satisfy the applicable rules of JSON Structure Units {{JSTRUCT-UNITS}}.
 
@@ -4793,6 +4806,26 @@ A processor MUST NOT infer:
   components of one vector quantity; or
 * permission to aggregate, convert, transform, reject outliers, or infer
   causality.
+
+A processor that selects one temporal position as the event-time axis of a
+record, for windowing, ordering, or watermarking, SHOULD select the member
+annotated `phenomenonTime`, or, where the record bounds the period at both ends,
+the member annotated `phenomenonTimeStart`. It SHOULD NOT select a member
+annotated `resultTime`, `ingestionTime`, `scheduledTime`, or `actualTime` for
+that purpose. Those roles state the handling of the record and not the time of
+the phenomenon, and a window built on them reports the behaviour of the pipeline
+rather than of the world.
+
+Where a processor needs both axes and its execution model admits only one, the
+phenomenon-time member is the recommended axis, and the operational position is
+carried as an ordinary value. A processor that departs from this SHOULD record
+the position it selected, so that a reader of the output is not left to infer
+which axis produced it.
+
+A record annotating no phenomenon-time role supplies no phenomenon-time axis. A
+processor MUST NOT construct one from a member name, and MUST NOT read an
+operational position as one. It MAY still window on an operational position,
+which states when the record was handled.
 
 A processor MAY ignore this extension. A processor claiming support MUST treat
 unresolved identifiers, domains, mappings, or conversions

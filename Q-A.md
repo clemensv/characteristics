@@ -1053,3 +1053,11 @@ answered objections.
 | 56 | No upstream publisher has reviewed the retrofitted samples. |
 | 60 | Do not lean on the agent experiment as the case for the document. |
 | 3 | Seek cross-review from OGC, ICC, and ITU. |
+
+**Tooling**
+
+To be filed against the SDK repository once this document moves into the main
+organization: validation must reject a containing type declaring two direct
+members with the same single-position `semanticRole`. The constraint holds
+across members of one type, so no meta-schema can express it and it has to be a
+validator check. Without one the rule ships as text nobody enforces.
