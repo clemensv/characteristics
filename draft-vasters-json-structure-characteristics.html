@@ -1628,31 +1628,43 @@ compared. That difference is usually recorded in prose documentation, inferred
 from a member name, or known only to the people who built the system.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This document is an extension to JSON Structure Core <span>[<a href="#JSTRUCT-CORE" class="cite xref">JSTRUCT-CORE</a>]</span> that
 records it in the schema, by annotation, without changing what the schema
-validates. Its keywords let a schema author bind a type or member to a term in a
-published vocabulary, so that two systems naming a thing differently can
-establish that they mean the same thing; declare what a record observes and
-which member carries the result, as distinct from the property observed, the
-feature it belongs to, the procedure that produced it, and the time it applies
-to; name the reference system a value is expressed against, whether a temporal
+validates. Its keywords let a schema author:<a href="#section-1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-3.1">
+          <p id="section-1-3.1.1">bind a type or member to a term in a published vocabulary, so that two systems
+naming a thing differently can establish that they mean the same thing;<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-3.2">
+          <p id="section-1-3.2.1">declare what a record observes and which member carries the result, as
+distinct from the property observed, the feature it belongs to, the procedure
+that produced it, and the time it applies to;<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-3.3">
+          <p id="section-1-3.3.1">name the reference system a value is expressed against, whether a temporal
 regime, a coordinate reference system, a vector or tensor reference frame, a
-transformation from one frame to another, or a linear reference system, so that
-a position, a direction, or an orientation can be interpreted and two of them
-compared; and resolve the members that together carry one compound value onto
-the axes, channels, or bands that give them meaning, whether those of a color
-space, an audio channel layout, or a set of spectral bands.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">The same concern applies to a value that stands alone. One keyword binds a
+transformation from one frame to another, or a linear reference system, so
+that a position, a direction, or an orientation can be interpreted and two of
+them compared; and<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-3.4">
+          <p id="section-1-3.4.1">resolve the members that together carry one compound value onto the axes,
+channels, or bands that give them meaning, whether those of a color space, an
+audio channel layout, or a set of spectral bands.<a href="#section-1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-1-4">The same concern applies to a value that stands alone. One keyword binds a
 coded value to the register that assigns the code its meaning, so that a number
 or a short string can be resolved rather than guessed at from a member name.
 Another records the frequency weighting, time weighting, and level reference
 that a conditioned measurement already carries, so that a sound level measured
-under one weighting is not silently compared with one measured under another.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Most of these are bindings to a definition maintained elsewhere. This document
+under one weighting is not silently compared with one measured under another.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Most of these are bindings to a definition maintained elsewhere. This document
 defines no vocabulary, no reference system, no color space, no channel layout,
 and no code list of its own. Established bodies
 publish them, and an annotation refers to one. What is
 defined here is the form of that reference, the roles a schema may assign to its
-own members, and the rules by which a processor can check that the two agree.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">The roles are the one place where that account needs qualifying. <code>semanticRole</code>
+own members, and the rules by which a processor can check that the two agree.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">The roles are the one place where that account needs qualifying. <code>semanticRole</code>
 and <code>derivation</code> do carry a vocabulary of observation concepts, and this document
 does not pretend otherwise. What it declines to be is a normative encoding of the
 observation model of <span>[<a href="#ISO19156" class="cite xref">ISO19156</a>]</span>. It defines no observation as a type to
@@ -1660,15 +1672,15 @@ instantiate, no classes for procedures or features, and no relationships among
 observation entities, and it requires no record to be shaped like an observation.
 The roles describe what the members of a record already are, over a structure
 someone else fixed. A record does not become an observation by carrying them, a
-schema that carries none is not deficient for that reason, and a processor <span class="bcp14">MUST NOT</span> reconstruct an observation entity from the roles it finds.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">Nor does this document define analytical procedures. Several keywords name an
+schema that carries none is not deficient for that reason, and a processor <span class="bcp14">MUST NOT</span> reconstruct an observation entity from the roles it finds.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">Nor does this document define analytical procedures. Several keywords name an
 operation, and naming one is not specifying it. A schema that declares a value
 an hourly mean records an operation that has already been performed; it does not
 state what a mean computes, how gaps in the set were treated, whether the window
 was inclusive of its bounds, or whether a consumer may recompute the value. The
 annotations describe what was done, and a processor <span class="bcp14">MUST NOT</span> read an instruction
-out of them.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">Nor does it define a lineage model, although several keywords carry lineage
+out of them.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">Nor does it define a lineage model, although several keywords carry lineage
 facts: <code>derivation</code> says how a value was produced, <code>observingProcedure</code>
 identifies what produced it, and <code>ingestionTime</code> says when a system received it.
 <span>[<a href="#PROV-O" class="cite xref">PROV-O</a>]</span> gives entities, activities, and agents identities and relates them by
@@ -1676,8 +1688,8 @@ derivation and attribution. What is here is flat and confined to one record,
 with no identity for the act that produced a value and no way to chain a value
 to the value it came from. The two do not conflict and a record can carry both;
 the <code>concepts</code> example maps a publication instant onto <code>prov:generatedAtTime</code>
-(<a href="#concepts" class="auto internal xref">Section 4.1</a>).<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">The keywords defined here are chosen by one test. A quality of a value earns a
+(<a href="#concepts" class="auto internal xref">Section 4.1</a>).<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">The keywords defined here are chosen by one test. A quality of a value earns a
 keyword when a consumer must know it to decide whether two values may be
 combined or compared, and when it holds for the type rather than varying from
 one instance to the next. Axis order, frequency weighting, and the register a
@@ -1688,9 +1700,9 @@ computed from a value. A per-observation calibration record does not meet it,
 because it varies from one record to the next and belongs in the payload rather
 than in the schema. Geometry, provenance, and unit algebra do not meet it,
 because each is a model in its own right that another specification defines;
-this document cites those rather than restating them.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">The annotations are optional and additive. A processor that does not implement
-them reads the schema exactly as JSON Structure Core defines it.<a href="#section-1-9" class="pilcrow">¶</a></p>
+this document cites those rather than restating them.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10">The annotations are optional and additive. A processor that does not implement
+them reads the schema exactly as JSON Structure Core defines it.<a href="#section-1-10" class="pilcrow">¶</a></p>
 <div id="semantic-binding">
 <section id="section-1.1">
         <h3 id="name-semantic-binding-and-extern">
@@ -2020,7 +2032,7 @@ properties are permitted.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 simultaneously: the annotated node corresponds to all of the terms listed, and a
 reader does not select among them. Two entries <span class="bcp14">MUST NOT</span> carry the same
 <code>reference</code>.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
-<div id="the-reference-property">
+<div id="concepts-reference">
 <section id="section-4.1.1">
           <h4 id="name-the-reference-property">
 <a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-the-reference-property" class="section-name selfRef">The <code>reference</code> Property</a>
@@ -2030,7 +2042,7 @@ URI is the identifier that the vocabulary assigns to the term. This document
 defines no prefix mechanism, no compact form, and no resolution protocol.<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-kind-property">
+<div id="concepts-kind">
 <section id="section-4.1.2">
           <h4 id="name-the-kind-property">
 <a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-the-kind-property" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -2230,7 +2242,7 @@ associated with an observation record, or with one result within it, as
 introduced in <a href="#observable-observed-concepts" class="auto internal xref">Section 1.2</a>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">When present, <code>observedProperty</code> <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span> <code>reference</code>
 string and a <span class="bcp14">REQUIRED</span> <code>kind</code> string. No other properties are permitted.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<div id="the-reference-property-1">
+<div id="observed-property-reference">
 <section id="section-5.1.1">
           <h4 id="name-the-reference-property-2">
 <a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-the-reference-property-2" class="section-name selfRef">The <code>reference</code> Property</a>
@@ -2243,7 +2255,7 @@ selected vocabulary. This document does not define a resolution protocol, URI
 layout, storage model, or catalog serialization.<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-kind-property-1">
+<div id="observed-property-kind">
 <section id="section-5.1.2">
           <h4 id="name-the-kind-property-2">
 <a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-the-kind-property-2" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -2277,7 +2289,7 @@ in this document use <code>example-catalog</code> where the cited catalog is fic
 </div>
 </section>
 </div>
-<div id="attachment-and-scope">
+<div id="observed-property-attachment-and-scope">
 <section id="section-5.1.3">
           <h4 id="name-attachment-and-scope">
 <a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-attachment-and-scope" class="section-name selfRef">Attachment and Scope</a>
@@ -2378,7 +2390,16 @@ defined in this section. A <code>semanticRole</code> value is never a URI; terms
 external vocabularies are carried by <code>concepts</code> instead.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3"><code>semanticRole</code> is scalar; therefore each annotated schema element can carry one
 <code>semanticRole</code> value.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<div id="observation-result-concern">
+<p id="section-5.3-4">One containing type <span class="bcp14">MUST NOT</span> declare two direct members with the same value for
+any of <code>phenomenonTime</code>, <code>resultTime</code>, <code>effectiveTime</code>, <code>phenomenonTimeStart</code>,
+<code>phenomenonTimeEnd</code>, <code>effectiveTimeStart</code>, <code>effectiveTimeEnd</code>, <code>ingestionTime</code>,
+<code>scheduledTime</code>, <code>actualTime</code>, or <code>forecastIssueTime</code>. Each of these roles
+identifies one position, and every rule in this document that resolves such a
+role to a member presumes one. A type declaring two leaves those rules
+unresolvable rather than ambiguous.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-5">The observation-result and feature roles carry no such restriction. Repetition
+is meaningful for them, and the sections defining them state what it projects.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
+<div id="semantic-role-observation-result-concern">
 <section id="section-5.3.1">
           <h4 id="name-observation-result-concern">
 <a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-observation-result-concern" class="section-name selfRef">Observation Result Concern</a>
@@ -2458,7 +2479,7 @@ metadata describes the measuring process in general and is distinct from
 </div>
 </section>
 </div>
-<div id="feature-and-procedure-concern">
+<div id="semantic-role-feature-and-procedure-concern">
 <section id="section-5.3.2">
           <h4 id="name-feature-and-procedure-conce">
 <a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-feature-and-procedure-conce" class="section-name selfRef">Feature and Procedure Concern</a>
@@ -2630,7 +2651,7 @@ effectively defined by the instrument or sampler used.<a href="#section-5.3.2.4-
 </div>
 </section>
 </div>
-<div id="temporal-concern-observation-time">
+<div id="semantic-role-temporal-concern-observation-time">
 <section id="section-5.3.3">
           <h4 id="name-temporal-concern-observatio">
 <a href="#section-5.3.3" class="section-number selfRef">5.3.3. </a><a href="#name-temporal-concern-observatio" class="section-name selfRef">Temporal Concern (Observation Time)</a>
@@ -2680,7 +2701,7 @@ effectively defined by the instrument or sampler used.<a href="#section-5.3.2.4-
 }
 </pre><a href="#section-5.3.3-2" class="pilcrow">¶</a>
 </div>
-<div id="phenomenontime">
+<div id="phenomenon-time">
 <section id="section-5.3.3.1">
             <h5 id="name-phenomenontime">
 <a href="#section-5.3.3.1" class="section-number selfRef">5.3.3.1. </a><a href="#name-phenomenontime" class="section-name selfRef"><code>phenomenonTime</code></a>
@@ -2692,7 +2713,7 @@ type and reference binding together encode a temporal position. It <span class="
 annotate a named object or tuple representing a period.<a href="#section-5.3.3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="resulttime">
+<div id="result-time">
 <section id="section-5.3.3.2">
             <h5 id="name-resulttime">
 <a href="#section-5.3.3.2" class="section-number selfRef">5.3.3.2. </a><a href="#name-resulttime" class="section-name selfRef"><code>resultTime</code></a>
@@ -2702,7 +2723,7 @@ annotate a named object or tuple representing a period.<a href="#section-5.3.3.1
 together encode a temporal position.<a href="#section-5.3.3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="effectivetime">
+<div id="effective-time">
 <section id="section-5.3.3.3">
             <h5 id="name-effectivetime">
 <a href="#section-5.3.3.3" class="section-number selfRef">5.3.3.3. </a><a href="#name-effectivetime" class="section-name selfRef"><code>effectiveTime</code></a>
@@ -2728,7 +2749,7 @@ this document does not require a Gregorian, ISO 8601, or RFC 3339 encoding. The
 </div>
 </section>
 </div>
-<div id="temporal-concern-flattened-period-boundaries">
+<div id="semantic-role-temporal-concern-flattened-period-boundaries">
 <section id="section-5.3.4">
           <h4 id="name-temporal-concern-flattened-">
 <a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-temporal-concern-flattened-" class="section-name selfRef">Temporal Concern (Flattened Period Boundaries)</a>
@@ -2784,7 +2805,7 @@ effective-time pair bounds how long the record is in force.<a href="#section-5.3
 }
 </pre><a href="#section-5.3.4-2" class="pilcrow">¶</a>
 </div>
-<div id="phenomenontimestart">
+<div id="phenomenon-time-start">
 <section id="section-5.3.4.1">
             <h5 id="name-phenomenontimestart">
 <a href="#section-5.3.4.1" class="section-number selfRef">5.3.4.1. </a><a href="#name-phenomenontimestart" class="section-name selfRef"><code>phenomenonTimeStart</code></a>
@@ -2794,7 +2815,7 @@ effective-time pair bounds how long the record is in force.<a href="#section-5.3
 binding together encode a temporal position.<a href="#section-5.3.4.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="phenomenontimeend">
+<div id="phenomenon-time-end">
 <section id="section-5.3.4.2">
             <h5 id="name-phenomenontimeend">
 <a href="#section-5.3.4.2" class="section-number selfRef">5.3.4.2. </a><a href="#name-phenomenontimeend" class="section-name selfRef"><code>phenomenonTimeEnd</code></a>
@@ -2804,7 +2825,7 @@ binding together encode a temporal position.<a href="#section-5.3.4.1-2" class="
 binding together encode a temporal position.<a href="#section-5.3.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="effectivetimestart">
+<div id="effective-time-start">
 <section id="section-5.3.4.3">
             <h5 id="name-effectivetimestart">
 <a href="#section-5.3.4.3" class="section-number selfRef">5.3.4.3. </a><a href="#name-effectivetimestart" class="section-name selfRef"><code>effectiveTimeStart</code></a>
@@ -2814,7 +2835,7 @@ binding together encode a temporal position.<a href="#section-5.3.4.2-2" class="
 binding together encode a temporal position.<a href="#section-5.3.4.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="effectivetimeend">
+<div id="effective-time-end">
 <section id="section-5.3.4.4">
             <h5 id="name-effectivetimeend">
 <a href="#section-5.3.4.4" class="section-number selfRef">5.3.4.4. </a><a href="#name-effectivetimeend" class="section-name selfRef"><code>effectiveTimeEnd</code></a>
@@ -2830,7 +2851,7 @@ separate representation or profile.<a href="#section-5.3.4.4-3" class="pilcrow">
 </div>
 </section>
 </div>
-<div id="temporal-concern-operational-event-time">
+<div id="semantic-role-temporal-concern-operational-event-time">
 <section id="section-5.3.5">
           <h4 id="name-temporal-concern-operationa">
 <a href="#section-5.3.5" class="section-number selfRef">5.3.5. </a><a href="#name-temporal-concern-operationa" class="section-name selfRef">Temporal Concern (Operational Event Time)</a>
@@ -2877,7 +2898,7 @@ separate representation or profile.<a href="#section-5.3.4.4-3" class="pilcrow">
 }
 </pre><a href="#section-5.3.5-2" class="pilcrow">¶</a>
 </div>
-<div id="ingestiontime">
+<div id="ingestion-time">
 <section id="section-5.3.5.1">
             <h5 id="name-ingestiontime">
 <a href="#section-5.3.5.1" class="section-number selfRef">5.3.5.1. </a><a href="#name-ingestiontime" class="section-name selfRef"><code>ingestionTime</code></a>
@@ -2887,7 +2908,7 @@ separate representation or profile.<a href="#section-5.3.4.4-3" class="pilcrow">
 together encode a temporal position.<a href="#section-5.3.5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="scheduledtime">
+<div id="scheduled-time">
 <section id="section-5.3.5.2">
             <h5 id="name-scheduledtime">
 <a href="#section-5.3.5.2" class="section-number selfRef">5.3.5.2. </a><a href="#name-scheduledtime" class="section-name selfRef"><code>scheduledTime</code></a>
@@ -2897,7 +2918,7 @@ together encode a temporal position.<a href="#section-5.3.5.1-2" class="pilcrow"
 together encode a temporal position.<a href="#section-5.3.5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="actualtime">
+<div id="actual-time">
 <section id="section-5.3.5.3">
             <h5 id="name-actualtime">
 <a href="#section-5.3.5.3" class="section-number selfRef">5.3.5.3. </a><a href="#name-actualtime" class="section-name selfRef"><code>actualTime</code></a>
@@ -2907,7 +2928,7 @@ together encode a temporal position.<a href="#section-5.3.5.2-2" class="pilcrow"
 together encode a temporal position.<a href="#section-5.3.5.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="forecastissuetime">
+<div id="forecast-issue-time">
 <section id="section-5.3.5.4">
             <h5 id="name-forecastissuetime">
 <a href="#section-5.3.5.4" class="section-number selfRef">5.3.5.4. </a><a href="#name-forecastissuetime" class="section-name selfRef"><code>forecastIssueTime</code></a>
@@ -2923,7 +2944,7 @@ it carries the same temporal roles as any other observation; nothing about the
 phenomenon-time roles restricts them to positions that have already elapsed.<a href="#section-5.3.5.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="forecastleadduration">
+<div id="forecast-lead-duration">
 <section id="section-5.3.5.5">
             <h5 id="name-forecastleadduration">
 <a href="#section-5.3.5.5" class="section-number selfRef">5.3.5.5. </a><a href="#name-forecastleadduration" class="section-name selfRef"><code>forecastLeadDuration</code></a>
@@ -2983,7 +3004,7 @@ temporal unit <span>[<a href="#JSTRUCT-UNITS" class="cite xref">JSTRUCT-UNITS</a
 </div>
 </section>
 </div>
-<div id="status-concern">
+<div id="semantic-role-status-concern">
 <section id="section-5.3.6">
           <h4 id="name-status-concern">
 <a href="#section-5.3.6" class="section-number selfRef">5.3.6. </a><a href="#name-status-concern" class="section-name selfRef">Status Concern</a>
@@ -3483,7 +3504,7 @@ it differs from <code>concepts</code> in that <code>concepts</code> binds the no
 draw from.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">When present, <code>codedValues</code> <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span> <code>reference</code> and a
 <span class="bcp14">REQUIRED</span> <code>kind</code>, and no other members.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<div id="the-reference-and-kind-properties">
+<div id="coded-values-reference-and-kind">
 <section id="section-6.1.1">
           <h4 id="name-the-reference-and-kind-prop">
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-the-reference-and-kind-prop" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
@@ -3598,7 +3619,7 @@ not define is not made meaningful by this annotation.<a href="#section-6.1.1-5" 
 a resolution protocol, URI layout, storage model, or definition serialization.<a href="#section-6.1.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example">
+<div id="coded-values-example">
 <section id="section-6.1.2">
           <h4 id="name-example">
 <a href="#section-6.1.2" class="section-number selfRef">6.1.2. </a><a href="#name-example" class="section-name selfRef">Example</a>
@@ -3654,7 +3675,7 @@ the hidden convention this keyword carries.<a href="#section-7.1-2" class="pilcr
           <code>weighting</code>, an <span class="bcp14">OPTIONAL</span> <code>timeWeighting</code>, and an <span class="bcp14">OPTIONAL</span> <code>levelReference</code>, and no
 other members. At least one of the three <span class="bcp14">MUST</span> be present. The annotated value
 <span class="bcp14">MUST</span> be of numeric type.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
-<div id="the-weighting-property">
+<div id="measurement-conditioning-keyword-weighting">
 <section id="section-7.1.1">
           <h4 id="name-the-weighting-property">
 <a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-the-weighting-property" class="section-name selfRef">The <code>weighting</code> Property</a>
@@ -3693,7 +3714,7 @@ an open enumeration; the values defined here are the frequency weightings of
           </table>
 </section>
 </div>
-<div id="the-timeweighting-property">
+<div id="measurement-conditioning-keyword-time-weighting">
 <section id="section-7.1.2">
           <h4 id="name-the-timeweighting-property">
 <a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-the-timeweighting-property" class="section-name selfRef">The <code>timeWeighting</code> Property</a>
@@ -3768,7 +3789,7 @@ know a value <span class="bcp14">MUST</span> preserve it, <span class="bcp14">MU
 <span class="bcp14">MUST NOT</span> compare a level against one carrying a different reference.<a href="#section-7.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example-1">
+<div id="measurement-conditioning-keyword-example">
 <section id="section-7.1.4">
           <h4 id="name-example-2">
 <a href="#section-7.1.4" class="section-number selfRef">7.1.4. </a><a href="#name-example-2" class="section-name selfRef">Example</a>
@@ -4012,7 +4033,7 @@ where the period sits. Such a feed carries no second boundary and gains nothing
 from a schema that invents a member for one.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">When present, <code>supportPeriod</code> <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span> <code>length</code> and a
 <span class="bcp14">REQUIRED</span> <code>anchor</code>. No other properties are permitted.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
-<div id="the-length-property">
+<div id="support-period-length">
 <section id="section-9.2.1">
           <h4 id="name-the-length-property">
 <a href="#section-9.2.1" class="section-number selfRef">9.2.1. </a><a href="#name-the-length-property" class="section-name selfRef">The <code>length</code> Property</a>
@@ -4025,7 +4046,7 @@ representation defined by that system, on the terms <a href="#cadence" class="au
 <code>period</code>.<a href="#section-9.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-anchor-property">
+<div id="support-period-anchor">
 <section id="section-9.2.2">
           <h4 id="name-the-anchor-property">
 <a href="#section-9.2.2" class="section-number selfRef">9.2.2. </a><a href="#name-the-anchor-property" class="section-name selfRef">The <code>anchor</code> Property</a>
@@ -4162,7 +4183,7 @@ carries the position value.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
 an <span class="bcp14">OPTIONAL</span> <code>sortOrder</code> string. No other properties are permitted.<a href="#section-9.3-3" class="pilcrow">¶</a></p>
 <p id="section-9.3-4">Core temporal types need no annotation when their Core semantics are fully
 intended. A non-Core or ambiguous encoding is indeterminate without one.<a href="#section-9.3-4" class="pilcrow">¶</a></p>
-<div id="the-reference-property-2">
+<div id="temporal-reference-systems-reference">
 <section id="section-9.3.1">
           <h4 id="name-the-reference-property-3">
 <a href="#section-9.3.1" class="section-number selfRef">9.3.1. </a><a href="#name-the-reference-property-3" class="section-name selfRef">The <code>reference</code> Property</a>
@@ -4177,7 +4198,7 @@ resolution protocol, URI layout, storage model, or definition serialization.<a h
 <span class="bcp14">MUST</span> lie in that domain.<a href="#section-9.3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-kind-property-2">
+<div id="temporal-reference-systems-kind">
 <section id="section-9.3.2">
           <h4 id="name-the-kind-property-3">
 <a href="#section-9.3.2" class="section-number selfRef">9.3.2. </a><a href="#name-the-kind-property-3" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -4229,7 +4250,7 @@ definition cannot express, such as reset behavior and comparison across scopes,
 is stated in its <code>description</code>.<a href="#section-9.3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-position-property">
+<div id="temporal-reference-systems-position">
 <section id="section-9.3.3">
           <h4 id="name-the-position-property">
 <a href="#section-9.3.3" class="section-number selfRef">9.3.3. </a><a href="#name-the-position-property" class="section-name selfRef">The <code>position</code> Property</a>
@@ -4247,7 +4268,7 @@ definition.<a href="#section-9.3.3-2" class="pilcrow">¶</a></p>
 detail. A processor is not required to interpret them.<a href="#section-9.3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-sortorder-property">
+<div id="temporal-reference-systems-sort-order">
 <section id="section-9.3.4">
           <h4 id="name-the-sortorder-property">
 <a href="#section-9.3.4" class="section-number selfRef">9.3.4. </a><a href="#name-the-sortorder-property" class="section-name selfRef">The <code>sortOrder</code> Property</a>
@@ -4288,7 +4309,7 @@ and a definition whose values do not order under their own type at all is not
 made orderable by declaring either value.<a href="#section-9.3.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="type-compatibility">
+<div id="temporal-reference-systems-type-compatibility">
 <section id="section-9.3.5">
           <h4 id="name-type-compatibility-2">
 <a href="#section-9.3.5" class="section-number selfRef">9.3.5. </a><a href="#name-type-compatibility-2" class="section-name selfRef">Type Compatibility</a>
@@ -4437,7 +4458,7 @@ values of an annotated temporal position. A temporal role such as
 also present, gives that sequence an observation or operational meaning.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 <p id="section-9.4-2">When present, <code>cadence</code> <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span> <code>kind</code> string and an
 <span class="bcp14">OPTIONAL</span> <code>period</code>. No other properties are permitted.<a href="#section-9.4-2" class="pilcrow">¶</a></p>
-<div id="the-kind-property-3">
+<div id="cadence-kind">
 <section id="section-9.4.1">
           <h4 id="name-the-kind-property-4">
 <a href="#section-9.4.1" class="section-number selfRef">9.4.1. </a><a href="#name-the-kind-property-4" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -4474,7 +4495,7 @@ also present, gives that sequence an observation or operational meaning.<a href=
           </table>
 </section>
 </div>
-<div id="the-period-property">
+<div id="cadence-period">
 <section id="section-9.4.2">
           <h4 id="name-the-period-property">
 <a href="#section-9.4.2" class="section-number selfRef">9.4.2. </a><a href="#name-the-period-property" class="section-name selfRef">The <code>period</code> Property</a>
@@ -4639,7 +4660,7 @@ object or tuple are to be interpreted.<a href="#section-10.1-1" class="pilcrow">
 <p id="section-10.1-2">When present, <code>coordinateReferenceSystem</code> <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span>
           <code>reference</code> string, a <span class="bcp14">REQUIRED</span> <code>kind</code> string, and a <span class="bcp14">REQUIRED</span> <code>coordinates</code>
 array. No other properties are permitted.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
-<div id="the-reference-property-3">
+<div id="coordinate-reference-systems-reference">
 <section id="section-10.1.1">
           <h4 id="name-the-reference-property-4">
 <a href="#section-10.1.1" class="section-number selfRef">10.1.1. </a><a href="#name-the-reference-property-4" class="section-name selfRef">The <code>reference</code> Property</a>
@@ -4655,7 +4676,7 @@ representation need not expose the axes. This document does not define
 a resolution protocol, URI layout, storage model, or definition serialization.<a href="#section-10.1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-kind-property-4">
+<div id="coordinate-reference-systems-kind">
 <section id="section-10.1.2">
           <h4 id="name-the-kind-property-5">
 <a href="#section-10.1.2" class="section-number selfRef">10.1.2. </a><a href="#name-the-kind-property-5" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -4703,7 +4724,7 @@ meta-type or of its elements.<a href="#section-10.1.2-4" class="pilcrow">¶</a><
 <a href="#reference-uris" class="auto internal xref">Appendix A</a> lists resolvable URIs for the registered kinds.<a href="#section-10.1.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-coordinates-property">
+<div id="coordinate-reference-systems-coordinates">
 <section id="section-10.1.3">
           <h4 id="name-the-coordinates-property">
 <a href="#section-10.1.3" class="section-number selfRef">10.1.3. </a><a href="#name-the-coordinates-property" class="section-name selfRef">The <code>coordinates</code> Property</a>
@@ -4790,7 +4811,7 @@ for dynamic coordinate reference systems.<a href="#section-10.1.3-7" class="pilc
 </div>
 </section>
 </div>
-<div id="vertical-and-compound-systems">
+<div id="coordinate-reference-systems-vertical-and-compound-systems">
 <section id="section-10.1.4">
           <h4 id="name-vertical-and-compound-syste">
 <a href="#section-10.1.4" class="section-number selfRef">10.1.4. </a><a href="#name-vertical-and-compound-syste" class="section-name selfRef">Vertical and Compound Systems</a>
@@ -4926,7 +4947,7 @@ members named by one frame <span class="bcp14">MUST</span> be mutually convertib
 <span class="bcp14">OPTIONAL</span> <code>variance</code>, and no other members. The keyword is an array because a
 single record may carry more than one vector quantity, and each quantity is
 resolved in its own frame.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
-<div id="the-reference-and-kind-properties-1">
+<div id="vector-reference-frames-reference-and-kind">
 <section id="section-10.2.1">
           <h4 id="name-the-reference-and-kind-prope">
 <a href="#section-10.2.1" class="section-number selfRef">10.2.1. </a><a href="#name-the-reference-and-kind-prope" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
@@ -4944,7 +4965,7 @@ state the direction each axis points in. The meta-type establishes the axes and
 their order, not the units of the annotated members.<a href="#section-10.2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-components-property">
+<div id="vector-reference-frames-components">
 <section id="section-10.2.2">
           <h4 id="name-the-components-property">
 <a href="#section-10.2.2" class="section-number selfRef">10.2.2. </a><a href="#name-the-components-property" class="section-name selfRef">The <code>components</code> Property</a>
@@ -5016,7 +5037,7 @@ components without reading <code>variance</code> is right for rotations and wron
 everything else, which is what this member exists to prevent.<a href="#section-10.2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="multiple-frames-and-shared-components">
+<div id="vector-reference-frames-multiple-frames-and-shared-components">
 <section id="section-10.2.4">
           <h4 id="name-multiple-frames-and-shared-">
 <a href="#section-10.2.4" class="section-number selfRef">10.2.4. </a><a href="#name-multiple-frames-and-shared-" class="section-name selfRef">Multiple Frames and Shared Components</a>
@@ -5173,7 +5194,7 @@ to declare.<a href="#section-10.3-2" class="pilcrow">¶</a></p>
 <span class="bcp14">MUST</span> be an object with a <span class="bcp14">REQUIRED</span> <code>frames</code> array, a <span class="bcp14">REQUIRED</span> <code>components</code>
 member, and an <span class="bcp14">OPTIONAL</span> <code>symmetry</code> string. No other members are permitted. The
 keyword is an array because one record may carry more than one tensor quantity.<a href="#section-10.3-3" class="pilcrow">¶</a></p>
-<div id="the-frames-property">
+<div id="tensor-reference-frames-frames">
 <section id="section-10.3.1">
           <h4 id="name-the-frames-property">
 <a href="#section-10.3.1" class="section-number selfRef">10.3.1. </a><a href="#name-the-frames-property" class="section-name selfRef">The <code>frames</code> Property</a>
@@ -5267,7 +5288,7 @@ not expressible here, and every component of such a tensor that is carried <span
 be named individually.<a href="#section-10.3.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-components-property-1">
+<div id="tensor-reference-frames-components">
 <section id="section-10.3.2">
           <h4 id="name-the-components-property-2">
 <a href="#section-10.3.2" class="section-number selfRef">10.3.2. </a><a href="#name-the-components-property-2" class="section-name selfRef">The <code>components</code> Property</a>
@@ -5489,7 +5510,7 @@ stored scalar-last and one whose quaternion is stored scalar-first carry the
 same annotation, with the names written in the order fixed here.<a href="#section-10.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-from-and-to-properties">
+<div id="frame-transforms-from-and-to">
 <section id="section-10.4.2">
           <h4 id="name-the-from-and-to-properties">
 <a href="#section-10.4.2" class="section-number selfRef">10.4.2. </a><a href="#name-the-from-and-to-properties" class="section-name selfRef">The <code>from</code> and <code>to</code> Properties</a>
@@ -5504,7 +5525,7 @@ realizations of one frame, or between one frame at two epochs, is written that
 way.<a href="#section-10.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-encoding-property">
+<div id="frame-transforms-encoding">
 <section id="section-10.4.3">
           <h4 id="name-the-encoding-property">
 <a href="#section-10.4.3" class="section-number selfRef">10.4.3. </a><a href="#name-the-encoding-property" class="section-name selfRef">The <code>encoding</code> Property</a>
@@ -5578,7 +5599,7 @@ referenced definition or in the indexed form of <code>components</code>, which n
 separate property for each position.<a href="#section-10.4.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-components-property-2">
+<div id="frame-transforms-components">
 <section id="section-10.4.4">
           <h4 id="name-the-components-property-3">
 <a href="#section-10.4.4" class="section-number selfRef">10.4.4. </a><a href="#name-the-components-property-3" class="section-name selfRef">The <code>components</code> Property</a>
@@ -6039,7 +6060,7 @@ to be interpreted.<a href="#section-10.5-1" class="pilcrow">¶</a></p>
 <p id="section-10.5-2">When present, <code>linearReferenceSystem</code> <span class="bcp14">MUST</span> be an object with <span class="bcp14">REQUIRED</span>
           <code>reference</code>, <code>kind</code>, <code>linearElement</code>, and <code>measure</code> strings and <span class="bcp14">OPTIONAL</span>
           <code>measureEnd</code> and <code>direction</code> strings. No other properties are permitted.<a href="#section-10.5-2" class="pilcrow">¶</a></p>
-<div id="the-reference-property-4">
+<div id="linear-reference-systems-reference">
 <section id="section-10.5.1">
           <h4 id="name-the-reference-property-5">
 <a href="#section-10.5.1" class="section-number selfRef">10.5.1. </a><a href="#name-the-reference-property-5" class="section-name selfRef">The <code>reference</code> Property</a>
@@ -6056,7 +6077,7 @@ document does not define a resolution protocol, URI layout, storage model, or
 definition serialization.<a href="#section-10.5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-kind-property-5">
+<div id="linear-reference-systems-kind">
 <section id="section-10.5.2">
           <h4 id="name-the-kind-property-6">
 <a href="#section-10.5.2" class="section-number selfRef">10.5.2. </a><a href="#name-the-kind-property-6" class="section-name selfRef">The <code>kind</code> Property</a>
@@ -6108,7 +6129,7 @@ linear-element namespace are stated in the <code>description</code> of the meta-
 its members.<a href="#section-10.5.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-linearelement-property">
+<div id="linear-reference-systems-linear-element">
 <section id="section-10.5.3">
           <h4 id="name-the-linearelement-property">
 <a href="#section-10.5.3" class="section-number selfRef">10.5.3. </a><a href="#name-the-linearelement-property" class="section-name selfRef">The <code>linearElement</code> Property</a>
@@ -6119,7 +6140,7 @@ linear element within the linear-element namespace established by the
 identified system.<a href="#section-10.5.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-measure-property">
+<div id="linear-reference-systems-measure">
 <section id="section-10.5.4">
           <h4 id="name-the-measure-property">
 <a href="#section-10.5.4" class="section-number selfRef">10.5.4. </a><a href="#name-the-measure-property" class="section-name selfRef">The <code>measure</code> Property</a>
@@ -6131,7 +6152,7 @@ have a <code>unit</code> or <code>ucumUnit</code> annotation compatible with the
 established by the identified system.<a href="#section-10.5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-measureend-property">
+<div id="linear-reference-systems-measure-end">
 <section id="section-10.5.5">
           <h4 id="name-the-measureend-property">
 <a href="#section-10.5.5" class="section-number selfRef">10.5.5. </a><a href="#name-the-measureend-property" class="section-name selfRef">The <code>measureEnd</code> Property</a>
@@ -6153,7 +6174,7 @@ whose increasing-measure direction opposes the direction of travel encodes a
 forward span with a decreasing pair.<a href="#section-10.5.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-direction-property">
+<div id="linear-reference-systems-direction">
 <section id="section-10.5.6">
           <h4 id="name-the-direction-property">
 <a href="#section-10.5.6" class="section-number selfRef">10.5.6. </a><a href="#name-the-direction-property" class="section-name selfRef">The <code>direction</code> Property</a>
@@ -6275,7 +6296,7 @@ specific rules follow from that and are stated where each member is defined
 rule lets a definition override a member, and none of them makes a schema
 invalid, since a processor that cannot resolve the definition cannot detect the
 disagreement in the first place.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
-<div id="the-reference-and-kind-properties-2">
+<div id="color-spaces-reference-and-kind">
 <section id="section-11.1.1">
           <h4 id="name-the-reference-and-kind-proper">
 <a href="#section-11.1.1" class="section-number selfRef">11.1.1. </a><a href="#name-the-reference-and-kind-proper" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
@@ -6288,14 +6309,14 @@ computes over the profile contents is not itself a URI, and a schema carrying
 only that identifier <span class="bcp14">MUST</span> express it as one, under a scheme of the schema
 author's choosing that states which digest the remainder is. Otherwise it <span class="bcp14">MUST</span>
 be an absolute URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>.<a href="#section-11.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-11.1.1-2">What the identified definition must establish follows from what is being
+<p id="section-11.1.1-2">What the identified definition <span class="bcp14">MUST</span> establish follows from what is being
 identified.<a href="#section-11.1.1-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-22">
             <caption><a href="#table-22" class="selfRef">Table 22</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Identified</th>
-                <th class="text-left" rowspan="1" colspan="1">The definition MUST establish</th>
+                <th class="text-left" rowspan="1" colspan="1">What the definition establishes</th>
               </tr>
             </thead>
             <tbody>
@@ -6398,7 +6419,7 @@ overrides the transfer characteristics code point, and where <code>transfer</cod
 <code>asDefined</code> or absent, that code point governs.<a href="#section-11.1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-channels-property">
+<div id="color-spaces-channels">
 <section id="section-11.1.3">
           <h4 id="name-the-channels-property">
 <a href="#section-11.1.3" class="section-number selfRef">11.1.3. </a><a href="#name-the-channels-property" class="section-name selfRef">The <code>channels</code> Property</a>
@@ -6522,7 +6543,7 @@ stylesheet would write it.<a href="#section-11.1.4-9" class="pilcrow">¶</a></p>
 </div>
 </section>
 </div>
-<div id="the-alpha-and-alphamode-properties">
+<div id="color-spaces-alpha-and-alpha-mode">
 <section id="section-11.1.5">
           <h4 id="name-the-alpha-and-alphamode-pro">
 <a href="#section-11.1.5" class="section-number selfRef">11.1.5. </a><a href="#name-the-alpha-and-alphamode-pro" class="section-name selfRef">The <code>alpha</code> and <code>alphaMode</code> Properties</a>
@@ -6655,7 +6676,7 @@ coordinate by nearly two, under an unchanged product name. A schema naming the
 space but not the edition describes two different sets of numbers.<a href="#section-11.1.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example-2">
+<div id="color-spaces-example">
 <section id="section-11.1.8">
           <h4 id="name-example-3">
 <a href="#section-11.1.8" class="section-number selfRef">11.1.8. </a><a href="#name-example-3" class="section-name selfRef">Example</a>
@@ -6754,7 +6775,7 @@ object with a <span class="bcp14">REQUIRED</span> <code>reference</code>, a <spa
 <span class="bcp14">OPTIONAL</span> <code>levelReference</code>, and an <span class="bcp14">OPTIONAL</span> <code>encoding</code>, and no other members. The
 keyword is an array because one record may carry more than one channel group, as
 a programme does when a commentary track accompanies a music-and-effects mix.<a href="#section-12.1-3" class="pilcrow">¶</a></p>
-<div id="the-reference-and-kind-properties-3">
+<div id="audio-channels-reference-and-kind">
 <section id="section-12.1.1">
           <h4 id="name-the-reference-and-kind-propert">
 <a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-the-reference-and-kind-propert" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
@@ -6801,7 +6822,7 @@ not define a resolution protocol, URI layout, storage model, or definition
 serialization.<a href="#section-12.1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-channels-property-1">
+<div id="audio-channels-channels">
 <section id="section-12.1.2">
           <h4 id="name-the-channels-property-2">
 <a href="#section-12.1.2" class="section-number selfRef">12.1.2. </a><a href="#name-the-channels-property-2" class="section-name selfRef">The <code>channels</code> Property</a>
@@ -6842,7 +6863,7 @@ a whole programme, defined by <span>[<a href="#ITU-BS1770" class="cite xref">ITU
 value, not as the level reference of the channels.<a href="#section-12.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-encoding-property-1">
+<div id="audio-channels-encoding">
 <section id="section-12.1.4">
           <h4 id="name-the-encoding-property-2">
 <a href="#section-12.1.4" class="section-number selfRef">12.1.4. </a><a href="#name-the-encoding-property-2" class="section-name selfRef">The <code>encoding</code> Property</a>
@@ -6911,7 +6932,7 @@ audio, the sample rate, is a regular temporal cadence and is carried by
 <code>temporalReferenceSystem</code> and <code>cadence</code> (<a href="#cadence" class="auto internal xref">Section 9.4</a>), not here.<a href="#section-12.1.4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example-3">
+<div id="audio-channels-example">
 <section id="section-12.1.5">
           <h4 id="name-example-4">
 <a href="#section-12.1.5" class="section-number selfRef">12.1.5. </a><a href="#name-example-4" class="section-name selfRef">Example</a>
@@ -6970,7 +6991,7 @@ object with a <span class="bcp14">REQUIRED</span> <code>reference</code>, a <spa
 <span class="bcp14">OPTIONAL</span> <code>calibration</code>, and no other members. The keyword is an array because one
 record may resolve its components onto more than one band set, as a fused product
 does when it carries bands from two instruments.<a href="#section-12.2-3" class="pilcrow">¶</a></p>
-<div id="the-reference-and-kind-properties-4">
+<div id="spectral-bands-reference-and-kind">
 <section id="section-12.2.1">
           <h4 id="name-the-reference-and-kind-properti">
 <a href="#section-12.2.1" class="section-number selfRef">12.2.1. </a><a href="#name-the-reference-and-kind-properti" class="section-name selfRef">The <code>reference</code> and <code>kind</code> Properties</a>
@@ -7014,7 +7035,7 @@ define a resolution protocol, URI layout, storage model, or definition
 serialization.<a href="#section-12.2.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-bands-property">
+<div id="spectral-bands-bands">
 <section id="section-12.2.2">
           <h4 id="name-the-bands-property">
 <a href="#section-12.2.2" class="section-number selfRef">12.2.2. </a><a href="#name-the-bands-property" class="section-name selfRef">The <code>bands</code> Property</a>
@@ -7031,7 +7052,7 @@ of numeric type, in which case the elements of that property supply the bands in
 order.<a href="#section-12.2.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="the-calibration-property">
+<div id="spectral-bands-calibration">
 <section id="section-12.2.3">
           <h4 id="name-the-calibration-property">
 <a href="#section-12.2.3" class="section-number selfRef">12.2.3. </a><a href="#name-the-calibration-property" class="section-name selfRef">The <code>calibration</code> Property</a>
@@ -7076,7 +7097,7 @@ holds those coefficients as their own values. A quantity the values defined here
 do not name, such as brightness temperature, is carried as an open value.<a href="#section-12.2.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="example-4">
+<div id="spectral-bands-example">
 <section id="section-12.2.4">
           <h4 id="name-example-5">
 <a href="#section-12.2.4" class="section-number selfRef">12.2.4. </a><a href="#name-example-5" class="section-name selfRef">Example</a>
@@ -7176,10 +7197,14 @@ absent.<a href="#section-13.2-1" class="pilcrow">¶</a></p>
 or <code>referenceRole</code> value;<a href="#section-13.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.2-3.3">
-            <p id="section-13.2-3.3.1"><span class="bcp14">MUST</span> be compatible with the Core type of the annotated schema; and<a href="#section-13.2-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.2-3.3.1"><span class="bcp14">MUST NOT</span> repeat, within one containing type, a <code>semanticRole</code> that
+<a href="#semantic-role" class="auto internal xref">Section 5.3</a> states identifies one position;<a href="#section-13.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.2-3.4">
-            <p id="section-13.2-3.4.1"><span class="bcp14">MUST</span> satisfy the applicable rules of JSON Structure Units <span>[<a href="#JSTRUCT-UNITS" class="cite xref">JSTRUCT-UNITS</a>]</span>.<a href="#section-13.2-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-13.2-3.4.1"><span class="bcp14">MUST</span> be compatible with the Core type of the annotated schema; and<a href="#section-13.2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-3.5">
+            <p id="section-13.2-3.5.1"><span class="bcp14">MUST</span> satisfy the applicable rules of JSON Structure Units <span>[<a href="#JSTRUCT-UNITS" class="cite xref">JSTRUCT-UNITS</a>]</span>.<a href="#section-13.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.2-4">Validation <span class="bcp14">MUST</span> reject malformed annotations and invalid identifiers or values
@@ -7262,9 +7287,26 @@ components of one vector quantity; or<a href="#section-13.3-3.14.1" class="pilcr
 causality.<a href="#section-13.3-3.15.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-13.3-4">A processor <span class="bcp14">MAY</span> ignore this extension. A processor claiming support <span class="bcp14">MUST</span> treat
+<p id="section-13.3-4">A processor that selects one temporal position as the event-time axis of a
+record, for windowing, ordering, or watermarking, <span class="bcp14">SHOULD</span> select the member
+annotated <code>phenomenonTime</code>, or, where the record bounds the period at both ends,
+the member annotated <code>phenomenonTimeStart</code>. It <span class="bcp14">SHOULD NOT</span> select a member
+annotated <code>resultTime</code>, <code>ingestionTime</code>, <code>scheduledTime</code>, or <code>actualTime</code> for
+that purpose. Those roles state the handling of the record and not the time of
+the phenomenon, and a window built on them reports the behaviour of the pipeline
+rather than of the world.<a href="#section-13.3-4" class="pilcrow">¶</a></p>
+<p id="section-13.3-5">Where a processor needs both axes and its execution model admits only one, the
+phenomenon-time member is the recommended axis, and the operational position is
+carried as an ordinary value. A processor that departs from this <span class="bcp14">SHOULD</span> record
+the position it selected, so that a reader of the output is not left to infer
+which axis produced it.<a href="#section-13.3-5" class="pilcrow">¶</a></p>
+<p id="section-13.3-6">A record annotating no phenomenon-time role supplies no phenomenon-time axis. A
+processor <span class="bcp14">MUST NOT</span> construct one from a member name, and <span class="bcp14">MUST NOT</span> read an
+operational position as one. It <span class="bcp14">MAY</span> still window on an operational position,
+which states when the record was handled.<a href="#section-13.3-6" class="pilcrow">¶</a></p>
+<p id="section-13.3-7">A processor <span class="bcp14">MAY</span> ignore this extension. A processor claiming support <span class="bcp14">MUST</span> treat
 unresolved identifiers, domains, mappings, or conversions
-as indeterminate rather than compatible.<a href="#section-13.3-4" class="pilcrow">¶</a></p>
+as indeterminate rather than compatible.<a href="#section-13.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="inheritance-and-imports">

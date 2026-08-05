@@ -227,20 +227,27 @@ Table of Contents
 
    This document is an extension to JSON Structure Core [JSTRUCT-CORE]
    that records it in the schema, by annotation, without changing what
-   the schema validates.  Its keywords let a schema author bind a type
-   or member to a term in a published vocabulary, so that two systems
-   naming a thing differently can establish that they mean the same
-   thing; declare what a record observes and which member carries the
-   result, as distinct from the property observed, the feature it
-   belongs to, the procedure that produced it, and the time it applies
-   to; name the reference system a value is expressed against, whether a
-   temporal regime, a coordinate reference system, a vector or tensor
-   reference frame, a transformation from one frame to another, or a
-   linear reference system, so that a position, a direction, or an
-   orientation can be interpreted and two of them compared; and resolve
-   the members that together carry one compound value onto the axes,
-   channels, or bands that give them meaning, whether those of a color
-   space, an audio channel layout, or a set of spectral bands.
+   the schema validates.  Its keywords let a schema author:
+
+   *  bind a type or member to a term in a published vocabulary, so that
+      two systems naming a thing differently can establish that they
+      mean the same thing;
+
+   *  declare what a record observes and which member carries the
+      result, as distinct from the property observed, the feature it
+      belongs to, the procedure that produced it, and the time it
+      applies to;
+
+   *  name the reference system a value is expressed against, whether a
+      temporal regime, a coordinate reference system, a vector or tensor
+      reference frame, a transformation from one frame to another, or a
+      linear reference system, so that a position, a direction, or an
+      orientation can be interpreted and two of them compared; and
+
+   *  resolve the members that together carry one compound value onto
+      the axes, channels, or bands that give them meaning, whether those
+      of a color space, an audio channel layout, or a set of spectral
+      bands.
 
    The same concern applies to a value that stands alone.  One keyword
    binds a coded value to the register that assigns the code its
@@ -890,6 +897,19 @@ Table of Contents
 
    semanticRole is scalar; therefore each annotated schema element can
    carry one semanticRole value.
+
+   One containing type MUST NOT declare two direct members with the same
+   value for any of phenomenonTime, resultTime, effectiveTime,
+   phenomenonTimeStart, phenomenonTimeEnd, effectiveTimeStart,
+   effectiveTimeEnd, ingestionTime, scheduledTime, actualTime, or
+   forecastIssueTime.  Each of these roles identifies one position, and
+   every rule in this document that resolves such a role to a member
+   presumes one.  A type declaring two leaves those rules unresolvable
+   rather than ambiguous.
+
+   The observation-result and feature roles carry no such restriction.
+   Repetition is meaningful for them, and the sections defining them
+   state what it projects.
 
 5.3.1.  Observation Result Concern
 
@@ -4325,11 +4345,11 @@ Table of Contents
    author's choosing that states which digest the remainder is.
    Otherwise it MUST be an absolute URI [RFC3986].
 
-   What the identified definition must establish follows from what is
+   What the identified definition MUST establish follows from what is
    being identified.
 
    +========================+=========================================+
-   | Identified             | The definition MUST establish           |
+   | Identified             | What the definition establishes         |
    +========================+=========================================+
    | A space whose channels | The primaries, the white point, and the |
    | are additive primaries | transfer function.                      |
@@ -5089,6 +5109,9 @@ Table of Contents
    *  MUST have the defined value shape and use an allowed kind,
       semanticRole, or referenceRole value;
 
+   *  MUST NOT repeat, within one containing type, a semanticRole that
+      Section 5.3 states identifies one position;
+
    *  MUST be compatible with the Core type of the annotated schema; and
 
    *  MUST satisfy the applicable rules of JSON Structure Units
@@ -5160,6 +5183,29 @@ Table of Contents
 
    *  permission to aggregate, convert, transform, reject outliers, or
       infer causality.
+
+   A processor that selects one temporal position as the event-time axis
+   of a record, for windowing, ordering, or watermarking, SHOULD select
+   the member annotated phenomenonTime, or, where the record bounds the
+   period at both ends, the member annotated phenomenonTimeStart.  It
+   SHOULD NOT select a member annotated resultTime, ingestionTime,
+   scheduledTime, or actualTime for that purpose.  Those roles state the
+   handling of the record and not the time of the phenomenon, and a
+   window built on them reports the behaviour of the pipeline rather
+   than of the world.
+
+   Where a processor needs both axes and its execution model admits only
+   one, the phenomenon-time member is the recommended axis, and the
+   operational position is carried as an ordinary value.  A processor
+   that departs from this SHOULD record the position it selected, so
+   that a reader of the output is not left to infer which axis produced
+   it.
+
+   A record annotating no phenomenon-time role supplies no phenomenon-
+   time axis.  A processor MUST NOT construct one from a member name,
+   and MUST NOT read an operational position as one.  It MAY still
+   window on an operational position, which states when the record was
+   handled.
 
    A processor MAY ignore this extension.  A processor claiming support
    MUST treat unresolved identifiers, domains, mappings, or conversions
