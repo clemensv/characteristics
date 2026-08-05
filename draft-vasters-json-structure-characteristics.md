@@ -421,18 +421,21 @@ from a member name, or known only to the people who built the system.
 
 This document is an extension to JSON Structure Core {{JSTRUCT-CORE}} that
 records it in the schema, by annotation, without changing what the schema
-validates. Its keywords let a schema author bind a type or member to a term in a
-published vocabulary, so that two systems naming a thing differently can
-establish that they mean the same thing; declare what a record observes and
-which member carries the result, as distinct from the property observed, the
-feature it belongs to, the procedure that produced it, and the time it applies
-to; name the reference system a value is expressed against, whether a temporal
-regime, a coordinate reference system, a vector or tensor reference frame, a
-transformation from one frame to another, or a linear reference system, so that
-a position, a direction, or an orientation can be interpreted and two of them
-compared; and resolve the members that together carry one compound value onto
-the axes, channels, or bands that give them meaning, whether those of a color
-space, an audio channel layout, or a set of spectral bands.
+validates. Its keywords let a schema author:
+
+- bind a type or member to a term in a published vocabulary, so that two systems
+  naming a thing differently can establish that they mean the same thing;
+- declare what a record observes and which member carries the result, as
+  distinct from the property observed, the feature it belongs to, the procedure
+  that produced it, and the time it applies to;
+- name the reference system a value is expressed against, whether a temporal
+  regime, a coordinate reference system, a vector or tensor reference frame, a
+  transformation from one frame to another, or a linear reference system, so
+  that a position, a direction, or an orientation can be interpreted and two of
+  them compared; and
+- resolve the members that together carry one compound value onto the axes,
+  channels, or bands that give them meaning, whether those of a color space, an
+  audio channel layout, or a set of spectral bands.
 
 The same concern applies to a value that stands alone. One keyword binds a
 coded value to the register that assigns the code its meaning, so that a number
@@ -711,13 +714,13 @@ simultaneously: the annotated node corresponds to all of the terms listed, and a
 reader does not select among them. Two entries MUST NOT carry the same
 `reference`.
 
-### The `reference` Property
+### The `reference` Property {#concepts-reference}
 
 `reference` MUST be an absolute URI {{RFC3986}} that identifies one term. The
 URI is the identifier that the vocabulary assigns to the term. This document
 defines no prefix mechanism, no compact form, and no resolution protocol.
 
-### The `kind` Property
+### The `kind` Property {#concepts-kind}
 
 `kind` classifies which definition model the URI identifies. It is an open
 enumeration. The following values are defined:
@@ -849,7 +852,7 @@ introduced in {{observable-observed-concepts}}.
 When present, `observedProperty` MUST be an object with a REQUIRED `reference`
 string and a REQUIRED `kind` string. No other properties are permitted.
 
-### The `reference` Property
+### The `reference` Property {#observed-property-reference}
 
 `reference` MUST be an absolute URI {{RFC3986}} that identifies one immutable
 observable-property definition. Version identity, when used, is implied by the
@@ -858,7 +861,7 @@ different URI. The URI SHOULD deep-link to one concrete definition entry in the
 selected vocabulary. This document does not define a resolution protocol, URI
 layout, storage model, or catalog serialization.
 
-### The `kind` Property
+### The `kind` Property {#observed-property-kind}
 
 `kind` classifies which definition model the URI identifies. It is an open
 enumeration, and a value identifies the vocabulary or catalog type that
@@ -885,7 +888,7 @@ Example:
 }
 ~~~
 
-### Attachment and Scope
+### Attachment and Scope {#observed-property-attachment-and-scope}
 
 `observedProperty` MAY occur on an object or tuple that describes an observation
 record, and on a member schema of that object or tuple that carries a result.
@@ -994,7 +997,7 @@ unresolvable rather than ambiguous.
 The observation-result and feature roles carry no such restriction. Repetition
 is meaningful for them, and the sections defining them state what it projects.
 
-### Observation Result Concern
+### Observation Result Concern {#semantic-role-observation-result-concern}
 
 A record using the roles of this concern, together with the feature and
 procedure roles defined below:
@@ -1065,7 +1068,7 @@ effect. Omission does not imply acceptable quality. Procedure-level quality
 metadata describes the measuring process in general and is distinct from
 `resultQuality`, which describes one observation result.
 
-### Feature and Procedure Concern
+### Feature and Procedure Concern {#semantic-role-feature-and-procedure-concern}
 
 A record using the roles of this concern:
 
@@ -1222,7 +1225,7 @@ When a shared catalog is available, procedure identifiers SHOULD be expressed
 as URIs; a device or instrument registry serves where the procedure is
 effectively defined by the instrument or sampler used.
 
-### Temporal Concern (Observation Time)
+### Temporal Concern (Observation Time) {#semantic-role-temporal-concern-observation-time}
 
 A record using the roles of this concern:
 
@@ -1269,7 +1272,7 @@ A record using the roles of this concern:
 }
 ~~~
 
-#### `phenomenonTime`
+#### `phenomenonTime` {#phenomenon-time}
 
 Time during which the result applies to the observed property. It can be
 represented as an instant or period.
@@ -1278,14 +1281,14 @@ When used for an instant, `phenomenonTime` MUST annotate a value whose Core
 type and reference binding together encode a temporal position. It MAY instead
 annotate a named object or tuple representing a period.
 
-#### `resultTime`
+#### `resultTime` {#result-time}
 
 Temporal position at which the result became available.
 
 `resultTime` MUST annotate a value whose Core type and reference binding
 together encode a temporal position.
 
-#### `effectiveTime`
+#### `effectiveTime` {#effective-time}
 
 Period during which the record is in force and its use is intended.
 
@@ -1309,7 +1312,7 @@ this document does not require a Gregorian, ISO 8601, or RFC 3339 encoding. The
 `semanticRole` states semantics; the Core type and any
 `temporalReferenceSystem` state representation and reference semantics.
 
-### Temporal Concern (Flattened Period Boundaries)
+### Temporal Concern (Flattened Period Boundaries) {#semantic-role-temporal-concern-flattened-period-boundaries}
 
 A record using the roles of this concern. The two pairs are independent axes:
 the phenomenon-time pair bounds what the result is about, and the
@@ -1362,28 +1365,28 @@ effective-time pair bounds how long the record is in force.
 }
 ~~~
 
-#### `phenomenonTimeStart`
+#### `phenomenonTimeStart` {#phenomenon-time-start}
 
 Temporal position encoding the start of the `phenomenonTime` period.
 
 `phenomenonTimeStart` MUST annotate a value whose Core type and reference
 binding together encode a temporal position.
 
-#### `phenomenonTimeEnd`
+#### `phenomenonTimeEnd` {#phenomenon-time-end}
 
 Temporal position encoding the end of the `phenomenonTime` period.
 
 `phenomenonTimeEnd` MUST annotate a value whose Core type and reference
 binding together encode a temporal position.
 
-#### `effectiveTimeStart`
+#### `effectiveTimeStart` {#effective-time-start}
 
 Temporal position encoding the start of the `effectiveTime` period.
 
 `effectiveTimeStart` MUST annotate a value whose Core type and reference
 binding together encode a temporal position.
 
-#### `effectiveTimeEnd`
+#### `effectiveTimeEnd` {#effective-time-end}
 
 Temporal position encoding the end of the `effectiveTime` period.
 
@@ -1395,7 +1398,7 @@ closure is not supplied by these role names. This specification uses half-open
 `[start,end)` periods only for `phenomenonTimeRelation`; another convention requires a
 separate representation or profile.
 
-### Temporal Concern (Operational Event Time)
+### Temporal Concern (Operational Event Time) {#semantic-role-temporal-concern-operational-event-time}
 
 A planned activity, its execution, and its acceptance by a receiving system:
 
@@ -1439,28 +1442,28 @@ A planned activity, its execution, and its acceptance by a receiving system:
 }
 ~~~
 
-#### `ingestionTime`
+#### `ingestionTime` {#ingestion-time}
 
 Temporal position when a declared system accepted the record.
 
 `ingestionTime` MUST annotate a value whose Core type and reference binding
 together encode a temporal position.
 
-#### `scheduledTime`
+#### `scheduledTime` {#scheduled-time}
 
 Planned temporal position for an activity.
 
 `scheduledTime` MUST annotate a value whose Core type and reference binding
 together encode a temporal position.
 
-#### `actualTime`
+#### `actualTime` {#actual-time}
 
 Temporal position when the planned activity occurred.
 
 `actualTime` MUST annotate a value whose Core type and reference binding
 together encode a temporal position.
 
-#### `forecastIssueTime`
+#### `forecastIssueTime` {#forecast-issue-time}
 
 Forecast-specific `resultTime`: the temporal position when a forecast product
 was issued.
@@ -1474,7 +1477,7 @@ forecast is an observation whose result time precedes its phenomenon time, and
 it carries the same temporal roles as any other observation; nothing about the
 phenomenon-time roles restricts them to positions that have already elapsed.
 
-#### `forecastLeadDuration`
+#### `forecastLeadDuration` {#forecast-lead-duration}
 
 Duration between the forecast issue position and the phenomenon-time position
 the forecast describes.
@@ -1531,9 +1534,9 @@ These operational values describe the handling of the record. A processor MUST
 NOT read any of them as `phenomenonTime`, `resultTime`, `observedProperty`,
 `featureOfInterest`, or `observingProcedure`.
 
-### Status Concern
+### Status Concern {#semantic-role-status-concern}
 
-#### `status`
+#### `status` {#status}
 
 State of the record itself, or of the feature it describes, such as whether a
 value is provisional, verified, superseded, or withdrawn.
@@ -1905,7 +1908,7 @@ draw from.
 When present, `codedValues` MUST be an object with a REQUIRED `reference` and a
 REQUIRED `kind`, and no other members.
 
-### The `reference` and `kind` Properties
+### The `reference` and `kind` Properties {#coded-values-reference-and-kind}
 
 `reference` identifies one specific code list. It MUST be an absolute URI
 {{RFC3986}}, or, where `kind` is `type`, a type reference
@@ -1952,7 +1955,7 @@ not define is not made meaningful by this annotation.
 A processor is not required to dereference the URI. This document does not define
 a resolution protocol, URI layout, storage model, or definition serialization.
 
-### Example
+### Example {#coded-values-example}
 
 The property below carries a present-weather code from the WMO register for
 present weather, whose entries are the integers zero through several hundred.
@@ -1996,7 +1999,7 @@ When present, `measurementConditioning` MUST be an object with an OPTIONAL
 other members. At least one of the three MUST be present. The annotated value
 MUST be of numeric type.
 
-### The `weighting` Property
+### The `weighting` Property {#measurement-conditioning-keyword-weighting}
 
 `weighting`, when present, names the frequency weighting the value carries. It is
 an open enumeration; the values defined here are the frequency weightings of
@@ -2008,7 +2011,7 @@ an open enumeration; the values defined here are the frequency weightings of
 | `c` | C-weighting. |
 | `z` | Zero-weighting, the flat response. |
 
-### The `timeWeighting` Property
+### The `timeWeighting` Property {#measurement-conditioning-keyword-time-weighting}
 
 `timeWeighting`, when present, names the time weighting the value carries. It is
 an open enumeration; the values defined here are the time weightings of
@@ -2041,7 +2044,7 @@ document does not enumerate what other bodies define. A processor that does not
 know a value MUST preserve it, MUST NOT reject the schema for carrying it, and
 MUST NOT compare a level against one carrying a different reference.
 
-### Example
+### Example {#measurement-conditioning-keyword-example}
 
 The property below carries an A-weighted, fast, sound-pressure level.
 
@@ -2214,7 +2217,7 @@ from a schema that invents a member for one.
 When present, `supportPeriod` MUST be an object with a REQUIRED `length` and a
 REQUIRED `anchor`. No other properties are permitted.
 
-### The `length` Property
+### The `length` Property {#support-period-length}
 
 `length` states the extent of the period and MUST express a positive interval in
 the temporal reference system applicable to the anchoring position. For a Core
@@ -2223,7 +2226,7 @@ temporal reference system MAY use a numeric, string, or structured interval
 representation defined by that system, on the terms {{cadence}} states for
 `period`.
 
-### The `anchor` Property
+### The `anchor` Property {#support-period-anchor}
 
 `anchor` states which boundary of the period the anchoring position occupies and
 MUST be one of:
@@ -2345,7 +2348,7 @@ an OPTIONAL `sortOrder` string. No other properties are permitted.
 Core temporal types need no annotation when their Core semantics are fully
 intended. A non-Core or ambiguous encoding is indeterminate without one.
 
-### The `reference` Property
+### The `reference` Property {#temporal-reference-systems-reference}
 
 `reference` MUST identify one temporal reference definition. Where `kind` is
 `type` it MUST be a type reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}}
@@ -2357,7 +2360,7 @@ resolution protocol, URI layout, storage model, or definition serialization.
 Where the identified definition has a domain of validity, an annotated position
 MUST lie in that domain.
 
-### The `kind` Property
+### The `kind` Property {#temporal-reference-systems-kind}
 
 `kind` classifies which definition model the URI identifies. It is an open
 enumeration. The following values are defined here:
@@ -2385,7 +2388,7 @@ components of the regime that the annotation does not map. What a type
 definition cannot express, such as reset behavior and comparison across scopes,
 is stated in its `description`.
 
-### The `position` Property
+### The `position` Property {#temporal-reference-systems-position}
 
 `position` is REQUIRED when the annotation is attached to an object or tuple
 and is prohibited otherwise. It MUST name a direct member of that object or
@@ -2401,7 +2404,7 @@ definition.
 The remaining members MAY hold the individual components, identifiers, or other
 detail. A processor is not required to interpret them.
 
-### The `sortOrder` Property
+### The `sortOrder` Property {#temporal-reference-systems-sort-order}
 
 `sortOrder` states how the ordering of the encoded value runs relative to
 temporal order. When present, it MUST be one of:
@@ -2423,7 +2426,7 @@ where one is named. It states the direction of the ordering and nothing else,
 and a definition whose values do not order under their own type at all is not
 made orderable by declaring either value.
 
-### Type Compatibility
+### Type Compatibility {#temporal-reference-systems-type-compatibility}
 
 The referenced definition establishes an encoding, and the annotated schema
 MUST be able to carry it:
@@ -2548,7 +2551,7 @@ also present, gives that sequence an observation or operational meaning.
 When present, `cadence` MUST be an object with a REQUIRED `kind` string and an
 OPTIONAL `period`. No other properties are permitted.
 
-### The `kind` Property
+### The `kind` Property {#cadence-kind}
 
 `kind` states the expected recurrence pattern and MUST be one of:
 
@@ -2558,7 +2561,7 @@ OPTIONAL `period`. No other properties are permitted.
 | `irregular` | Observations occur without a regular period. |
 | `onChange` | Observations occur when represented state changes. |
 
-### The `period` Property
+### The `period` Property {#cadence-period}
 
 `period` is REQUIRED when `kind` is `fixed` and is prohibited otherwise. It
 MUST express a positive interval in the temporal reference system applicable to
@@ -2720,7 +2723,7 @@ When present, `coordinateReferenceSystem` MUST be an object with a REQUIRED
 `reference` string, a REQUIRED `kind` string, and a REQUIRED `coordinates`
 array. No other properties are permitted.
 
-### The `reference` Property
+### The `reference` Property {#coordinate-reference-systems-reference}
 
 `reference` MUST identify one coordinate reference system whose definition
 establishes an ordered set of axes, each with an axis direction and unit of
@@ -2733,7 +2736,7 @@ A processor is not required to dereference the URI, and a returned
 representation need not expose the axes. This document does not define
 a resolution protocol, URI layout, storage model, or definition serialization.
 
-### The `kind` Property
+### The `kind` Property {#coordinate-reference-systems-kind}
 
 `kind` classifies which definition model the URI identifies. It is an open
 enumeration. The following values are defined here:
@@ -2757,7 +2760,7 @@ meta-type or of its elements.
 Schema authors SHOULD use a registered definition where one exists.
 {{reference-uris}} lists resolvable URIs for the registered kinds.
 
-### The `coordinates` Property
+### The `coordinates` Property {#coordinate-reference-systems-coordinates}
 
 `coordinates` MUST be a non-empty ordered array of distinct property names.
 Every name MUST resolve to a direct property of the annotated object or tuple.
@@ -2846,7 +2849,7 @@ EPSG:4326 {{EPSG}} uses its authoritative latitude, longitude axis order:
 }
 ~~~
 
-### Vertical and Compound Systems
+### Vertical and Compound Systems {#coordinate-reference-systems-vertical-and-compound-systems}
 
 A vertical coordinate reference system has one axis, and `coordinates` then
 names one property. This is the binding that makes a height or a depth
@@ -2979,7 +2982,7 @@ OPTIONAL `variance`, and no other members. The keyword is an array because a
 single record may carry more than one vector quantity, and each quantity is
 resolved in its own frame.
 
-### The `reference` and `kind` Properties
+### The `reference` and `kind` Properties {#vector-reference-frames-reference-and-kind}
 
 `reference` and `kind` have the same value space and the same meaning as in
 `coordinateReferenceSystem` ({{coordinate-reference-systems}}), under one added
@@ -2994,7 +2997,7 @@ order given by `tuple`, are the axes, and whose member `description` values
 state the direction each axis points in. The meta-type establishes the axes and
 their order, not the units of the annotated members.
 
-### The `components` Property
+### The `components` Property {#vector-reference-frames-components}
 
 `components` behaves as `coordinates` does. It MUST be a non-empty array of
 names, and it takes one of two forms. In the first, every name is that of a
@@ -3044,7 +3047,7 @@ same way reports the wrong rate of change. A processor that re-expresses
 components without reading `variance` is right for rotations and wrong for
 everything else, which is what this member exists to prevent.
 
-### Multiple Frames and Shared Components
+### Multiple Frames and Shared Components {#vector-reference-frames-multiple-frames-and-shared-components}
 
 Two elements MAY cite the same `reference`, which is how a record reporting two
 distinct vector quantities in one frame is written. A property MAY be named by
@@ -3201,7 +3204,7 @@ MUST be an object with a REQUIRED `frames` array, a REQUIRED `components`
 member, and an OPTIONAL `symmetry` string. No other members are permitted. The
 keyword is an array because one record may carry more than one tensor quantity.
 
-### The `frames` Property
+### The `frames` Property {#tensor-reference-frames-frames}
 
 `frames` MUST be an array of at least two objects, each with REQUIRED
 `reference` and `kind` members whose values are as defined for
@@ -3295,7 +3298,7 @@ rank, such as the minor and major symmetries of an elastic stiffness tensor, are
 not expressible here, and every component of such a tensor that is carried MUST
 be named individually.
 
-### The `components` Property
+### The `components` Property {#tensor-reference-frames-components}
 
 `components` MUST take one of two forms, each of which states the pairing of
 index to value in the schema, and neither of which admits a layout, packing, or
@@ -3517,7 +3520,7 @@ way, because its records are positional. It costs this document nothing, because
 stored scalar-last and one whose quaternion is stored scalar-first carry the
 same annotation, with the names written in the order fixed here.
 
-### The `from` and `to` Properties
+### The `from` and `to` Properties {#frame-transforms-from-and-to}
 
 `from` and `to` MUST each be an object with a REQUIRED `reference` and a
 REQUIRED `kind`, whose value spaces and meanings are those they have in
@@ -3529,7 +3532,7 @@ since a frame named by a transformation is not an index position of a quantity.
 realizations of one frame, or between one frame at two epochs, is written that
 way.
 
-### The `encoding` Property
+### The `encoding` Property {#frame-transforms-encoding}
 
 `encoding` states which arrangement of numbers carries the transformation. It is
 a closed enumeration, and a value outside it is invalid, because each value
@@ -3569,7 +3572,7 @@ carrying a `homogeneousMatrix` in that form MUST establish those units in the
 referenced definition or in the indexed form of `components`, which names a
 separate property for each position.
 
-### The `components` Property
+### The `components` Property {#frame-transforms-components}
 
 `components` names the members that carry the transformation, and its form
 follows `encoding`.
@@ -3596,7 +3599,7 @@ position MUST be named, nine of them for `rotationMatrix` and sixteen for
 respectively four. `symmetry` has no counterpart here, so no position is
 determined by any other and none may be left undeclared.
 
-#### Quaternions
+#### Quaternions {#quaternions}
 
 The four names given for `quaternion` are, in order, the member carrying the
 scalar and the members carrying the three components of the vector part, in
@@ -3693,7 +3696,7 @@ An instance carrying the quarter turn worked above is the following.
 }
 ~~~
 
-#### Axis and Angle
+#### Axis and Angle {#axis-and-angle}
 
 The four names given for `axisAngle` are, in order, the member carrying the
 angle and the members carrying the three components of the axis. The angle is
@@ -3706,7 +3709,7 @@ value, and the axis components carry none. `homogeneousMatrix` likewise mixes
 units, its rotation entries carrying none and its offset entries carrying a
 length.
 
-#### Euler Angles
+#### Euler Angles {#euler-angles}
 
 `eulerAngles` requires `rotationSequence`, and the three names in `components`
 are the angles of the first, second, and third rotation in the order that
@@ -3754,7 +3757,7 @@ The twelve conversions are these. In every row the angles reverse, so
 `components` names the member holding the source's third angle first and the
 member holding its first angle last.
 
-| Extrinsic sequence | `rotationSequence` value | `components` order |
+| Extrinsic sequence | rotationSequence value | components order |
 |---|---|---|
 | `XYX` | `XYX` | third, second, first |
 | `XYZ` | `ZYX` | third, second, first |
@@ -3914,7 +3917,7 @@ When present, `linearReferenceSystem` MUST be an object with REQUIRED
 `reference`, `kind`, `linearElement`, and `measure` strings and OPTIONAL
 `measureEnd` and `direction` strings. No other properties are permitted.
 
-### The `reference` Property
+### The `reference` Property {#linear-reference-systems-reference}
 
 `reference` MUST identify one linear reference system. Where `kind` is `type` it
 MUST be a type reference `{ "$ref": <JSON Pointer> }` {{JSTRUCT-CORE}} to a
@@ -3928,7 +3931,7 @@ A processor is not required to dereference the URI. This
 document does not define a resolution protocol, URI layout, storage model, or
 definition serialization.
 
-### The `kind` Property
+### The `kind` Property {#linear-reference-systems-kind}
 
 `kind` classifies which definition model the URI identifies. It is an open
 enumeration. The following values are defined here:
@@ -3961,14 +3964,14 @@ referencing method, measure origin, increasing-measure direction, and
 linear-element namespace are stated in the `description` of the meta-type or of
 its members.
 
-### The `linearElement` Property
+### The `linearElement` Property {#linear-reference-systems-linear-element}
 
 `linearElement` MUST name a direct property of the annotated object or tuple.
 The property value identifies the road, railway, waterway, route, or other
 linear element within the linear-element namespace established by the
 identified system.
 
-### The `measure` Property
+### The `measure` Property {#linear-reference-systems-measure}
 
 `measure` MUST name a direct numeric property, distinct from `linearElement`.
 The property gives the
@@ -3976,7 +3979,7 @@ distance from the measure origin along the identified linear element. It MUST
 have a `unit` or `ucumUnit` annotation compatible with the measure unit
 established by the identified system.
 
-### The `measureEnd` Property
+### The `measureEnd` Property {#linear-reference-systems-measure-end}
 
 `measureEnd`, when present, MUST name another distinct direct numeric property
 whose type and unit are those required of `measure`.
@@ -3996,7 +3999,7 @@ document does not require that `measureEnd` exceed `measure`, since a system
 whose increasing-measure direction opposes the direction of travel encodes a
 forward span with a decreasing pair.
 
-### The `direction` Property
+### The `direction` Property {#linear-reference-systems-direction}
 
 `direction`, when present, MUST name another distinct direct property. Its
 value qualifies the direction of travel or orientation using the vocabulary
@@ -4112,7 +4115,7 @@ rule lets a definition override a member, and none of them makes a schema
 invalid, since a processor that cannot resolve the definition cannot detect the
 disagreement in the first place.
 
-### The `reference` and `kind` Properties
+### The `reference` and `kind` Properties {#color-spaces-reference-and-kind}
 
 `reference` MUST identify one color space or one set of device control values.
 Where `kind` is `type` it MUST be a type reference `{ "$ref": <JSON Pointer> }`
@@ -4123,10 +4126,10 @@ only that identifier MUST express it as one, under a scheme of the schema
 author's choosing that states which digest the remainder is. Otherwise it MUST
 be an absolute URI {{RFC3986}}.
 
-What the identified definition must establish follows from what is being
+What the identified definition MUST establish follows from what is being
 identified.
 
-| Identified | The definition MUST establish |
+| Identified | What the definition establishes |
 |---|---|
 | A space whose channels are additive primaries | The primaries, the white point, and the transfer function. |
 | A space whose channels are tristimulus quantities, or are computed from them | The reference white, and the illuminant and the standard colorimetric observer, or else the schema declares them under `illuminant` and `observer`. |
@@ -4177,7 +4180,7 @@ part company. `transfer` is narrower still: where `transfer` is `linear`, it
 overrides the transfer characteristics code point, and where `transfer` is
 `asDefined` or absent, that code point governs.
 
-### The `channels` Property
+### The `channels` Property {#color-spaces-channels}
 
 `channels` MUST be a non-empty array of names of direct properties of the
 annotated object or tuple, all distinct, mapped by position onto the channels of
@@ -4283,7 +4286,7 @@ stylesheet would write it.
 }
 ~~~
 
-### The `alpha` and `alphaMode` Properties
+### The `alpha` and `alphaMode` Properties {#color-spaces-alpha-and-alpha-mode}
 
 `alpha`, when present, MUST name a direct property of numeric type carrying
 opacity, distinct from every name in `channels`. Its value is a dimensionless
@@ -4375,7 +4378,7 @@ patch alone the lightness moved by more than one unit and the yellow-blue
 coordinate by nearly two, under an unchanged product name. A schema naming the
 space but not the edition describes two different sets of numbers.
 
-### Example
+### Example {#color-spaces-example}
 
 A characterization dataset pairs the device values that were sent to a press
 with the color that was measured off the printed result. The two are in
@@ -4464,7 +4467,7 @@ OPTIONAL `levelReference`, and an OPTIONAL `encoding`, and no other members. The
 keyword is an array because one record may carry more than one channel group, as
 a programme does when a commentary track accompanies a music-and-effects mix.
 
-### The `reference` and `kind` Properties
+### The `reference` and `kind` Properties {#audio-channels-reference-and-kind}
 
 `reference` MUST identify one channel layout whose definition establishes an
 ordered set of channels, each with a loudspeaker position or a role. Where
@@ -4490,7 +4493,7 @@ serves it. A processor is not required to dereference the URI. This document doe
 not define a resolution protocol, URI layout, storage model, or definition
 serialization.
 
-### The `channels` Property
+### The `channels` Property {#audio-channels-channels}
 
 `channels` MUST be a non-empty array of names of direct properties of the
 annotated object or tuple, all distinct, mapped by position onto the channels of
@@ -4525,7 +4528,7 @@ a whole programme, defined by {{ITU-BS1770}} and given a target by
 {{EBU-R128}}, and a schema that carries it carries it as its own annotated
 value, not as the level reference of the channels.
 
-### The `encoding` Property
+### The `encoding` Property {#audio-channels-encoding}
 
 `encoding`, when present, states how the stored numbers stand to amplitude. Its
 value MUST be one of the values below or an absolute URI identifying another
@@ -4567,7 +4570,7 @@ Definition Model {{ITU-BS2076}} and are outside this keyword. The time axis of
 audio, the sample rate, is a regular temporal cadence and is carried by
 `temporalReferenceSystem` and `cadence` ({{cadence}}), not here.
 
-### Example
+### Example {#audio-channels-example}
 
 The record below is one multichannel sample frame of a five-channel-with-LFE
 programme, whose layout is the 0+5+0 system of {{ITU-BS2051}}. The six property
@@ -4619,7 +4622,7 @@ OPTIONAL `calibration`, and no other members. The keyword is an array because on
 record may resolve its components onto more than one band set, as a fused product
 does when it carries bands from two instruments.
 
-### The `reference` and `kind` Properties
+### The `reference` and `kind` Properties {#spectral-bands-reference-and-kind}
 
 `reference` MUST identify one band set whose definition establishes an ordered
 set of bands, each with a wavelength range. Where `kind` is `type` it MUST be a
@@ -4642,7 +4645,7 @@ processor is not required to dereference the URI. This document does not
 define a resolution protocol, URI layout, storage model, or definition
 serialization.
 
-### The `bands` Property
+### The `bands` Property {#spectral-bands-bands}
 
 `bands` MUST be a non-empty array of names of direct properties of the annotated
 object or tuple, all distinct, mapped by position onto the bands of the set in
@@ -4655,7 +4658,7 @@ name, that of a property whose type is `array` or `tuple` and whose elements are
 of numeric type, in which case the elements of that property supply the bands in
 order.
 
-### The `calibration` Property
+### The `calibration` Property {#spectral-bands-calibration}
 
 `calibration`, when present, states what physical quantity each band value is.
 It is an open enumeration; the values defined here are:
@@ -4674,7 +4677,7 @@ the product metadata {{USGS-LANDSAT-L1}}, and a schema that holds digital number
 holds those coefficients as their own values. A quantity the values defined here
 do not name, such as brightness temperature, is carried as an open value.
 
-### Example
+### Example {#spectral-bands-example}
 
 The record below is one pixel of a nine-band Operational Land Imager scene,
 whose bands are those of {{USGS-LANDSAT}}, carried as reflectance.
